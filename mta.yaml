@@ -1,0 +1,4 @@
+ID: XSA_DealerPartsOrderingPartsOrderStatusInq
+_schema-version: '3.1'
+description: 'The Dealer parts Ordering and Parts Status Inquiry application '
+version: 0.0.1
