@@ -2,3 +2,30 @@ ID: XSA_DealerPartsOrderingPartsOrderStatusInq
 _schema-version: '3.1'
 description: 'The Dealer parts Ordering and Parts Status Inquiry application '
 version: 0.0.1
+
+modules:
+ - name: nodeSrvDPOPSI
+   type: nodejs
+   path: nodeSrvDPOPSI
+   parameters:
+      host: nodesrvdpopsi
+      register-service-url: true
+      service-name: nodeSrvDPOPSI
+      service-url: '${default-url}'    
+      disk-quota: 512M
+      memory: 128M
+      instances: 1
+   provides:
+    - name: nodeSrvDPOPSI_api
+      properties:
+         url: ${default-url}
+   requires:
+    - name: cf-logging-elk
+
+resources:          
+ - name: cf-logging-elk
+   parameters:
+      service-plan: lite
+      service: application-logs
+   type: org.cloudfoundry.managed-service
+         
