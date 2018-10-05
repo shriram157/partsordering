@@ -1,6 +1,9 @@
 "use strict";
 /*eslint-env node, es6 */
 
+var xsenv = require("@sap/xsenv");
+
+
 /**
  * A class for retrieving configuration settings from an instance of config server running in PCF/XSA
  */
@@ -23,58 +26,36 @@ module.exports = class ConfigurationProvider {
 		}else{
 			this._defaultConfigName = defaultConfigName;
 		}		
-		
-		this._options = {
-			LOGGING_LEVEL : 1,
-			ENDPOINTS : {
-				DESTINATION_DG2 : {
-					proto : "https",
-					host : "sapdev.apimanagement.ca1.hana.ondemand.com",
-					port : 443,
-					client : 200,
-					authType : "APIKEY",
-					apiKey: "RBHKiLeMQEF9F8xnICJFcwQjvX5fVYum",
-					userName : "XSA_DEV",
-					password : "XSA_DEV@123"
-				},
-				MM_PUR_PO_MAINT_V2_SRV :{
-					proto : "https",
-					host : "fioridev1.dev.toyota.ca",
-					port : 44300,
-					path : "/sap/opu/odata/sap/MM_PUR_PO_MAINT_V2_SRV/",
-					authType : "BASIC",
-					userName : "PA_FUT_060",
-					password : "Testing@123"
-				},
-				API_BUSINESS_PARTNER : {
-					proto : "https",
-					host  : "fioridev1.dev.toyota.ca",
-					port  : 44300,
-				    path  : "/sap/opu/odata/sap/API_BUSINESS_PARTNER/",
-					authType : "BASIC",
-					userName : "PA_FUT_060",
-					password : "Testing@123"
-				},
-				MD_PRODUCT_FS_SRV : {
-					proto : "https",
-					host  : "fioridev1.dev.toyota.ca",
-					port  : 44300,
-				    path  : "/sap/opu/odata/sap/MD_PRODUCT_FS_SRV/",
-					authType : "BASIC",
-					userName : "PA_FUT_060",
-					password : "Testing@123"
-				},	
-				ZMD_PRODUCT_FS_SRV : { 
-					proto : "https",
-					host  : "fioridev1.dev.toyota.ca",
-					port  : 44300,
-				    path  : "/sap/opu/odata/sap/ZMD_PRODUCT_FS_SRV/",
-					authType : "BASIC",
-					userName : "PA_FUT_060",
-					password : "Testing@123"
-				}						
+
+		let options = {};
+		options = Object.assign(options, xsenv.getServices({
+			api: {
+				name: "XSA_NODE_SRV_CFG"
 			}
-		};
+		}));
+		
+		
+		if (!!options.api.LOGGING_LEVEL){
+			this._options = options.api;
+		} else {
+			// may throw error in the future
+			this._options = {
+				LOGGING_LEVEL : 1,
+				ENDPOINTS : {
+					DESTINATION_DG2 : {
+						proto : "https",
+						prefix : "/sap/opu/odata/sap/",
+						host : "sapdev.apimanagement.ca1.hana.ondemand.com",
+						port : 443,
+						client : 200,
+						authType : "APIKEY",
+						apiKey: "RBHKiLeMQEF9F8xnICJFcwQjvX5fVYum",
+						userName : "XSA_DEV",
+						password : "XSA_DEV@123"
+					}						
+				}
+			};
+		}
 	}
 	
 	get DEFAULT_CACHE_MINS(){

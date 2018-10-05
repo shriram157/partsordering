@@ -25,8 +25,10 @@ module.exports = class ProxyRequestHandler {
     	
         let originalHost = req.hostname;
         
+        // for the application to work with APIGEE gateway, has to remove the host header
         if (!!req.headers.host){
-            headOptions.host = req.headers.host;
+//            headOptions.host = req.headers.host;
+			delete req.headers['host'];
         }
 
         if (!!req.headers['x-csrf-token']){
@@ -46,8 +48,16 @@ module.exports = class ProxyRequestHandler {
         }
 
         let method = req.method;
-        
-		let url = endpoint.proto + "://" + endpoint.host + ":" + endpoint.port + req.url;
+        let newUrl = req.url;
+        if (!!newUrl){
+        	let iSub = newUrl.indexOf(endpoint.prefix);
+        	iSub = iSub + endpoint.prefix.length -1
+        	if (iSub > 0 && iSub < newUrl.length  ){
+        		newUrl = newUrl.substr(iSub );
+        	}
+        }
+
+		let url = endpoint.proto + "://" + endpoint.host + ":" + endpoint.port + newUrl;
 
 		// if (method === 'POST' || method === 'PUT' || method === 'PATCH' || method ===
 		// } else if (method === 'GET' || method === 'HEADER' || method === 'DELETE' ) {

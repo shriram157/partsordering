@@ -20,6 +20,7 @@ modules:
       properties:
          url: ${default-url}
    requires:
+    - name: XSA_NODE_SRV_CFG
     - name: cf-logging-elk
 
 resources:          
@@ -28,4 +29,10 @@ resources:
       service-plan: lite
       service: application-logs
    type: org.cloudfoundry.managed-service
+ - name: XSA_NODE_SRV_CFG
+   type: org.cloudfoundry.existing-service
+   parameters:
+      service-name: XSA_NODE_SRV_CFG
+   properties:
+      odata-call-service-name: '${service-name}'
          
