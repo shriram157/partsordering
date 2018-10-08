@@ -1,0 +1,83 @@
+/* Enter your custom styles here */
+
+/*Code for Header and footer tool bars */
+
+@import url('https://fonts.googleapis.com/css?family=Satisfy');
+
+.sapContrastPlus.sapMIBar.sapMHeader-CTX, .sapContrastPlus .sapMIBar.sapMHeader-CTX {
+    color: #2f3c48;
+    background-color: #fff!important;
+    background-image: none;
+}
+
+.sapContrastPlus.sapMITBTextOnly .sapMITBFilterDefault>.sapMITBText, .sapContrastPlus .sapMITBTextOnly .sapMITBFilterDefault>.sapMITBText {
+    color: #9b9797;
+}
+
+.sapContrastPlus.sapMText, .sapContrastPlus .sapMText {
+    color: #2f3c48;
+}
+
+.clCustomFont {
+    font-family: 'Satisfy', cursive;
+}
+
+.sapContrastPlus.clCustomHeaderBg {
+    background-color: #fff!important;
+    color: #2f3c48;
+    text-shadow: none;
+}
+
+.sapContrastPlus.clCustomHeaderBg .sapMBtnInner {
+    color: #2f3c48;
+    text-shadow: none;
+}
+
+.sapContrastPlus.clCustomHeaderBg .sapMText {
+    color: #2f3c48;
+}
+
+.sapContrastPlus.sapMIBar-CTX.clCustomHeaderBg .sapMBtn:hover>.sapMBtnHoverable:not(.sapMBtnActive) {
+    background-color: transparent;
+    color: #346187;
+}
+
+/* Customized CSS by Aarti Dhamat */
+
+.styleHLayout .sapUiHLayoutChildWrapper:nth-child(1),
+.styleHLayout .sapUiHLayoutChildWrapper:nth-child(2),
+.styleHLayout .sapUiHLayoutChildWrapper:nth-child(3){
+	width: 40%;
+}
+
+.styleHLayout .sapMHBox .sapMFlexItem:nth-child(2) {
+	width: 100%;
+}
+
+.styleRightAlign {
+	float: right;
+	clear: right;
+}
+
+.styleFontSize {
+	font-size: 18px;
+}
+
+.styleFontSizeSmall {
+	
+} 
+
+.styleShortWidth {
+	width: 40% !important;
+}
+
+.formDetails .sapUiFormTitleH5 {
+    font-size: 1rem;
+    text-align: center;
+    border: 1px solid #000 !important;
+    background: #bbb;
+    font-weight: bold !important;
+}
+
+
+

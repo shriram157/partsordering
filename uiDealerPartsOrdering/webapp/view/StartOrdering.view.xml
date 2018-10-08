@@ -1,0 +1,82 @@
+<mvc:View controllerName="tci.wave2.ui.parts.ordering.controller.StartOrdering" xmlns:html="http://www.w3.org/1999/xhtml"	
+xmlns:core="sap.ui.core"  xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" displayBlock="true" xmlns="sap.m">
+	<Page id="floatingFooterPage"  showNavButton="false" floatingFooter="true">
+		<customHeader>
+			<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.CustomHeader" type="XML"/>
+		</customHeader>	
+		<content>
+			<Panel>
+				<content>
+					<Breadcrumbs currentLocationText="{i18n>Breadcrumbs.StartOrdering}">
+						<Link text="{i18n>Breadcrumbs.Ordering}"/>
+					</Breadcrumbs>
+					<Bar>
+						<contentLeft>
+							<Text text="{/userInfo/userTypeName}"/>
+							<Text text="  "/>
+							<Text text="{/selectedBP/dealerCode}"/>
+							<Text text="  "/>
+							<Text text="{/selectedBP/bpName}"/>
+						</contentLeft>
+					</Bar>
+			
+					<f:SimpleForm editable="true" layout="ResponsiveGridLayout">
+						<f:content>
+							<core:Title text="{i18n>Title.StartOrdering.userTypeDealer}"/>
+							<Label text="{i18n>Label.StartOrdering.User.Type}" required='true' id='__user_type'/>
+							<Select width="100%" required="true" 
+								selectedKey = '{/userInfo/userType}'
+								forceSelection="false"
+								change = "onUserTypeChange"
+								items="{
+									path: 'viewModel>/userTypes'
+								}">
+								<core:Item key="{viewModel>type}" text="{viewModel>name}" />
+							</Select>				
+							
+							<Label text="{i18n>Label.StartOrdering.BP}" required='true' visible='{bpListModel>/displayUi}' />
+							<ComboBox showSecondaryValues= "true" filterSecondaryValues= "true" width="100%" required="true" visible='{bpListModel>/displayUi}'
+								id='__bp_info'
+								forceSelection="false"
+								change = "onBPChange"
+								selectedKey='{/selectedBP/dealerCode}'
+								items="{
+									path: 'bpListModel>/bpList',
+									sorter: { path: 'Name' }
+								}">
+								<core:ListItem key="{bpListModel>Dealer}" text="{bpListModel>Dealer} -- {bpListModel>Name}" additionalText="{bpListModel>BusinessPartner}" />
+							</ComboBox>	
+						</f:content>
+					</f:SimpleForm>		
+						
+					<f:SimpleForm editable="true" layout="ResponsiveGridLayout" visible='{orderTypeListModel>/displayUi}' >
+						<f:content>
+							<core:Title text="{i18n>Title.StartOrdering.orderandtype}"/>
+							<Label text="{i18n>Label.StartOrdering.Order.Type}" required='true' id='__order_type'/>
+							<Select width="100%" required="true"
+								forceSelection="false"
+								selectedKey='{/selectedOrderMeta/order_type}'
+								items="{
+									path: 'orderTypeListModel>/typeList',
+									sorter: { path: 'name' }
+								}">
+								<core:Item key="{orderTypeListModel>code}" text="{orderTypeListModel>name}" />
+							</Select>									
+							<Label text="{i18n>Label.StartOrdering.Order.ID}" />
+							<Input width="100%" required="true" value='{/selectedOrderMeta/order_id}'/>
+						</f:content>
+					</f:SimpleForm>					
+				</content>
+								
+			</Panel>
+		</content>
+		<footer>
+			<OverflowToolbar>
+				<Button icon="sap-icon://message-popup" text="{/messageListLength}" type="Emphasized"
+					press="handleMessagePopoverPress"/>				
+				<ToolbarSpacer/>
+				<Button type="Emphasized" press="onCreateOrder" text="{i18n>Button.StartOrdering.StartOrdering}"/>
+			</OverflowToolbar>
+		</footer>
+	</Page>			
+</mvc:View>

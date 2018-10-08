@@ -1,0 +1,276 @@
+{
+	"_version": "1.8.0",
+	"sap.app": {
+		"id": "tci.wave2.ui.parts.ordering",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"dataSources": {
+			"API_BUSINESS_PARTNER": {
+				"uri": "/sap/opu/odata/sap/API_BUSINESS_PARTNER/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "model/API_BUSINESS_PARTNER/metadata.xml"
+				}
+			},
+			"API_PRODUCT_SRV": {
+				"uri": "/sap/opu/odata/sap/API_PRODUCT_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "model/API_PRODUCT_SRV/metadata.xml"
+				}
+			},
+			"API_PURCHASEORDER_PROCESS_SRV": {
+				"uri": "/sap/opu/odata/sap/API_PURCHASEORDER_PROCESS_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "model/API_PURCHASEORDER_PROCESS_SRV/metadata.xml"
+				}
+			},
+			"MD_PRODUCT_FS_SRV": {
+				"uri": "/sap/opu/odata/sap/MD_PRODUCT_FS_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "model/MD_PRODUCT_FS_SRV/metadata.xml"
+				}
+			},
+			"MM_PUR_INFO_RECORDS_MANAGE_SRV": {
+				"uri": "/sap/opu/odata/sap/MM_PUR_INFO_RECORDS_MANAGE_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "model/MM_PUR_INFO_RECORDS_MANAGE_SRV/metadata.xml"
+				}
+			},
+			"MM_PUR_PO_MAINT_V2_SRV": {
+				"uri": "/sap/opu/odata/sap/MM_PUR_PO_MAINT_V2_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "model/MM_PUR_PO_MAINT_V2_SRV/metadata.xml"
+				}
+			},
+			"ZC_STOR_LOCN_CDS": {
+				"uri": "/sap/opu/odata/sap/ZC_STOR_LOCN_CDS/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "model/ZC_STOR_LOCN_CDS/metadata.xml"
+				}
+			}
+		},
+		"sourceTemplate": {
+			"id": "html5moduletemplates.basicSAPUI5ApplicationProjectModule",
+			"version": "1.40.12"
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": ["sap_hcb", "sap_belize"]
+	},
+	"sap.ui5": {
+		"rootView": {
+			"viewName": "tci.wave2.ui.parts.ordering.view.App",
+			"type": "XML"
+		},
+		"dependencies": {
+			"minUI5Version": "1.38.34",
+			"libs": {
+				"sap.ui.core": {},
+				"sap.m": {},
+				"sap.ui.layout": {},
+				"sap.ushell": {},
+				"sap.collaboration": {},
+				"sap.ui.comp": {},
+				"sap.uxap": {}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "tci.wave2.ui.parts.ordering.i18n.i18n"
+				}
+			},
+			"API_BUSINESS_PARTNER": {
+				"uri": "/sap/opu/odata/sap/API_BUSINESS_PARTNER/",
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneWay",
+					"defaultCountMode": "Request",
+					"json": true,
+					"useBatch": true
+				},
+				"dataSource": "API_BUSINESS_PARTNER",
+				"preload": false
+			},
+			"API_PURCHASEORDER_PROCESS_SRV": {
+				"uri": "/sap/opu/odata/sap/API_PURCHASEORDER_PROCESS_SRV/",
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneWay",
+					"defaultCountMode": "Request",
+					"json": true,
+					"useBatch": true
+				},
+				"dataSource": "API_PURCHASEORDER_PROCESS_SRV",
+				"preload": false
+			},
+			"API_PRODUCT_SRV": {
+				"uri": "/sap/opu/odata/sap/API_PRODUCT_SRV/",
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneWay",
+					"defaultCountMode": "Request",
+					"json": true,
+					"useBatch": true
+				},
+				"dataSource": "API_PRODUCT_SRV",
+				"preload": false
+			},
+			"MD_PRODUCT_FS_SRV": {
+				"uri": "/sap/opu/odata/sap/MD_PRODUCT_FS_SRV/",
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneWay",
+					"defaultCountMode": "Request",
+					"json": true,
+					"useBatch": true
+				},
+				"dataSource": "MD_PRODUCT_FS_SRV",
+				"preload": false
+			},
+			"MM_PUR_INFO_RECORDS_MANAGE_SRV": {
+				"uri": "/sap/opu/odata/sap/MM_PUR_INFO_RECORDS_MANAGE_SRV/",
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneWay",
+					"defaultCountMode": "Request",
+					"json": true,
+					"useBatch": true
+				},
+				"dataSource": "MM_PUR_INFO_RECORDS_MANAGE_SRV",
+				"preload": false
+			},
+			"MM_PUR_PO_MAINT_V2_SRV": {
+				"uri": "/sap/opu/odata/sap/MM_PUR_PO_MAINT_V2_SRV/",
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "TwoWay",
+					"defaultCountMode": "Both",
+					"json": true,
+					"useBatch": true
+				},
+				"dataSource": "MM_PUR_PO_MAINT_V2_SRV",
+				"preload": false
+			},
+			"ZC_STOR_LOCN_CDS": {
+				"uri": "/sap/opu/odata/sap/ZC_STOR_LOCN_CDS/",
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneWay",
+					"defaultCountMode": "Request",
+					"json": true,
+					"useBatch": true
+				},
+				"dataSource": "ZC_STOR_LOCN_CDS",
+				"preload": false
+			}
+		},
+		"resources": {
+			"css": [{
+				"uri": "css/style.css"
+			}]
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"async": true,
+				"viewPath": "tci.wave2.ui.parts.ordering.view",
+				"controlAggregation": "pages",
+				"controlId": "rootControl",
+				"clearControlAggregation": false
+			},
+			"routes": [{
+				"pattern": "",
+				"name": "StartOrdering",
+				"target": ["StartOrdering"]
+			}, {
+				"pattern": "CreateOrder",
+				"name": "CreateOrder",
+				"target": ["CreateOrder"]
+			}, {
+				"pattern": "FindOrder",
+				"name": "FindOrder",
+				"target": ["FindOrder"]
+			}, {
+				"pattern": "CheckOrderStatus",
+				"name": "CheckOrderStatus",
+				"target": ["CheckOrderStatus"]
+			}],
+			"targets": {
+				"StartOrdering": {
+					"viewName": "StartOrdering",
+					"viewType": "XML",
+					"clearControlAggregation": false,
+					"viewLevel": 1,
+					"transition": "slide"
+				},
+				"CreateOrder": {
+					"viewName": "CreateOrder",
+					"viewType": "XML",
+					"clearControlAggregation": false,
+					"viewLevel": 2,
+					"transition": "slide"
+				},
+				"FindOrder": {
+					"viewName": "FindOrder",
+					"viewType": "XML",
+					"clearControlAggregation": false,
+					"viewLevel": 1,
+					"transition": "slide"
+				},
+				"CheckOrderStatus": {
+					"viewName": "CheckOrderStatus",
+					"viewType": "XML",
+					"clearControlAggregation": false,
+					"viewLevel": 1,
+					"transition": "slide"
+				}
+			}
+		}
+	}
+}

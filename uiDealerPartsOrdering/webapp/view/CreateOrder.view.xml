@@ -1,0 +1,188 @@
+<mvc:View controllerName="tci.wave2.ui.parts.ordering.controller.CreateOrder" xmlns:html="http://www.w3.org/1999/xhtml"	
+xmlns:core="sap.ui.core"  xmlns:mvc="sap.ui.core.mvc" xmlns:form="sap.ui.layout.form" xmlns:layout="sap.ui.layout" 
+displayBlock="true" xmlns="sap.m">
+	<Page id="floatingFooterPage"  showNavButton="false" floatingFooter="true">
+		<customHeader>
+			<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.CustomHeader" type="XML"/>
+		</customHeader>	
+		<content>
+
+		<Panel>
+			<content>
+				<Breadcrumbs currentLocationText="Create Order">
+					<Link press="onPress" text="Start Ordering"/>
+					<Link press="onPress" text="Ordering"/>
+				</Breadcrumbs>
+				<Bar>
+					<contentLeft>
+						<Text text="12345 - Toyota Boshoku Woodstock "/>
+					</contentLeft>
+					<contentRight>
+						<Text text="VPC ORDER "/>
+					</contentRight>
+				</Bar>
+			</content>
+		</Panel>
+		<Panel >
+			<content>
+				<HBox alignItems="Stretch" justifyContent="Stretch">
+					<VBox>
+						<Label text="Order Number">									
+						</Label>		
+						<Input value="231131122" width="90%">
+						</Input>
+					</VBox>
+					<VBox>
+						<Label text="Order Created">									
+						</Label>		
+						<Input value="Jan 08, 2018" width="90%">
+						</Input>
+					</VBox>
+					<VBox>
+						<Label text="Order Lines">									
+						</Label>		
+						<Input value="20" width="90%">
+						</Input>
+					</VBox>
+					<VBox>
+						<Label text="Order Status">									
+						</Label>		
+						<Input value="Draft" width="90%">
+						</Input>
+					</VBox>
+					<VBox>
+						<Label text="Order Submitted">									
+						</Label>		
+						<Input value="N/A" width="90%">
+						</Input>
+					</VBox>
+				</HBox>
+			</content>
+		</Panel>
+
+		<Panel>
+			<content>
+				<HBox width="100%" alignContent="sap.m.FlexAlignItems.Stretch" alignItems="sap.m.FlexAlignItems.Stretch" justifyContent="sap.m.FlexJustifyContent.SpaceAround" >
+					<VBox>
+						<Label text="Part Number">									
+						</Label>		
+						<Input value="23113112222" width="90%">
+						</Input>
+					</VBox>
+					<VBox>
+						<Label text="part Description">									
+						</Label>		
+						<Input value="Door Handler" width="90%">
+						</Input>
+					</VBox>
+					<VBox>
+						<Label text="SPQ">									
+						</Label>		
+						<Input value="20" width="90%">
+						</Input>
+					</VBox>
+					<VBox>
+						<Label text="Order QTY">									
+						</Label>		
+						<Input value="11" width="90%">
+						</Input>
+					</VBox>
+					<VBox width="400px">
+						<Label text="Comment">									
+						</Label>		
+						<Input value="Good Windows" width="90%">
+						</Input>
+					</VBox>
+
+					<VBox>
+						<Label text="">									
+						</Label>		
+						<Button type="Emphasized" text="Add Part"/>
+					</VBox>
+
+				</HBox>
+			</content>
+		</Panel>			
+						
+				
+		<Table id="idProductsTable"
+			mode="MultiSelect"
+			inset="true"
+			alternateRowColors="true"
+			items="{
+				path: '/items',
+				sorter: {
+					path: 'line'
+				}
+			}">
+			<headerToolbar>
+				<OverflowToolbar id="otbSubheader">
+					<Button id="editButton" text="Delete Parts" type="Reject" icon="sap-icon://delete"
+						press="onEdit" />
+					<Button id="editButton1" text="Import Parts" type="Transparent" icon="sap-icon://cause"
+						press="onEdit" />	
+					<ToolbarSpacer />
+					<Button id="cancelButton" text="Cancel Modification" type="Transparent" icon="sap-icon://refresh"
+						press="onCancel" visible="true" />
+					<Button id="saveButton" text="Save Parts" type="Accept" icon="sap-icon://save"
+						press="onSave" visible="true" />
+				</OverflowToolbar>		
+			</headerToolbar>
+			<columns>
+				<Column	width="2rem">
+					<Text text="Line" />
+				</Column>
+				<Column width="6rem">
+					<Text text="Part Number" />
+				</Column>
+				<Column width="10rem"
+					minScreenWidth="Tablet"
+					demandPopin="true"
+				>
+					<Text text="Part Description" />
+				</Column>
+				<Column width="3rem">
+					<Text text="SPQ" />
+				</Column>
+				<Column width="3rem">
+					<Text text="ORDER QTY" />
+				</Column>
+				<Column width="3rem">
+					<Text text="FILL BO" />
+				</Column>
+				<Column
+					minScreenWidth="Tablet"
+					demandPopin="true"
+					hAlign="End">
+					<Text text="Comment" />
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem>
+					<cells>
+						<ObjectIdentifier text="{line}"/>
+						<Text text="{pnumber}" />
+						<Text text="{pdesc}" />
+						<Input value="{SPQ}" />
+						<Input value="{orderqty}" />
+						<Text text="{fillBo}" />						
+						<Input value="{comment}" />
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+		
+		</content>
+		<footer>
+			<OverflowToolbar>
+				<Button icon="sap-icon://message-popup" text="{/messagesLength}" type="Emphasized"
+					press="handleMessagePopoverPress"/>				
+				<ToolbarSpacer/>
+				<Button type="Emphasized" text="Export Order"/>
+				<Button type="Emphasized" text="Validate Order"/>					
+				<Button type="Emphasized" text="Cancel Order"/>
+				<Button type="Emphasized" text="Submit Order"/>
+			</OverflowToolbar>
+		</footer>
+	</Page>			
+</mvc:View>

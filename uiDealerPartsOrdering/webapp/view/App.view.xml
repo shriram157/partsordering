@@ -1,0 +1,5 @@
+<mvc:View controllerName="tci.wave2.ui.parts.ordering.controller.App" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m">
+	<App id="rootControl">
+	</App>
+</mvc:View>
+

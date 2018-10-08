@@ -1,0 +1,34 @@
+<mvc:View controllerName="tci.wave2.ui.parts.ordering.controller.FindOrder" xmlns:html="http://www.w3.org/1999/xhtml"	
+xmlns:core="sap.ui.core"  xmlns:mvc="sap.ui.core.mvc" xmlns:form="sap.ui.layout.form" xmlns:layout="sap.ui.layout" 
+displayBlock="true" xmlns="sap.m">
+	<Page id="floatingFooterPage"  showNavButton="false" floatingFooter="true">
+		<customHeader>
+			<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.CustomHeader" type="XML"/>
+		</customHeader>	
+		<content>
+
+		<Panel>
+			<content>
+				<Breadcrumbs currentLocationText="{i18n>Breadcrumbs.FindOrder}">
+				</Breadcrumbs>
+				<Bar>
+					<contentLeft>
+						<Text text=""/>
+					</contentLeft>
+					<contentRight>
+						<Text text=""/>
+					</contentRight>
+				</Bar>
+			</content>
+		</Panel>
+		
+		</content>
+		<footer>
+			<OverflowToolbar>
+				<Button icon="sap-icon://message-popup" text="{/messageListLength}" type="Emphasized"
+					press="handleMessagePopoverPress"/>				
+				<ToolbarSpacer/>
+			</OverflowToolbar>
+		</footer>
+	</Page>			
+</mvc:View>

@@ -1,0 +1,18 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns="sap.m">
+	<Toolbar design="sap.m.ToolbarDesign.Transparent"  style="sap.m.ToolbarStyle.Clear" height="70px">
+		<Image id="idLexusLogo" src="images/Lexus_EN.png" width="100px"/>
+		<Text text="|" class="sapUiTinyMarginBeginEnd"/>
+		<Text class="clCustomFont" text="{i18n>appTitle}"/>
+		<ToolbarSpacer/>
+		<IconTabHeader id="iconTabHeader" selectedKey="invalidKey" select="onSelectTab" backgroundDesign="Transparent" class="" mode="Inline">
+			<layoutData>
+				<OverflowToolbarLayoutData priority="NeverOverflow" shrinkable="true"/>
+			</layoutData>
+			<items>
+				<IconTabFilter text="Create Order"/>
+				<IconTabFilter text="Find Order">	</IconTabFilter>
+				<IconTabFilter text="Check Order Status"/>
+			</items>
+		</IconTabHeader>
+	</Toolbar>
+</core:FragmentDefinition>

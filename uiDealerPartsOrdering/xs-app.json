@@ -1,0 +1,27 @@
+{
+  "welcomeFile": "/uiDealerPartsOrdering/index.html",
+  "authenticationMethod": "route",
+  "logout": {
+    "logoutEndpoint": "/do/logout"
+  },
+  "routes": [
+    {
+      "source": "^/uiDealerPartsOrdering/(.*)$",
+      "target": "$1",
+      "localDir": "webapp",
+      "authenticationType": "none"      
+    },
+    {
+      "source": "/node(.*)",
+      "destination": "core-node-backend",
+      "csrfProtection": false,
+      "authenticationType": "none"
+    },
+    {
+		"source": "/sap/opu/odata/sap/(.*)",
+		"destination": "core-node-backend",
+		"csrfProtection" : false,
+		"authenticationType": "none"
+    }    
+  ]
+}
