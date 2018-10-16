@@ -9,52 +9,54 @@ displayBlock="true" xmlns="sap.m">
 
 		<Panel>
 			<content>
-				<Breadcrumbs currentLocationText="Create Order">
-					<Link press="onPress" text="Start Ordering"/>
-					<Link press="onPress" text="Ordering"/>
+				<Breadcrumbs currentLocationText="{i18n>Breadcrumbs.CreateOrder}">
+					<Link press="onPress" text="{i18n>Breadcrumbs.Ordering}"/>
+					<Link press="onPress" text="{i18n>Breadcrumbs.StartOrdering}"/>
 				</Breadcrumbs>
 				<Bar>
 					<contentLeft>
-						<Text text="12345 - Toyota Boshoku Woodstock "/>
+						<Text text="{/userInfo/userTypeName}"/>
+						<Text text="  "/>
+						<Text text="{/selectedBP/dealerCode}"/>
+						<Text text="  "/>
+						<Text text="{/selectedBP/bpName}"/>						
 					</contentLeft>
 					<contentRight>
-						<Text text="VPC ORDER "/>
+						<Text text="{orderModel>/orderTypeName}"/>
 					</contentRight>
 				</Bar>
 			</content>
 		</Panel>
 		<Panel >
 			<content>
-				<HBox alignItems="Stretch" justifyContent="Stretch">
+				<HBox alignItems="Stretch" justifyContent="Start">
 					<VBox>
-						<Label text="Order Number">									
-						</Label>		
-						<Input value="231131122" width="90%">
-						</Input>
+						<Label text="{i18n>Lable.CreateOrder.OrderNumber}"/>	
+						<Input value="{orderModel>/tciOrderNumber}" width="90%" editable='false' />
 					</VBox>
 					<VBox>
-						<Label text="Order Created">									
-						</Label>		
-						<Input value="Jan 08, 2018" width="90%">
-						</Input>
+						<Label text="{i18n>Lable.CreateOrder.CreateDate}"/>									
+						<DatePicker value="{
+							path : 'orderModel>/createDate',
+							type:'sap.ui.model.type.DateTime', 
+							formatOptions: { format: 'yyyyMMMddHHmm', strictParsing: true }
+							}" width="90%" editable='false' />
 					</VBox>
 					<VBox>
-						<Label text="Order Lines">									
-						</Label>		
-						<Input value="20" width="90%">
-						</Input>
+						<Label text="{i18n>Lable.CreateOrder.OrderLines}"/>									
+						<Input value="{orderModel>/totalLines}" width="90%" editable='false' />
 					</VBox>
 					<VBox>
-						<Label text="Order Status">									
-						</Label>		
-						<Input value="Draft" width="90%">
-						</Input>
+						<Label text="{i18n>Lable.CreateOrder.OrderStatus}"/>									
+						<Input value="{ path : 'orderModel>/statusCode', formatter: '.formatter.orderStatus' }" width="90%" editable='false'/>
 					</VBox>
 					<VBox>
-						<Label text="Order Submitted">									
-						</Label>		
-						<Input value="N/A" width="90%">
-						</Input>
+						<Label text="{i18n>Lable.CreateOrder.OrderSubmitted}"/>									
+						<DatePicker value="{
+							path : 'orderModel>/submittedDate',
+							type:'sap.ui.model.type.DateTime', 
+							formatOptions: { format: 'yyyyMMddHHmm', strictParsing: true }
+							}" width="90%" editable='false' />
 					</VBox>
 				</HBox>
 			</content>
@@ -62,111 +64,111 @@ displayBlock="true" xmlns="sap.m">
 
 		<Panel>
 			<content>
-				<HBox width="100%" alignContent="sap.m.FlexAlignItems.Stretch" alignItems="sap.m.FlexAlignItems.Stretch" justifyContent="sap.m.FlexJustifyContent.SpaceAround" >
+				<HBox width="100%" alignContent="End" alignItems="Stretch" justifyContent="Start" >
 					<VBox>
-						<Label text="Part Number">									
-						</Label>		
-						<Input value="23113112222" width="90%">
-						</Input>
+						<Label text="{i18n>Lable.CreateOrder.PartNumber}" />									
+						<Input 	id="productInput"
+								type="Text"
+								textFormatMode="Key"
+								placeholder="{i18n>Placeholder.parts}"
+								showSuggestion='true'
+								suggest="handleSuggest"
+								change='handleProductChange'
+								startSuggestion="3"
+								suggestionItems="{infoRecordModel>/C_Product_Fs}"
+								value="{orderModel>/newline/partNumber}"
+								fieldWidth="auto"
+								width="90%" >
+							<suggestionItems >
+								<core:ListItem key="{infoRecordModel>Material}" text="{infoRecordModel>Material}" additionalText="{infoRecordModel>MaterialName}" />
+							</suggestionItems>
+						</Input>	
 					</VBox>
 					<VBox>
-						<Label text="part Description">									
-						</Label>		
-						<Input value="Door Handler" width="90%">
-						</Input>
+						<Label text="{i18n>Lable.CreateOrder.PartDesc}" />									
+						<Input value="{orderModel>/newline/partDesc}" width="90%" editable='false' />
 					</VBox>
 					<VBox>
-						<Label text="SPQ">									
-						</Label>		
-						<Input value="20" width="90%">
-						</Input>
+						<Label text="{i18n>Lable.CreateOrder.SPQ}" />									
+						<Input value="{orderModel>/newline/spq}" width="90%" />
 					</VBox>
 					<VBox>
-						<Label text="Order QTY">									
-						</Label>		
-						<Input value="11" width="90%">
-						</Input>
+						<Label text="{i18n>Lable.CreateOrder.qty}" />									
+						<Input value="{orderModel>/newline/qty}" width="90%" />
 					</VBox>
 					<VBox width="400px">
-						<Label text="Comment">									
-						</Label>		
-						<Input value="Good Windows" width="90%">
-						</Input>
+						<Label text="{i18n>Lable.CreateOrder.Comment}" />									
+						<Input value="{orderModel>/newline/comment}" width="90%" />
 					</VBox>
-
 					<VBox>
-						<Label text="">									
-						</Label>		
-						<Button type="Emphasized" text="Add Part"/>
+						<Label text=""/>									
+						<Button type="Emphasized" text="{i18n>Button.CreateOrder.AddPart}" 	press='handleAddPart'/>
 					</VBox>
 
 				</HBox>
 			</content>
 		</Panel>			
 						
-				
 		<Table id="idProductsTable"
 			mode="MultiSelect"
 			inset="true"
 			alternateRowColors="true"
 			items="{
-				path: '/items',
+				path: 'orderModel>/items',
 				sorter: {
 					path: 'line'
 				}
 			}">
 			<headerToolbar>
 				<OverflowToolbar id="otbSubheader">
-					<Button id="editButton" text="Delete Parts" type="Reject" icon="sap-icon://delete"
+					<Button id="editButton" text="{i18n>Button.CreateOrder.DeleteParts}" type="Reject" icon="sap-icon://delete"
 						press="onEdit" />
-					<Button id="editButton1" text="Import Parts" type="Transparent" icon="sap-icon://cause"
-						press="onEdit" />	
 					<ToolbarSpacer />
-					<Button id="cancelButton" text="Cancel Modification" type="Transparent" icon="sap-icon://refresh"
-						press="onCancel" visible="true" />
-					<Button id="saveButton" text="Save Parts" type="Accept" icon="sap-icon://save"
+					<Button id="editButton1" text="{i18n>Button.CreateOrder.ImportParts}" type="Transparent" icon="sap-icon://cause"
+						press="onEdit" />	
+					<!--<Button id="cancelButton" text="Cancel Modification" type="Transparent" icon="sap-icon://refresh"
+						press="onCancel" visible="true" />-->
+					<Button id="saveButton" text="{i18n>Button.CreateOrder.SaveParts}" type="Accept" icon="sap-icon://save"
 						press="onSave" visible="true" />
 				</OverflowToolbar>		
 			</headerToolbar>
+			
 			<columns>
-				<Column	width="2rem">
-					<Text text="Line" />
+				<Column	width="2rem" >
+					<Text text="{i18n>Lable.CreateOrder.Line}" />
 				</Column>
-				<Column width="6rem">
-					<Text text="Part Number" />
+				<Column width="6rem" >
+					<Text text="{i18n>Lable.CreateOrder.PartNumber}" />
 				</Column>
-				<Column width="10rem"
-					minScreenWidth="Tablet"
-					demandPopin="true"
-				>
-					<Text text="Part Description" />
+				<Column width="10rem" >
+					<Text text="{i18n>Lable.CreateOrder.PartDesc}" />
 				</Column>
-				<Column width="3rem">
-					<Text text="SPQ" />
+				<Column width="3rem" >
+					<Text text="{i18n>Lable.CreateOrder.SPQ}" />
 				</Column>
-				<Column width="3rem">
-					<Text text="ORDER QTY" />
+				<Column width="3rem" >
+					<Text text="{i18n>Lable.CreateOrder.qty}" />
 				</Column>
 				<Column width="3rem">
-					<Text text="FILL BO" />
+					<Text text="{i18n>Lable.CreateOrder.fillBo}" />
 				</Column>
 				<Column
 					minScreenWidth="Tablet"
 					demandPopin="true"
 					hAlign="End">
-					<Text text="Comment" />
+					<Text text="{i18n>Lable.CreateOrder.Comment}" />
 				</Column>
 			</columns>
 			<items>
 				<ColumnListItem>
 					<cells>
-						<ObjectIdentifier text="{line}"/>
-						<Text text="{pnumber}" />
-						<Text text="{pdesc}" />
-						<Input value="{SPQ}" />
-						<Input value="{orderqty}" />
-						<Text text="{fillBo}" />						
-						<Input value="{comment}" />
+						<ObjectIdentifier text="{path : 'orderModel>line', formatter : '.formatter.lineNumberFormat'}"/>
+						<Text text="{orderModel>partNumber}" />
+						<Text text="{orderModel>partDesc}" />
+						<Input value="{orderModel>spq}" />
+						<Input value="{orderModel>qty}" />
+						<Text text="{orderModel>fillBo}" />						
+						<Input value="{orderModel>comment}" />
 					</cells>
 				</ColumnListItem>
 			</items>
@@ -175,13 +177,13 @@ displayBlock="true" xmlns="sap.m">
 		</content>
 		<footer>
 			<OverflowToolbar>
-				<Button icon="sap-icon://message-popup" text="{/messagesLength}" type="Emphasized"
+				<Button icon="sap-icon://message-popup" text="{/messageListLength}" type="Emphasized"
 					press="handleMessagePopoverPress"/>				
 				<ToolbarSpacer/>
-				<Button type="Emphasized" text="Export Order"/>
-				<Button type="Emphasized" text="Validate Order"/>					
-				<Button type="Emphasized" text="Cancel Order"/>
-				<Button type="Emphasized" text="Submit Order"/>
+				<Button type="Emphasized" text="{i18n>Button.CreateOrder.Back}" press='onBack'/>					
+				<Button type="Emphasized" text="{i18n>Button.CreateOrder.ExportOrder}"/>
+				<Button type="Emphasized" text="{i18n>Button.CreateOrder.CancelOrder}" press='onBack'/>
+				<Button type="Emphasized" text="{i18n>Button.CreateOrder.SubmitOrder}" 	press='activateOrder'/>
 			</OverflowToolbar>
 		</footer>
 	</Page>			

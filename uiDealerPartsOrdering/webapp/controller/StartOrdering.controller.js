@@ -136,6 +136,7 @@ sap.ui.define([
 				if (!!item){
 					vModel.setProperty('/selectedBP/bpNumber', item.BusinessPartner);
 					vModel.setProperty('/selectedBP/bpName', item.Name);
+					vModel.setProperty('/selectedBP/customer', item.Customer);
 				}
 			},
 			
@@ -165,7 +166,16 @@ sap.ui.define([
 			},
 
 			onCreateOrder : function(event){
-				this.getRouter().navTo("CreateOrder", null, false);
+				var that = this;
+				// check the information entered here
+				
+//				that.getRouter().navTo("CreateOrder", draftData, false);
+				that.getRouter().navTo("CreateOrder", null, false);
+
+				// var vModel = this.getView().getModel();
+				// this.createOrderDraft(vModel.getData(), function(draftData){
+				// 	that.getRouter().navTo("CreateOrder", draftData, false);
+				// });
 			}
 		});
 	}

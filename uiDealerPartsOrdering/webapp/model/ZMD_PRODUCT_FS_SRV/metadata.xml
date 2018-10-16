@@ -346,6 +346,6 @@
 						<Record Type="UI.ReferenceFacet"><PropertyValue Property="Label" String="Sales View"/><PropertyValue Property="Target" AnnotationPath="to_ValuationArea/@UI.LineItem"/></Record>
 					</Collection>
 				</Annotation>
-			</Annotations><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="./sap/MD_PRODUCT_FS_SRV/$metadata"/><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version" href="./sap/MD_PRODUCT_FS_SRV/$metadata"/></Schema>
+			</Annotations><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="./sap/ZMD_PRODUCT_FS_SRV/$metadata"/><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version" href="./sap/ZMD_PRODUCT_FS_SRV/$metadata"/></Schema>
 	</edmx:DataServices>
 </edmx:Edmx>

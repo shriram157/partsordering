@@ -51,7 +51,8 @@ sap.ui.define([
 					selectedBP : {
 						dealerCode : "",
 						bpNumber :"",
-						bpName : ""	
+						bpName : ""	,
+						customer : ''
 					},
 					selectedOrderMeta : {
 						order_type : "",

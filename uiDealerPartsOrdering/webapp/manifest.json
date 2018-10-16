@@ -42,6 +42,14 @@
 					"localUri": "model/MD_PRODUCT_FS_SRV/metadata.xml"
 				}
 			},
+			"ZMD_PRODUCT_FS_SRV": {
+				"uri": "/sap/opu/odata/sap/ZMD_PRODUCT_FS_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "model/ZMD_PRODUCT_FS_SRV/metadata.xml"
+				}
+			},
 			"MM_PUR_INFO_RECORDS_MANAGE_SRV": {
 				"uri": "/sap/opu/odata/sap/MM_PUR_INFO_RECORDS_MANAGE_SRV/",
 				"type": "OData",
@@ -55,7 +63,7 @@
 				"type": "OData",
 				"settings": {
 					"odataVersion": "2.0",
-					"localUri": "model/MM_PUR_PO_MAINT_V2_SRV/metadata.xml"
+					"localUri": "model/MM_PUR_PO_MAINT_V2_SRV/metadata.xml"					
 				}
 			},
 			"ZC_STOR_LOCN_CDS": {
@@ -124,6 +132,9 @@
 					"defaultOperationMode": "Server",
 					"defaultBindingMode": "OneWay",
 					"defaultCountMode": "Request",
+					"serviceUrlParams": {
+            			"sap-client": "200"
+        			},
 					"json": true,
 					"useBatch": true
 				},
@@ -137,6 +148,9 @@
 					"defaultOperationMode": "Server",
 					"defaultBindingMode": "OneWay",
 					"defaultCountMode": "Request",
+					"serviceUrlParams": {
+            			"sap-client": "200"
+        			},
 					"json": true,
 					"useBatch": true
 				},
@@ -150,6 +164,9 @@
 					"defaultOperationMode": "Server",
 					"defaultBindingMode": "OneWay",
 					"defaultCountMode": "Request",
+					"serviceUrlParams": {
+            			"sap-client": "200"
+        			},
 					"json": true,
 					"useBatch": true
 				},
@@ -163,11 +180,30 @@
 					"defaultOperationMode": "Server",
 					"defaultBindingMode": "OneWay",
 					"defaultCountMode": "Request",
+					"serviceUrlParams": {
+            			"sap-client": "200"
+        			},
 					"json": true,
 					"useBatch": true
 				},
 				"dataSource": "MD_PRODUCT_FS_SRV",
 				"preload": false
+			},
+			"ZMD_PRODUCT_FS_SRV": {
+				"uri": "/sap/opu/odata/sap/ZMD_PRODUCT_FS_SRV/",
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneWay",
+					"defaultCountMode": "Request",
+					"serviceUrlParams": {
+            			"sap-client": "200"
+        			},
+					"json": true,
+					"useBatch": true
+				},
+				"dataSource": "ZMD_PRODUCT_FS_SRV",
+				"preload": true
 			},
 			"MM_PUR_INFO_RECORDS_MANAGE_SRV": {
 				"uri": "/sap/opu/odata/sap/MM_PUR_INFO_RECORDS_MANAGE_SRV/",
@@ -176,11 +212,14 @@
 					"defaultOperationMode": "Server",
 					"defaultBindingMode": "OneWay",
 					"defaultCountMode": "Request",
+					"serviceUrlParams": {
+            			"sap-client": "200"
+        			},
 					"json": true,
 					"useBatch": true
 				},
 				"dataSource": "MM_PUR_INFO_RECORDS_MANAGE_SRV",
-				"preload": false
+				"preload": true
 			},
 			"MM_PUR_PO_MAINT_V2_SRV": {
 				"uri": "/sap/opu/odata/sap/MM_PUR_PO_MAINT_V2_SRV/",
@@ -188,12 +227,13 @@
 				"settings": {
 					"defaultOperationMode": "Server",
 					"defaultBindingMode": "TwoWay",
-					"defaultCountMode": "Both",
-					"json": true,
-					"useBatch": true
+					"defaultCountMode": "Request",
+					"serviceUrlParams": {
+            			"sap-client": "200"
+        			}
 				},
 				"dataSource": "MM_PUR_PO_MAINT_V2_SRV",
-				"preload": false
+				"preload": true
 			},
 			"ZC_STOR_LOCN_CDS": {
 				"uri": "/sap/opu/odata/sap/ZC_STOR_LOCN_CDS/",
@@ -202,6 +242,9 @@
 					"defaultOperationMode": "Server",
 					"defaultBindingMode": "OneWay",
 					"defaultCountMode": "Request",
+					"serviceUrlParams": {
+            			"sap-client": "200"
+        			},
 					"json": true,
 					"useBatch": true
 				},
