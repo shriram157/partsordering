@@ -2,7 +2,7 @@
 xmlns:core="sap.ui.core"  xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" displayBlock="true" xmlns="sap.m">
 	<Page id="floatingFooterPage"  showNavButton="false" floatingFooter="true">
 		<customHeader>
-			<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.CustomHeader" type="XML"/>
+			<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.TopHeader" type="XML"/>
 		</customHeader>	
 		<content>
 			<Panel>
@@ -20,7 +20,7 @@ xmlns:core="sap.ui.core"  xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout" xm
 						</contentLeft>
 					</Bar>
 			
-					<f:SimpleForm editable="true" layout="ResponsiveGridLayout">
+					<f:SimpleForm editable="true" layout="ResponsiveGridLayout" width='400px'>
 						<f:content>
 							<core:Title text="{i18n>Title.StartOrdering.userTypeDealer}"/>
 							<Label text="{i18n>Label.StartOrdering.User.Type}" required='true' id='__user_type'/>
@@ -62,7 +62,7 @@ xmlns:core="sap.ui.core"  xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout" xm
 								<core:Item key="{orderTypeListModel>code}" text="{orderTypeListModel>name}" />
 							</Select>									
 							<Label text="{i18n>Label.StartOrdering.Order.ID}" />
-							<Input width="100%" required="true" value='{/selectedOrderMeta/order_id}'/>
+							<Input width="100%" required="true" type='Text' value='{/selectedOrderMeta/order_id}'/>
 						</f:content>
 					</f:SimpleForm>					
 				</content>

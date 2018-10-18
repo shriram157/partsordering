@@ -8,7 +8,6 @@ sap.ui.define([
 	return BaseController.extend("tci.wave2.ui.parts.ordering.controller.App", {
 
 			onInit : function () {
-				this.initMessageHover();
 			}
 		});
 	}

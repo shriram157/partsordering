@@ -7,21 +7,106 @@ displayBlock="true" xmlns="sap.m">
 		</customHeader>	
 		<content>
 
-		<Panel>
-			<content>
-				<Breadcrumbs currentLocationText="{i18n>Breadcrumbs.FindOrder}">
-				</Breadcrumbs>
-				<Bar>
-					<contentLeft>
-						<Text text=""/>
-					</contentLeft>
-					<contentRight>
-						<Text text=""/>
-					</contentRight>
-				</Bar>
-			</content>
-		</Panel>
-		
+			<Panel>
+				<content>
+					<Breadcrumbs currentLocationText="{i18n>Breadcrumbs.FindOrder}">
+					</Breadcrumbs>
+					<Bar>
+						<contentLeft>
+							<Text text="{/userInfo/userTypeName}"/>
+							<Text text="  "/>
+							<Text text="{/selectedBP/dealerCode}"/>
+							<Text text="  "/>
+							<Text text="{/selectedBP/bpName}"/>						
+						</contentLeft>
+						<contentRight>
+							<Button id="filterButton"  icon="sap-icon://filter" press="onExpandFilter" />							
+							<SearchField placeholder='{i18n>Placeholder.OrderNumber}' width='80%' />
+						</contentRight>
+					</Bar>
+				</content>
+			</Panel>
+			<layout:DynamicSideContent
+				id="DynamicSideContent"
+				sideContentFallDown="BelowM"
+				sideContentPosition="Begin"
+				showSideContent='{viewModel>/filterPanelEnable}'
+				containerQuery="true" >
+				<layout:mainContent>
+					<Panel width="auto">
+						<Table id="idProductsTable"	
+							alternateRowColors="true"
+							items="{
+								path: 'viewModel>/orders',
+								sorter: {
+									path: 'createdOn'
+								}
+							}"
+						>
+							<columns>
+								<Column width="12em">
+									<Text text="order Number" />
+								</Column>
+								<Column	minScreenWidth="Tablet"	demandPopin="true">
+									<Text text="Order Type" />
+								</Column>
+								<Column	minScreenWidth="Tablet"	demandPopin="true">
+									<Text text="Order Creation Date" />
+								</Column>
+								<Column	minScreenWidth="Tablet"	demandPopin="true">
+									<Text text="Order Modification Date" />
+								</Column>
+								<Column	minScreenWidth="Tablet"	demandPopin="true">
+									<Text text="Order Internal IDs" />
+								</Column>
+								<Column	minScreenWidth="Tablet"	demandPopin="true" hAlign="End">
+									<Text text="Order Status" />
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem>
+									<cells>
+										<ObjectIdentifier	title="{viewModel>orderNumber}"	text="{viewModel>orderNumber}"/>
+										<Text text="{viewModel>scOrderType}" />
+										<Text text="{viewModel>createdOn}" />
+										<Text text="{viewModel>modifiedOn}" />
+										<Text text="{viewModel>dealerCode}" />
+										<Text text="{viewModel>scOrderStatus}" />
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</Panel>
+				</layout:mainContent>
+				<layout:sideContent>
+					<Panel width="200px" class="sapUiResponsiveMargin">
+						<headerToolbar>
+							<Toolbar height="3rem">
+								<Text text="Order Type" textAlign="Center"  width="100%"/>
+							</Toolbar>
+						</headerToolbar>
+						<content>
+							<CheckBox text="Show All" />
+							<CheckBox text="Standard Order" />
+							<CheckBox text="Rush Order" />
+							<CheckBox text="Compaign Order" />
+						</content>
+					</Panel>
+					<Panel width="200px" class="sapUiResponsiveMargin">
+						<headerToolbar>
+							<Toolbar height="3rem">
+								<Text text="Order Status" textAlign="Center"  width="100%"/>
+							</Toolbar>
+						</headerToolbar>
+						<content>
+							<CheckBox text="Show All" />
+							<CheckBox text="Draft" />
+							<CheckBox text="Submitted" />
+							<CheckBox text="Cancelled" />
+						</content>
+					</Panel>
+				</layout:sideContent>
+			</layout:DynamicSideContent>
 		</content>
 		<footer>
 			<OverflowToolbar>

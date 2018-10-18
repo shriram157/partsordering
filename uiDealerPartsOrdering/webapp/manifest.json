@@ -102,6 +102,7 @@
 			"viewName": "tci.wave2.ui.parts.ordering.view.App",
 			"type": "XML"
 		},
+		"handleValidation": true,		
 		"dependencies": {
 			"minUI5Version": "1.38.34",
 			"libs": {
@@ -269,12 +270,20 @@
 			},
 			"routes": [{
 				"pattern": "",
+				"name": "Default",
+				"target": ["Login"]
+			}, {
+				"pattern": "StartOrdering",
 				"name": "StartOrdering",
 				"target": ["StartOrdering"]
 			}, {
 				"pattern": "CreateOrder",
 				"name": "CreateOrder",
 				"target": ["CreateOrder"]
+			}, {
+				"pattern": "Login",
+				"name": "Login",
+				"target": ["Login"]
 			}, {
 				"pattern": "FindOrder",
 				"name": "FindOrder",
@@ -285,6 +294,13 @@
 				"target": ["CheckOrderStatus"]
 			}],
 			"targets": {
+				"Login": {
+					"viewName": "Login",
+					"viewType": "XML",
+					"clearControlAggregation": false,
+					"viewLevel": 1,
+					"transition": "slide"
+				},				
 				"StartOrdering": {
 					"viewName": "StartOrdering",
 					"viewType": "XML",

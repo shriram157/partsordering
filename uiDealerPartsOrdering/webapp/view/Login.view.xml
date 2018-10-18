@@ -1,0 +1,40 @@
+<mvc:View xmlns:html="http://www.w3.org/1999/xhtml" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns="sap.m" controllerName="tci.wave2.ui.parts.ordering.controller.Login" displayBlock="true">
+	<Page showNavButton="false" floatingFooter="true">
+		<customHeader>
+			<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.TopHeader" type="XML"/>
+		</customHeader>
+		<content>
+			<Panel>
+				<FlexBox height="600px" alignItems="Center" justifyContent="Center">
+					<items>
+						<f:SimpleForm editable="true" columnsM="2" columnsXL="1" columnsL="4" labelSpanS="3" labelSpanL="8" labelSpanM="12" width="600px" layout="ResponsiveGridLayout" labelMinWidth="80">
+							<f:content>
+								<Label text="{i18n>Label.StartOrdering.User.Type}" required="true" design="Bold" wrapping="true" textAlign="Center" vAlign="Middle"/>
+								<Select selectedKey="{/userInfo/userType}" forceSelection="false" change="onUserTypeChange" id="__user_type" items="{              path: 'viewModel>/userTypes'             }">
+									<core:Item key="{viewModel>type}" text="{viewModel>name}"/>
+								</Select>
+								<Label text="{i18n>Label.StartOrdering.BP}" required="true" visible="{bpListModel>/displayUi}" design="Bold" wrapping="true" vAlign="Middle"/>
+								<ComboBox showSecondaryValues="true" filterSecondaryValues="true" required="true" visible="{bpListModel>/displayUi}" id="__bp_info" change="onBPChange" 
+																		selectedKey="{/selectedBP/dealerCode}" items="{ path: 'bpListModel>/bpList', sorter: { path: 'Name' } }" fieldGroupIds="requiredField">
+									<core:ListItem key="{bpListModel>Dealer}" text="{bpListModel>Dealer} -- {bpListModel>Name}" />
+								</ComboBox>
+							</f:content>
+						</f:SimpleForm>
+					</items>
+				</FlexBox>
+			</Panel>
+		</content>
+		<footer>
+			<OverflowToolbar>
+				<Button 
+					icon="sap-icon://message-popup" 
+                    text="{=${message>/}.length}"
+                    visible="{=${message>/}.length > 0}"
+					type="Emphasized" 
+					press="handleMessagePopoverPress"/>
+				<ToolbarSpacer/>
+				<Button type="Emphasized" press="onNext" text="{i18n>Button.Login.Next}"/>
+			</OverflowToolbar>
+		</footer>
+	</Page>
+</mvc:View>

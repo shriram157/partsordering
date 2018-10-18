@@ -1,25 +1,8 @@
-/* Enter your custom styles here */
+/*======================= Start custom fonts and custom color on header style ==========================*/
 
-/*Code for Header and footer tool bars */
-
-@import url('https://fonts.googleapis.com/css?family=Satisfy');
-
-.sapContrastPlus.sapMIBar.sapMHeader-CTX, .sapContrastPlus .sapMIBar.sapMHeader-CTX {
-    color: #2f3c48;
-    background-color: #fff!important;
-    background-image: none;
-}
-
-.sapContrastPlus.sapMITBTextOnly .sapMITBFilterDefault>.sapMITBText, .sapContrastPlus .sapMITBTextOnly .sapMITBFilterDefault>.sapMITBText {
-    color: #9b9797;
-}
-
-.sapContrastPlus.sapMText, .sapContrastPlus .sapMText {
-    color: #2f3c48;
-}
-
+@import url('https://fonts.googleapis.com/css?family=Raleway');
 .clCustomFont {
-    font-family: 'Satisfy', cursive;
+    font-family: 'Raleway', sans-serif;
 }
 
 .sapContrastPlus.clCustomHeaderBg {
@@ -33,6 +16,76 @@
     text-shadow: none;
 }
 
+.sapContrastPlus.clCustomHeaderBg .sapMText {
+    color: #2f3c48;
+}
+
+.sapContrastPlus.sapMIBar-CTX.clCustomHeaderBg .sapMBtn:hover>.sapMBtnHoverable:not(.sapMBtnActive) {
+    background-color: transparent;
+    color: #346187;
+}
+
+
+/*======================= End custom fonts and custom color on header style ==========================*/
+
+.sapContrastPlus .sapMBtn.CustomClSelected .sapMBtnInner {
+    background-color: rgba(99, 127, 153, 0.5)!important;
+    border-color: rgba(99, 127, 153, 0.5);
+}
+
+.sapMLnk.clCurrent,
+.sapMLnk.clCurrent:hover:not(.sapMLnkDsbl) {
+    color: #fff;
+    text-decoration: none!important;
+}
+
+.sapUxAPObjectPageHeaderIdentifier .sapUxAPObjectPageHeaderObjectImageForce .sapUxAPObjectPageHeaderObjectImage {
+    height: auto!important;
+    outline: none;
+    border: none!important;
+    opacity: 1!important;
+    width: 8rem !important;
+}
+
+.sapContrastPlus .sapMITBFilterIcon {
+    background: #91c8f6;
+    color: #2f3c48;
+}
+
+.sapContrastPlus .sapMITBDisabled .sapMITBFilterIcon {
+    color: #91c8f6;
+    background-color: transparent;
+}
+
+.sapContrastPlus.sapMITBFilterIcon::before,
+.sapContrastPlus .sapMITBFilterIcon::before {
+    text-shadow: none!important;
+}
+
+
+/* For Icon tab bar */
+
+.ClNewECP .sapMITBTab {
+    width: 7rem!important;
+}
+
+.ClNewECP .sapMITBFilter .sapMITBText {
+    overflow: visible!important;
+    width: 7rem!important;
+}
+
+.clClearAll {
+    height: 1;
+    width: 100%;
+}
+
+.clClearAll:after {
+    clear: both;
+    position: relative;
+    display: block;
+    content: '';
+    width: 100%;
+}
 .sapContrastPlus.clCustomHeaderBg .sapMText {
     color: #2f3c48;
 }

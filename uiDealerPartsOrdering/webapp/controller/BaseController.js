@@ -12,36 +12,10 @@ sap.ui.define([
 		"use strict";
 		
 		var CONST_APP_STATE = "APP_STATE";
-		
 		var CONST_APP_ERROR = "APP_ERROR";
-		
-		// this section is sample
-		var oLink = new Link({
-			text: "Show more information",
-			href: "", //  
-			target: "_blank"
-		});
 
-		var oMessageTemplate = new MessageItem({
-			type: '{type}',
-			title: '{title}',
-			description: '{description}',
-			subtitle: '{subtitle}',
-			counter: '{counter}',
-			link: oLink
-		});
-
-		var oMessagePopover = new MessagePopover({
-			items: {
-				path: '/',
-				template: oMessageTemplate
-			}
-		});
-		
-		
 		return Controller.extend("tci.wave2.ui.parts.ordering.controller.BaseController", {
-			
-		
+
 			/**
 			 * Convenience method for accessing the router in every controller of the application.
 			 * @public
@@ -97,64 +71,69 @@ sap.ui.define([
 					this.getRouter().navTo("master", {}, true);
 				}
 			},
-
-			getErrorModel : function(){
-				var dataModel = sap.ui.getCore().getModel(CONST_APP_ERROR);
-				if (dataModel === null || dataModel === undefined) {
-					//mock data
-					var sErrorDescription = 'First Error message description. \n' +
-						'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod' +
-						'tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,' +
-						'quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo' +
-						'consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse' +
-						'cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non' +
-						'proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
-
-					var aMockMessages = [{
-						type: 'Error',
-						title: 'Error message',
-						description: sErrorDescription,
-						subtitle: 'Example of subtitle',
-						counter: 1
-						}, {
-						type: 'Warning',
-						title: 'Warning without description',
-						description: ''
-						}, {
-						type: 'Success',
-						title: 'Success message',
-						description: 'First Success message description',
-						subtitle: 'Example of subtitle',
-						counter: 1
-						}, {
-						type: 'Error',
-						title: 'Error message',
-						description: 'Second Error message description',
-						subtitle: 'Example of subtitle',
-						counter: 2
-						}, {
-						type: 'Information',
-						title: 'Information message',
-						description: 'First Information message description',
-						subtitle: 'Example of subtitle',
-						counter: 1
-					}];
-
-					dataModel = new JSONModel();
-					dataModel.setData(aMockMessages);
-					sap.ui.getCore().setModel(dataModel, CONST_APP_ERROR);
-				}
+			
+			/**
+			 * user type 
+			 */
+			createUserTypeModel : function() {
+			
+				var resourceBundle = this.getResourceBundle();
 				
-				var appState = models.getAppStateModel();
-				appState.setProperty('/messageListLength', aMockMessages.length + "");
+				var viewDatas = { userTypes : [
+					{ type : "001", code : "Z004", name : resourceBundle.getText('userType.VPC'), init : false,	
+					  orderTypeList : [ {code : 1, name  : resourceBundle.getText('order.type.standard') } ]
+					},
+					{ type : "002", code : "Z005", name : resourceBundle.getText('userType.PORT'), init : false,
+					  orderTypeList : [ {code : 1, name  : resourceBundle.getText('order.type.standard')} ]
+					},
+					{ type : "003", code : "Z001", name : resourceBundle.getText('userType.DEALER'), init :false,
+					  orderTypeList : [ {code : 1, name  : resourceBundle.getText('order.type.standard')},
+										{code : 2, name  : resourceBundle.getText('order.type.rush')},
+										{code : 3, name  : resourceBundle.getText('order.type.campaign')}
+									  ]
+					},				
+					{ type : "004", code : "Z001", name : resourceBundle.getText('userType.LDEALER'), init :false,
+					  orderTypeList : [ {code : 1, name  : resourceBundle.getText('order.type.standard')},
+										{code : 2, name  : resourceBundle.getText('order.type.rush')}
+									  ]
+					}]
+				}; 
+				var viewDataModel = new sap.ui.model.json.JSONModel();
+				viewDataModel.setData(viewDatas);
+				return viewDataModel;
+			}, 
+			
+			getUserTypeSelectionModel : function(){
+				var dataModel = sap.ui.getCore().getModel("UserTypeSelectionModel");
+				if (dataModel  === null || dataModel === undefined){
+					dataModel = this.createUserTypeModel();
+					sap.ui.getCore().setModel(dataModel, "UserTypeSelectionModel");
+				}
 				return dataModel;
 			},
 
-			initMessageHover : function(){
-				var oModel = this.getErrorModel();
-				oMessagePopover.setModel(oModel);
+			setUserTypeSelectionModel : function(model){
+				sap.ui.getCore().setModel(model, "UserTypeSelectionModel");
 			},
+
+			//error 
+    		 _getMessagePopover : function () {
+            	// create popover lazily (singleton)
+            	if (!this._oMessagePopover) {
+                	this._oMessagePopover = sap.ui.xmlfragment(this.getView().getId(),"tci.wave2.ui.parts.ordering.view.fragments.MessagePopover", this);
+                	this.getView().addDependent(this._oMessagePopover);
+            	}
+            	return this._oMessagePopover;
+        	},
 			
+			handleMessagePopoverPress: function (oEvent) {
+            	//this._getMessagePopover().openBy(oEvent.getSource());
+				this._getMessagePopover().toggle(oEvent.getSource());
+			},
+
+
+
+			///
 			getHeaderMenuModel : function() {
 				var dataModel = sap.ui.getCore().getModel("HeaderMenuModel");
 				if (dataModel  === null || dataModel === undefined){
@@ -196,6 +175,11 @@ sap.ui.define([
 			getApiBPModel : function(){
 				return this.getOwnerComponent().getModel("API_BUSINESS_PARTNER");
 			},
+
+			getPurV2Model : function(){
+				return this.getOwnerComponent().getModel("MM_PUR_PO_MAINT_V2_SRV");
+			},
+			
 			
 			onSelectTab: function (event) {
 				var key = event.getParameter('item').getKey();
@@ -246,8 +230,8 @@ sap.ui.define([
 				var oFilter = new Array();
 				oFilter[0] = new sap.ui.model.Filter("BusinessPartnerType", sap.ui.model.FilterOperator.EQ, type );
 
-				//var bModel = models.createBusinessPartnerModel();
 				var bModel = this.getApiBPModel();
+				var bpList= [];
 				bModel.read("/A_BusinessPartner",
 					{ 
 						filters:  oFilter,
@@ -255,16 +239,13 @@ sap.ui.define([
     		 				"$select": "BusinessPartnerType,BusinessPartner,BusinessPartnerName"
 						},
 						success:  function(oData, oResponse){
-							var bpList= [];
+
 							var iBP = null;
 							if (!!oData && !!oData.results){
 								for (var i = 0; i < oData.results.length; i++){
 									iBP = {};
 									iBP.BusinessPartnerType = oData.results[i].BusinessPartnerType;
-									//iBP.BusinessPartnerUUID = oData.results[i].BusinessPartnerUUID;
-									iBP.BusinessPartner = oData.results[i].BusinessPartner; // customer Id 
-									//iBP.Customer = oData.results[i].to_Customer.Customer;
-									//iBP.Name = oData.results[i].OrganizationBPName1;
+									iBP.BusinessPartner = oData.results[i].BusinessPartner; 
 									iBP.Name = oData.results[i].BusinessPartnerName;
 									iBP.Dealer = iBP.BusinessPartner.slice(-5);
 									bpList.push(iBP);
@@ -273,18 +254,18 @@ sap.ui.define([
 							callBackFunction(bpList);
 						},
 						error: function(err){
-							// error handling here
+							callBackFunction(bpList);
 						}
 					}
 				);		
 			},
 			
-			getPriceInfoFromInfoRecord : function( infoRecord, callback){
+			getPriceInfoFromInfoRecord : function( infoRecord,purOrg,plant, callback){
 				var bModel = 	this.getInfoRecordModel();	
-				bModel.read("/I_PurgInfoRecdOrgPlantData(PurchasingInfoRecord='"+infoRecord+"',PurchasingOrganization='7019',PurchasingInfoRecordCategory='0',Plant='')",
+				bModel.read("/I_PurgInfoRecdOrgPlantData(PurchasingInfoRecord='"+infoRecord+"',PurchasingOrganization='"+purOrg+"',PurchasingInfoRecordCategory='0',Plant='"+plant+"')",
 					{ 
 						urlParameters: {
-    		 				"$select": "MaterialRoundingProfile,NetPriceAmount,Currency,TaxCode"
+    		 				"$select": "NetPriceAmount,Currency,TaxCode"
 						},
 						success:  function(oData, oResponse){
 							if(!!oData){
@@ -354,7 +335,8 @@ sap.ui.define([
 				bModel.read("/A_Product('"+id+"')", 
 					{
 						urlParameters: {
-    		 				"$select": "ItemCategoryGroup"
+    		  				"$select": "ItemCategoryGroup,to_SalesDelivery/ProductSalesOrg,to_SalesDelivery/ProductDistributionChnl",
+    						"$expand": "to_SalesDelivery"    		
 						},
 						success:  function(oData, oResponse){
 	 						if (!!oData){
@@ -370,13 +352,13 @@ sap.ui.define([
 					});				
 			},
 			
-			getRoundingprofileOFVendor : function(id, callback){
+			getRoundingprofileOFVendor : function(id, saleOrg, disChannel, callback){
 				var bModel = this.getZProductModel();
-				bModel.read("/zc_PriceSet  (Customer='',DisChannel='',Division='',Matnr='"+id+"',SalesDocType='',SalesOrg='',AddlData=true,LanguageKey='EN',Plant='')", 
+				bModel.read("/zc_PriceSet(Customer='',DisChannel='"+disChannel+"',Division='',Matnr='"+id+"',SalesDocType='',SalesOrg='"+saleOrg+"',AddlData=true,LanguageKey='EN',Plant='')", 
 					{
-						// urlParameters: 
-    		//  				"$select": "ItemCategoryGroup"
-						// },
+						urlParameters: {
+
+						},
 						success:  function(oData, oResponse){
 	 						if (!!oData){
 								callback(oData);
@@ -451,9 +433,140 @@ sap.ui.define([
 				});
 			},
 
+			// for now, only the purchase order	
+			searchPOrderByDealerCode : function(dealer, conditions, callback){
+				var bModel = this.getPurV2Model();
+				var oFilter = new Array();
+				//var dealerCode = conditions.dealerCode;
+				var dealerCode = dealer;
+				var filterDraft = new sap.ui.model.Filter("IsActiveEntity", sap.ui.model.FilterOperator.EQ, false );
+				var filterOrder = new sap.ui.model.Filter("SiblingEntity/IsActiveEntity", sap.ui.model.FilterOperator.EQ, null );
+				
+				var filters1 = sap.ui.model.Filter( [filterDraft, filterOrder], false);
+
+				oFilter[0] =  new sap.ui.model.Filter({
+						filters: [filterDraft, filterOrder],
+						and : false
+					});
+				oFilter[1] = new sap.ui.model.Filter("ZZ1_DealerCode_PDH", sap.ui.model.FilterOperator.EQ, dealerCode );
+				
+				bModel.read('/C_PurchaseOrderTP', 
+					{ 
+						urlParameters: {
+      		 				"$select": "PurchaseOrder,CompanyCode,PurchasingOrganization,PurchasingGroup,Supplier,DocumentCurrency,PurchaseOrderStatus,PurchaseOrderNetAmount,PurchaseOrderType,CreationDate,ZZ1_DealerCode_PDH,ZZ1_AppSource_PDH,ZZ1_DealerOrderNum_PDH,DraftUUID,DraftEntityCreationDateTime,DraftEntityLastChangeDateTime,CreatedByUser,SiblingEntity,to_User",
+    						"$expand": "SiblingEntity,to_User"
+						},
+						filters:  oFilter,						
+						success:  function(oData, oResponse){
+							callback(oData);
+						},
+						error: function(err){
+							// error handling here
+						}
+					}
+				);		
+			},
+	
+
+			// for now, only the purchase order	
+			searchDraftByDealerCode : function(dealer, conditions, callback){
+				var bModel = this.getPurV2Model();
+				var oFilter = new Array();
+				//var dealerCode = conditions.dealerCode;
+				var dealerCode = dealer;
+
+				oFilter[0] = new sap.ui.model.Filter("IsActiveEntity", sap.ui.model.FilterOperator.EQ, false );
+				oFilter[1] = new sap.ui.model.Filter("ZZ1_DealerCode_PDH", sap.ui.model.FilterOperator.EQ, dealerCode );
+				
+				bModel.read('/C_PurchaseOrderTP', 
+					{ 
+						urlParameters: {
+      		 				"$select": "PurchasingOrganization,PurchasingGroup,Supplier,PurchaseOrderType,ZZ1_DealerCode_PDH,ZZ1_DealerOrderNum_PDH,DraftUUID,DraftEntityCreationDateTime,DraftEntityLastChangeDateTime",
+      		 				"$orderby": "ZZ1_DealerOrderNum_PDH,DraftEntityCreationDateTime"
+						},
+						filters:  oFilter,						
+						success:  function(oData, oResponse){
+							if (!!oData && !!oData.results ){
+								var drafts = [];
+								var lv_draft = null;
+								var lv_aResult = null;
+								var aDraftItem = null;
+								var currentOrderNumber = null;
+								for (var i=0; i < oData.results.length; i++  ){
+									lv_aResult = oData.results[i];
+									if (currentOrderNumber === null || currentOrderNumber !== lv_aResult.ZZ1_DealerOrderNum_PDH){
+										//push eixtingto order list 
+										if (lv_draft !== null){
+											drafts.push(lv_draft);
+										}
+										
+										lv_draft = {associatedDrafts:[]};
+										currentOrderNumber = lv_aResult.ZZ1_DealerOrderNum_PDH;
+										lv_draft.orderNumber= currentOrderNumber;
+
+										lv_draft.dealerCode = lv_aResult.ZZ1_DealerCode_PDH;
+										lv_draft.createdOn = lv_aResult.DraftEntityCreationDateTime;
+										lv_draft.modifiedOn = lv_aResult.DraftEntityLastChangeDateTime;
+										lv_draft.scOrderType = 1; // always standard as in front view 
+										lv_draft.scOrderStatus = 'DF'; // always standard as in front view
+										
+										// new
+										aDraftItem ={};
+										aDraftItem.purchaseOrg = lv_aResult.PurchasingOrganization;
+										aDraftItem.purchaseGrp = lv_aResult.PurchasingGroup;
+										aDraftItem.supplier = lv_aResult.Supplier;
+										aDraftItem.orderType =	lv_aResult.PurchaseOrderType;
+										aDraftItem.draftUUID = lv_aResult.DraftUUID;
+
+										lv_draft.associatedDrafts.push(aDraftItem);
+										
+									} else {
+										// addmore - just add
+										if (lv_draft !== null){
+											lv_draft.modifiedOn = lv_aResult.DraftEntityLastChangeDateTime;
+											aDraftItem ={};
+											aDraftItem.purchaseOrg = lv_aResult.PurchasingOrganization;
+											aDraftItem.purchaseGrp = lv_aResult.PurchasingGroup;
+											aDraftItem.supplier = lv_aResult.Supplier;
+											aDraftItem.orderType =	lv_aResult.PurchaseOrderType;
+											aDraftItem.draftUUID = lv_aResult.DraftUUID;
+
+											lv_draft.associatedDrafts.push(aDraftItem);
+											
+										}
+									}
+								}
+								if (!!lv_draft ){
+									drafts.push(lv_draft);
+									lv_draft = null;
+								}
+							}
+ 							callback(drafts);
+						},
+						error: function(err){
+							// error handling here
+						}
+					}
+				);		
+			},
+			
+			
+		    getOrdersWithDealerCode : function(dealer, conditions, callback) {
+		    	var that = this; 
+		    	
+		    	this.searchDraftByDealerCode(dealer, conditions, function(drafts){
+			    	var orderList =drafts;
+		    		if (!!drafts){
+		    			//orderList.push(drafts);	//orderList.push()	
+		    		}
+		    		
+		    		// do the search order
+		    		callback(orderList);
+		    	});
+		    	
+		    },
 			getSupplierCompanyCode : function(id, callBack){
 
-				//var bModel = models.createBusinessPartnerModel();
 				var bModel = this.getApiBPModel();
 				bModel.read("/A_Customer('"+id+"')",
 					{ 
@@ -476,7 +589,6 @@ sap.ui.define([
 			
 			getCustomerById : function(id, callBackFunction){
 
-				//var bModel = models.createBusinessPartnerModel();
 				var bModel = this.getApiBPModel();
 				bModel.read("/A_Customer('"+id+"')",
 					{ 
@@ -570,7 +682,7 @@ sap.ui.define([
 			}, 
 			
 			_addOrderDraftItem : function(data, callback){
-				var bModel = this.getOwnerComponent().getModel("MM_PUR_PO_MAINT_V2_SRV");
+				var bModel = this.getPurV2Model();
 				var entry = bModel.createEntry('/C_PurchaseOrderItemTP', {});
 				var obj = entry.getObject();
 				// put in the data
@@ -594,7 +706,7 @@ sap.ui.define([
 				obj.DocumentCurrency= data.newline.currency;
 //				obj.TaxCode = 'P0';
 				obj.TaxCode = data.newline.taxCode;
-			
+				obj.ZZ1_LongText_PDI = 	data.newline.comment;				
             						
 				bModel.create("/C_PurchaseOrderTP(PurchaseOrder='',DraftUUID=guid'"+ data.newline.parentUuid + "',IsActiveEntity=false)/to_PurchaseOrderItemTP", obj, {
 					success : function( oData, response){
@@ -628,7 +740,7 @@ sap.ui.define([
 				// });
 				
 				//for now, only create purchase order, will be an condition here for sales order
-				var bModel = this.getOwnerComponent().getModel("MM_PUR_PO_MAINT_V2_SRV");
+				var bModel = this.getPurV2Model();;
 				var entry = bModel.createEntry('/C_PurchaseOrderTP', {});
 				var obj = entry.getObject();
 				// the default values
@@ -701,11 +813,9 @@ sap.ui.define([
 					default : 
 					  return "";
 				}	
-			}, 
-			
-			handleMessagePopoverPress: function (oEvent) {
-				oMessagePopover.toggle(oEvent.getSource());
 			}
+			
+
 		});
 
 	}

@@ -65,14 +65,20 @@ sap.ui.define([
 				that.getPartsInfoById(sValue, function(item1Data){
 					if(!!item1Data){
 						model.setProperty('/newline/itemCategoryGroup',item1Data.ItemCategoryGroup );
+						if (!!item1Data.to_SalesDelivery.results && item1Data.to_SalesDelivery.results.length >0 ){
+							// take the first one
+							// rounding profile  ??			            	
+        			    	that.getRoundingprofileOFVendor(sValue, 
+        			    		item1Data.to_SalesDelivery.results[0].ProductSalesOrg,
+        			    		item1Data.to_SalesDelivery.results[0].ProductDistributionChnl,
+        			    		function(item2Data){
+								if(!!item2Data){
+								}
+							});
+						}
 					}
 				});
 				
-				// rounding profile  ??			            	
-    //         	this.getRoundingprofileOFVendor(sValue, function(item2Data){
-				// 	if(!!item2Data){
-				// 	}
-				// });
 				
             	//this.getPartsInfoById(sValue, function(data){
             	this.getZMaterialById(sValue, function(data){
@@ -91,13 +97,14 @@ sap.ui.define([
             					} 
             				});
             				var lvPurchasingInfoRecord = data.to_PurchasingInfoRecord.results[0].PurchasingInfoRecord;
-            				that.getPriceInfoFromInfoRecord(lvPurchasingInfoRecord, function(cData){
+            				that.getPriceInfoFromInfoRecord(lvPurchasingInfoRecord, 
+            												"7019",
+            												model.getProperty('/revPlant'),
+            					function(cData){
             					if (!!cData && !!lvPurchasingInfoRecord){
             						model.setProperty('/newline/currency', cData.Currency);
-            						model.setProperty('/newline/spq', cData.MaterialRoundingProfile);
             						model.setProperty('/newline/netPriceAmount', cData.NetPriceAmount);
             						model.setProperty('/newline/taxCode', cData.TaxCode);
-            						
             					} 
             				});
 								
@@ -196,7 +203,15 @@ sap.ui.define([
 				
 //				that.getRouter().navTo("CreateOrder", draftData, false);
 				that.getRouter().navTo("StartOrdering", null, false);
+				var validator = new Validator();
 
+        // Validate input fields against root page with id ‘somePage’
+
+        if (validator.validate(this.getView())) {
+
+            // perform the actual form submit here
+
+        }
 				// var vModel = this.getView().getModel();
 				// this.createOrderDraft(vModel.getData(), function(draftData){
 				// 	that.getRouter().navTo("CreateOrder", draftData, false);
