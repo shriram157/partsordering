@@ -1,8 +1,11 @@
 /*======================= Start custom fonts and custom color on header style ==========================*/
 
 @import url('https://fonts.googleapis.com/css?family=Raleway');
+/*@import url('https://fonts.googleapis.com/css?family=Satisfy');*/
 .clCustomFont {
-    font-family: 'Raleway', sans-serif;
+   /* font-family: 'Raleway', sans-serif;*/
+   /*font-family: 'Satisfy', cursive;*/
+   font-family: 'Raleway', cursive;
 }
 
 .sapContrastPlus.clCustomHeaderBg {

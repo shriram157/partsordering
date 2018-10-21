@@ -5,7 +5,7 @@
 		</customHeader>
 		<content>
 			<Panel>
-				<FlexBox height="600px" alignItems="Center" justifyContent="Center">
+				<FlexBox height="450px" alignItems="Center" justifyContent="Center">
 					<items>
 						<f:SimpleForm editable="true" columnsM="2" columnsXL="1" columnsL="4" labelSpanS="3" labelSpanL="8" labelSpanM="12" width="600px" layout="ResponsiveGridLayout" labelMinWidth="80">
 							<f:content>

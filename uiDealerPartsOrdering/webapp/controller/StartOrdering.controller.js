@@ -5,165 +5,59 @@ sap.ui.define([
 ], function(BaseController, models, JSONModel) {
 	"use strict";
 	
-	var CONT_VIEWMODEL = "viewModel";
-	var CONT_BPLISTMODEL = "bpListModel";	
 	var CONT_OTLISTMODEL = "orderTypeListModel";	
 	var CONT_HEADERMODEL = "headerMenuModel";	
-	
 	return BaseController.extend("tci.wave2.ui.parts.ordering.controller.StartOrdering", {
 
 
 			onInit : function () {
 				// default mode
 				var appStateModel = this.getStateModel();
-				this.getView().setModel(appStateModel);
+				this.setModel(appStateModel);
+
+				//message
+				var oMessageManager = sap.ui.getCore().getMessageManager();
+            	this.setModel(oMessageManager.getMessageModel(), "message");
+	            // or just do it for the whole view
+    	        oMessageManager.registerObject(this.getView(), true);
 				
 				var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 				oRouter.getRoute("StartOrdering").attachPatternMatched(this._onObjectMatched, this);
 
-				var resourceBundle = this.getResourceBundle();
-				
-				var viewDatas = { userTypes : [
-						{ type : "001", code : "Z004", name : resourceBundle.getText('userType.VPC'), init : false,	
-						  orderTypeList : [ {code : 1, name  : resourceBundle.getText('order.type.standard') } ]
-						   
-						},
-						{ type : "002", code : "Z005", name : resourceBundle.getText('userType.PORT'), init : false,
-						  orderTypeList : [ {code : 1, name  : resourceBundle.getText('order.type.standard')} ]
-	
-						},
-						{ type : "003", code : "Z001", name : resourceBundle.getText('userType.DEALER'), init :false,
-						  orderTypeList : [ {code : 1, name  : resourceBundle.getText('order.type.standard')},
-											{code : 2, name  : resourceBundle.getText('order.type.rush')},
-											{code : 3, name  : resourceBundle.getText('order.type.campaign')}
-										  ]
-						},				
-						{ type : "004", code : "Z001", name : resourceBundle.getText('userType.LDEALER'), init :false,
-						  orderTypeList : [ {code : 1, name  : resourceBundle.getText('order.type.standard')},
-											{code : 2, name  : resourceBundle.getText('order.type.rush')}
-										  ]
-						}
-					]
-				}; 
-					
-				var viewDataModel = new sap.ui.model.json.JSONModel();
-				viewDataModel.setData(viewDatas);
-				this.setModel(viewDataModel, CONT_VIEWMODEL);
+				this.checkDealerInfo();
 
-				var currentBpList = { displayUi : false, bpList : []	}; 	
-				var bpListModel = new sap.ui.model.json.JSONModel();
-				bpListModel.setData(currentBpList);
-				this.setModel(bpListModel, CONT_BPLISTMODEL);
-				
-				var currentOrderTypeList = { displayUi : false, typeList : []	};
+				var currentOrderTypeList = { displayUi : true, typeList : []	};
 				var orderTypeListModel =  new sap.ui.model.json.JSONModel();
 				orderTypeListModel.setData(currentOrderTypeList);
 				this.setModel(orderTypeListModel, CONT_OTLISTMODEL);
 				
 				var lv_headerMeneMode = this.getHeaderMenuModel(); 
 				this.setModel(orderTypeListModel, CONT_HEADERMODEL);
-				
-				
 			},
 
 			_onObjectMatched: function (oEvent) {
+				this.checkDealerInfo();
 				var appStateModel = this.getStateModel();
 				appStateModel.setProperty('/tabKey', 'CO');
+				
+				// find the proper user type related info
+				var appStateModel = this.getModel();
+				var userType = appStateModel.getProperty('/userInfo/userType');
+				
+				var viewDataModel =	this.getUserTypeSelectionModel();
+				var viewData = viewDataModel.getData();
+				var currentOrderTypeList = [];
+				for (var i=0; i< viewData.userTypes.length; i++){
+					if(userType === viewData.userTypes[i].type){
+						currentOrderTypeList = viewData.userTypes[i].orderTypeList;
+					}
+				}
+				
+				var orderListModel = this.getModel(CONT_OTLISTMODEL);
+				orderListModel.setProperty('/typeList', currentOrderTypeList);
 				//var oItem = this.byId('iconTabHeader');
 			},
 
-			getBusinessPartnerByType : function(type, callback){
-				// do the cache -- can be moved to base controller 
-				
-				// the model should be there. .....
-				var that = this;
-				var model = this.getModel(CONT_VIEWMODEL);
-				var modelData = model.getData();
-				var userTypes = modelData.userTypes;
-				var iUserType = null;
-				var isModelChanged = false;
-				var currentUserType = null;
-				for (var i = 0; i < userTypes.length; i++){
-					iUserType = userTypes[i];
-					if (iUserType.type === type ){
-						//var iUserType = modelData.userTypes[type];
-						var vModel = this.getView().getModel();
-						vModel.setProperty('/userInfo/userType', iUserType.type );
-						vModel.setProperty('/userInfo/userTypeName', iUserType.name );
-						vModel.setProperty('/userInfo/code', iUserType.code );
-						
-						if (!!iUserType.init){
-							callback(iUserType.bpsNode, iUserType.orderTypeList);
-						} else {
-							currentUserType = iUserType;
-							this.getBusinessPartnersByType(iUserType.code, (bpList)=>{
-
-								// cache the data
-								currentUserType.bpsNode = bpList;
-								currentUserType.init = true;
-								isModelChanged = true;
-								model.setData(modelData);
-								that.setModel(model, CONT_VIEWMODEL);
-						
-								callback(bpList, currentUserType.orderTypeList);
-							});
-						}
-						break;
-					}
-					
-				}
-			},
-			
-			
-			updatedBPDropDown : function(){
-				
-			},
-			
-			onBPChange : function(event){
-				var listModel = this.getModel(CONT_BPLISTMODEL);
-				var list = listModel.getProperty('/bpList');
-				
-				var vModel = this.getView().getModel();
-				var key = vModel.getProperty('/selectedBP/dealerCode');
-				
-				var item = null;
-				for (var i = 0; i< list.length; i++){
-					if (list[i].Dealer === key){
-						item = list[i];	
-					}
-				}
-				
-				if (!!item){
-					vModel.setProperty('/selectedBP/bpNumber', item.BusinessPartner);
-					vModel.setProperty('/selectedBP/bpName', item.Name);
-					vModel.setProperty('/selectedBP/customer', item.Customer);
-				}
-			},
-			
-			onUserTypeChange : function(event){
-				var that = this;
-
-				var selectedKey = event.getParameter('selectedItem').mProperties['key'];
-				
-				this.getBusinessPartnerByType(selectedKey, (bpData, oderTypeList)=>{
-					// switch the bpList display and provide the data 
-					var model = this.getModel(CONT_BPLISTMODEL);
-					var modelData = model.getData();
-					modelData.displayUi = true; 
-					modelData.bpList = bpData;
-					model.setData(modelData);
-					that.setModel(model, CONT_BPLISTMODEL);
-					
-					// type list 
-					model = this.getModel(CONT_OTLISTMODEL);
-					modelData = model.getData();
-					modelData.displayUi = true; 
-					modelData.typeList = oderTypeList;
-					model.setData(modelData);
-					that.setModel(model, CONT_OTLISTMODEL);
-				});
-				
-			},
 
 			onCreateOrder : function(event){
 				var that = this;

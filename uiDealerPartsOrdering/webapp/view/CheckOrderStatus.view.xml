@@ -3,8 +3,10 @@ xmlns:core="sap.ui.core"  xmlns:mvc="sap.ui.core.mvc" xmlns:form="sap.ui.layout.
 displayBlock="true" xmlns="sap.m">
 	<Page id="floatingFooterPage"  showNavButton="false" floatingFooter="true">
 		<customHeader>
-			<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.CustomHeader" type="XML"/>
+			<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.TopHeader" type="XML"/>
 		</customHeader>	
+		<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.ToolHeader" type="XML"/>
+		
 		<content>
 
 		<Panel>
@@ -25,8 +27,12 @@ displayBlock="true" xmlns="sap.m">
 		</content>
 		<footer>
 			<OverflowToolbar>
-				<Button icon="sap-icon://message-popup" text="{/messageListLength}" type="Emphasized"
-					press="handleMessagePopoverPress"/>				
+				<Button 
+					icon="sap-icon://message-popup" 
+                    text="{=${message>/}.length}"
+                    visible="{=${message>/}.length > 0}"
+					type="Emphasized" 
+					press="handleMessagePopoverPress"/>
 				<ToolbarSpacer/>
 			</OverflowToolbar>
 		</footer>

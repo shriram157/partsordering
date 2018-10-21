@@ -7,8 +7,10 @@ sap.ui.define([
 		'sap/m/MessagePopover',
 		'sap/m/MessageItem',
 		'sap/m/Link',
+    	"sap/ui/core/message/Message",
+    	"sap/ui/core/MessageType",		
 		'sap/ui/model/json/JSONModel'
-	], function (Controller, History, models, Device, MessagePopover, MessageItem, Link, JSONModel) {
+	], function (Controller, History, models, Device, MessagePopover, MessageItem, Link, Message , MessageType, JSONModel) {
 		"use strict";
 		
 		var CONST_APP_STATE = "APP_STATE";
@@ -131,6 +133,10 @@ sap.ui.define([
 				this._getMessagePopover().toggle(oEvent.getSource());
 			},
 
+			handleLogout : function(oEvent){
+				this.getRouter().navTo("Login", null, false);
+				
+			},
 
 
 			///
@@ -262,7 +268,8 @@ sap.ui.define([
 			
 			getPriceInfoFromInfoRecord : function( infoRecord,purOrg,plant, callback){
 				var bModel = 	this.getInfoRecordModel();	
-				bModel.read("/I_PurgInfoRecdOrgPlantData(PurchasingInfoRecord='"+infoRecord+"',PurchasingOrganization='"+purOrg+"',PurchasingInfoRecordCategory='0',Plant='"+plant+"')",
+//				bModel.read("/I_PurgInfoRecdOrgPlantData(PurchasingInfoRecord='"+infoRecord+"',PurchasingOrganization='"+purOrg+"',PurchasingInfoRecordCategory='0',Plant='"+plant+"')",
+				bModel.read("/I_PurgInfoRecdOrgPlantData(PurchasingInfoRecord='"+infoRecord+"',PurchasingOrganization='"+purOrg+"',PurchasingInfoRecordCategory='0',Plant='')",
 					{ 
 						urlParameters: {
     		 				"$select": "NetPriceAmount,Currency,TaxCode"
@@ -454,7 +461,7 @@ sap.ui.define([
 					{ 
 						urlParameters: {
       		 				"$select": "PurchaseOrder,CompanyCode,PurchasingOrganization,PurchasingGroup,Supplier,DocumentCurrency,PurchaseOrderStatus,PurchaseOrderNetAmount,PurchaseOrderType,CreationDate,ZZ1_DealerCode_PDH,ZZ1_AppSource_PDH,ZZ1_DealerOrderNum_PDH,DraftUUID,DraftEntityCreationDateTime,DraftEntityLastChangeDateTime,CreatedByUser,SiblingEntity,to_User",
-    						"$expand": "SiblingEntity,to_User"
+      		 				"$orderby": "DraftEntityCreationDateTime"
 						},
 						filters:  oFilter,						
 						success:  function(oData, oResponse){
@@ -486,6 +493,35 @@ sap.ui.define([
 						},
 						filters:  oFilter,						
 						success:  function(oData, oResponse){
+							var sapMessage = null;
+							var messageList =[];
+							var messageItem = null;
+							var uuid = null;
+							var target = null;
+							var index = 0;
+							var mItem = null;
+							if (!!oResponse && !!oResponse.headers['sap-message']){
+								sapMessage = JSON.parse(oResponse.headers['sap-message']);
+								if (!!sapMessage.target){
+									index = sapMessage.target.search('guid');
+									if (index > 0){
+										uuid = sapMessage.target.substr(index + 5, 36);
+										messageItem = { uuid : uuid, severity : sapMessage.severity, code : sapMessage.code, message : sapMessage.message};
+										messageList[uuid] = messageItem;
+									}
+								}
+								for (var x=0; x< sapMessage.details.length; x++){
+									 mItem = sapMessage.details[x];
+									 if (!!mItem && !!mItem.target){
+										index = mItem.target.search('guid');
+										if (index > 0){
+											uuid = mItem.target.substr(index + 5, 36);
+											messageItem = { uuid : uuid, severity : mItem.severity, code : mItem.code, message : mItem.message};
+											messageList[uuid] = messageItem;
+										}
+									}
+								}
+							} 
 							if (!!oData && !!oData.results ){
 								var drafts = [];
 								var lv_draft = null;
@@ -535,6 +571,13 @@ sap.ui.define([
 											
 										}
 									}
+									
+									if (!!lv_draft && !!lv_draft.messages){
+										lv_draft.messages.push(messageList[aDraftItem.draftUUID]);
+									}else {
+										lv_draft.messages = [];
+										lv_draft.messages.push(messageList[aDraftItem.draftUUID]);
+									}
 								}
 								if (!!lv_draft ){
 									drafts.push(lv_draft);
@@ -544,12 +587,46 @@ sap.ui.define([
  							callback(drafts);
 						},
 						error: function(err){
+							var eee = err;
 							// error handling here
 						}
 					}
 				);		
 			},
 			
+			checkDealerInfo : function(){
+				var resourceBundle = this.getResourceBundle();
+				var vModel = this.getModel(); // get the view model
+
+				var dealerCode = vModel.getProperty('/selectedBP/dealerCode');
+				var userType = vModel.getProperty('/userInfo/userType');
+
+				var oMessage = null;
+				var hasError = false;
+				if (!!!userType){
+    	        	oMessage = new Message({
+                	message: resourceBundle.getText('Error.Login.noUserType'),
+                	type: MessageType.Error
+	            	});
+    	    		sap.ui.getCore().getMessageManager().addMessages(oMessage);
+					hasError = true;
+				}
+
+				if (!!!dealerCode){
+    	        	oMessage = new Message({
+                	message: resourceBundle.getText('Error.Login.noDealerCode'),
+                	type: MessageType.Error
+	            	});
+    	    		sap.ui.getCore().getMessageManager().addMessages(oMessage);
+				}
+				if (hasError){
+					sap.ui.getCore().getMessageManager().removeAllMessages();
+					this.getRouter().navTo("Login", null, false);
+					return false;
+				} else {
+					return true;
+				}
+			},
 			
 		    getOrdersWithDealerCode : function(dealer, conditions, callback) {
 		    	var that = this; 
@@ -700,12 +777,12 @@ sap.ui.define([
 //				obj.StorageLocation = '6100';
 				obj.Plant = data.revPlant;          
 				obj.StorageLocation = data.SLoc;
-//				obj.NetPriceAmount = '1';
-				obj.NetPriceAmount = data.newline.netPriceAmount;
+				obj.NetPriceAmount = '10';
+//				obj.NetPriceAmount = data.newline.netPriceAmount;
 //				obj.DocumentCurrency='CAD';
 				obj.DocumentCurrency= data.newline.currency;
-//				obj.TaxCode = 'P0';
-				obj.TaxCode = data.newline.taxCode;
+				obj.TaxCode = 'P0';
+//				obj.TaxCode = data.newline.taxCode;
 				obj.ZZ1_LongText_PDI = 	data.newline.comment;				
             						
 				bModel.create("/C_PurchaseOrderTP(PurchaseOrder='',DraftUUID=guid'"+ data.newline.parentUuid + "',IsActiveEntity=false)/to_PurchaseOrderItemTP", obj, {

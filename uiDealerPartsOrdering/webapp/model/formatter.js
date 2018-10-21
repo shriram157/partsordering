@@ -19,7 +19,9 @@ sap.ui.define([
 			},
 			
 			shortDate: function(oDate) {
-				return new sap.ui.core.format.DateFormatter('YYYY/MM/DD HH:mm:ss').format(oDate);
+				var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({pattern : "MMM dd, yyyy HH:mm" });   
+				var dateFormatted = dateFormat.format(oDate);
+				return dateFormatted;
 			},
 			
 			orderStatus : function(code){
@@ -31,6 +33,20 @@ sap.ui.define([
 						return resourceBundle.getText('Order.Status.Submitted');
 					default :
 						return resourceBundle.getText('Order.Status.NA');
+				}	
+			},
+			
+			orderType : function(type){
+				var resourceBundle = this.getResourceBundle();
+				switch(type){
+					case 1:
+						return resourceBundle.getText('order.type.standard');
+					case 2:
+						return resourceBundle.getText('order.type.rush');
+					case 3:
+						return resourceBundle.getText('order.type.campaign');
+					default :
+						return "";
 				}	
 			},
 			

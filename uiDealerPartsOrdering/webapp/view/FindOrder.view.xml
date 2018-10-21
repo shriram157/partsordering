@@ -1,117 +1,157 @@
-<mvc:View controllerName="tci.wave2.ui.parts.ordering.controller.FindOrder" xmlns:html="http://www.w3.org/1999/xhtml"	
-xmlns:core="sap.ui.core"  xmlns:mvc="sap.ui.core.mvc" xmlns:form="sap.ui.layout.form" xmlns:layout="sap.ui.layout" 
-displayBlock="true" xmlns="sap.m">
-	<Page id="floatingFooterPage"  showNavButton="false" floatingFooter="true">
+<mvc:View	controllerName="tci.wave2.ui.parts.ordering.controller.FindOrder" 
+			xmlns:html="http://www.w3.org/1999/xhtml"	
+			xmlns:core="sap.ui.core"  
+			xmlns:mvc="sap.ui.core.mvc" 
+			xmlns:form="sap.ui.layout.form" 
+			xmlns:layout="sap.ui.layout" 
+			xmlns:fb="sap.ui.comp.filterbar"
+			xmlns:f="sap.f" 
+			xmlns="sap.m"
+			xmlns:vm="sap.ui.comp.variants"
+			displayBlock="true">
+	<Page id="floatingFooterPage"  showNavButton="false" floatingFooter="false" enableScrolling = 'false'>
 		<customHeader>
-			<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.CustomHeader" type="XML"/>
+			<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.TopHeader" type="XML"/>
 		</customHeader>	
+		<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.ToolHeader" type="XML"/>
+	
 		<content>
 
-			<Panel>
+			<Toolbar>
 				<content>
-					<Breadcrumbs currentLocationText="{i18n>Breadcrumbs.FindOrder}">
-					</Breadcrumbs>
-					<Bar>
-						<contentLeft>
-							<Text text="{/userInfo/userTypeName}"/>
-							<Text text="  "/>
-							<Text text="{/selectedBP/dealerCode}"/>
-							<Text text="  "/>
-							<Text text="{/selectedBP/bpName}"/>						
-						</contentLeft>
-						<contentRight>
-							<Button id="filterButton"  icon="sap-icon://filter" press="onExpandFilter" />							
-							<SearchField placeholder='{i18n>Placeholder.OrderNumber}' width='80%' />
-						</contentRight>
-					</Bar>
+					<Button id="filterButton"  icon="sap-icon://add-filter" press="onExpandFilter" />							
+					<ToolbarSpacer />
+					<SearchField placeholder='{i18n>Placeholder.OrderNumber}' 
+						showRefreshButton = 'true'
+						width='60%' />	
 				</content>
-			</Panel>
-			<layout:DynamicSideContent
-				id="DynamicSideContent"
-				sideContentFallDown="BelowM"
-				sideContentPosition="Begin"
-				showSideContent='{viewModel>/filterPanelEnable}'
-				containerQuery="true" >
-				<layout:mainContent>
-					<Panel width="auto">
-						<Table id="idProductsTable"	
-							alternateRowColors="true"
-							items="{
+			</Toolbar>
+	
+			<fb:FilterBar	reset="onReset" 
+							search="onSearch" 
+							showRestoreButton="true" 
+							showClearButton="true" 
+							useToolbar='false' 
+							showGoOnFB='fasle' 
+							visible="{viewModel>/filterPanelEnable}" 
+							showFilterConfiguration='false'>
+				<fb:filterItems>
+					<fb:FilterItem name="A" label="{i18n>Label.Order.Type}" labelTooltip="{i18n>Label.Order.Type}" mandatory="true">
+						<fb:control>
+							<MultiComboBox 
+								placeholder="{i18n>Label.Order.Type}"
+								selectionFinish="onSelectionFinishOT"
+								width="15%">
+									<items>
+										<core:Item  text="Column headers"
+											key="ColumnHeaders"/>
+										<core:Item  text="Header Toolbar"
+											key="HeaderToolbar"/>
+											<core:Item  text="Info Toolbar"
+											key="InfoToolbar"/>
+										</items>
+							</MultiComboBox>
+						</fb:control>				
+					</fb:FilterItem>
+				
+					<fb:FilterItem name="B" label="{i18n>Label.Order.Status}" labelTooltip="{i18n>Label.Order.Status}" mandatory="true">
+						<fb:control>
+							<MultiComboBox id="orderStatus"
+								placeholder="{i18n>Label.Order.Status}"
+								selectionFinish="onSelectionFinishOS"
+								width="15%">
+								<items>
+									<core:Item  text="Column headers"
+										key="ColumnHeaders"/>
+									<core:Item  text="Header Toolbar"
+										key="HeaderToolbar"/>
+									<core:Item  text="Info Toolbar"
+										key="InfoToolbar"/>
+								</items>
+							</MultiComboBox>
+						</fb:control>				
+					</fb:FilterItem>				
+				</fb:filterItems>
+	    	</fb:FilterBar>		
+	
+			
+			<Table id="idProductsTableHeader" showNoData="false">
+				<columns>
+					<Column width="12em">
+						<Text text="{i18n>Lable.Order.Number}" />
+					</Column>
+					<Column	minScreenWidth="Tablet"	demandPopin="true">
+						<Text text="{i18n>Label.Order.Type}" />
+					</Column>
+					<Column	minScreenWidth="Tablet"	demandPopin="true">
+						<Text text="{i18n>Label.Order.Creation.Date}" />
+					</Column>
+					<Column	minScreenWidth="Tablet"	demandPopin="true" hAlign="End">
+						<Text text="{i18n>Label.Order.Modification.Date}" />
+					</Column>
+					<Column	width="12em" hAlign="End">
+						<Button id="addButton" type="Transparent" icon="sap-icon://add"	press="onAdd" />	
+					</Column>
+				</columns>
+			</Table>	
+			
+			<ScrollContainer id='flexContainer'
+				height="{viewModel>/contHigh}"
+				width="100%"
+				horizontal="true"
+				vertical="true"
+				focusable="true">
+				<Table	id="idProductsTable" 
+						items="{
 								path: 'viewModel>/orders',
 								sorter: {
 									path: 'createdOn'
 								}
 							}"
-						>
-							<columns>
-								<Column width="12em">
-									<Text text="order Number" />
-								</Column>
-								<Column	minScreenWidth="Tablet"	demandPopin="true">
-									<Text text="Order Type" />
-								</Column>
-								<Column	minScreenWidth="Tablet"	demandPopin="true">
-									<Text text="Order Creation Date" />
-								</Column>
-								<Column	minScreenWidth="Tablet"	demandPopin="true">
-									<Text text="Order Modification Date" />
-								</Column>
-								<Column	minScreenWidth="Tablet"	demandPopin="true">
-									<Text text="Order Internal IDs" />
-								</Column>
-								<Column	minScreenWidth="Tablet"	demandPopin="true" hAlign="End">
-									<Text text="Order Status" />
-								</Column>
-							</columns>
-							<items>
-								<ColumnListItem>
-									<cells>
-										<ObjectIdentifier	title="{viewModel>orderNumber}"	text="{viewModel>orderNumber}"/>
-										<Text text="{viewModel>scOrderType}" />
-										<Text text="{viewModel>createdOn}" />
-										<Text text="{viewModel>modifiedOn}" />
-										<Text text="{viewModel>dealerCode}" />
-										<Text text="{viewModel>scOrderStatus}" />
-									</cells>
-								</ColumnListItem>
-							</items>
-						</Table>
-					</Panel>
-				</layout:mainContent>
-				<layout:sideContent>
-					<Panel width="200px" class="sapUiResponsiveMargin">
-						<headerToolbar>
-							<Toolbar height="3rem">
-								<Text text="Order Type" textAlign="Center"  width="100%"/>
-							</Toolbar>
-						</headerToolbar>
-						<content>
-							<CheckBox text="Show All" />
-							<CheckBox text="Standard Order" />
-							<CheckBox text="Rush Order" />
-							<CheckBox text="Compaign Order" />
-						</content>
-					</Panel>
-					<Panel width="200px" class="sapUiResponsiveMargin">
-						<headerToolbar>
-							<Toolbar height="3rem">
-								<Text text="Order Status" textAlign="Center"  width="100%"/>
-							</Toolbar>
-						</headerToolbar>
-						<content>
-							<CheckBox text="Show All" />
-							<CheckBox text="Draft" />
-							<CheckBox text="Submitted" />
-							<CheckBox text="Cancelled" />
-						</content>
-					</Panel>
-				</layout:sideContent>
-			</layout:DynamicSideContent>
+						sticky = "{['sap.m.Sticky.ColumnHeaders', 'sap.m.Sticky.HeaderToolbar','sap.m.Sticky.InfoToolbar']}"
+					>
+					<columns>
+						<Column width="12em"/>
+						<Column	minScreenWidth="Tablet"	demandPopin="true"/>
+						<Column	minScreenWidth="Tablet"	demandPopin="true"/>
+						<Column	minScreenWidth="Tablet"	demandPopin="true" hAlign="End"/>
+						<Column	width="12em" hAlign="End"/>
+					</columns>
+					<items>
+						<ColumnListItem>
+							<cells>
+								<Button text="{viewModel>orderNumber}" type='Transparent' enabled='false' />
+								<!--<ObjectIdentifier	title="{viewModel>orderNumber}"	text="{viewModel>orderNumber}"/>-->
+								<Text text="{path : 'viewModel>scOrderType', formatter:'.formatter.orderType' }" />
+								<Text text="{path:'viewModel>createdOn', formatter:'.formatter.shortDate'}" />
+								<Text text="{path:'viewModel>modifiedOn', formatter:'.formatter.shortDate'}" />
+								<HBox justifyContent='End' alignItems='End'>
+									<Button type="Transparent" icon="sap-icon://edit"	press="onEdit" />
+									<Button type="Transparent" icon="sap-icon://sys-cancel"	press="onDelete" />
+								</HBox>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+				<Toolbar>
+					<content>
+						<Text text="" />
+					</content>
+				</Toolbar>
+
+			</ScrollContainer>
+			
 		</content>
+
+
 		<footer>
 			<OverflowToolbar>
-				<Button icon="sap-icon://message-popup" text="{/messageListLength}" type="Emphasized"
-					press="handleMessagePopoverPress"/>				
+				<Button 
+					icon="sap-icon://message-popup" 
+                    text="{=${message>/}.length}"
+                    visible="{=${message>/}.length > 0}"
+					type="Emphasized" 
+					press="handleMessagePopoverPress"/>
 				<ToolbarSpacer/>
 			</OverflowToolbar>
 		</footer>

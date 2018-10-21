@@ -1,0 +1,125 @@
+<mvc:View controllerName="tci.wave2.ui.parts.ordering.controller.FindOrder" xmlns:html="http://www.w3.org/1999/xhtml"	
+xmlns:core="sap.ui.core"  xmlns:mvc="sap.ui.core.mvc" xmlns:form="sap.ui.layout.form" xmlns:layout="sap.ui.layout" 
+displayBlock="true" xmlns="sap.m">
+	<Page id="floatingFooterPage"  showNavButton="false" floatingFooter="true">
+		<customHeader>
+			<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.TopHeader" type="XML"/>
+		</customHeader>	
+		<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.ToolHeader" type="XML"/>
+		
+		<content>
+
+			<Panel>
+				<content>
+					<Breadcrumbs currentLocationText="{i18n>Breadcrumbs.FindOrder}">
+					</Breadcrumbs>
+					<Bar>
+						<contentLeft>
+							<Text text="{/userInfo/userTypeName}"/>
+							<Text text="  "/>
+							<Text text="{/selectedBP/dealerCode}"/>
+							<Text text="  "/>
+							<Text text="{/selectedBP/bpName}"/>						
+						</contentLeft>
+						<contentRight>
+							<Button id="filterButton"  icon="sap-icon://filter" press="onExpandFilter" />							
+							<SearchField placeholder='{i18n>Placeholder.OrderNumber}' width='80%' />
+						</contentRight>
+					</Bar>
+				</content>
+			</Panel>
+			<layout:DynamicSideContent
+				id="DynamicSideContent"
+				sideContentFallDown="BelowM"
+				sideContentPosition="Begin"
+				showSideContent='{viewModel>/filterPanelEnable}'
+				containerQuery="true" >
+				<layout:mainContent>
+					<Panel width="auto">
+						<Table id="idProductsTable"	
+							alternateRowColors="true"
+							items="{
+								path: 'viewModel>/orders',
+								sorter: {
+									path: 'createdOn'
+								}
+							}"
+						>
+							<columns>
+								<Column width="12em">
+									<Text text="order Number" />
+								</Column>
+								<Column	minScreenWidth="Tablet"	demandPopin="true">
+									<Text text="Order Type" />
+								</Column>
+								<Column	minScreenWidth="Tablet"	demandPopin="true">
+									<Text text="Order Creation Date" />
+								</Column>
+								<Column	minScreenWidth="Tablet"	demandPopin="true">
+									<Text text="Order Modification Date" />
+								</Column>
+								<Column	minScreenWidth="Tablet"	demandPopin="true">
+									<Text text="Order Internal IDs" />
+								</Column>
+								<Column	minScreenWidth="Tablet"	demandPopin="true" hAlign="End">
+									<Text text="Order Status" />
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem>
+									<cells>
+										<ObjectIdentifier	title="{viewModel>orderNumber}"	text="{viewModel>orderNumber}"/>
+										<Text text="{viewModel>scOrderType}" />
+										<Text text="{viewModel>createdOn}" />
+										<Text text="{viewModel>modifiedOn}" />
+										<Text text="{viewModel>dealerCode}" />
+										<Text text="{viewModel>scOrderStatus}" />
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</Panel>
+				</layout:mainContent>
+				<layout:sideContent>
+					<Panel width="200px" class="sapUiResponsiveMargin">
+						<headerToolbar>
+							<Toolbar height="3rem">
+								<Text text="Order Type" textAlign="Center"  width="100%"/>
+							</Toolbar>
+						</headerToolbar>
+						<content>
+							<CheckBox text="Show All" />
+							<CheckBox text="Standard Order" />
+							<CheckBox text="Rush Order" />
+							<CheckBox text="Compaign Order" />
+						</content>
+					</Panel>
+					<Panel width="200px" class="sapUiResponsiveMargin">
+						<headerToolbar>
+							<Toolbar height="3rem">
+								<Text text="Order Status" textAlign="Center"  width="100%"/>
+							</Toolbar>
+						</headerToolbar>
+						<content>
+							<CheckBox text="Show All" />
+							<CheckBox text="Draft" />
+							<CheckBox text="Submitted" />
+							<CheckBox text="Cancelled" />
+						</content>
+					</Panel>
+				</layout:sideContent>
+			</layout:DynamicSideContent>
+		</content>
+		<footer>
+			<OverflowToolbar>
+				<Button 
+					icon="sap-icon://message-popup" 
+                    text="{=${message>/}.length}"
+                    visible="{=${message>/}.length > 0}"
+					type="Emphasized" 
+					press="handleMessagePopoverPress"/>
+				<ToolbarSpacer/>
+			</OverflowToolbar>
+		</footer>
+	</Page>			
+</mvc:View>

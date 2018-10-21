@@ -9,6 +9,26 @@ displayBlock="true" xmlns="sap.m">
 		
 		<content>
 
+		<Panel>
+			<content>
+				<Breadcrumbs currentLocationText="{i18n>Breadcrumbs.CreateOrder}">
+					<Link press="onPress" text="{i18n>Breadcrumbs.Ordering}"/>
+					<Link press="onPress" text="{i18n>Breadcrumbs.StartOrdering}"/>
+				</Breadcrumbs>
+				<Bar>
+					<contentLeft>
+						<Text text="{/userInfo/userTypeName}"/>
+						<Text text="  "/>
+						<Text text="{/selectedBP/dealerCode}"/>
+						<Text text="  "/>
+						<Text text="{/selectedBP/bpName}"/>						
+					</contentLeft>
+					<contentRight>
+						<Text text="{orderModel>/orderTypeName}"/>
+					</contentRight>
+				</Bar>
+			</content>
+		</Panel>
 		<Panel >
 			<content>
 				<HBox alignItems="Stretch" justifyContent="Start">
@@ -27,6 +47,18 @@ displayBlock="true" xmlns="sap.m">
 					<VBox>
 						<Label text="{i18n>Lable.CreateOrder.OrderLines}"/>									
 						<Input value="{orderModel>/totalLines}" width="90%" editable='false' />
+					</VBox>
+					<VBox>
+						<Label text="{i18n>Lable.CreateOrder.OrderStatus}"/>									
+						<Input value="{ path : 'orderModel>/statusCode', formatter: '.formatter.orderStatus' }" width="90%" editable='false'/>
+					</VBox>
+					<VBox>
+						<Label text="{i18n>Lable.CreateOrder.OrderSubmitted}"/>									
+						<DatePicker value="{
+							path : 'orderModel>/submittedDate',
+							type:'sap.ui.model.type.DateTime', 
+							formatOptions: { format: 'yyyyMMddHHmm', strictParsing: true }
+							}" width="90%" editable='false' />
 					</VBox>
 				</HBox>
 			</content>
@@ -91,15 +123,15 @@ displayBlock="true" xmlns="sap.m">
 			}">
 			<headerToolbar>
 				<OverflowToolbar id="otbSubheader">
-					<Button id="editButton" text="{i18n>Button.CreateOrder.DeleteParts}" type="Transparent" icon="sap-icon://delete"
+					<Button id="editButton" text="{i18n>Button.CreateOrder.DeleteParts}" type="Reject" icon="sap-icon://delete"
 						press="onEdit" />
 					<ToolbarSpacer />
 					<Button id="editButton1" text="{i18n>Button.CreateOrder.ImportParts}" type="Transparent" icon="sap-icon://cause"
 						press="onEdit" />	
 					<!--<Button id="cancelButton" text="Cancel Modification" type="Transparent" icon="sap-icon://refresh"
-						press="onCancel" visible="true" />
+						press="onCancel" visible="true" />-->
 					<Button id="saveButton" text="{i18n>Button.CreateOrder.SaveParts}" type="Accept" icon="sap-icon://save"
-						press="onSave" visible="true" />-->
+						press="onSave" visible="true" />
 				</OverflowToolbar>		
 			</headerToolbar>
 			
@@ -116,17 +148,17 @@ displayBlock="true" xmlns="sap.m">
 				<Column width="3rem" >
 					<Text text="{i18n>Lable.CreateOrder.SPQ}" />
 				</Column>
-				<Column width="6rem" >
+				<Column width="3rem" >
 					<Text text="{i18n>Lable.CreateOrder.qty}" />
 				</Column>
-				<Column >
-					<Text text="{i18n>Lable.CreateOrder.Comment}" />
+				<Column width="3rem">
+					<Text text="{i18n>Lable.CreateOrder.fillBo}" />
 				</Column>
-				<Column width="3rem"
+				<Column
 					minScreenWidth="Tablet"
 					demandPopin="true"
 					hAlign="End">
-					<Text text="" />
+					<Text text="{i18n>Lable.CreateOrder.Comment}" />
 				</Column>
 			</columns>
 			<items>
@@ -137,8 +169,8 @@ displayBlock="true" xmlns="sap.m">
 						<Text text="{orderModel>partDesc}" />
 						<Input value="{orderModel>spq}" />
 						<Input value="{orderModel>qty}" />
+						<Text text="{orderModel>fillBo}" />						
 						<Input value="{orderModel>comment}" />
-						<Button icon="sap-icon://message-popup" ></Button>
 					</cells>
 				</ColumnListItem>
 			</items>

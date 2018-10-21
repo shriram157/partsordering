@@ -7,7 +7,11 @@
         <MessageItem
             type="{message>type}"
             title="{message>message}"
-            subtitle="{message>additionalText}"
-            description="{message>description}"/>
+            subtitle="{message>code}"
+            description="{message>description} - {message>additionalText} - {message>longtextUrl} - {message>target} "
+        />
     </MessagePopover>
 </core:FragmentDefinition>
+            <!--subtitle="{message>additionalText}"
+
+            -->

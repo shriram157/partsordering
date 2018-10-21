@@ -6,7 +6,7 @@
 			<Text class="clCustomFont" text="{i18n>appTitle}"/>
 		</contentLeft>
 		<contentRight>
-			<Button text="{i18n>Button.Logout}"/>
+			<Button text="{i18n>Button.Logout}" press='handleLogout'/>
 		</contentRight>
 	</Bar>	
 </core:FragmentDefinition>

@@ -16,6 +16,7 @@ sap.ui.define([
 				// default mode
 				var appStateModel = this.getStateModel();
 				this.getView().setModel(appStateModel);
+				
 				//message
 				var oMessageManager = sap.ui.getCore().getMessageManager();
             	this.setModel(oMessageManager.getMessageModel(), "message");
@@ -163,7 +164,7 @@ sap.ui.define([
 					return false;
 				} else {
 					sap.ui.getCore().getMessageManager().removeAllMessages();
-					this.getRouter().navTo("StartOrdering", null, false);
+					this.getRouter().navTo("FindOrder", null, false);
 				}
 			}
 		});

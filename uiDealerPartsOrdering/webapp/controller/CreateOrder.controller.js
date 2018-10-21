@@ -66,15 +66,17 @@ sap.ui.define([
 					if(!!item1Data){
 						model.setProperty('/newline/itemCategoryGroup',item1Data.ItemCategoryGroup );
 						if (!!item1Data.to_SalesDelivery.results && item1Data.to_SalesDelivery.results.length >0 ){
-							// take the first one
-							// rounding profile  ??			            	
-        			    	that.getRoundingprofileOFVendor(sValue, 
-        			    		item1Data.to_SalesDelivery.results[0].ProductSalesOrg,
-        			    		item1Data.to_SalesDelivery.results[0].ProductDistributionChnl,
-        			    		function(item2Data){
-								if(!!item2Data){
-								}
-							});
+							for(var x1 = 0; x1 < item1Data.to_SalesDelivery.results.length; x1++ ){
+								// rounding profile  ??			            	
+    	    			    	that.getRoundingprofileOFVendor(sValue, 
+        				    		item1Data.to_SalesDelivery.results[x1].ProductSalesOrg,
+        				    		item1Data.to_SalesDelivery.results[x1].ProductDistributionChnl,
+        				    		function(item2Data){
+										if(!!item2Data && !!item2Data.Item && !!item2Data.Item.Roundingprofile){
+											model.setProperty('/newline/spq', item2Data.item.Roundingprofile); 
+										}
+								});
+							}
 						}
 					}
 				});
@@ -203,16 +205,16 @@ sap.ui.define([
 				
 //				that.getRouter().navTo("CreateOrder", draftData, false);
 				that.getRouter().navTo("StartOrdering", null, false);
-				var validator = new Validator();
+			//	var validator = new Validator();
 
         // Validate input fields against root page with id ‘somePage’
 
-        if (validator.validate(this.getView())) {
+    //     if (validator.validate(this.getView())) {
 
-            // perform the actual form submit here
+    //         // perform the actual form submit here
 
-        }
-				// var vModel = this.getView().getModel();
+    //     }
+				// // var vModel = this.getView().getModel();
 				// this.createOrderDraft(vModel.getData(), function(draftData){
 				// 	that.getRouter().navTo("CreateOrder", draftData, false);
 				// });
