@@ -37,20 +37,20 @@ sap.ui.define([
 			
 			_onObjectMatched: function (oEvent) {
 				// default mode
+				sap.ui.getCore().getMessageManager().removeAllMessages();
+				if(!this.checkDealerInfo()){
+					return;
+				}
+				
 				var appStateModel = this.getStateModel();
 				appStateModel.setProperty('/tabKey', 'FO');
 				this.setModel(appStateModel);
 
-				if(!this.checkDealerInfo()){
-					return;
-				}
-
 				//var oItem = this.byId('iconTabHeader');
 				var dealerCode = appStateModel.getProperty('/selectedBP/dealerCode');
 
-
 				var viewModel = this.getModel(CONST_VIEW_MODEL);
-				this.getOrdersWithDealerCode(dealerCode, null, function(results){
+				this.getDraftsWithDealerCode(dealerCode, null, function(results){
 					viewModel.setProperty('/orders', results);
 				});
 

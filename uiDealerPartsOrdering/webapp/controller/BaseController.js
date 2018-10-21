@@ -105,6 +105,27 @@ sap.ui.define([
 				return viewDataModel;
 			}, 
 			
+			
+			getFilterSelectionModel : function(){
+				var iDataMode = sap.ui.getCore().getModel("FilterSelectionModel");
+				if (!!!iDataMode){
+					var resourceBundle = this.getResourceBundle();				
+					var iData = {
+						 orderTypeList : [ {code : 1, name  : resourceBundle.getText('order.type.standard')},
+										{code : 2, name  : resourceBundle.getText('order.type.rush')},
+										{code : 3, name  : resourceBundle.getText('order.type.campaign')}
+									  ],
+						orderStatusList : [ {code : 'DF', name  : resourceBundle.getText('Order.Status.Draft')},
+											{code : 'ST', name  : resourceBundle.getText('Order.Status.Submitted')}
+										]				  
+					};
+					var iDataModel = new sap.ui.model.json.JSONModel();
+					iDataModel.setData(iData);
+					sap.ui.getCore().setModel(iDataModel, "FilterSelectionModel");
+				}
+				return iDataModel;
+			}, 
+
 			getUserTypeSelectionModel : function(){
 				var dataModel = sap.ui.getCore().getModel("UserTypeSelectionModel");
 				if (dataModel  === null || dataModel === undefined){
@@ -137,7 +158,6 @@ sap.ui.define([
 				this.getRouter().navTo("Login", null, false);
 				
 			},
-
 
 			///
 			getHeaderMenuModel : function() {
@@ -231,6 +251,7 @@ sap.ui.define([
 					}
 				);		
 			},
+			
 			
 			getBusinessPartnersByType : function(type, callBackFunction){
 				var oFilter = new Array();
@@ -446,35 +467,69 @@ sap.ui.define([
 				var oFilter = new Array();
 				//var dealerCode = conditions.dealerCode;
 				var dealerCode = dealer;
-				var filterDraft = new sap.ui.model.Filter("IsActiveEntity", sap.ui.model.FilterOperator.EQ, false );
-				var filterOrder = new sap.ui.model.Filter("SiblingEntity/IsActiveEntity", sap.ui.model.FilterOperator.EQ, null );
+				//var filterDraft = new sap.ui.model.Filter("IsActiveEntity", sap.ui.model.FilterOperator.EQ, false );
+				//var filterOrder = new sap.ui.model.Filter("SiblingEntity/IsActiveEntity", sap.ui.model.FilterOperator.EQ, null );
 				
-				var filters1 = sap.ui.model.Filter( [filterDraft, filterOrder], false);
+				//var filters1 = sap.ui.model.Filter( [filterDraft, filterOrder], false);
 
-				oFilter[0] =  new sap.ui.model.Filter({
-						filters: [filterDraft, filterOrder],
-						and : false
-					});
-				oFilter[1] = new sap.ui.model.Filter("ZZ1_DealerCode_PDH", sap.ui.model.FilterOperator.EQ, dealerCode );
+				// oFilter[0] =  new sap.ui.model.Filter({
+				// 		filters: [filterDraft, filterOrder],
+				// 		and : false
+				// 	});
+				oFilter[0] =  new sap.ui.model.Filter("IsActiveEntity", sap.ui.model.FilterOperator.EQ, true );
+				oFilter[1] = new sap.ui.model.Filter("SiblingEntity/IsActiveEntity", sap.ui.model.FilterOperator.EQ, null );
+				oFilter[2] = new sap.ui.model.Filter("ZZ1_DealerCode_PDH", sap.ui.model.FilterOperator.EQ, dealerCode );
 				
 				bModel.read('/C_PurchaseOrderTP', 
 					{ 
 						urlParameters: {
-      		 				"$select": "PurchaseOrder,CompanyCode,PurchasingOrganization,PurchasingGroup,Supplier,DocumentCurrency,PurchaseOrderStatus,PurchaseOrderNetAmount,PurchaseOrderType,CreationDate,ZZ1_DealerCode_PDH,ZZ1_AppSource_PDH,ZZ1_DealerOrderNum_PDH,DraftUUID,DraftEntityCreationDateTime,DraftEntityLastChangeDateTime,CreatedByUser,SiblingEntity,to_User",
-      		 				"$orderby": "DraftEntityCreationDateTime"
+      		 				"$select": "PurchaseOrder,CompanyCode,PurchasingOrganization,PurchasingGroup,Supplier,DocumentCurrency,PurchaseOrderStatus,PurchaseOrderNetAmount,PurchaseOrderType,CreationDate,ZZ1_DealerCode_PDH,ZZ1_AppSource_PDH,ZZ1_DealerOrderNum_PDH,CreatedByUser",
+      		 				"$orderby": "CreationDate"
 						},
 						filters:  oFilter,						
 						success:  function(oData, oResponse){
-							callback(oData);
+							var orders = [];
+							if (!!oData && !!oData.results ){
+								var lv_order = null;
+								var lv_aResult = null;
+								var aOrderItem = null;
+								var currentOrderNumber = null;
+								for (var i=0; i < oData.results.length; i++  ){
+									lv_aResult = oData.results[i];
+									lv_order = {};
+									
+									lv_order.orderNumber= lv_aResult.ZZ1_DealerOrderNum_PDH;;
+									lv_order.id= lv_aResult.PurchaseOrder;
+									lv_order.dealerCode = lv_aResult.ZZ1_DealerCode_PDH;
+									lv_order.createdOn = lv_aResult.CreationDate;
+									lv_order.scOrderType = 1; // always standard as in front view 									
+									orders.push(lv_order);
+								}
+							}
+								
+							callback(orders);
 						},
 						error: function(err){
-							// error handling here
+							callback([]);
 						}
 					}
 				);		
 			},
 	
-
+		    getOrdersWithDealerCode : function(dealer, conditions, callback) {
+		    	var that = this; 
+		    	
+		    	this.searchPOrderByDealerCode(dealer, conditions, function(orders){
+			    	var orderList = orders;
+		    		if (!!orders){
+		    			//orderList.push(drafts);	//orderList.push()	
+		    		}
+		    		
+		    		// do the search order
+		    		callback(orders);
+		    	});
+		    	
+		    },
 			// for now, only the purchase order	
 			searchDraftByDealerCode : function(dealer, conditions, callback){
 				var bModel = this.getPurV2Model();
@@ -628,7 +683,7 @@ sap.ui.define([
 				}
 			},
 			
-		    getOrdersWithDealerCode : function(dealer, conditions, callback) {
+		    getDraftsWithDealerCode : function(dealer, conditions, callback) {
 		    	var that = this; 
 		    	
 		    	this.searchDraftByDealerCode(dealer, conditions, function(drafts){
@@ -642,6 +697,7 @@ sap.ui.define([
 		    	});
 		    	
 		    },
+		    
 			getSupplierCompanyCode : function(id, callBack){
 
 				var bModel = this.getApiBPModel();

@@ -9,7 +9,7 @@
 			xmlns="sap.m"
 			xmlns:vm="sap.ui.comp.variants"
 			displayBlock="true">
-	<Page id="floatingFooterPage"  showNavButton="false" floatingFooter="false" enableScrolling = 'false'>
+	<Page showNavButton="false" floatingFooter="false" enableScrolling = 'false'>
 		<customHeader>
 			<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.TopHeader" type="XML"/>
 		</customHeader>	
