@@ -20,6 +20,7 @@ sap.ui.define([
             	this.setModel(oMessageManager.getMessageModel(), "message");
 	            // or just do it for the whole view
     	        oMessageManager.registerObject(this.getView(), true);
+    	        
 				
 				var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 				oRouter.getRoute("StartOrdering").attachPatternMatched(this._onObjectMatched, this);
@@ -31,6 +32,8 @@ sap.ui.define([
 				orderTypeListModel.setData(currentOrderTypeList);
 				this.setModel(orderTypeListModel, CONT_OTLISTMODEL);
 				
+				this.orderTypeField = this.byId("orderTypeInput");
+				this.orderNumberField = this.byId("orderNumberInput");
 				var lv_headerMeneMode = this.getHeaderMenuModel(); 
 				this.setModel(orderTypeListModel, CONT_HEADERMODEL);
 			},
@@ -57,19 +60,45 @@ sap.ui.define([
 				orderListModel.setProperty('/typeList', currentOrderTypeList);
 				//var oItem = this.byId('iconTabHeader');
 			},
-
+			
+			onOrderTypeChange : function(event){
+				var vModel = this.getView().getModel();
+				var orderType = vModel.getProperty('/selectedOrderMeta/order_type');
+				if (!!orderType){
+					this.orderTypeField.setValueState(null);
+					this.orderTypeField.setValueStateText(null);
+				}
+			},
+			onBack : function(event){
+				var that = this;
+				that.getRouter().navTo("FindOrder", null, false);
+			},			
 
 			onCreateOrder : function(event){
-				var that = this;
-				// check the information entered here
-				
-//				that.getRouter().navTo("CreateOrder", draftData, false);
-				that.getRouter().navTo("CreateOrder", null, false);
+				var resourceBundle = this.getResourceBundle();
+				var vModel = this.getView().getModel();
 
-				// var vModel = this.getView().getModel();
-				// this.createOrderDraft(vModel.getData(), function(draftData){
-				// 	that.getRouter().navTo("CreateOrder", draftData, false);
-				// });
+				var orderNumber = vModel.getProperty('/selectedOrderMeta/order_id');
+				var orderType = vModel.getProperty('/selectedOrderMeta/order_type');
+
+				var hasError = false;
+//				if (!!!orderNumber || orderNumber.length < 5 || orderNumber.length >40){
+				if (!!!orderNumber ){
+					this.orderNumberField.setValue(" ");
+					hasError = true;
+				}
+
+				if (!!!orderType){
+					this.orderTypeField.setValueState(sap.ui.core.ValueState.Error);
+					this.orderTypeField.setValueStateText(resourceBundle.getText('Error.noOrderType'));
+					hasError = true;
+				}
+				if (hasError){
+					return false;
+				} else {
+					sap.ui.getCore().getMessageManager().removeAllMessages();
+					this.getRouter().navTo("CreateOrder", {orderNum : orderNumber, orderType : orderType});
+				}
 			}
 		});
 	}

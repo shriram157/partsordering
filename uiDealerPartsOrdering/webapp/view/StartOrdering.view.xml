@@ -15,6 +15,8 @@ xmlns:core="sap.ui.core"  xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout" xm
 								<Label text="{i18n>Label.StartOrdering.Order.Type}" required='true' id='__order_type'/>
 								<Select width="100%" 
 									forceSelection="false"
+									change="onOrderTypeChange"
+									id='orderTypeInput'
 									selectedKey='{/selectedOrderMeta/order_type}'
 									items="{
 										path: 'orderTypeListModel>/typeList',
@@ -26,7 +28,8 @@ xmlns:core="sap.ui.core"  xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout" xm
 								<Input width="100%" required="true" type='Text' id='orderNumberInput'
 									value="{
 												path : '/selectedOrderMeta/order_id',
-												constraints : { maxLength:20, nullable:false }
+												type: 'sap.ui.model.type.String',
+												constraints : { minLength : 5, maxLength : 40, nullable:false }
 									}"
 								/>
 							</f:content>
@@ -44,6 +47,7 @@ xmlns:core="sap.ui.core"  xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout" xm
 					type="Emphasized" 
 					press="handleMessagePopoverPress"/>
 				<ToolbarSpacer/>
+				<Button type="Emphasized" text="{i18n>Button.Back}" press='onBack'/>					
 				<Button type="Emphasized" press="onCreateOrder" text="{i18n>Button.StartOrdering.StartOrdering}"/>
 			</OverflowToolbar>
 		</footer>

@@ -16,13 +16,13 @@
 		<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.ToolHeader" type="XML"/>
 	
 		<content>
-
 			<Toolbar>
 				<content>
 					<Button id="filterButton"  icon="sap-icon://add-filter" press="onExpandFilter" />							
 					<ToolbarSpacer />
 					<SearchField placeholder='{i18n>Placeholder.OrderNumber}' 
 						showRefreshButton = 'true'
+						search='onSearch'
 						width='60%' />	
 				</content>
 			</Toolbar>
@@ -127,7 +127,7 @@
 								<Text text="{path:'viewModel>modifiedOn', formatter:'.formatter.shortDate'}" />
 								<HBox justifyContent='End' alignItems='End'>
 									<Button type="Transparent" icon="sap-icon://edit"	press="onEdit" />
-									<Button type="Transparent" icon="sap-icon://sys-cancel"	press="onDelete" />
+									<!--<Button type="Transparent" icon="sap-icon://sys-cancel"	press="onDelete" />-->
 								</HBox>
 							</cells>
 						</ColumnListItem>

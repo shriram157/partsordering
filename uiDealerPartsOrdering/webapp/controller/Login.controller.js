@@ -164,7 +164,7 @@ sap.ui.define([
 					return false;
 				} else {
 					sap.ui.getCore().getMessageManager().removeAllMessages();
-					this.getRouter().navTo("FindOrder", null, false);
+					this.getRouter().navTo("StartOrdering", null, false);
 				}
 			}
 		});

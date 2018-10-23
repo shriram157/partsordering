@@ -277,7 +277,7 @@
 				"name": "StartOrdering",
 				"target": ["StartOrdering"]
 			}, {
-				"pattern": "CreateOrder",
+				"pattern": "CreateOrder/{orderNum},{orderType}",
 				"name": "CreateOrder",
 				"target": ["CreateOrder"]
 			}, {
