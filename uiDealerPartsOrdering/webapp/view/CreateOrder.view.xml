@@ -11,7 +11,7 @@ displayBlock="true" xmlns="sap.m">
 			binding="{orderModel>/}"
 			responsive="true"
 			title="{orderModel>orderTypeName} -- {orderModel>/tciOrderNumber}"
-			number="{=${orderModel>/items}.length}"
+			number="{orderModel>/totalLines}"
 			numberUnit="{i18n>Lable.CreateOrder.OrderLines}" >
 			<statuses>
 			</statuses>
@@ -66,7 +66,8 @@ displayBlock="true" xmlns="sap.m">
 					showNoData="false" 
 					items="{orderModel>/newline}">
 				<columns>
-					<Column	width="2rem" >
+					<Column	width="40px" hAlign="Begin" >
+						<Button  type='Reject' icon="sap-icon://delete" press='handleDeletePart' />
 					</Column>
 					<Column width="8rem" >
 						<ObjectIdentifier title="{i18n>Lable.CreateOrder.PartNumber}" text="{i18n>Lable.CreateOrder.Line}" />	
@@ -83,7 +84,7 @@ displayBlock="true" xmlns="sap.m">
 					<Column>
 						<Text text="{i18n>Lable.CreateOrder.Comment}" />
 					</Column>
-					<Column width="4rem"
+					<Column width="2rem"
 						minScreenWidth="Tablet"
 						demandPopin="true"
 						hAlign="End">
@@ -93,7 +94,7 @@ displayBlock="true" xmlns="sap.m">
 				<items>
 					<ColumnListItem>
 						<cells>
-							<ObjectIdentifier text=""/>
+							<CheckBox select='toggleSelect'/>
 							<Input	value="{orderModel>partNumber}" 
 									type="Text"
 									textFormatMode="Key"
@@ -126,21 +127,26 @@ displayBlock="true" xmlns="sap.m">
 				<Table id="idProductsTable"
 					alternateRowColors="true"
 					showNoData="false"
+					mode='SingleSelectMaster'
 					items="{
 						path: 'orderModel>/items',
-						sorter: {
-							path: 'partNumber,line'
-						}
+						sorter: [{
+    								path: 'partNumber', 
+        							descending: false
+								 }, {
+        							path: 'line', 
+        							descending: false
+    							 }]
 					}">
 
 					<columns>
-						<Column	width="2rem" vAlign="Middle" />
+						<Column width="40px" hAlign="Begin"/>
 						<Column width="8rem" vAlign="Middle"/>
 						<Column width="10rem" vAlign="Middle" />
 						<Column width="3rem"  vAlign="Middle"/>
 						<Column width="6rem" vAlign="Middle"/>
 						<Column vAlign="Middle"/>
-						<Column width="4rem" vAlign="Middle"
+						<Column width="2rem" vAlign="Middle"
 							minScreenWidth="Tablet"
 							demandPopin="true"
 							hAlign="End">
@@ -149,18 +155,17 @@ displayBlock="true" xmlns="sap.m">
 					<items>
 						<ColumnListItem>
 							<cells>
-								<StandardListItem 	icon="{path:'orderModel>messages', formatter:'.formatter.iconMessageFormat'}"	iconDensityAware="true"	iconInset="	true" />
-								<ObjectIdentifier title="{orderModel>partNumber}" text="{path: 'orderModel>partNumber', formatter:'.formatter.lineNumberFormat' }" />	
+								<CheckBox selected='{orderModel>selected}' select='toggleRowSelect'/>
+								<ObjectIdentifier title="{orderModel>partNumber}" text="{path: 'orderModel>line', formatter:'.formatter.lineNumberFormat' }" />	
 								<Text text="{orderModel>partDesc}" />
 								<Text text="{path: 'orderModel>spq', formatter:'.formatter.spqFormat'}" />
-								<Input value="{orderModel>qty}" />
-								<Input value="{orderModel>comment}" />
-								<Button  type='Transparent' icon="sap-icon://decline" ></Button>
+								<Input value="{orderModel>qty}" change='onQtyChange'/>
+								<Input value="{orderModel>comment}" change='onCommentChange'/>
+								<core:Icon src="sap-icon://e-care" color="{path:'orderModel>messages', formatter:'.formatter.iconMessageFormat'}" press='handlePartMessage'></core:Icon>
 							</cells>
 						</ColumnListItem>
 					</items>
 				</Table>
-				
 				<Toolbar>
 					<content>
 						<Text text="" />
@@ -177,10 +182,14 @@ displayBlock="true" xmlns="sap.m">
 					type="Emphasized" 
 					press="handleMessagePopoverPress"/>
 				<ToolbarSpacer/>
-				<Button type="Emphasized" text="{i18n>Button.CreateOrder.Back}" press='onBack'/>					
-				<Button type="Emphasized" text="{i18n>Button.CreateOrder.ExportOrder}" press='onExport'/>
-				<Button type="Emphasized" text="{i18n>Button.CreateOrder.DeleteOrder}" press='onDelete'/>
-				<Button type="Emphasized" text="{i18n>Button.CreateOrder.SubmitOrder}" 	press='onActivate'/>
+			
+				<DraftIndicator id='draftInd'/>
+
+				<ToolbarSpacer/>
+				<Button type="Back" text="{i18n>Button.CreateOrder.Back}" press='onBack'/>					
+				<Button type="Transparent" text="{i18n>Button.CreateOrder.ExportOrder}" press='onExport'/>
+				<Button type="Reject" text="{i18n>Button.CreateOrder.DeleteOrder}" press='onDelete'/>
+				<Button type="Accept" text="{i18n>Button.CreateOrder.SubmitOrder}" 	press='onActivate'/>
 			</OverflowToolbar>
 		</footer>
 	</Page>			

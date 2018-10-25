@@ -26,7 +26,7 @@ module.exports = function() {
 	app.get("/OsInfo", (req, res) => {
 		let os = require("os");
 		let output = {};
-
+		
 		output.tmpdir = os.tmpdir();
 		output.endianness = os.endianness();
 		output.hostname = os.hostname();
@@ -40,7 +40,8 @@ module.exports = function() {
 		output.freemem = os.freemem();
 		output.cpus = os.cpus();
 		output.networkInfraces = os.networkInterfaces();
-
+		
+		
 		let result = JSON.stringify(output);
 		res.type("application/json").status(200).send(result);
 	});

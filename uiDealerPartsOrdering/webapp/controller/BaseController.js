@@ -333,7 +333,7 @@ sap.ui.define([
 			},			
 			
 			getCompanyCodeByVendor : function(vendor, callback){
-				var bModel = 	this.getInfoRecordModel();	
+				var bModel =  this.getInfoRecordModel();	
 				var oFilter = new Array();
 				oFilter[0] = new sap.ui.model.Filter("Supplier", sap.ui.model.FilterOperator.EQ, vendor );
 				bModel.read("/C_MM_SupplierValueHelpType",
@@ -343,10 +343,8 @@ sap.ui.define([
 							if(!!oData && !!oData.results && oData.results.length > 0){
 								callback(oData.results[0]);
 							} else {
-								// error
 								callback(null);
 							}
-							
 						},
 						
 						error: function(err){
@@ -355,13 +353,11 @@ sap.ui.define([
 						}
 					}
 				);		
-				
 			}, 
 			
 			getPartsInfoById : function(id, callback){
 				var bModel = this.getApiProductModel();
-				bModel.read("/A_Product('"+id+"')", 
-					{
+				bModel.read("/A_Product('"+id+"')", {
 						urlParameters: {
     		  				"$select": "ItemCategoryGroup,to_SalesDelivery/ProductSalesOrg,to_SalesDelivery/ProductDistributionChnl",
     						"$expand": "to_SalesDelivery"    		
@@ -370,58 +366,51 @@ sap.ui.define([
 	 						if (!!oData){
 								callback(oData);
 							}	
-							// handle the error
 							callback(null);
 						},
 						error: function(err){
-							// error handling here
 							callback(null);
 						}
-					});				
+				});				
 			},
 			
 			getRoundingprofileOFVendor : function(id, saleOrg, disChannel, callback){
 				var bModel = this.getZProductModel();
 				bModel.read("/zc_PriceSet(Customer='',DisChannel='"+disChannel+"',Division='',Matnr='"+id+"',SalesDocType='',SalesOrg='"+saleOrg+"',AddlData=true,LanguageKey='EN',Plant='')", 
-					{
-						urlParameters: {
-
-						},
-						success:  function(oData, oResponse){
-	 						if (!!oData){
-								callback(oData);
-							}	
-							// handle the error
-							callback(null);
-						},
-						error: function(err){
-							// error handling here
-							callback(null);
-						}
-					});				
+				{
+					urlParameters: {
+   		  				"$select": "Item/Roundingprofile",
+					},
+					success:  function(oData, oResponse){
+ 						if (!!oData){
+							callback(oData);
+						}	
+						callback(null);
+					},
+					error: function(err){
+						callback(null);
+					}
+				});				
 			},
 			
 			getZMaterialById : function(id, callback){
 				var bModel = this.getZProductModel(); 
 				var oFilter = new Array();
 				bModel.read("/C_Product_Fs('"+id+"')", 
-					{
-						urlParameters: {
-    		 				"$select": "Material,MaterialName,Division,to_PurchasingInfoRecord/PurchasingInfoRecord,to_PurchasingInfoRecord/Supplier,to_PurchasingInfoRecord/IsDeleted",
-    						"$expand": "to_PurchasingInfoRecord"
-						},
-						success:  function(oData, oResponse){
-	 						if (!!oData){
-								callback(oData);
-							}
-							// error handling
+				{
+					urlParameters: {
+    		 			"$select": "Material,MaterialName,Division,to_PurchasingInfoRecord/PurchasingInfoRecord,to_PurchasingInfoRecord/Supplier,to_PurchasingInfoRecord/IsDeleted",
+    					"$expand": "to_PurchasingInfoRecord"
+					},
+					success:  function(oData, oResponse){
+	 					if (!!oData){
 							callback(oData);
-							
-						},
-						error: function(err){
-							// error handling
-							callback(null);
 						}
+						callback(oData);
+					},
+					error: function(err){
+						callback(null);
+					}
 				});
 			},
 			
@@ -515,6 +504,7 @@ sap.ui.define([
 					}
 				);		
 			},
+	
 	
 		    getOrdersWithDealerCode : function(dealer, conditions, callback) {
 		    	var that = this; 
@@ -841,15 +831,37 @@ sap.ui.define([
 								lv_orderData.associatedDrafts.push(aDraftHeader);
 							}
 						}
+						
+						lv_orderData.totalLines	= lv_orderData.items.length;
 						callback(lv_orderData);
 					},
 					error: function(err){
 						var eee = err;
 						// error handling here
+						lv_orderData.totalLines	= lv_orderData.items.length;
 						callback(lv_orderData);
 					}
 		
 				});
+		    },
+		    
+		    getCompanyCodeByPurcahseOrg : function(purchaseOrg, callBack){
+				var bModel = this.getInfoRecordModel();
+				bModel.read("/C_PurchasingOrgValueHelp('"+purchaseOrg+"')",
+					{ 
+						urlParameters: {
+						},
+						success:  function(oData, oResponse){
+							if (!!oData && !!oData.CompanyCode){
+								callBack(oData.CompanyCode);
+							}
+							callBack(null);
+						},
+						error: function(err){
+							callBack(null);
+						}
+					}
+				);		
 		    },
 		    
 			getSupplierCompanyCode : function(id, callBack){
@@ -950,7 +962,8 @@ sap.ui.define([
 					}
 				);	
 			},
-
+			
+			//deprecated 
 			createOrderDraftItem : function(data, callback){
 				var that = this;
 				var localData = data;
@@ -967,105 +980,203 @@ sap.ui.define([
 				}
 			}, 
 			
-			_addOrderDraftItem : function(data, callback){
+			// [uuid, line] as key 
+			updateOrderDraftItem : function(keys, valueObj, callback){
 				var bModel = this.getPurV2Model();
-				var entry = bModel.createEntry('/C_PurchaseOrderItemTP', {});
-				var obj = entry.getObject();
-				// put in the data
-
-				obj.OrderQuantity = data.newline[0].qty;                
-				//obj.OrderQuantity = '2';                
-
-				obj.Material = data.newline[0].partNumber;                
-				//obj.Material = '0027135892CA';                
-				//obj.Material = 'PU55008151';                
-
-				obj.PurchasingInfoRecord=data.newline[0].purInfoRecord;
-				//'5300000122';
-
-//				obj.Plant = '6000';          
-//				obj.StorageLocation = '6100';
-				obj.Plant = data.revPlant;          
-				obj.StorageLocation = data.SLoc;
-			//	obj.NetPriceAmount = '10';
-//				obj.NetPriceAmount = data.newline.netPriceAmount;
-//				obj.DocumentCurrency='CAD';
-			//	obj.DocumentCurrency= data.newline[0].currency;
-			//	obj.TaxCode = 'P0';
-//				obj.TaxCode = data.newline.taxCode;
-				obj.ZZ1_LongText_PDI = 	data.newline[0].comment;				
-            						
-				bModel.create("/C_PurchaseOrderTP(PurchaseOrder='',DraftUUID=guid'"+ data.newline.parentUuid + "',IsActiveEntity=false)/to_PurchaseOrderItemTP", obj, {
-					success : function( oData, response){
-						data.newline[0].draftUuid = oData.DraftUUID;    
-						data.newline[0].line = oData.PurchaseOrderItem;
-						callback(data);
-					}, 
-					error :  function(oError){
-						var err = oError;
-					} 
+				var key = bModel.createKey('C_PurchaseOrderItemTP', {
+					'PurchaseOrder' : '',
+					'DraftUUID' : keys[0],
+					'PurchaseOrderItem' : keys[1],
+					'IsActiveEntity' : false
 				});
 				
-			}, 
-			
-			createOrderDraft : function (data, callback){
-				var that = this;		
-				// if it is purchase order
-				var orderDraft = {};
-			//	orderDraft.businessPartnerType = data.userInfo.code;
-			//	orderDraft.businessPartner = data.selectedBP.bpNumber;
-				//orderDraft.customer = data.selectedBP.customer;
-				
-				// that.getCustomerById('2400042176', function(){
-					
-				// });
-				
-				// var orderType = null;
-				// // get the order type.
-				// this.getOrderTypeByCategoryGroup(data.userInfo.code, function(typeData){
-				// 	var typeData = typeData;
-				// });
-				
-				//for now, only create purchase order, will be an condition here for sales order
-				var bModel = this.getPurV2Model();;
-				var entry = bModel.createEntry('/C_PurchaseOrderTP', {});
-				var obj = entry.getObject();
-				// the default values
-				obj.PurchasingOrganization = '7019';
-				obj.PurchasingGroup = '150';
-				obj.ZZ1_AppSource_PDH = 'A';
-				
-				// dynamic 
-				obj.ZZ1_DealerCode_PDH = data.dealerCode;
-				obj.ZZ1_DealerOrderNum_PDH = data.tciOrderNumber;
-				
-				//obj.Supplier = 'T22BK';
-				//obj.Supplier = '2400100405';
-				obj.Supplier = data.newline[0].supplier;
-				// for now, defualt NB
-				obj.PurchaseOrderType = 'NB';
-				if ('NORM' === data.newline[0].itemCategoryGroup){
-					obj.PurchaseOrderType = 'NB';
-				} else if ('BANS' === data.newline[0].itemCategoryGroup){
-					obj.PurchaseOrderType = 'UB';
-				}
-				
-				obj.DocumentCurrency =  data.newline[0].currency;
-				obj.CompanyCode = data.newline[0].companyCode;  
-				//obj.DocumentCurrency = 'CAD';
-				//obj.CompanyCode = '2014';
-				
-				//obj.CorrespncExternalReference = data.tciOrderNumber;
-				bModel.create('/C_PurchaseOrderTP', obj, {
+				bModel.update("/"+key, valueObj, {
 					success : function( oData, response){
-						orderDraft.draftUuid = oData.DraftUUID;                         
-						callback(orderDraft);
+						//sap-message TODO
+						callback(oData);
 					}, 
 					error :  function(oError){
 						var err = oError;
+						callback(null);
 					} 
-				});			},
+				} );
+			},			
+
+			//// only failed record will be returning message. message of good one will be ignored
+			deleteOrderDraftItemOld : function(keys, callback){
+				var rStructure = { keys : keys};
+				
+				var bModel = this.getPurV2Model();
+				var key = bModel.createKey('C_PurchaseOrderItemTP', {
+					'PurchaseOrder' : '',
+					'DraftUUID' : keys[0],
+					'PurchaseOrderItem' : keys[1],
+					'IsActiveEntity' : false
+				});
+				bModel.remove("/" + key, {
+					success : function( oData, response){
+						//sap-message TODO
+						callback(keys, true, []);
+					}, 
+					error :  function(oError){
+						var err = oError;
+						callback(keys, true, []);
+					} 					
+				});	
+			},
 			
+			//// only failed record will be returning message. message of good one will be ignored
+			deleteOrderDraftItem : function(keys, callback){
+				var rStructure = { keys : keys};
+				
+				var bModel = this.getPurV2Model();
+				// var key = bModel.createKey('C_PurchaseOrderItemTP', {
+				// 	'PurchaseOrder' : '',
+				// 	'DraftUUID' : keys[0],
+				// 	'PurchaseOrderItem' : keys[1],
+				// 	'IsActiveEntity' : false
+				// });
+				bModel.callFunction("/POItemDelete", {
+					method : 'POST',
+					urlParameters : {
+						'DraftUUID' : keys[0]
+						
+					},
+					success : function( oData, response){
+						//sap-message TODO
+						callback(keys, true, []);
+					}, 
+					error :  function(oError){
+						var err = oError;
+						callback(keys, false, []);
+					} 					
+				});	
+			},
+			_addOrderDraftItem : function(pUuid, data, callback){
+				var bModel = this.getPurV2Model();
+				var entry = bModel.createEntry('/C_PurchaseOrderItemTP', {});
+				
+				// item level data
+				var obj = entry.getObject();
+				obj.OrderQuantity = data.newline[0].qty;                //*
+				obj.Material = data.newline[0].partNumber;              //*  
+				obj.PurchasingInfoRecord=data.newline[0].purInfoRecord;
+				obj.ZZ1_LongText_PDI = 	data.newline[0].comment;				
+  
+				obj.Plant = data.revPlant;          
+				obj.StorageLocation = data.SLoc;
+
+//				obj.NetPriceAmount = data.newline.netPriceAmount;
+//				obj.DocumentCurrency= data.newline[0].currency;
+//				obj.TaxCode = data.newline.taxCode;
+          						
+				bModel.create("/C_PurchaseOrderTP(PurchaseOrder='',DraftUUID=guid'"+ pUuid + "',IsActiveEntity=false)/to_PurchaseOrderItemTP", obj, {
+					success : function( oData, response){
+						//sap-message TODO
+						data.newline[0].uuid = oData.DraftUUID;    
+						data.newline[0].headerUuid = oData.ParentDraftUUID;
+						data.newline[0].line = oData.PurchaseOrderItem;
+						callback(data.newline[0]);
+					}, 
+					error :  function(oError){
+						var err = oError;
+						callback(null);
+					} 
+				});
+			}, 
+			
+			getRealOrderTypeByItemCategoryGroup : function(itemCG){
+				if ('NORM' === itemCG){
+					return 'NB';
+				} else if ('BANS' === itemCG){
+					 return 'UB';
+				} else {
+					return 'NB'; // default
+				}
+				
+			},
+			
+			createOrderDraft : function (data, callback){
+				var that = this;
+				
+				var lv_orderType = this.getRealOrderTypeByItemCategoryGroup(data.newline[0].itemCategoryGroup);
+				var lv_supplier = data.newline[0].supplier;
+				
+				var aDraft = null;
+				//first of all, let us find the existing order header, 
+				for(var x1 = 0 ; x1 < data.associatedDrafts.length; x1++){
+					aDraft = data.associatedDrafts[x1];
+					if( data.purchaseOrg === aDraft.PurchasingOrganization &&
+						data.purchasingGroup === aDraft.PurchasingGroup &&
+						lv_supplier === aDraft.Supplier &&
+						lv_orderType === aDraft.PurchaseOrderType
+					) {
+						break;
+					} else {
+						aDraft = null;
+					}
+				}
+				
+				if (!!aDraft){
+					that._addOrderDraftItem(aDraft.DraftUUID, data, function(rItem){
+						if(!!rItem){
+							data.items.push(rItem);
+							aDraft.Lines = aDraft.Lines +1;
+							callback(data, true);
+						} else {
+							callback(data, false);
+						}
+					});
+				} else {
+					//for now, only create purchase order, will be an condition here for sales order
+					var bModel = this.getPurV2Model();;
+					var entry = bModel.createEntry('/C_PurchaseOrderTP', {});
+					var obj = entry.getObject();
+					obj.ZZ1_AppSource_PDH = 'A';
+					obj.PurchasingOrganization = data.purchaseOrg;
+					obj.PurchasingGroup = data.purchasingGroup;
+
+					obj.ZZ1_DealerCode_PDH = data.dealerCode;
+					obj.ZZ1_DealerOrderNum_PDH = data.tciOrderNumber;
+					obj.Supplier = lv_supplier;
+	
+					obj.DocumentCurrency =  data.newline[0].currency;
+					obj.CompanyCode = data.newline[0].companyCode;  
+					//obj.DocumentCurrency = 'CAD';
+					//obj.CompanyCode = '2014';
+					obj.PurchaseOrderType = lv_orderType;
+
+					bModel.create('/C_PurchaseOrderTP', obj, {
+						success : function( oData, response){
+							// prepare aDraft
+							aDraft = {};
+							aDraft.PurchasingOrganization = oData.PurchasingOrganization;
+							aDraft.PurchasingGroup = oData.PurchasingGroup;
+							aDraft.Supplier = oData.Supplier;
+							aDraft.PurchaseOrderType = oData.PurchaseOrderType;
+							aDraft.DraftUUID = oData.DraftUUID;
+							aDraft.Lines = 0;
+
+							that._addOrderDraftItem(aDraft.DraftUUID, data, function(rItem){
+								if(!!rItem){
+									data.items.push(rItem);
+									aDraft.Lines = aDraft.Lines +1;
+									data.associatedDrafts.push(aDraft);
+									callback(data, true);
+								} else {
+									data.associatedDrafts.push(aDraft);
+									callback(data, false);
+								}
+							});
+						}, 
+						error :  function(oError){
+							var err = oError;
+							callback(data, false);
+						} 
+					});
+				} 
+			},
+
 			activateDraft : function(iData, callBack){
 				if (!!iData.associatedDrafts && !!iData.associatedDrafts[0]){
 					var bModel = this.getOwnerComponent().getModel("MM_PUR_PO_MAINT_V2_SRV");

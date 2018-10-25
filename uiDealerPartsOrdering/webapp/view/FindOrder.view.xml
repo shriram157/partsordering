@@ -102,6 +102,7 @@
 				vertical="true"
 				focusable="true">
 				<Table	id="idProductsTable" 
+						mode='SingleSelectMaster'
 						items="{
 								path: 'viewModel>/orders',
 								sorter: {

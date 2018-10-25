@@ -59,18 +59,24 @@ sap.ui.define([
 			iconMessageFormat : function(messages){
 				
 				var messageLevel = 0; // non
-				
+				var meesageItem = null;
 				if(!!messages && !!messages.length){
 					for(var i = 1; i < messages.length; i++){
-						if (messages[i].severity === "error"){
-							messageLevel = 3;
-						} else if (messages[i].severity === "warning"){
-							if(messageLevel < 2){
-								messageLevel =2;
-							}
-						} else {
-							if(messageLevel < 1){
-								messageLevel = 1 ;
+						if (!!meesageItem){
+							switch (meesageItem.severity){
+								case 'error':
+									messageLevel = 3;
+									break;
+								case 'warning':
+									if(messageLevel < 2){
+										messageLevel =2;
+									}
+									break;
+								default : 
+									if(messageLevel < 1){
+										messageLevel = 1 ;
+									}								
+									break;
 							}
 						}
 					}
@@ -78,13 +84,20 @@ sap.ui.define([
 				
 				switch(messageLevel){
 					case 3:
-						return sap.ui.core.IconPool.getIconURI({src: "sap-icon://e-care", color: "#FC0519" });
+						return "#FC0519";
+						//return new sap.ui.core.Icon({src: "sap-icon://e-care", color: "#FC0519" }); 
+						//return sap.ui.core.IconPool.getIconURI({src: "sap-icon://e-care", color: "#FC0519" });
 					case 2:
-						return sap.ui.core.IconPool.getIconURI({src: "sap-icon://e-care", color: "#2DFA06" });
-					case 1:
-						return sap.ui.core.IconPool.getIconURI({src: "sap-icon://e-care", color: "#2DFA06" });
+						return "#FFDAB9";
+						//return new sap.ui.core.Icon({src: "sap-icon://e-care", color: "#2DFA06" }); 
+						//return sap.ui.core.IconPool.getIconURI({src: "sap-icon://e-care", color: "#2DFA06" });
+					// case 1:
+					// 	return sap.ui.core.IconPool.getIconURI({src: "sap-icon://e-care", color: "#2DFA06" });
 					default:
-						return "sap-icon://e-care";
+						return "#2DFA06";
+						//return new sap.ui.core.Icon({src: "sap-icon://e-care", color: "#2DFA06" }); 
+						// return sap.ui.core.IconPool.getIconURI({src: "sap-icon://e-care", color: "#2DFA06" });
+//						return "sap-icon://e-care";
 				}
 				
 			},
@@ -99,4 +112,4 @@ sap.ui.define([
 		};
 
 	}
-);
+);	
