@@ -88,7 +88,7 @@ displayBlock="true" xmlns="sap.m">
 						minScreenWidth="Tablet"
 						demandPopin="true"
 						hAlign="End">
-						<Button id="addButton" type="Transparent" icon="sap-icon://cause"	press="onAdd" />	
+						<Button id="addButton" type="Transparent" icon="sap-icon://cause"	press="onImport" />	
 					</Column>
 				</columns>
 				<items>
@@ -161,7 +161,11 @@ displayBlock="true" xmlns="sap.m">
 								<Text text="{path: 'orderModel>spq', formatter:'.formatter.spqFormat'}" />
 								<Input value="{orderModel>qty}" change='onQtyChange'/>
 								<Input value="{orderModel>comment}" change='onCommentChange'/>
-								<core:Icon src="sap-icon://e-care" color="{path:'orderModel>messages', formatter:'.formatter.iconMessageFormat'}" press='handlePartMessage'></core:Icon>
+								<HBox justifyContent="End">
+									<core:Icon src="sap-icon://e-care" color="#FC0519" press='handlePartMessage' visible="{=${orderModel>messageLevel} === 3}" />
+									<core:Icon src="sap-icon://e-care" color="#FFDAB9" press='handlePartMessage' visible="{=${orderModel>messageLevel} === 2}" />
+									<core:Icon src="sap-icon://e-care" color="#2DFA06" press='handlePartMessage' visible="{=${orderModel>messageLevel} === 1}" />
+								</HBox>
 							</cells>
 						</ColumnListItem>
 					</items>

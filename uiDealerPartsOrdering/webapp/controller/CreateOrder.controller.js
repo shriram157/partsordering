@@ -82,6 +82,12 @@ sap.ui.define([
 					}
 				
 					that.loadDealerDraft(orderData.dealerCode , orderData, function(rData){
+						for (var x = 0; x < rData.items.length; x++){
+							rData.items[x].colorCode = that.getMessageColor(rData.items[x].messages); 
+							rData.items[x].iconUrl = 'sap-icon://delete';
+							rData.items[x].messageLevel = that.getMessageLevel(rData.items[x].messages); 
+						}
+
 						model.setData(rData);
 						that.setModel(model,CONT_ORDER_MODEL );
 						sap.ui.core.BusyIndicator.hide();
@@ -155,6 +161,41 @@ sap.ui.define([
                 var sValue = oEvent.getParameter("newValue"); 
             	var model = this.getModel(CONT_ORDER_MODEL );
             	var newline = model.getProperty('/newline');
+				that.getInfoFromPart(sValue, model.getProperty('/revPlant'), function(item1Data){
+					if (!!item1Data){
+						newline[0].itemCategoryGroup = item1Data.itemCategoryGroup;
+						newline[0].division = item1Data.division;
+						newline[0].partDesc = item1Data.partDesc;
+						newline[0].supplier = item1Data.supplier;
+						newline[0].purInfoRecord = item1Data.purInfoRecord;
+						newline[0].companyCode = item1Data.companyCode;
+						newline[0].currency = item1Data.currency;
+						newline[0].netPriceAmount = item1Data.netPriceAmount;
+						newline[0].taxCode = item1Data.taxCode;
+						newline[0].spq = item1Data.spq;
+					} else {
+						newline[0].itemCategoryGroup = "";
+						newline[0].division = "";
+						newline[0].partDesc = "";
+						newline[0].supplier = "";
+						newline[0].purInfoRecord = "";
+						newline[0].companyCode = "";
+						newline[0].currency = 'CAD';
+						newline[0].netPriceAmount = "";
+						newline[0].taxCode = "";
+						newline[0].spq = "";
+					}
+					model.setProperty('/newline',newline);
+				});
+				
+            },
+
+            handleProductChangeX : function(oEvent){
+            	var that = this;
+                var sValue = oEvent.getParameter("newValue"); 
+            	var model = this.getModel(CONT_ORDER_MODEL );
+            	var newline = model.getProperty('/newline');
+
 
             	// step A1
 				that.getPartsInfoById(sValue, function(item1Data){
@@ -355,7 +396,7 @@ sap.ui.define([
             	var that = this;
             	var model = this.getModel(CONT_ORDER_MODEL );
 				this.draftInd.showDraftSaving();
-        		this.activateDraft(model.getData(), function(rData){
+        		this.activateDraft(model.getData(), function(rData, messageList){
         			if (!!rData ){
     	    			var lv_data = rData;
 	        			var orderNNumber = lv_data.PurchaseOrder;
@@ -368,7 +409,7 @@ sap.ui.define([
 			_showActivationOk : function (sDetails) {
 				var that = this;
 				MessageBox.success(
-					this._sErrorText,
+					sDetails,
 					{
 						id : "okMessageBox",
 						details : sDetails,
@@ -390,8 +431,12 @@ sap.ui.define([
     			
 				this.draftInd.showDraftSaving();
 
-    			this.updateOrderDraftItem([obj.uuid, obj.line], {'OrderQuantity' : newValue}, function(data){
-    				var idata = data;	
+    			this.updateOrderDraftItem([obj.uuid, obj.line], {'OrderQuantity' : newValue}, function(data, messageList){
+    				obj.messages = messageList;
+    				obj.colorCode = that.getMessageColor(messageList);
+    				obj.iconUrl = 'sap-icon://e-care';
+  					obj.messageLevel = that.getMessageLevel(messageList);   				
+    				model.setProperty(path, obj);
     				that.draftInd.showDraftSaved();
     			});             
 				
@@ -404,9 +449,13 @@ sap.ui.define([
     			var obj = model.getProperty(path);				
     			var newValue = oEvent.getParameter("newValue"); 
 				this.draftInd.showDraftSaving();
-    			this.updateOrderDraftItem([obj.uuid, obj.line], {'ZZ1_LongText_PDI' : newValue}, function(data){
-    				var idata = data;	
-					that.draftInd.showDraftSaved();   				
+    			this.updateOrderDraftItem([obj.uuid, obj.line], {'ZZ1_LongText_PDI' : newValue}, function(data, messageList){
+    				obj.messages = messageList;
+    				obj.colorCode = that.getMessageColor(messageList);
+    	    		obj.iconUrl = 'sap-icon://e-care';			
+  					obj.messageLevel = that.getMessageLevel(messageList);   				
+    				model.setProperty(path, obj);
+    				that.draftInd.showDraftSaved();
     			});             
 				
 			},

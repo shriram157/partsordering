@@ -16,6 +16,8 @@ sap.ui.define([
 		var CONST_APP_STATE = "APP_STATE";
 		var CONST_APP_ERROR = "APP_ERROR";
 
+		var CONST_PARTS_CACHE = "PARTS_CACHE";
+
 		return Controller.extend("tci.wave2.ui.parts.ordering.controller.BaseController", {
 
 			/**
@@ -104,7 +106,6 @@ sap.ui.define([
 				viewDataModel.setData(viewDatas);
 				return viewDataModel;
 			}, 
-			
 			
 			getFilterSelectionModel : function(){
 				var iDataMode = sap.ui.getCore().getModel("FilterSelectionModel");
@@ -205,92 +206,99 @@ sap.ui.define([
 			getPurV2Model : function(){
 				return this.getOwnerComponent().getModel("MM_PUR_PO_MAINT_V2_SRV");
 			},
+
+			// parts section 
+			getPartCacheData : function(){
+				var model = this.getOwnerComponent().getModel(CONST_PARTS_CACHE);
+				if (!!model){
+					return model.getData();
+				} else {
+					return null;
+				}	
+			},
 			
-			
-			onSelectTab: function (event) {
-				var key = event.getParameter('item').getKey();
-				var appState = models.getAppStateModel();
-				
-				switch (key){
-				    case "CO":
-						this.getRouter().navTo("StartOrdering", null, true);
-						break;
-				    case "FO":
-						this.getRouter().navTo("FindOrder", null, true);
-						break;
-				    case "CS":
-						this.getRouter().navTo("CheckOrderStatus", null, true);
-						break;
-					default:
-						this.getRouter().navTo("StartOrdering", null, true);
-						break;
+			setPartCacheData : function(data){
+				if (!!data){
+					var model = new sap.ui.model.json.JSONModel();
+					model.setData(data);
+					this.getOwnerComponent().setModel(model, CONST_PARTS_CACHE);
 				}
-//				appState.setProperty('/tabKey', key);
-
-				return;
 			},
-			
-			getBusinessPartnersByID : function(id, callback){
-				var bModel = this.getApiBPModel();
-				bModel.read("/A_BusinessPartner('"+id+"')",
-					{ 
-						// urlParameters: {
-    		//  				"$select": "BusinessPartnerType,BusinessPartner,BusinessPartnerName"
-						// },
-						success:  function(oData, oResponse){
-							if (!!oData && !!oData.results){
-								callback(oData);
-							}	
-							// error handleing 
-							callback(null);
-						},
-						error: function(err){
-							// error handling here
-							callback(null);
-						}
-					}
-				);		
-			},
-			
-			
-			getBusinessPartnersByType : function(type, callBackFunction){
-				var oFilter = new Array();
-				oFilter[0] = new sap.ui.model.Filter("BusinessPartnerType", sap.ui.model.FilterOperator.EQ, type );
 
-				var bModel = this.getApiBPModel();
-				var bpList= [];
-				bModel.read("/A_BusinessPartner",
-					{ 
-						filters:  oFilter,
+			getPartsInfoById : function(id, callback){
+				var bModel = this.getApiProductModel();
+				var key = bModel.createKey('/A_Product',{'Product': id});				
+//				bModel.read("/A_Product('"+id+"')", {
+				bModel.read(key, {
 						urlParameters: {
-    		 				"$select": "BusinessPartnerType,BusinessPartner,BusinessPartnerName"
+    		  				"$select": "ItemCategoryGroup,to_SalesDelivery/ProductSalesOrg,to_SalesDelivery/ProductDistributionChnl",
+    						"$expand": "to_SalesDelivery"    		
 						},
 						success:  function(oData, oResponse){
-
-							var iBP = null;
-							if (!!oData && !!oData.results){
-								for (var i = 0; i < oData.results.length; i++){
-									iBP = {};
-									iBP.BusinessPartnerType = oData.results[i].BusinessPartnerType;
-									iBP.BusinessPartner = oData.results[i].BusinessPartner; 
-									iBP.Name = oData.results[i].BusinessPartnerName;
-									iBP.Dealer = iBP.BusinessPartner.slice(-5);
-									bpList.push(iBP);
-								}
+	 						if (!!oData){
+								callback(oData);
+							} else {
+								callback(null);
 							}	
-							callBackFunction(bpList);
 						},
 						error: function(err){
-							callBackFunction(bpList);
+							callback(null);
 						}
-					}
-				);		
+				});				
 			},
 			
+			getRoundingprofileOFVendor : function(id, saleOrg, disChannel, callback){
+				var bModel = this.getZProductModel();
+				var key = bModel.createKey('/zc_PriceSet', {
+					'Customer' : '',
+					'DisChannel' : disChannel,
+					'Division' : '',
+					'Matnr' : id,
+					'SalesDocType' : '',
+					'SalesOrg' : saleOrg,
+					'AddlData' : true,
+					'LanguageKey' : 'EN',
+					'Plant' : ''
+				});
+				var oFilter = new Array();
+				oFilter[0] = new sap.ui.model.Filter("DisChannel", sap.ui.model.FilterOperator.EQ, disChannel );
+				oFilter[1] = new sap.ui.model.Filter("Matnr", sap.ui.model.FilterOperator.EQ, id );
+				oFilter[2] = new sap.ui.model.Filter("SalesOrg", sap.ui.model.FilterOperator.EQ, saleOrg );
+				oFilter[3] = new sap.ui.model.Filter("LanguageKey", sap.ui.model.FilterOperator.EQ, 'EN' );
+				oFilter[4] = new sap.ui.model.Filter("AddlData", sap.ui.model.FilterOperator.EQ, true );
+
+				bModel.read("/zc_PriceSet(Customer='',DisChannel='"+disChannel+"',Division='',Matnr='"+id+"',SalesDocType='',SalesOrg='"+saleOrg+"',AddlData=true,LanguageKey='EN',Plant='')", 
+//				bModel.read(key,
+//				bModel.read("/zc_PriceSet",
+				{
+					// urlParameters: {
+   		//   				"$select": "Item/Roundingprofile",
+					// },
+//					filters:  oFilter,
+					success:  function(oData, oResponse){
+ 						if (!!oData){
+							callback(oData);
+						} else {
+							callback(null);
+						}	
+					},
+					error: function(err){
+						callback(null);
+					}
+				});				
+			},
+
 			getPriceInfoFromInfoRecord : function( infoRecord,purOrg,plant, callback){
 				var bModel = 	this.getInfoRecordModel();	
+				var key = bModel.createKey('/I_PurgInfoRecdOrgPlantData', {
+					'PurchasingInfoRecord' : infoRecord,
+					'PurchasingOrganization' : purOrg,
+					'PurchasingInfoRecordCategory' : '0',
+					'Plant' : ''
+				});
 //				bModel.read("/I_PurgInfoRecdOrgPlantData(PurchasingInfoRecord='"+infoRecord+"',PurchasingOrganization='"+purOrg+"',PurchasingInfoRecordCategory='0',Plant='"+plant+"')",
-				bModel.read("/I_PurgInfoRecdOrgPlantData(PurchasingInfoRecord='"+infoRecord+"',PurchasingOrganization='"+purOrg+"',PurchasingInfoRecordCategory='0',Plant='')",
+//				bModel.read("/I_PurgInfoRecdOrgPlantData(PurchasingInfoRecord='"+infoRecord+"',PurchasingOrganization='"+purOrg+"',PurchasingInfoRecordCategory='0',Plant='')",
+				bModel.read( key, 
 					{ 
 						urlParameters: {
     		 				"$select": "NetPriceAmount,Currency,TaxCode"
@@ -336,9 +344,12 @@ sap.ui.define([
 				var bModel =  this.getInfoRecordModel();	
 				var oFilter = new Array();
 				oFilter[0] = new sap.ui.model.Filter("Supplier", sap.ui.model.FilterOperator.EQ, vendor );
-				bModel.read("/C_MM_SupplierValueHelpType",
+				bModel.read("/C_MM_SupplierValueHelp",
 					{ 
 						filters:  oFilter,
+						urlParameters: {
+    		 				"$select": "CompanyCode,Country,SupplierAccountGroup"
+						},
 						success:  function(oData, oResponse){
 							if(!!oData && !!oData.results && oData.results.length > 0){
 								callback(oData.results[0]);
@@ -346,7 +357,6 @@ sap.ui.define([
 								callback(null);
 							}
 						},
-						
 						error: function(err){
 							// handle error?
 							callback(null);
@@ -355,48 +365,13 @@ sap.ui.define([
 				);		
 			}, 
 			
-			getPartsInfoById : function(id, callback){
-				var bModel = this.getApiProductModel();
-				bModel.read("/A_Product('"+id+"')", {
-						urlParameters: {
-    		  				"$select": "ItemCategoryGroup,to_SalesDelivery/ProductSalesOrg,to_SalesDelivery/ProductDistributionChnl",
-    						"$expand": "to_SalesDelivery"    		
-						},
-						success:  function(oData, oResponse){
-	 						if (!!oData){
-								callback(oData);
-							}	
-							callback(null);
-						},
-						error: function(err){
-							callback(null);
-						}
-				});				
-			},
-			
-			getRoundingprofileOFVendor : function(id, saleOrg, disChannel, callback){
-				var bModel = this.getZProductModel();
-				bModel.read("/zc_PriceSet(Customer='',DisChannel='"+disChannel+"',Division='',Matnr='"+id+"',SalesDocType='',SalesOrg='"+saleOrg+"',AddlData=true,LanguageKey='EN',Plant='')", 
-				{
-					urlParameters: {
-   		  				"$select": "Item/Roundingprofile",
-					},
-					success:  function(oData, oResponse){
- 						if (!!oData){
-							callback(oData);
-						}	
-						callback(null);
-					},
-					error: function(err){
-						callback(null);
-					}
-				});				
-			},
 			
 			getZMaterialById : function(id, callback){
 				var bModel = this.getZProductModel(); 
 				var oFilter = new Array();
-				bModel.read("/C_Product_Fs('"+id+"')", 
+				var key = bModel.createKey('/C_Product_Fs',{'Material': id});				
+//				bModel.read("/C_Product_Fs('"+id+"')", 
+				bModel.read(key, 
 				{
 					urlParameters: {
     		 			"$select": "Material,MaterialName,Division,to_PurchasingInfoRecord/PurchasingInfoRecord,to_PurchasingInfoRecord/Supplier,to_PurchasingInfoRecord/IsDeleted",
@@ -405,8 +380,9 @@ sap.ui.define([
 					success:  function(oData, oResponse){
 	 					if (!!oData){
 							callback(oData);
+						} else {
+							callback(null);
 						}
-						callback(oData);
 					},
 					error: function(err){
 						callback(null);
@@ -418,37 +394,287 @@ sap.ui.define([
 				var bModel = this.getProductModel(); 
 				var oFilter = new Array();
 				oFilter[0] = new sap.ui.model.Filter("Material", sap.ui.model.FilterOperator.Contains, id );
-				bModel.read("/C_Product_Fs('"+id+"')", 
-//				bModel.read("/C_Product_Fs", 
+				var key = bModel.createKey('/C_Product_Fs',{'Material': id});
+
+				// bModel.read("/C_Product_Fs('"+id+"')", 
+				bModel.read(key, 
 					{
 						urlParameters: {
     						 "$expand": "to_Plant,to_PurchasingInfoRecord,to_Supplier"
 						},
 //				filters:  oFilter,
 						success:  function(oData, oResponse){
-						//	var bpList= [];
-						//	var iBP = null;
-//							if (!!oData && !!oData.results){
 	 						if (!!oData){
 								callback(oData);
-								// for (var i = 0; i < oData.results.length; i++){
-								// 	iBP = {};
-								// 	iBP.BusinessPartnerType = oData.results[i].BusinessPartnerType;
-								// 	iBP.BusinessPartner = oData.results[i].BusinessPartner;
-								// 	//iBP.Name = oData.results[i].OrganizationBPName1;
-								// 	iBP.Name = oData.results[i].BusinessPartnerName;
-								// 	iBP.Dealer = iBP.BusinessPartner.slice(-5);
-								// 	bpList.push(iBP);
-								// }
+							} else {
+								callback(null);
 							}	
-							// callBackFunction(bpList);
 						},
 						error: function(err){
 							// error handling here
+							callback(null);
 						}
 					
 				});
 			},
+
+			getInfoFromPart : function(partNum, revPlant, callback){
+            	var that = this;
+				var cacheData = this.getPartCacheData();
+				var cacheDataItem = null; 
+	
+				var hasError = false;
+				// step control in the async mode 				
+				var stepsContorl = [false, false, false, false, false ];
+				
+				// var isFinished = false;
+				function isFinished(){
+					if (stepsContorl[0] && stepsContorl[1] && stepsContorl[2] && stepsContorl[3] && stepsContorl[4]){
+						return true;
+					}
+					return false;
+				}
+				
+				if (!!cacheData && !!cacheData[partNum]){
+					// if already has, return cache version
+					callback(cacheData[partNum]);
+					return;
+				} else {
+					if (!!partNum){
+						if (!!!cacheData ){
+							cacheData = []; 
+						} 
+						
+						if (!!!cacheDataItem){
+							cacheDataItem ={};
+						}
+						
+						// first step, get the infoRecord
+		            	that.getZMaterialById(partNum, function(data){
+		            		// step one if finished 
+		            		stepsContorl[0] = true;
+    	        			if (!!data){
+								cacheDataItem.division = data.Division ;
+								cacheDataItem.partDesc = data.MaterialName ;
+
+								// find the infoReord
+								var infoRecord = null;
+	    	        			if (!!data.to_PurchasingInfoRecord.results && data.to_PurchasingInfoRecord.results.length > 0) {
+									for (var i=0;i < data.to_PurchasingInfoRecord.results.length; i++){
+										infoRecord = data.to_PurchasingInfoRecord.results[i];
+										if ( infoRecord.IsDeleted){
+											infoRecord = null;
+										} else {
+							 				// only the none deleted infoRecord will survive
+							 				break;
+							 			}
+									}						
+								}
+						
+								if(!!infoRecord && !infoRecord.IsDeleted){
+	        	    				// get the first record only. 
+		        		    		var lv_supplier = infoRecord.Supplier;
+            						var lvPurchasingInfoRecord = infoRecord.PurchasingInfoRecord;
+		        	    			cacheDataItem.supplier = lv_supplier;
+									cacheDataItem.purInfoRecord = lvPurchasingInfoRecord; 
+									
+									// the following is almost in para, don't know which one will be return first 
+									// get the company code 
+            						that.getCompanyCodeByVendor(lv_supplier, function(o1Data){
+            							stepsContorl[1] = true;
+        			   					if (!!o1Data && !!o1Data.CompanyCode &&!!lv_supplier){
+        			   						cacheDataItem.companyCode =o1Data.CompanyCode;
+		    	      					} 
+		    	      					// return is all finished 
+		    	      					if(isFinished()){
+		    	      						if(hasError){
+			    	      						callback(null);
+		    	      						} else {
+			    	      						cacheData.push(cacheDataItem);
+			    	      						callback(cacheDataItem);
+		    	      						}
+		    	      					}
+            						});
+            				
+			    					that.getPriceInfoFromInfoRecord(lvPurchasingInfoRecord, 
+            												"7019", revPlant, function(cData){
+            							stepsContorl[2] = true;
+		            					if (!!cData && !!lvPurchasingInfoRecord){
+        		    						cacheDataItem.currency =cData.Currency;
+            								cacheDataItem.netPriceAmount = cData.NetPriceAmount;
+            								cacheDataItem.taxCode = cData.TaxCode;
+            							} 
+		    	      					// return is all finished 
+		    	      					if(isFinished()){
+		    	      						if(hasError){
+			    	      						callback(null);
+		    	      						} else {
+			    	      						cacheData.push(cacheDataItem);
+			    	      						callback(cacheDataItem);
+		    	      						}
+		    	      					}
+            						});
+		           				} else {
+				            		// can not find infoRecord not saving, really bad
+				            		// callback(null);
+			            			stepsContorl[1] = true;
+			            			stepsContorl[2] = true;
+			            			hasError = true;
+		    	      				if(isFinished()){
+		    	      					callback(null);
+	    	      					}			            			
+		           				} 
+		           				
+		           				
+		           			}else {
+			            		// call bacl null, as serious error
+		            			stepsContorl[1] = true;
+		            			stepsContorl[2] = true;
+			            		hasError = true;
+			            		if(isFinished()){
+		    	      				callback(null);
+	    	      				}				            			
+		           			}
+		            	});	
+		            	
+		            	// get the item group and so 
+						that.getPartsInfoById(partNum, function(item1Data){
+	   						stepsContorl[3] = true;
+							if(!!item1Data){
+								cacheDataItem.itemCategoryGroup = item1Data.ItemCategoryGroup;
+								if (!!item1Data.to_SalesDelivery.results && item1Data.to_SalesDelivery.results.length >0 ){
+									var finishedCount = 0;
+									for(var x1 = 0; x1 < item1Data.to_SalesDelivery.results.length; x1++ ){
+										// rounding profile  -- get the first one then			            	
+    		    					   	that.getRoundingprofileOFVendor(partNum, 
+        						 			item1Data.to_SalesDelivery.results[x1].ProductSalesOrg,
+        					   				item1Data.to_SalesDelivery.results[x1].ProductDistributionChnl, function(item2Data){
+        					   					
+        					   				finishedCount = finishedCount + 1;
+											if(!!item2Data && !!item2Data.Item && !!item2Data.Item.Roundingprofile){
+							   					stepsContorl[4] = true;
+												cacheDataItem.spq = item2Data.Item.Roundingprofile;
+											} else if (finishedCount >= item1Data.to_SalesDelivery.results.length){
+						   						stepsContorl[4] = true;
+												// can not find anything
+											} 
+		    	      						// return is all finished 
+		    	      						if(isFinished()){
+		    	      							if(hasError){
+			    	      							callback(null);
+		    	      							} else {
+				    	      						cacheData.push(cacheDataItem);
+				    	      						callback(cacheDataItem);
+		    	      							}
+		    	      						}											
+        								});
+									}
+								} else {
+		        	    			stepsContorl[4] = true;
+				            		hasError = true;
+				            		if(isFinished()){
+			    	      				callback(null);
+		    	      				}			
+								}	
+							} else {
+		            			stepsContorl[4] = true;
+			            		hasError = true;
+			            		if(isFinished()){
+		    	      				callback(null);
+	    	      				}			
+							}
+						});
+						
+					} else {
+						// noting to return
+						callback(null);
+						return
+					}
+				}
+            }, 
+
+			onSelectTab: function (event) {
+				var key = event.getParameter('item').getKey();
+				var appState = models.getAppStateModel();
+				
+				switch (key){
+				    case "CO":
+						this.getRouter().navTo("StartOrdering", null, true);
+						break;
+				    case "FO":
+						this.getRouter().navTo("FindOrder", null, true);
+						break;
+				    case "CS":
+						this.getRouter().navTo("CheckOrderStatus", null, true);
+						break;
+					default:
+						this.getRouter().navTo("StartOrdering", null, true);
+						break;
+				}
+//				appState.setProperty('/tabKey', key);
+
+				return;
+			},
+			
+			getBusinessPartnersByID : function(id, callback){
+				var bModel = this.getApiBPModel();
+				var key = bModel.createKey('/A_BusinessPartner',{'BusinessPartner':id});				
+//				bModel.read("/A_BusinessPartner('"+id+"')",
+				bModel.read(key,
+					{ 
+						// urlParameters: {
+    		//  				"$select": "BusinessPartnerType,BusinessPartner,BusinessPartnerName"
+						// },
+						success:  function(oData, oResponse){
+							if (!!oData && !!oData.results){
+								callback(oData);
+							} else {
+								// error handleing 
+								callback(null);
+							}	
+						},
+						error: function(err){
+							// error handling here
+							callback(null);
+						}
+					}
+				);		
+			},
+
+			getBusinessPartnersByType : function(type, callBackFunction){
+				var oFilter = new Array();
+				oFilter[0] = new sap.ui.model.Filter("BusinessPartnerType", sap.ui.model.FilterOperator.EQ, type );
+
+				var bModel = this.getApiBPModel();
+				var bpList= [];
+				bModel.read("/A_BusinessPartner",
+					{ 
+						filters:  oFilter,
+						urlParameters: {
+    		 				"$select": "BusinessPartnerType,BusinessPartner,BusinessPartnerName"
+						},
+						success:  function(oData, oResponse){
+
+							var iBP = null;
+							if (!!oData && !!oData.results){
+								for (var i = 0; i < oData.results.length; i++){
+									iBP = {};
+									iBP.BusinessPartnerType = oData.results[i].BusinessPartnerType;
+									iBP.BusinessPartner = oData.results[i].BusinessPartner; 
+									iBP.Name = oData.results[i].BusinessPartnerName;
+									iBP.Dealer = iBP.BusinessPartner.slice(-5);
+									bpList.push(iBP);
+								}
+							}	
+							callBackFunction(bpList);
+						},
+						error: function(err){
+							callBackFunction(bpList);
+						}
+					}
+				);		
+			},
+			
 
 			// for now, only the purchase order	
 			searchPOrderByDealerCode : function(dealer, conditions, callback){
@@ -524,6 +750,7 @@ sap.ui.define([
 		    removeAllMessages : function(){
 		    	sap.ui.getCore().getMessageManager().removeAllMessages();	
 		    }, 
+		    
 			// for now, only the purchase order	
 			searchDraftByDealerCode : function(dealer, conditions, callback){
 				var bModel = this.getPurV2Model();
@@ -694,7 +921,12 @@ sap.ui.define([
 		    deleteDraft : function(uuid , callback){
 		    	var that = this; 
 				var bModel = this.getPurV2Model();
-				bModel.remove("/C_PurchaseOrderTP(PurchaseOrder='',DraftUUID=guid'"+uuid+"',IsActiveEntity=false)", { 
+				var key = bModel.createKey('/C_PurchaseOrderTP', {
+					'PurchaseOrder' : '',
+					'DraftUUID' : uuid,
+					'IsActiveEntity' : false
+				});
+				bModel.remove(key, { 
 					success :  function(oData, oResponse){
 						// process sap-message?
 						callback(uuid, true);
@@ -847,15 +1079,18 @@ sap.ui.define([
 		    
 		    getCompanyCodeByPurcahseOrg : function(purchaseOrg, callBack){
 				var bModel = this.getInfoRecordModel();
-				bModel.read("/C_PurchasingOrgValueHelp('"+purchaseOrg+"')",
+				var key = bModel.createKey('/C_PurchasingOrgValueHelp',{'PurchasingOrganization': purchaseOrg});
+//				bModel.read("/C_PurchasingOrgValueHelp('"+purchaseOrg+"')",
+				bModel.read(key,
 					{ 
 						urlParameters: {
 						},
 						success:  function(oData, oResponse){
 							if (!!oData && !!oData.CompanyCode){
 								callBack(oData.CompanyCode);
+							} else {
+								callBack(null);
 							}
-							callBack(null);
 						},
 						error: function(err){
 							callBack(null);
@@ -867,7 +1102,9 @@ sap.ui.define([
 			getSupplierCompanyCode : function(id, callBack){
 
 				var bModel = this.getApiBPModel();
-				bModel.read("/A_Customer('"+id+"')",
+				var key = bModel.createKey('/A_Customer',{'Customer' : id});
+//				bModel.read("/A_Customer('"+id+"')",
+				bModel.read(key,
 					{ 
 						urlParameters: {
     		 				"$select": "to_CustomerCompany/CompanyCode",
@@ -889,7 +1126,10 @@ sap.ui.define([
 			getCustomerById : function(id, callBackFunction){
 
 				var bModel = this.getApiBPModel();
-				bModel.read("/A_Customer('"+id+"')",
+				var key = bModel.createKey('/A_Customer', {'Customer' : id});
+				
+				// bModel.read("/A_Customer('"+id+"')",
+				bModel.read(key,
 					{ 
 						urlParameters: {
     						 "$expand": "to_CustomerCompany,to_CustomerSalesArea"
@@ -899,6 +1139,7 @@ sap.ui.define([
 						},
 						
 						error: function(err){
+							callBackFunction(null);
 							// error handling here
 						}
 					}
@@ -980,20 +1221,47 @@ sap.ui.define([
 				}
 			}, 
 			
+			
+			_extractSapItemMessages: function(oResponse){
+				// sap-message
+				var sapMessage = null;
+				var mItem = null;
+				var messageItem = null;
+				var messageList = [];
+				if (!!oResponse && !!oResponse.headers['sap-message']){
+					sapMessage = JSON.parse(oResponse.headers['sap-message']);
+//					if (!!sapMessage.target && sapMessage.target ==='PurchaseOrderItem'){					
+					if (!!sapMessage.target){
+						messageItem = { severity : sapMessage.severity, code : sapMessage.code, message : sapMessage.message};
+						messageList.push(messageItem);
+						for (var x=0; x < sapMessage.details.length; x++){
+							 mItem = sapMessage.details[x];
+//							 if (!!mItem && !!mItem.target && mItem.target ==='PurchaseOrderItem'){
+							 if (!!mItem && !!mItem.target){
+								messageItem = {severity : mItem.severity, code : mItem.code, message : mItem.message};
+								messageList.push(messageItem);
+							}
+						}
+					}
+				}
+				return messageList;
+			},
+			
 			// [uuid, line] as key 
 			updateOrderDraftItem : function(keys, valueObj, callback){
+				var that = this;
 				var bModel = this.getPurV2Model();
-				var key = bModel.createKey('C_PurchaseOrderItemTP', {
+				var key = bModel.createKey('/C_PurchaseOrderItemTP', {
 					'PurchaseOrder' : '',
 					'DraftUUID' : keys[0],
 					'PurchaseOrderItem' : keys[1],
 					'IsActiveEntity' : false
 				});
 				
-				bModel.update("/"+key, valueObj, {
-					success : function( oData, response){
-						//sap-message TODO
-						callback(oData);
+				bModel.update(key, valueObj, {
+					success : function( oData, oResponse){
+						var messageList = that._extractSapItemMessages(oResponse);
+						callback(oData, messageList);
 					}, 
 					error :  function(oError){
 						var err = oError;
@@ -1004,19 +1272,20 @@ sap.ui.define([
 
 			//// only failed record will be returning message. message of good one will be ignored
 			deleteOrderDraftItemOld : function(keys, callback){
+				var that = this;
 				var rStructure = { keys : keys};
 				
 				var bModel = this.getPurV2Model();
-				var key = bModel.createKey('C_PurchaseOrderItemTP', {
+				var key = bModel.createKey('/C_PurchaseOrderItemTP', {
 					'PurchaseOrder' : '',
 					'DraftUUID' : keys[0],
 					'PurchaseOrderItem' : keys[1],
 					'IsActiveEntity' : false
 				});
-				bModel.remove("/" + key, {
-					success : function( oData, response){
-						//sap-message TODO
-						callback(keys, true, []);
+				bModel.remove(key, {
+					success : function( oData, oResponse){
+						var messageList = that._extractSapItemMessages(oResponse);
+						callback(keys, true, messageList);
 					}, 
 					error :  function(oError){
 						var err = oError;
@@ -1027,24 +1296,18 @@ sap.ui.define([
 			
 			//// only failed record will be returning message. message of good one will be ignored
 			deleteOrderDraftItem : function(keys, callback){
+				var that = this;				
 				var rStructure = { keys : keys};
 				
 				var bModel = this.getPurV2Model();
-				// var key = bModel.createKey('C_PurchaseOrderItemTP', {
-				// 	'PurchaseOrder' : '',
-				// 	'DraftUUID' : keys[0],
-				// 	'PurchaseOrderItem' : keys[1],
-				// 	'IsActiveEntity' : false
-				// });
 				bModel.callFunction("/POItemDelete", {
 					method : 'POST',
 					urlParameters : {
 						'DraftUUID' : keys[0]
-						
 					},
-					success : function( oData, response){
-						//sap-message TODO
-						callback(keys, true, []);
+					success : function( oData, oResponse){
+						var messageList = that._extractSapItemMessages(oResponse);
+						callback(keys, true, messageList);
 					}, 
 					error :  function(oError){
 						var err = oError;
@@ -1052,7 +1315,9 @@ sap.ui.define([
 					} 					
 				});	
 			},
+			
 			_addOrderDraftItem : function(pUuid, data, callback){
+				var that = this;
 				var bModel = this.getPurV2Model();
 				var entry = bModel.createEntry('/C_PurchaseOrderItemTP', {});
 				
@@ -1066,16 +1331,27 @@ sap.ui.define([
 				obj.Plant = data.revPlant;          
 				obj.StorageLocation = data.SLoc;
 
-//				obj.NetPriceAmount = data.newline.netPriceAmount;
+				obj.NetPriceAmount = '2';
+
+				// obj.NetPriceAmount = data.newline.netPriceAmount;
 //				obj.DocumentCurrency= data.newline[0].currency;
 //				obj.TaxCode = data.newline.taxCode;
+				obj.TaxCode = 'P0';
+
+				var key = bModel.createKey('/C_PurchaseOrderTP', {
+					'PurchaseOrder' : '',
+					'DraftUUID' : pUuid,
+					'IsActiveEntity' : false
+				});
           						
-				bModel.create("/C_PurchaseOrderTP(PurchaseOrder='',DraftUUID=guid'"+ pUuid + "',IsActiveEntity=false)/to_PurchaseOrderItemTP", obj, {
-					success : function( oData, response){
-						//sap-message TODO
+				bModel.create(key + "/to_PurchaseOrderItemTP", obj, {
+					success : function( oData, oResponse){
+						var messageList = that._extractSapItemMessages(oResponse);
 						data.newline[0].uuid = oData.DraftUUID;    
 						data.newline[0].headerUuid = oData.ParentDraftUUID;
 						data.newline[0].line = oData.PurchaseOrderItem;
+						data.newline[0].messageLevel = that.getMessageLevel(messageList); 
+						data.newline[0].messages = messageList;
 						callback(data.newline[0]);
 					}, 
 					error :  function(oError){
@@ -1142,7 +1418,7 @@ sap.ui.define([
 	
 					obj.DocumentCurrency =  data.newline[0].currency;
 					obj.CompanyCode = data.newline[0].companyCode;  
-					//obj.DocumentCurrency = 'CAD';
+					obj.DocumentCurrency = 'CAD'; //
 					//obj.CompanyCode = '2014';
 					obj.PurchaseOrderType = lv_orderType;
 
@@ -1176,8 +1452,74 @@ sap.ui.define([
 					});
 				} 
 			},
-
+			
+			getMessageColor : function(messages){
+				var messageLevel = 0; // non
+				var meesageItem = null;
+				if(!!messages && !!messages.length){
+					for(var i = 1; i < messages.length; i++){
+						if (!!meesageItem){
+							meesageItem = messages[i];
+							switch (meesageItem.severity){
+								case 'error':
+									messageLevel = 3;
+									break;
+								case 'warning':
+									if(messageLevel < 2){
+										messageLevel =2;
+									}
+									break;
+								default : 
+									if(messageLevel < 1){
+										messageLevel = 1 ;
+									}								
+									break;
+							}
+						}
+					}
+				}
+				
+				switch(messageLevel){
+					case 3:
+						return "#FC0519";
+					case 2:
+						return "#FFDAB9";
+					default:
+						return "#2DFA06";
+				}
+			},
+			
+			getMessageLevel : function(messages){
+				var messageLevel = 1; // non
+				var meesageItem = null;
+				if(!!messages && !!messages.length){
+					for(var i = 1; i < messages.length; i++){
+						meesageItem = messages[i];
+						if (!!meesageItem){
+							switch (meesageItem.severity){
+								case 'error':
+									messageLevel = 3;
+									break;
+								case 'warning':
+									if(messageLevel < 2){
+										messageLevel =2;
+									}
+									break;
+								default : 
+									if(messageLevel < 1){
+										messageLevel = 1 ;
+									}								
+									break;
+							}
+						}
+					}
+				}
+				return messageLevel;
+			},
+			
 			activateDraft : function(iData, callBack){
+				var that = this;
+				
 				if (!!iData.associatedDrafts && !!iData.associatedDrafts[0]){
 					var bModel = this.getOwnerComponent().getModel("MM_PUR_PO_MAINT_V2_SRV");
 
@@ -1185,16 +1527,18 @@ sap.ui.define([
 						method : "POST",
 						urlParameters: {
                 	    	PurchaseOrder: '',
-                    		DraftUUID: iData.associatedDrafts[0].uuid,
+                    		DraftUUID: iData.associatedDrafts[0].DraftUUID,
                     		IsActiveEntity: false
                     	},					
-						success : function( oData, response){
+						success : function( oData, oResponse){
+							var messageList = that._extractSapItemMessages(oResponse);
 							//orderDraft.draftUuid = oData.DraftUUID;                         
-							callBack(oData);
+							callBack(oData, messageList );
 						}, 
 						error :  function(oError){
+						//	var messageList = that._extractSapItemMessages(oResponse);
 							var err = oError;
-							callBack(null);
+							callBack(null, null);
 						} 
 					});
 				}
@@ -1213,9 +1557,6 @@ sap.ui.define([
 					  return "";
 				}	
 			}
-			
-
 		});
-
 	}
 );
