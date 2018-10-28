@@ -757,9 +757,15 @@ sap.ui.define([
 				var oFilter = new Array();
 				//var dealerCode = conditions.dealerCode;
 				var dealerCode = dealer;
+				
 
 				oFilter[0] = new sap.ui.model.Filter("IsActiveEntity", sap.ui.model.FilterOperator.EQ, false );
 				oFilter[1] = new sap.ui.model.Filter("ZZ1_DealerCode_PDH", sap.ui.model.FilterOperator.EQ, dealerCode );
+				if (!!conditions){
+					if(!!conditions.orderNumber){
+						oFilter[2] = new sap.ui.model.Filter("ZZ1_DealerOrderNum_PDH", sap.ui.model.FilterOperator.Contains, conditions.orderNumber );
+					}
+				}
 				
 				bModel.read('/C_PurchaseOrderTP', 
 					{ 

@@ -20,7 +20,7 @@
 				<content>
 					<Button id="filterButton"  icon="sap-icon://add-filter" press="onExpandFilter" />							
 					<ToolbarSpacer />
-					<SearchField placeholder='{i18n>Placeholder.OrderNumber}' 
+					<SearchField id="oidSearch" placeholder='{i18n>Placeholder.OrderNumber}' 
 						showRefreshButton = 'true'
 						search='onSearch'
 						width='60%' />	
@@ -38,27 +38,24 @@
 				<fb:filterItems>
 					<fb:FilterItem name="A" label="{i18n>Label.Order.Type}" labelTooltip="{i18n>Label.Order.Type}" mandatory="true">
 						<fb:control>
-							<MultiComboBox 
+							<MultiComboBox id="orderType"
 								placeholder="{i18n>Label.Order.Type}"
 								selectionFinish="onSelectionFinishOT"
 								width="15%">
 									<items>
-										<core:Item  text="Column headers"
-											key="ColumnHeaders"/>
-										<core:Item  text="Header Toolbar"
-											key="HeaderToolbar"/>
-											<core:Item  text="Info Toolbar"
-											key="InfoToolbar"/>
-										</items>
+										<core:Item  text="{i18n>order.type.standard}" 
+											key="1"/>
+									</items>
 							</MultiComboBox>
 						</fb:control>				
 					</fb:FilterItem>
 				
-					<fb:FilterItem name="B" label="{i18n>Label.Order.Status}" labelTooltip="{i18n>Label.Order.Status}" mandatory="true">
+					<fb:FilterItem name="B" label="{i18n>Label.Order.Status}" visible = "fasle" labelTooltip="{i18n>Label.Order.Status}" mandatory="true">
 						<fb:control>
 							<MultiComboBox id="orderStatus"
 								placeholder="{i18n>Label.Order.Status}"
 								selectionFinish="onSelectionFinishOS"
+
 								width="15%">
 								<items>
 									<core:Item  text="Column headers"

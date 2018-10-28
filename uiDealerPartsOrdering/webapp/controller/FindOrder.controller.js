@@ -26,12 +26,14 @@ sap.ui.define([
 	            // or just do it for the whole view
     	        oMessageManager.registerObject(this.getView(), true);
 
+				this.orderTypeSelection = this.byId("orderType");
+				this.orderNumberSearch = this.byId('oidSearch');
 				//view model 
 				var viewState = { filterPanelEnable : false, contHigh : "85%", orders: []};
 				var viewModel = new JSONModel();
 				viewModel.setData(viewState);
 				this.setModel(viewModel, CONST_VIEW_MODEL);
-
+				
 				this.checkDealerInfo();
 
 			},
@@ -43,10 +45,12 @@ sap.ui.define([
 					return;
 				}
 				
+				this.orderTypeSelection.setSelectedKeys(['1']);
+				this.orderTypeSelection.setEnabled(false);
 				var appStateModel = this.getStateModel();
 				appStateModel.setProperty('/tabKey', 'FO');
-				this.setModel(appStateModel);	
-				this.refresh();
+				this.setModel(appStateModel);
+				this.refresh(this.orderNumberSearch.getValue());
 
 			},
 			
@@ -65,18 +69,24 @@ sap.ui.define([
 			},
 			
 			onSearch : function(oEvent){
-				this.refresh();
+				var query = oEvent.getParameters('query').query;
+				this.refresh(query);
 			},
 			
-			refresh : function(){
+			refresh : function(query){
 				//take the existing conditions get the data
 				var appStateModel = this.getStateModel();
 				//var oItem = this.byId('iconTabHeader');
 				var dealerCode = appStateModel.getProperty('/selectedBP/dealerCode');
 				var viewModel = this.getModel(CONST_VIEW_MODEL);
 				
+				var conditions = null;
+				if (!!query){
+					conditions = {'orderNumber' : query.trim()};
+				}
 				sap.ui.core.BusyIndicator.show(0);
-				this.getDraftsWithDealerCode(dealerCode, null, function(results){
+				
+				this.searchDraftByDealerCode(dealerCode, conditions, function(results){
 				 	viewModel.setProperty('/orders', results);
 				 	sap.ui.core.BusyIndicator.hide();
 				});

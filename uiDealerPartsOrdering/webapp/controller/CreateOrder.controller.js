@@ -470,9 +470,14 @@ sap.ui.define([
     			var failedList = {};
     			failedList.count = 0;
     			
-    			var items = model.getProperty('/items');
+    			var rData = model.getData();
+    			var items = rData.items;
     			var newItems = [];
+    			
     			if (!!items && items.length >0){
+    			
+	    			//sap.ui.core.BusyIndicator.show(0);				
+					this.draftInd.showDraftSaving();
     				for (var i=0; i < items.length; i++ ){
     					if (items[i].selected){
     						todoList.push(items[i].uuid);
@@ -485,6 +490,7 @@ sap.ui.define([
     								failedList[keys[0]] = messages;				
     								failedList.count = failedList.count +1;
     							}
+    							
     							if (todoList.length <= (deletedList.count + failedList.count) ){
     								// create new items 
 	    							for(var y = 0; y < items.length; y++){
@@ -499,7 +505,12 @@ sap.ui.define([
 	    									newItems[z].messages = newItems[z].messages.concat(newItems[z].messages);
 	    								}
 	    							}
-	    							model.setProperty('/items', newItems);
+	    							rData.items = items;
+	    							rData.totalLines = rData.items.length;
+									// ---to save some newwork traffic
+									rData.modifiedOn = new Date();
+									model.setData(rData);
+									that.draftInd.showDraftSaved();
     							}	
     						});             
     					}	
