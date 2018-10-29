@@ -104,10 +104,11 @@ displayBlock="true" xmlns="sap.m">
 									change='handleProductChange'
 									startSuggestion="3"
 									suggestionItems="{path: 'infoRecordModel>/C_Product_Fs', templateShareable:true}"
+									maxSuggestionWidth = '500px'
 									fieldWidth="auto" >
 								<suggestionItems >
 									<core:ListItem key="{infoRecordModel>Material}" text="{infoRecordModel>Material}" additionalText="{infoRecordModel>MaterialName}" />
-								</suggestionItems>
+								</suggestionItems>								
 							</Input>	
 							<Input value="{orderModel>partDesc}" enabled='false'/>
 							<Input value="{path: 'orderModel>spq', formatter:'.formatter.spqFormat'}" enabled='false'/>

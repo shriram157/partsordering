@@ -133,6 +133,7 @@ sap.ui.define([
 
 			_getNewLine : function(){
 				return {
+					hasError : true,
 					selected : false,
 					line : '',
 					partNumber:'',
@@ -154,6 +155,7 @@ sap.ui.define([
                             aFilters.push(new sap.ui.model.Filter("Material", sap.ui.model.FilterOperator.StartsWith, sTerm));
                         }
                     	oEvent.getSource().getBinding("suggestionItems").filter(aFilters);
+ //                   	oEvent.getSource().getBinding("suggestionRows").filter(aFilters);
             },
             
             handleProductChange : function(oEvent){
@@ -161,8 +163,10 @@ sap.ui.define([
                 var sValue = oEvent.getParameter("newValue"); 
             	var model = this.getModel(CONT_ORDER_MODEL );
             	var newline = model.getProperty('/newline');
+            	var resourceBundle = this.getResourceBundle();				
 				that.getInfoFromPart(sValue, model.getProperty('/revPlant'), function(item1Data){
 					if (!!item1Data){
+						newline[0].hasError = false; 
 						newline[0].itemCategoryGroup = item1Data.itemCategoryGroup;
 						newline[0].division = item1Data.division;
 						newline[0].partDesc = item1Data.partDesc;
@@ -174,6 +178,7 @@ sap.ui.define([
 						newline[0].taxCode = item1Data.taxCode;
 						newline[0].spq = item1Data.spq;
 					} else {
+						newline[0].hasError = true; 
 						newline[0].itemCategoryGroup = "";
 						newline[0].division = "";
 						newline[0].partDesc = "";
@@ -184,6 +189,14 @@ sap.ui.define([
 						newline[0].netPriceAmount = "";
 						newline[0].taxCode = "";
 						newline[0].spq = "";
+						
+						var failedtext = resourceBundle.getText('Message.Failed.Load.Part', [sValue]);
+						MessageBox.error(failedtext,  {
+							onClose: function(sAction){
+								sap.ui.core.BusyIndicator.hide();
+							}
+						});
+						
 					}
 					model.setProperty('/newline',newline);
 				});
@@ -275,10 +288,20 @@ sap.ui.define([
 				var that  = this;
 				var model = this.getModel(CONT_ORDER_MODEL);
 				var iData = model.getData();
+				var resourceBundle = this.getResourceBundle();				
+				var failedtext = null;
+				if 	( iData.newline[0].hasError){
+					failedtext = resourceBundle.getText('Message.Failed.Load.Part', [iData.newline[0].partNumber]);
+					MessageBox.error(failedtext,  {
+						onClose: function(sAction){
+						}
+					});
+					return false;	
+				}				
+
 				
 				// TODO-- check the values, warning message..
-				var resourceBundle = this.getResourceBundle();				
-				var failedtext = resourceBundle.getText('Message.Failed.Add.Part');
+				failedtext = resourceBundle.getText('Message.Failed.Add.Part');
 				sap.ui.core.BusyIndicator.show(0);				
 				this.draftInd.showDraftSaving();
 				this.createOrderDraft(iData,  function(rData, isOk){
@@ -395,24 +418,110 @@ sap.ui.define([
 			onActivate : function(oEvent){
             	var that = this;
             	var model = this.getModel(CONT_ORDER_MODEL );
-				this.draftInd.showDraftSaving();
-        		this.activateDraft(model.getData(), function(rData, messageList){
-        			if (!!rData ){
-    	    			var lv_data = rData;
-	        			var orderNNumber = lv_data.PurchaseOrder;
-        				var messsage = "Order " + orderNNumber + "created";
-        				that._showActivationOk(messsage);
+
+
+				// start show busy
+				sap.ui.core.BusyIndicator.show(0);		
+        		this.validateDraftOrder(model.getData(), function(rData, hasError){
+        			if (hasError){
+						sap.ui.core.BusyIndicator.hide();        				
+        				that._showValidationFailed(rData);
+        			} else {
+        				that.activateDraftOrder(rData, function(rxData, hasError){
+							sap.ui.core.BusyIndicator.hide();        				
+							that._showActivationResult(rxData, hasError);
+						});
+        				// error free 
         			}
+        			// if (!!rData ){
+    	    		// 	var lv_data = rData;
+	        		// 	var orderNNumber = lv_data.PurchaseOrder;
+        			// 	var messsage = "Order " + orderNNumber + "created";
+        			// 	// that._showActivationOk(messsage);
+        			// }
         		});
             },
 
+			_showActivationResult : function (rData, hasError){
+				var that = this;
+				var resourceBundle = this.getResourceBundle();				
+				var lv_messageArrary = [];
+				var lv_draftUuid = null;
+				var lv_messages = null;
+				var lv_orderNumber = null;
+				var lv_aDraft = null;
+				var lv_tciOrderNumber = rData.tciOrderNumber;
+				if (!!rData && !!rData.associatedDrafts ){
+					for (var x = 0; x < rData.associatedDrafts.length; x++ ){
+						lv_aDraft = rData.associatedDrafts[x];
+						lv_messages = lv_aDraft.messages;
+						lv_draftUuid  = lv_aDraft.DraftUUID;     
+						lv_orderNumber = lv_aDraft.orderNumber;
+						if (lv_aDraft.hasError){
+							lv_messageArrary.push(resourceBundle.getText('Message.Failed.Activate.Draft',[lv_draftUuid] ));
+							if (!!lv_messages && lv_messages.length > 0){
+								for(var y = 0; y < lv_messages.length; y++){
+									lv_messageArrary.push(lv_messages[y].code + " : " + lv_messages[y].message);
+								}
+							}
+						} else {
+							 lv_messageArrary.push(resourceBundle.getText('Message.Success.Activate.Draft',[lv_draftUuid, lv_orderNumber, lv_tciOrderNumber]));
+						}
+					}
+				}
+				var failedtext = resourceBundle.getText('Message.Failed.Activation.Draft');				
+				if (hasError){
+					MessageBox.error(failedtext , {
+						details : lv_messageArrary.join("<br/>"), 
+						styleClass : that.getOwnerComponent().getContentDensityClass(),
+						onClose : function (sAction) {
+						}		
+					});					
+				} else {
+					that._showActivationOk(lv_messageArrary.join('<br/>'));
+				}
+								
+			},
+			
+			_showValidationFailed : function(rData) {
+				var resourceBundle = this.getResourceBundle();
+				var failedtext = resourceBundle.getText('Message.Failed.Validate.Draft');
+				var drafts = rData.associatedDrafts;
+				var messageArrary = [];
+				var draftUuid = null;
+				var lv_messages = null;
+				var lv_tciOrderNumber = rData.tciOrderNumber;
+				if (!!drafts){
+					for (var x = 0; x < drafts.length; x++ ){
+						lv_messages = drafts[x].messages;
+						draftUuid  = drafts[x].DraftUUID;                 
+						if (!!lv_messages && lv_messages.length > 0){
+							for(var y = 0; y < lv_messages.length; y++){
+								if (!!lv_messages[y]){
+									 messageArrary.push(resourceBundle.getText('Message.Failed.Message.Draft',[draftUuid, lv_messages[y].code,lv_messages[y].message ]));
+								} else {
+									 messageArrary.push(resourceBundle.getText('Message.Failed.Communication.Draft',[draftUuid]));
+								}
+							}
+						}
+					}
+				}
+				
+				MessageBox.error(failedtext , {
+						details : messageArrary.join("<br/>"), 
+						styleClass : this.getOwnerComponent().getContentDensityClass(),
+						onClose : function (sAction) {
+						}		
+				});
+			}, 
+			
 			_showActivationOk : function (sDetails) {
 				var that = this;
 				MessageBox.success(
 					sDetails,
 					{
 						id : "okMessageBox",
-						details : sDetails,
+//						details : sDetails,
 						styleClass : this.getOwnerComponent().getContentDensityClass(),
 						actions : [MessageBox.Action.CLOSE],
 						onClose : function (sAction) {

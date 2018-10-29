@@ -57,18 +57,23 @@ sap.ui.define([
 			},
 			
 			onSearch : function(oEvent){
-				this.refresh();
+				var query = oEvent.getParameters('query').query;
+				this.refresh(query);
 			},
 			
-			refresh : function(){
+			refresh : function(query){
 				//take the existing conditions get the data
 				var appStateModel = this.getStateModel();
 				//var oItem = this.byId('iconTabHeader');
 				var dealerCode = appStateModel.getProperty('/selectedBP/dealerCode');
 				var viewModel = this.getModel(CONST_VIEW_MODEL);
 				
+				var conditions = null;
+				if (!!query){
+					conditions = {'orderNumber' : query.trim()};
+				}				
 				sap.ui.core.BusyIndicator.show(0);
-				this.getOrdersWithDealerCode(dealerCode, null, function(results){
+				this.getOrdersWithDealerCode(dealerCode, conditions, function(results){
 				 	viewModel.setProperty('/orders', results);
 				 	sap.ui.core.BusyIndicator.hide();
 				});				

@@ -694,7 +694,13 @@ sap.ui.define([
 				oFilter[0] =  new sap.ui.model.Filter("IsActiveEntity", sap.ui.model.FilterOperator.EQ, true );
 				oFilter[1] = new sap.ui.model.Filter("SiblingEntity/IsActiveEntity", sap.ui.model.FilterOperator.EQ, null );
 				oFilter[2] = new sap.ui.model.Filter("ZZ1_DealerCode_PDH", sap.ui.model.FilterOperator.EQ, dealerCode );
-				
+			
+				if (!!conditions){
+					if(!!conditions.orderNumber){
+						oFilter[3] = new sap.ui.model.Filter("ZZ1_DealerOrderNum_PDH", sap.ui.model.FilterOperator.Contains, conditions.orderNumber );
+					}
+				}				
+
 				bModel.read('/C_PurchaseOrderTP', 
 					{ 
 						urlParameters: {
@@ -1337,12 +1343,12 @@ sap.ui.define([
 				obj.Plant = data.revPlant;          
 				obj.StorageLocation = data.SLoc;
 
-				obj.NetPriceAmount = '2';
+				//obj.NetPriceAmount = '2';
 
 				// obj.NetPriceAmount = data.newline.netPriceAmount;
 //				obj.DocumentCurrency= data.newline[0].currency;
 //				obj.TaxCode = data.newline.taxCode;
-				obj.TaxCode = 'P0';
+				//obj.TaxCode = 'P0';
 
 				var key = bModel.createKey('/C_PurchaseOrderTP', {
 					'PurchaseOrder' : '',
@@ -1424,7 +1430,7 @@ sap.ui.define([
 	
 					obj.DocumentCurrency =  data.newline[0].currency;
 					obj.CompanyCode = data.newline[0].companyCode;  
-					obj.DocumentCurrency = 'CAD'; //
+					//obj.DocumentCurrency = 'CAD'; //
 					//obj.CompanyCode = '2014';
 					obj.PurchaseOrderType = lv_orderType;
 
@@ -1523,28 +1529,187 @@ sap.ui.define([
 				return messageLevel;
 			},
 			
-			activateDraft : function(iData, callBack){
+			_extractSapErrorMessage: function(error){
+				// sap-message
+				var sapMessage = null;
+				var mItem = null;
+				var messageItem = null;
+				var messageList = [];
+				if (!!error && !!error.responseText){
+					sapMessage = JSON.parse(error.responseText);
+					if(!!sapMessage.error && !!sapMessage.error.innererror && !!sapMessage.error.innererror.errordetails ){
+						for (var x=0; x < sapMessage.error.innererror.errordetails.length; x++){
+							 mItem = sapMessage.error.innererror.errordetails[x];
+							 if (!!mItem ){
+								messageItem = {severity : mItem.severity, code : mItem.code, message : mItem.message};
+								messageList.push(messageItem);
+							}
+						}
+					}
+				}
+				return messageList;
+			},
+			
+			activateDraft : function(uuid, index,  callBack){
 				var that = this;
 				
-				if (!!iData.associatedDrafts && !!iData.associatedDrafts[0]){
+				if (!!uuid){
 					var bModel = this.getOwnerComponent().getModel("MM_PUR_PO_MAINT_V2_SRV");
 
 					bModel.callFunction('/C_PurchaseOrderTPActivation', {
 						method : "POST",
 						urlParameters: {
                 	    	PurchaseOrder: '',
-                    		DraftUUID: iData.associatedDrafts[0].DraftUUID,
+                    		DraftUUID: uuid,
                     		IsActiveEntity: false
                     	},					
 						success : function( oData, oResponse){
 							var messageList = that._extractSapItemMessages(oResponse);
+							//var hasError = that._hasError(messageList);
 							//orderDraft.draftUuid = oData.DraftUUID;                         
-							callBack(oData, messageList );
+							callBack(oData.PurchaseOrder, index,  messageList );
+						}, 
+						error :  function(oError){
+							var messageList = that._extractSapErrorMessage(oError);
+							callBack(null, index, messageList);
+						} 
+					});
+				}
+			}, 
+			
+			activateDraftOrder : function(iData, callBack){
+				var that = this;
+				var lv_hasError = false;
+				var resourceBundle = this.getResourceBundle();
+
+				var drafts = null;
+				function isFinished() {
+					var isFinished = true;
+					if (!!drafts && drafts.length){
+						for (var i1 = 0; i1 < drafts.length; i1++){
+							if (!!!drafts[i1].pEnded){
+								isFinished = false;
+								return isFinished;
+							}
+						}		
+					}
+					return isFinished;
+				}
+
+				if (!!iData.associatedDrafts && iData.associatedDrafts.length > 0){
+					drafts = iData.associatedDrafts;
+					for (var i0 = 0; i0 < drafts.length; i0++){
+						drafts[i0].pEnded = false;
+						drafts[i0].hasError = false;
+						drafts[i0].orderNumber = null;
+
+						this.activateDraft(	drafts[i0].DraftUUID, i0, function(orderNumber, index, messages){
+							drafts[index].pEnded = true;
+							if (!!orderNumber){
+								drafts[index].orderNumber = orderNumber;
+							} else {
+								lv_hasError = true;
+								drafts[index].hasError = true;
+							}
+							drafts[index].messages = messages;
+							
+							if(isFinished()){
+								callBack(iData, lv_hasError );
+							}
+						});
+					}
+				}
+			},
+			
+			validateDraftOrder : function(iData, callBack){
+				var that = this;
+				var lv_hasError = false;
+				var resourceBundle = this.getResourceBundle();
+ 
+				var drafts = null;
+				function isFinished() {
+					var isFinished = true;
+					if (!!drafts && drafts.length){
+						for (var i1 = 0; i1 < drafts.length; i1++){
+							if (!!!drafts[i1].pEnded){
+								isFinished = false;
+								return isFinished;
+							}
+						}		
+					}
+					return isFinished;
+				}
+				
+				if (!!iData.associatedDrafts && iData.associatedDrafts.length > 0){
+					drafts = iData.associatedDrafts;
+					for (var i0 = 0; i0 < drafts.length; i0++){
+						drafts[i0].pEnded = false;
+						drafts[i0].hasError = false;
+						drafts[i0].messages = null;
+						that.validateDraft(drafts[i0].DraftUUID, i0, function(hasError, index, messages){
+							drafts[index].pEnded = true;
+							drafts[index].hasError = hasError;
+							if (!!hasError){
+								lv_hasError = true;
+							} else {
+								if (drafts[index].Lines < 1 ){
+									lv_hasError = true;
+									if(!!!messages){
+										messages = [];
+									}
+									messages.push({
+										code : 'F001',
+										message : resourceBundle.getText('Message.Failed.EmptyLine.Draft', [drafts[index].DraftUUID] ),			
+										severity :  'error'
+									});
+								}
+							}
+							
+							drafts[index].messages = messages;
+							if(isFinished()){
+								callBack(iData, lv_hasError );
+							}
+						});
+					}
+				} 
+			},
+			
+			_hasError : function(messageList){
+				var hasError = false;
+				if(!!messageList && messageList.length > 0){
+					for (var i = 0; i < messageList.length; i++){
+						if (messageList[i].severity === 'error'){
+							hasError = true;
+							return hasError;
+						}
+					}
+				}
+				return hasError;				
+			},
+			
+			validateDraft : function(uuid, index, callBack){
+				var that = this;
+				
+				if (!!uuid){
+					var bModel = this.getOwnerComponent().getModel("MM_PUR_PO_MAINT_V2_SRV");
+
+					bModel.callFunction('/C_PurchaseOrderTPValidation', {
+						method : "GET",
+						urlParameters: {
+                	    	PurchaseOrder: '',
+                    		DraftUUID: uuid,
+                    		IsActiveEntity: false
+                    	},					
+						success : function( oData, oResponse){
+							var messageList = that._extractSapItemMessages(oResponse);
+							var hasError = that._hasError(messageList);
+							//orderDraft.draftUuid = oData.DraftUUID;                         
+							callBack(hasError,index, messageList );
 						}, 
 						error :  function(oError){
 						//	var messageList = that._extractSapItemMessages(oResponse);
 							var err = oError;
-							callBack(null, null);
+							callBack(true,index,null);
 						} 
 					});
 				}
