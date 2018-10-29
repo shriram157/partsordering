@@ -147,7 +147,31 @@ sap.ui.define([
 					itemCategoryGroup :''
 				};
 			},
-						
+			
+			handlePartMessage : function(oEvent){
+							// create popover
+				if (!this._oPopover) {
+					this._oPopover = sap.ui.xmlfragment(this.getView().getId() + "-rowRelated", "tci.wave2.ui.parts.ordering.view.fragments.RowPopover", this);
+					this.getView().addDependent(this._oPopover);
+				}
+				var path = oEvent.getSource().getBindingContext('orderModel').getPath();
+//				var  = oEvent.getSource().getBindingContext('orderModel').get;
+				
+				this._oPopover.bindElement("orderModel>" +path);
+				this._oPopover.openBy(oEvent.getSource());
+			},
+			
+			showDraftItemInfo : function(oEvent){
+				if (!this._oToolTipPopover) {
+					this._oToolTipPopover = sap.ui.xmlfragment(this.getView().getId() + "-rowTooltip", "tci.wave2.ui.parts.ordering.view.fragments.TooltipPopover", this);
+					this.getView().addDependent(this._oToolTipPopover);
+				}
+				var path = oEvent.getSource().getBindingContext('orderModel').getPath();
+				
+				this._oToolTipPopover.bindElement("orderModel>" +path);
+				this._oToolTipPopover.openBy(oEvent.getSource());
+			},			
+
 			handleSuggest: function(oEvent) {
                         var sTerm = oEvent.getParameter("suggestValue");
                         var aFilters = [];

@@ -950,6 +950,62 @@ sap.ui.define([
 				});
 		    },
 		    
+		    _convertSeverty2Type : function(severty){
+		    	switch(severty){
+		    		case 'error':
+		    			return 'Error';
+		    		case 'warning':
+		    			return 'Warning';
+		    		case 'info':
+		    			return 'Information';
+		    		default :
+		    			return 'None';
+		    		
+		    	}
+		    	
+		    },
+		    
+		    _extractSapMessage : function(oResponse){
+		    	var that = this;
+				var sapMessage = null;
+				var messageList =[];
+				var messageItem = null;
+				var uuid = null;
+				var index = 0;
+				var mItem = null;
+		    	
+		    	// get the list of message order by UUID
+				if (!!oResponse && !!oResponse.headers['sap-message']){
+					sapMessage = JSON.parse(oResponse.headers['sap-message']);
+					if (!!sapMessage.target){
+						index = sapMessage.target.search('guid');
+						if (index > 0){
+							uuid = sapMessage.target.substr(index + 5, 36);
+							messageItem = { uuid : uuid, type : that._convertSeverty2Type(sapMessage.severity), severity : sapMessage.severity, code : sapMessage.code, message : sapMessage.message};
+							if (!!!messageList[uuid]){
+								messageList[uuid] = [];
+							}
+							messageList[uuid].push(messageItem);
+						}
+					}
+					for (var x=0; x< sapMessage.details.length; x++){
+						 mItem = sapMessage.details[x];
+						if (!!mItem && !!mItem.target){
+							index = mItem.target.search('guid');
+							if (index > 0){
+								uuid = mItem.target.substr(index + 5, 36);
+								messageItem = { uuid : uuid, type : that._convertSeverty2Type(mItem.severity),  severity : mItem.severity, code : mItem.code, message : mItem.message};
+								if (!!!messageList[uuid]){
+									messageList[uuid] = [];
+								}
+								messageList[uuid].push(messageItem);
+							}
+						}
+					}
+				} 
+				return messageList;
+		    },
+		    
 		    loadDealerDraft : function(dealer, orderData, callback) {
 		    	var that = this; 
 		    	var lv_orderData =orderData;
@@ -972,44 +1028,16 @@ sap.ui.define([
 					},
 					filters:  oFilter,						
 					success:  function(oData, oResponse){
-						var sapMessage = null;
-						var messageList =[];
-						var messageItem = null;
-						var uuid = null;
-						var target = null;
-						var index = 0;
-						var mItem = null;
-						
-						// get the list of message order by UUID
-						if (!!oResponse && !!oResponse.headers['sap-message']){
-							sapMessage = JSON.parse(oResponse.headers['sap-message']);
-							if (!!sapMessage.target){
-								index = sapMessage.target.search('guid');
-								if (index > 0){
-									uuid = sapMessage.target.substr(index + 5, 36);
-									messageItem = { uuid : uuid, severity : sapMessage.severity, code : sapMessage.code, message : sapMessage.message};
-									messageList[uuid] = messageItem;
-								}
-							}
-							for (var x=0; x< sapMessage.details.length; x++){
-								 mItem = sapMessage.details[x];
-								 if (!!mItem && !!mItem.target){
-									index = mItem.target.search('guid');
-									if (index > 0){
-										uuid = mItem.target.substr(index + 5, 36);
-										messageItem = { uuid : uuid, severity : mItem.severity, code : mItem.code, message : mItem.message};
-										messageList[uuid] = messageItem;
-									}
-								}
-							}
-						} 
-						
+
+						var messageList = that._extractSapMessage(oResponse);
+
 						if (!!oData && !!oData.results ){
 
 							var lv_aResult = null;
 							var lv_aResultItem = null;
 							var aDraftItem = null;
 							var aDraftHeader = null;
+							var messageItem = null;
 
 							for (var x=0; x < oData.results.length; x++  ){
 								lv_aResult = oData.results[x];
@@ -1058,17 +1086,17 @@ sap.ui.define([
 										aDraftItem.companyCode = lv_aResultItem.CompanyCode;
 										aDraftItem.purcahseOrg = lv_aResultItem.PurchasingOrganization;
 										aDraftItem.uuid = lv_aResultItem.DraftUUID;
-										aDraftItem.headerUuid = lv_aResultItem.ParentDraftUUID;
+										aDraftItem.parentUuid = lv_aResultItem.ParentDraftUUID;
 										//aDraftItem.spq = lv_aResultItem:'',
 
 										// messages - item level messages
 										if (!!aDraftItem && !!aDraftItem.messages){
-											aDraftItem.messages.push(messageList[aDraftItem.draftUUID]);
+											aDraftItem.messages = aDraftItem.messages.concat(messageList[aDraftItem.uuid]);
 										}else {
 											aDraftItem.messages = [];
-											aDraftItem.messages.push(messageList[aDraftItem.draftUUID]);
+											aDraftItem.messages = aDraftItem.messages.concat(messageList[aDraftItem.uuid]);
 										}
-										
+										aDraftItem.messageLevel = that.getMessageLevel(aDraftItem.messages);   
 										lv_orderData.items.push(aDraftItem);
 									}
 								}
@@ -1235,7 +1263,8 @@ sap.ui.define([
 			
 			
 			_extractSapItemMessages: function(oResponse){
-				// sap-message
+				var that = this; 
+
 				var sapMessage = null;
 				var mItem = null;
 				var messageItem = null;
@@ -1244,13 +1273,13 @@ sap.ui.define([
 					sapMessage = JSON.parse(oResponse.headers['sap-message']);
 //					if (!!sapMessage.target && sapMessage.target ==='PurchaseOrderItem'){					
 					if (!!sapMessage.target){
-						messageItem = { severity : sapMessage.severity, code : sapMessage.code, message : sapMessage.message};
+						messageItem = { type : that._convertSeverty2Type(sapMessage.severity), severity : sapMessage.severity, code : sapMessage.code, message : sapMessage.message};
 						messageList.push(messageItem);
 						for (var x=0; x < sapMessage.details.length; x++){
 							 mItem = sapMessage.details[x];
 //							 if (!!mItem && !!mItem.target && mItem.target ==='PurchaseOrderItem'){
 							 if (!!mItem && !!mItem.target){
-								messageItem = {severity : mItem.severity, code : mItem.code, message : mItem.message};
+								messageItem = {type : that._convertSeverty2Type(mItem.severity), severity : mItem.severity, code : mItem.code, message : mItem.message};
 								messageList.push(messageItem);
 							}
 						}
@@ -1360,7 +1389,7 @@ sap.ui.define([
 					success : function( oData, oResponse){
 						var messageList = that._extractSapItemMessages(oResponse);
 						data.newline[0].uuid = oData.DraftUUID;    
-						data.newline[0].headerUuid = oData.ParentDraftUUID;
+						data.newline[0].parentUuid = oData.ParentDraftUUID;
 						data.newline[0].line = oData.PurchaseOrderItem;
 						data.newline[0].messageLevel = that.getMessageLevel(messageList); 
 						data.newline[0].messages = messageList;
@@ -1505,7 +1534,7 @@ sap.ui.define([
 				var messageLevel = 1; // non
 				var meesageItem = null;
 				if(!!messages && !!messages.length){
-					for(var i = 1; i < messages.length; i++){
+					for(var i = 0; i < messages.length; i++){
 						meesageItem = messages[i];
 						if (!!meesageItem){
 							switch (meesageItem.severity){

@@ -24,6 +24,11 @@ sap.ui.define([
 				return dateFormatted;
 			},
 			
+			getItemTooltip : function(uuid, pUuid){
+				var resourceBundle = this.getResourceBundle();
+				return 	resourceBundle.getText('Message.Draft.Item.Id', [uuid, pUuid]);			
+			},
+			
 			orderStatus : function(code){
 				var resourceBundle = this.getResourceBundle();
 				switch(code){

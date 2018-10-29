@@ -12,6 +12,3 @@
         />
     </MessagePopover>
 </core:FragmentDefinition>
-            <!--subtitle="{message>additionalText}"
-
-            -->

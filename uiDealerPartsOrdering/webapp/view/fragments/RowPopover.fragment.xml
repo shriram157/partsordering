@@ -1,0 +1,28 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <MessagePopover
+        items="{orderModel>messages}"
+        initiallyExpanded="true">
+        <MessageItem
+            type="{orderModel>type}"
+            title="{orderModel>message}"
+            subtitle="{orderModel>code}"
+        />
+    </MessagePopover>
+</core:FragmentDefinition>
+
+<!--
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<ResponsivePopover
+		title="Lalala"
+		class="sapUiPopupWithPadding"
+		placement="Auto" >
+		<content>
+			<Text text='dddddd'  width="15em" />
+		</content>
+	</ResponsivePopover>
+</core:FragmentDefinition>
+-->

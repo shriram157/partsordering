@@ -1,0 +1,12 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<ResponsivePopover
+		title="{i18n>Message.Draft.Item.Ids}"
+		class="sapUiPopupWithPadding"
+		placement="Auto" >
+		<content>
+			<FormattedText htmlText="{parts: [{path: 'orderModel>uuid'}, {path: 'orderModel>parentUuid'}], formatter: '.formatter.getItemTooltip'}"/>
+		</content>
+	</ResponsivePopover>
+</core:FragmentDefinition>

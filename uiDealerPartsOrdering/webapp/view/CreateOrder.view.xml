@@ -70,7 +70,8 @@ displayBlock="true" xmlns="sap.m">
 						<Button  type='Reject' icon="sap-icon://delete" press='handleDeletePart' />
 					</Column>
 					<Column width="8rem" >
-						<ObjectIdentifier title="{i18n>Lable.CreateOrder.PartNumber}" text="{i18n>Lable.CreateOrder.Line}" />	
+						<ObjectIdentifier title="{i18n>Lable.CreateOrder.PartNumber}" 
+							text="{i18n>Lable.CreateOrder.Line}" />	
 					</Column>
 					<Column width="10rem" >
 						<Text text="{i18n>Lable.CreateOrder.PartDesc}" />
@@ -157,7 +158,10 @@ displayBlock="true" xmlns="sap.m">
 						<ColumnListItem>
 							<cells>
 								<CheckBox selected='{orderModel>selected}' select='toggleRowSelect'/>
-								<ObjectIdentifier title="{orderModel>partNumber}" text="{path: 'orderModel>line', formatter:'.formatter.lineNumberFormat' }" />	
+								<ObjectIdentifier title="{orderModel>partNumber}" 
+									titleActive = 'true' titlePress='showDraftItemInfo'
+									tooltip = "{parts: [{path: 'orderModel>uuid'}, {path: 'orderModel>parentUuid'}], formatter: '.formatter.getItemTooltip'}"
+									text="{path: 'orderModel>line', formatter:'.formatter.lineNumberFormat' }" />	
 								<Text text="{orderModel>partDesc}" />
 								<Text text="{path: 'orderModel>spq', formatter:'.formatter.spqFormat'}" />
 								<Input value="{orderModel>qty}" change='onQtyChange'/>
