@@ -5,8 +5,10 @@ sap.ui.define([
 	'sap/m/Link',
 	'sap/ui/model/json/JSONModel',
     "sap/m/MessageBox",	
+    "sap/ui/export/Spreadsheet",
+    "sap/m/MessageToast",
 	"tci/wave2/ui/parts/ordering/model/formatter"	
-], function(BaseController, MessagePopover, MessageItem, Link, JSONModel, MessageBox, formatter) {
+], function(BaseController, MessagePopover, MessageItem, Link, JSONModel, MessageBox, Spreadsheet, MessageToast, formatter) {
 	"use strict";
 	var CONT_ORDER_MODEL = "orderModel";	
 	var CONT_INFOREC_MODEL = "infoRecordModel";
@@ -69,29 +71,36 @@ sap.ui.define([
 				var infoRecordModel = this.getProductModel();
 				this.setModel(infoRecordModel, CONT_INFOREC_MODEL);
 
-				// get the company code for the default purcahse org
+//				get the company code for the default purcahse org
 				this.getCompanyCodeByPurcahseOrg(orderData.purchaseOrg, function(companyCode){
-					orderData.companyCode = companyCode;
+					model.setProperty('/companyCode', companyCode);
+					//orderData.companyCode = companyCode;
 				});
+
+				this.getCustomerById(orderData.purBpCode, function(data){
+					// the default supplying plant for STO only 
+					if ( !!data && !!data.to_CustomerSalesArea && !!data.to_CustomerSalesArea.results && !!data.to_CustomerSalesArea.results.length > 0){
+						model.setProperty('/stoSupplyingPlant', data.to_CustomerSalesArea.results[0].SupplyingPlant);
+					}
+				});
+
+				this.loadDealerDraft(orderData.dealerCode , orderData, function(rData){
+					for (var x = 0; x < rData.items.length; x++){
+						rData.items[x].messageLevel = that.getMessageLevel(rData.items[x].messages); 
+					}
+					model.setData(rData);
+					that.setModel(model,CONT_ORDER_MODEL );
+					sap.ui.core.BusyIndicator.hide();
+				});				
 				
 				this.getStorageInfo(orderData.purBpCode, function(data){
 					// populate the rest of field
 					if (!!data && !!orderData.purBpCode){
-						orderData.sloc = data.SLoc;
-						orderData.revPlant = data.Plant;
+						model.setProperty('/sloc', data.SLoc);
+ // 					orderData.sloc = data.SLoc;
+						model.setProperty('/revPlant', data.Plant);
+//						orderData.revPlant = data.Plant;
 					}
-				
-					that.loadDealerDraft(orderData.dealerCode , orderData, function(rData){
-						for (var x = 0; x < rData.items.length; x++){
-							rData.items[x].colorCode = that.getMessageColor(rData.items[x].messages); 
-							rData.items[x].iconUrl = 'sap-icon://delete';
-							rData.items[x].messageLevel = that.getMessageLevel(rData.items[x].messages); 
-						}
-
-						model.setData(rData);
-						that.setModel(model,CONT_ORDER_MODEL );
-						sap.ui.core.BusyIndicator.hide();
-					});
 				});               
 			}, 
 
@@ -188,7 +197,7 @@ sap.ui.define([
             	var model = this.getModel(CONT_ORDER_MODEL );
             	var newline = model.getProperty('/newline');
             	var resourceBundle = this.getResourceBundle();				
-				that.getInfoFromPart(sValue, model.getProperty('/revPlant'), function(item1Data){
+				that.getInfoFromPart(sValue, model.getProperty('/purBpCode'), function(item1Data){
 					if (!!item1Data){
 						newline[0].hasError = false; 
 						newline[0].itemCategoryGroup = item1Data.itemCategoryGroup;
@@ -443,27 +452,31 @@ sap.ui.define([
             	var that = this;
             	var model = this.getModel(CONT_ORDER_MODEL );
 
-
-				// start show busy
-				sap.ui.core.BusyIndicator.show(0);		
-        		this.validateDraftOrder(model.getData(), function(rData, hasError){
-        			if (hasError){
-						sap.ui.core.BusyIndicator.hide();        				
-        				that._showValidationFailed(rData);
-        			} else {
-        				that.activateDraftOrder(rData, function(rxData, hasError){
-							sap.ui.core.BusyIndicator.hide();        				
+        				that.activateDraftOrder(model.getData(), function(rxData, hasError){
+							//sap.ui.core.BusyIndicator.hide();        				
 							that._showActivationResult(rxData, hasError);
 						});
-        				// error free 
-        			}
+
+				// // start show busy
+				// sap.ui.core.BusyIndicator.show(0);		
+    //     		this.validateDraftOrder(model.getData(), function(rData, hasError){
+    //     			if (hasError){
+				// 		sap.ui.core.BusyIndicator.hide();        				
+    //     				that._showValidationFailed(rData);
+    //     			} else {
+    //     				that.activateDraftOrder(rData, function(rxData, hasError){
+				// 			sap.ui.core.BusyIndicator.hide();        				
+				// 			that._showActivationResult(rxData, hasError);
+				// 		});
+    //     				// error free 
+    //     			}
         			// if (!!rData ){
     	    		// 	var lv_data = rData;
 	        		// 	var orderNNumber = lv_data.PurchaseOrder;
         			// 	var messsage = "Order " + orderNNumber + "created";
         			// 	// that._showActivationOk(messsage);
         			// }
-        		});
+        		// });
             },
 
 			_showActivationResult : function (rData, hasError){
@@ -614,11 +627,12 @@ sap.ui.define([
     				for (var i=0; i < items.length; i++ ){
     					if (items[i].selected){
     						todoList.push(items[i].uuid);
-    						this.deleteOrderDraftItem([items[i].uuid, items[i].line], function(keys, isOk, messages){
+    						this.deleteOrderDraftItem([items[i].uuid, items[i].line, items[i].parentUuid ], function(keys, isOk, messages){
     							// only failed record will be returning message. message of good one will be ignored
     							if(isOk){
     								deletedList[keys[0]] = keys;
     								deletedList.count = deletedList.count +1;
+    								
     							} else {
     								failedList[keys[0]] = messages;				
     								failedList.count = failedList.count +1;
@@ -638,7 +652,7 @@ sap.ui.define([
 	    									newItems[z].messages = newItems[z].messages.concat(newItems[z].messages);
 	    								}
 	    							}
-	    							rData.items = items;
+	    							rData.items = newItems;
 	    							rData.totalLines = rData.items.length;
 									// ---to save some newwork traffic
 									rData.modifiedOn = new Date();
@@ -651,6 +665,38 @@ sap.ui.define([
     			}
 			},
 
+	
+			onExport : function(oEvent){
+				var aColumns = [];
+				aColumns.push({
+				 label: "Name",
+    			 property: "name"
+				});
+				
+				var mDataSource = [{'name' : 'aa'}];
+				 var mSettings = {
+					workbook: {
+    					columns: aColumns,
+    					context : {
+        					application: 'Debug Test Application',
+        					version: '1.54',
+        					title: 'Some random title',
+        					modifiedBy: 'John Doe',
+        					metaSheetName: 'Custom metadata'
+    					},
+    					hierarchyLevel: 'level'
+    				},
+    				dataSource: mDataSource,
+    				fileName: "salary.xlsx"
+				};
+				
+				
+				new Spreadsheet(mSettings)
+				.build()
+				.then( function() {
+					MessageToast.show("Spreadsheet export has finished");
+				});
+			}, 
 			onBack : function(oEvent){
 				var that = this;
 				this.draftInd.clearDraftState();

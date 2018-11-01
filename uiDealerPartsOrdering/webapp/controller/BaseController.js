@@ -231,7 +231,7 @@ sap.ui.define([
 //				bModel.read("/A_Product('"+id+"')", {
 				bModel.read(key, {
 						urlParameters: {
-    		  				"$select": "ItemCategoryGroup,to_SalesDelivery/ProductSalesOrg,to_SalesDelivery/ProductDistributionChnl",
+    		  			//	"$select": "ItemCategoryGroup,to_SalesDelivery/ProductSalesOrg,to_SalesDelivery/ProductDistributionChnl",
     						"$expand": "to_SalesDelivery"    		
 						},
 						success:  function(oData, oResponse){
@@ -288,7 +288,7 @@ sap.ui.define([
 				});				
 			},
 
-			getPriceInfoFromInfoRecord : function( infoRecord,purOrg,plant, callback){
+			getPriceInfoFromInfoRecord : function( infoRecord,purOrg,callback){
 				var bModel = 	this.getInfoRecordModel();	
 				var key = bModel.createKey('/I_PurgInfoRecdOrgPlantData', {
 					'PurchasingInfoRecord' : infoRecord,
@@ -301,7 +301,7 @@ sap.ui.define([
 				bModel.read( key, 
 					{ 
 						urlParameters: {
-    		 				"$select": "NetPriceAmount,Currency,TaxCode"
+    		 			//	"$select": "NetPriceAmount,Currency,TaxCode"
 						},
 						success:  function(oData, oResponse){
 							if(!!oData){
@@ -348,7 +348,7 @@ sap.ui.define([
 					{ 
 						filters:  oFilter,
 						urlParameters: {
-    		 				"$select": "CompanyCode,Country,SupplierAccountGroup"
+    		 		//		"$select": "CompanyCode,Country,SupplierAccountGroup"
 						},
 						success:  function(oData, oResponse){
 							if(!!oData && !!oData.results && oData.results.length > 0){
@@ -374,7 +374,7 @@ sap.ui.define([
 				bModel.read(key, 
 				{
 					urlParameters: {
-    		 			"$select": "Material,MaterialName,Division,to_PurchasingInfoRecord/PurchasingInfoRecord,to_PurchasingInfoRecord/Supplier,to_PurchasingInfoRecord/IsDeleted",
+    		 		//	"$select": "Material,MaterialName,Division,to_PurchasingInfoRecord/PurchasingInfoRecord,to_PurchasingInfoRecord/Supplier,to_PurchasingInfoRecord/IsDeleted",
     					"$expand": "to_PurchasingInfoRecord"
 					},
 					success:  function(oData, oResponse){
@@ -418,7 +418,252 @@ sap.ui.define([
 				});
 			},
 
-			getInfoFromPart : function(partNum, revPlant, callback){
+			
+			/// only for Z004/Z005 
+			getInfoFromPart : function(partNum, bpVendor, callback){
+            	var that = this;
+				var cacheData = this.getPartCacheData();
+				var cacheDataItem = null; 
+				var lv_supplier = bpVendor;
+				var hasError = false;
+				// step control in the async mode 				
+				var stepsContorl = [false, false, false, false, false, false ];
+				
+				// var isFinished = false;
+				function isFinished(){
+					if (stepsContorl[0] && stepsContorl[1] && stepsContorl[2] && stepsContorl[3] && stepsContorl[4] && stepsContorl[5]){
+						return true;
+					}
+					return false;
+				}
+				
+				if (!!cacheData && !!cacheData[partNum]){
+					// if already has, return cache version
+					callback(cacheData[partNum]);
+					return;
+				} else {
+					if (!!partNum){
+						if (!!!cacheData ){
+							cacheData = []; 
+						} 
+						
+						if (!!!cacheDataItem){
+							cacheDataItem ={};
+						}
+
+		            	// get the item group and so 
+						that.getPartsInfoById(partNum, function(item1Data){
+	   						stepsContorl[0] = true;
+							if(!!item1Data){
+								if (!!item1Data.to_SalesDelivery.results && item1Data.to_SalesDelivery.results.length >0 ){
+									var finishedCount = 0;
+									for(var x1 = 0; x1 < item1Data.to_SalesDelivery.results.length; x1++ ){
+										// rounding profile  -- get the first one then			            	
+    		    					   	that.getRoundingprofileOFVendor(partNum, 
+        						 			item1Data.to_SalesDelivery.results[x1].ProductSalesOrg,
+        					   				item1Data.to_SalesDelivery.results[x1].ProductDistributionChnl, function(item2Data){
+        					   					
+        					   				finishedCount = finishedCount + 1;
+											if(!!item2Data && !!item2Data.Item && !!item2Data.Item.Roundingprofile){
+							   					stepsContorl[1] = true;
+												cacheDataItem.spq = item2Data.Item.Roundingprofile;
+											} else if (finishedCount >= item1Data.to_SalesDelivery.results.length){
+						   						stepsContorl[1] = true;
+												// can not find anything
+											} 
+		    	      						// return is all finished 
+		    	      						if(isFinished()){
+		    	      							if(hasError){
+			    	      							callback(null);
+		    	      							} else {
+				    	      						cacheData.push(cacheDataItem);
+				    	      						callback(cacheDataItem);
+		    	      							}
+		    	      						}											
+        								});
+									}
+								} else {
+		        	    			stepsContorl[1] = true;
+				            		hasError = true;
+				            		if(isFinished()){
+			    	      				callback(null);
+		    	      				}			
+								}	
+
+								cacheDataItem.itemCategoryGroup = item1Data.ItemCategoryGroup;
+								var lv_orderType = that.getRealOrderTypeByItemCategoryGroup(item1Data.ItemCategoryGroup);
+								
+				            	that.getZMaterialById(partNum, function(data){
+			            		// step one if finished 
+				            		stepsContorl[2] = true;
+    			        			if (!!data){
+										cacheDataItem.partDesc = data.MaterialName ;
+										
+										if('NB' === lv_orderType){
+											var infoRecord = null;
+	    	    		    				if (!!data.to_PurchasingInfoRecord.results && data.to_PurchasingInfoRecord.results.length > 0) {
+												for (var i=0;i < data.to_PurchasingInfoRecord.results.length; i++){
+													infoRecord = data.to_PurchasingInfoRecord.results[i];
+													if ( infoRecord.IsDeleted){
+														infoRecord = null;
+													} else {
+							 							// only the none deleted infoRecord will survive
+							 							break;
+							 						}
+												}						
+											}
+											
+											if(!!infoRecord && !infoRecord.IsDeleted){
+		        	    						// get the first record only. 
+			        		    				lv_supplier = infoRecord.Supplier;
+            									var lvPurchasingInfoRecord = infoRecord.PurchasingInfoRecord;
+		        		    					cacheDataItem.supplier = lv_supplier;
+												cacheDataItem.purInfoRecord = lvPurchasingInfoRecord; 
+									
+												// the following is almost in para, don't know which one will be return first 
+												// get the company code 
+            									that.getCompanyCodeByVendor(lv_supplier, function(o1Data){
+            										stepsContorl[3] = true;
+        			   								if (!!o1Data && !!o1Data.CompanyCode &&!!lv_supplier){
+        			   									cacheDataItem.companyCode =o1Data.CompanyCode;
+		    	      								} 
+		    	      								// return is all finished 
+		    	      								if(isFinished()){
+		    	      									if(hasError){
+			    	      									callback(null);
+		    	      									} else {
+			    	      									cacheData.push(cacheDataItem);
+			    	      									callback(cacheDataItem);
+		    	      									}
+		    	      								}
+            									});
+            				
+			    								that.getPriceInfoFromInfoRecord(lvPurchasingInfoRecord, 
+            												"7019", function(cData){
+            										stepsContorl[4] = true;
+		            								if (!!cData && !!lvPurchasingInfoRecord){
+        		    									cacheDataItem.currency =cData.Currency;
+            											cacheDataItem.netPriceAmount = cData.NetPriceAmount;
+            											cacheDataItem.taxCode = cData.TaxCode;
+            										} 
+		    	      								// return is all finished 
+		    	      								if(isFinished()){
+		    	      									if(hasError){
+			    	      									callback(null);
+		    	      									} else {
+			    	      									cacheData.push(cacheDataItem);
+			    	      									callback(cacheDataItem);
+		    	      									}
+		    	      								}
+            									});
+
+												// find the infoReord
+												that.getStorageInfo(lv_supplier, function(data){
+				    			        			stepsContorl[5] = true;
+													// populate the rest of field
+													if (!!data && !!lv_supplier){
+														cacheDataItem.sloc = data.SLoc;
+														cacheDataItem.revPlant = data.Plant;
+													}
+												});     											
+											} else {
+						            			stepsContorl[3] = true;
+						            			stepsContorl[4] = true;
+						            			stepsContorl[5] = true;
+			    			        			hasError = true;
+		    	    	  						if(isFinished()){
+		    	      								callback(null);
+												}
+											}
+										} else if ('UB' === lv_orderType) {
+											
+											// bypass all those steps
+					            			stepsContorl[3] = true;
+					            			stepsContorl[4] = true;
+					            			stepsContorl[5] = true;
+		    	      						if(isFinished()){
+			    	      						cacheData.push(cacheDataItem);
+			    	      						callback(cacheDataItem);
+	    	      							}			            			
+
+           									// that.getCompanyCodeByVendor(lv_supplier, function(o1Data){
+           									// 	stepsContorl[3] = true;
+       			   							// 	if (!!o1Data && !!o1Data.CompanyCode &&!!lv_supplier){
+       			   							// 		cacheDataItem.companyCode =o1Data.CompanyCode;
+	    	      								// } 
+	    	      								// // return is all finished 
+	    	      								// if(isFinished()){
+	    	      								// 	if(hasError){
+		    	      							// 		callback(null);
+	    	      								// 	} else {
+		    	      							// 		cacheData.push(cacheDataItem);
+		    	      							// 		callback(cacheDataItem);
+	    	      								// 	}
+	    	      								// }
+           									// });
+
+					            			// stepsContorl[4] = true;
+
+											// that.getSupplierInfo(lv_supplier, function(data){
+						     //       			stepsContorl[4] = true;
+											// 	if (!!data && !!lv_supplier){
+											// 		cacheDataItem.companyCode = 'xx';
+											// 	}											
+											// });
+
+											// that.getStorageInfo(lv_supplier, function(data){
+					      //      				stepsContorl[5] = true;
+											// 	// populate the rest of field
+											// 	if (!!data && !!lv_supplier){
+											// 		cacheDataItem.sloc = data.SLoc;
+											// 		cacheDataItem.revPlant = data.Plant;
+											// 	}
+	    	     // 								// return is all finished 
+	    	     // 								if(isFinished()){
+	    	     // 									if(hasError){
+		    	    //   									callback(null);
+	    	     // 									} else {
+		    	    //   									cacheData.push(cacheDataItem);
+		    	    //   									callback(cacheDataItem);
+	    	     // 									}
+	    	     // 								}
+											// });     											
+
+										} else {
+					            			stepsContorl[3] = true;
+					            			stepsContorl[4] = true;
+					            			stepsContorl[5] = true;
+			    		        			hasError = true;
+		    	      						if(isFinished()){
+		    	      							callback(null);
+	    	      							}			            			
+										}
+
+		           					}else {
+					            		// call bacl null, as serious error
+		        		    			stepsContorl[3] = true;
+		        		    			stepsContorl[4] = true;
+		        		    			stepsContorl[5] = true;
+			            				hasError = true;
+			            				if(isFinished()){
+		    	      						callback(null);
+	    	      						}				            			
+		           					}
+		            			});	
+							} else {
+		    	      			callback(null);
+							}
+						});
+						
+					} else {
+						// noting to return
+						callback(null);
+						return;
+					}
+				}
+            }, 
+
+			getInfoFromPartx : function(partNum, revPlant, callback){
             	var that = this;
 				var cacheData = this.getPartCacheData();
 				var cacheDataItem = null; 
@@ -497,7 +742,7 @@ sap.ui.define([
             						});
             				
 			    					that.getPriceInfoFromInfoRecord(lvPurchasingInfoRecord, 
-            												"7019", revPlant, function(cData){
+            												"7019", function(cData){
             							stepsContorl[2] = true;
 		            					if (!!cData && !!lvPurchasingInfoRecord){
         		    						cacheDataItem.currency =cData.Currency;
@@ -588,7 +833,7 @@ sap.ui.define([
 					} else {
 						// noting to return
 						callback(null);
-						return
+						return;
 					}
 				}
             }, 
@@ -651,7 +896,7 @@ sap.ui.define([
 					{ 
 						filters:  oFilter,
 						urlParameters: {
-    		 				"$select": "BusinessPartnerType,BusinessPartner,BusinessPartnerName"
+    		 		//		"$select": "BusinessPartnerType,BusinessPartner,BusinessPartnerName"
 						},
 						success:  function(oData, oResponse){
 
@@ -704,7 +949,7 @@ sap.ui.define([
 				bModel.read('/C_PurchaseOrderTP', 
 					{ 
 						urlParameters: {
-      		 				"$select": "PurchaseOrder,CompanyCode,PurchasingOrganization,PurchasingGroup,Supplier,DocumentCurrency,PurchaseOrderStatus,PurchaseOrderNetAmount,PurchaseOrderType,CreationDate,ZZ1_DealerCode_PDH,ZZ1_AppSource_PDH,ZZ1_DealerOrderNum_PDH,CreatedByUser",
+      		 		//		"$select": "PurchaseOrder,CompanyCode,PurchasingOrganization,PurchasingGroup,Supplier,DocumentCurrency,PurchaseOrderStatus,PurchaseOrderNetAmount,PurchaseOrderType,CreationDate,ZZ1_DealerCode_PDH,ZZ1_AppSource_PDH,ZZ1_DealerOrderNum_PDH,CreatedByUser",
       		 				"$orderby": "CreationDate"
 						},
 						filters:  oFilter,						
@@ -776,7 +1021,7 @@ sap.ui.define([
 				bModel.read('/C_PurchaseOrderTP', 
 					{ 
 						urlParameters: {
-      		 				"$select": "PurchasingOrganization,PurchasingGroup,Supplier,PurchaseOrderType,ZZ1_DealerCode_PDH,ZZ1_DealerOrderNum_PDH,DraftUUID,DraftEntityCreationDateTime,DraftEntityLastChangeDateTime",
+      		 			//	"$select": "PurchasingOrganization,PurchasingGroup,Supplier,PurchaseOrderType,ZZ1_DealerCode_PDH,ZZ1_DealerOrderNum_PDH,DraftUUID,DraftEntityCreationDateTime,DraftEntityLastChangeDateTime",
       		 				"$orderby": "ZZ1_DealerOrderNum_PDH,DraftEntityCreationDateTime"
 						},
 						filters:  oFilter,						
@@ -1022,7 +1267,7 @@ sap.ui.define([
 				
 				bModel.read('/C_PurchaseOrderTP', { 
 					urlParameters: {
-      		 			"$select": "PurchasingOrganization,PurchasingGroup,Supplier,PurchaseOrderType,ZZ1_DealerCode_PDH,ZZ1_DealerOrderNum_PDH,DraftUUID,DraftEntityCreationDateTime,DraftEntityLastChangeDateTime,to_PurchaseOrderItemTP",
+ //     		 			"$select": "PurchasingOrganization,PurchasingGroup,Supplier,PurchaseOrderType,ZZ1_DealerCode_PDH,ZZ1_DealerOrderNum_PDH,DraftUUID,DraftEntityCreationDateTime,DraftEntityLastChangeDateTime,to_PurchaseOrderItemTP",
       		 			"$expand" : "to_PurchaseOrderItemTP",
       		 			"$orderby": "ZZ1_DealerOrderNum_PDH,DraftEntityCreationDateTime"
 					},
@@ -1138,6 +1383,28 @@ sap.ui.define([
 					}
 				);		
 		    },
+
+
+			getSupplierInfo : function(id, callBack){
+
+				var bModel = this.getApiBPModel();
+				var key = bModel.createKey('/A_Supplier',{'Supplier' : id});
+				bModel.read(key,
+					{ 
+						urlParameters: {
+    		 			//	"$select": "to_CustomerCompany/CompanyCode",
+    						"$expand": "to_SupplierCompany"
+						},
+						success:  function(oData, oResponse){
+							callBack(oData);
+						},
+						error: function(err){
+							// error handling here
+							callBack(null);
+						}
+					}
+				);		
+			},
 		    
 			getSupplierCompanyCode : function(id, callBack){
 
@@ -1147,7 +1414,7 @@ sap.ui.define([
 				bModel.read(key,
 					{ 
 						urlParameters: {
-    		 				"$select": "to_CustomerCompany/CompanyCode",
+    		 			//	"$select": "to_CustomerCompany/CompanyCode",
     						"$expand": "to_CustomerCompany"
 						},
 						success:  function(oData, oResponse){
@@ -1343,6 +1610,7 @@ sap.ui.define([
 				var bModel = this.getPurV2Model();
 				bModel.callFunction("/POItemDelete", {
 					method : 'POST',
+					refreshAfterChange : false,
 					urlParameters : {
 						'DraftUUID' : keys[0]
 					},
@@ -1357,7 +1625,7 @@ sap.ui.define([
 				});	
 			},
 			
-			_addOrderDraftItem : function(pUuid, data, callback){
+			_addOrderDraftItem : function(pUuid, data, orderType, callback){
 				var that = this;
 				var bModel = this.getPurV2Model();
 				var entry = bModel.createEntry('/C_PurchaseOrderItemTP', {});
@@ -1366,11 +1634,21 @@ sap.ui.define([
 				var obj = entry.getObject();
 				obj.OrderQuantity = data.newline[0].qty;                //*
 				obj.Material = data.newline[0].partNumber;              //*  
-				obj.PurchasingInfoRecord=data.newline[0].purInfoRecord;
-				obj.ZZ1_LongText_PDI = 	data.newline[0].comment;				
-  
-				obj.Plant = data.revPlant;          
-				obj.StorageLocation = data.SLoc;
+				obj.ZZ1_LongText_PDI = 	data.newline[0].comment;
+				
+				if ('UB' === orderType ){
+					obj.Plant = data.revPlant;          
+					obj.StorageLocation = data.sloc;
+					obj.DocumentCurrency= "CAD";
+					obj.NetPriceAmount = '1';
+					obj.InvoiceIsExpected = false;
+					obj.GoodsReceiptIsExpected = false;	
+					obj.PurchaseOrderItemCategory = 'U';
+				} else if ('NB' === orderType){
+					obj.PurchasingInfoRecord=data.newline[0].purInfoRecord;
+				}
+				
+				
 
 				//obj.NetPriceAmount = '2';
 
@@ -1417,8 +1695,13 @@ sap.ui.define([
 				var that = this;
 				
 				var lv_orderType = this.getRealOrderTypeByItemCategoryGroup(data.newline[0].itemCategoryGroup);
-				var lv_supplier = data.newline[0].supplier;
-				
+				var lv_supplier = null;
+				if ('UB' === lv_orderType ){
+					lv_supplier = data.purBpCode;
+				} else if ('NB' === lv_orderType){
+					lv_supplier = data.newline[0].supplier;
+				}
+
 				var aDraft = null;
 				//first of all, let us find the existing order header, 
 				for(var x1 = 0 ; x1 < data.associatedDrafts.length; x1++){
@@ -1435,7 +1718,7 @@ sap.ui.define([
 				}
 				
 				if (!!aDraft){
-					that._addOrderDraftItem(aDraft.DraftUUID, data, function(rItem){
+					that._addOrderDraftItem(aDraft.DraftUUID, data, lv_orderType, function(rItem){
 						if(!!rItem){
 							data.items.push(rItem);
 							aDraft.Lines = aDraft.Lines +1;
@@ -1449,19 +1732,31 @@ sap.ui.define([
 					var bModel = this.getPurV2Model();;
 					var entry = bModel.createEntry('/C_PurchaseOrderTP', {});
 					var obj = entry.getObject();
-					obj.ZZ1_AppSource_PDH = 'A';
 					obj.PurchasingOrganization = data.purchaseOrg;
 					obj.PurchasingGroup = data.purchasingGroup;
 
 					obj.ZZ1_DealerCode_PDH = data.dealerCode;
 					obj.ZZ1_DealerOrderNum_PDH = data.tciOrderNumber;
-					obj.Supplier = lv_supplier;
-	
-					obj.DocumentCurrency =  data.newline[0].currency;
-					obj.CompanyCode = data.newline[0].companyCode;  
+					obj.PurchaseOrderType = lv_orderType;
+
+					if ('UB' === lv_orderType ){
+						obj.ZZ1_AppSource_PDH = 'B';
+//				obj.Supplier = data.revPlant;
+						obj.ZZ1_SupplyPlant_PDH ='7300';
+						obj.CompanyCode = data.newline[0].companyCode;  
+						obj.DocumentCurrency= "CAD";
+
+						obj.Supplier = '7300';
+					} else if ('NB' === lv_orderType){
+						obj.ZZ1_AppSource_PDH = 'A';
+						obj.Supplier = lv_supplier;
+						obj.CompanyCode = data.newline[0].companyCode;  
+						obj.DocumentCurrency= "CAD";
+				}
+		
+					// obj.DocumentCurrency =  data.newline[0].currency;
 					//obj.DocumentCurrency = 'CAD'; //
 					//obj.CompanyCode = '2014';
-					obj.PurchaseOrderType = lv_orderType;
 
 					bModel.create('/C_PurchaseOrderTP', obj, {
 						success : function( oData, response){
@@ -1474,7 +1769,7 @@ sap.ui.define([
 							aDraft.DraftUUID = oData.DraftUUID;
 							aDraft.Lines = 0;
 
-							that._addOrderDraftItem(aDraft.DraftUUID, data, function(rItem){
+							that._addOrderDraftItem(aDraft.DraftUUID, data, lv_orderType, function(rItem){
 								if(!!rItem){
 									data.items.push(rItem);
 									aDraft.Lines = aDraft.Lines +1;
