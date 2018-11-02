@@ -102,9 +102,14 @@ sap.ui.define([
 				//var eText = sDetails;
 				if (sDetails.statusCode >= 400 && sDetails.statusCode < 500){
 					if (!!sDetails.responseText){
-						var errDetail = JSON.parse(sDetails.responseText);
-						tText = errDetail.error.code + " : " + errDetail.error.message.value;
-						//eText = errDetail;
+						try{
+							var errDetail = JSON.parse(sDetails.responseText);
+							tText = errDetail.error.code + " : " + errDetail.error.message.value;
+							//eText = errDetail;
+							
+						} catch( err){
+							tText = sDetails.responseText;
+						}
 					}
 				}
 				

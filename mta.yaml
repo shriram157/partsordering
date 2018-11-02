@@ -21,6 +21,8 @@ modules:
     requires:
       - name: XSA_NODE_SRV_CFG
       - name: cf-logging-elk
+      
+      
   - name: uiDealerPartsOrdering
     type: html5
     path: uiDealerPartsOrdering

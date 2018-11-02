@@ -67,7 +67,7 @@ sap.ui.define([
 							callback(iUserType.bpsNode, iUserType.orderTypeList);
 						} else {
 							currentUserType = iUserType;
-							this.getBusinessPartnersByType(iUserType.code, (bpList)=>{
+							this.getBusinessPartnersByType(iUserType.code, function(bpList){
 
 								// cache the data
 								currentUserType.bpsNode = bpList;
@@ -121,15 +121,15 @@ sap.ui.define([
 			onUserTypeChange : function(event){
 				var that = this;
 
-				var selectedKey = event.getParameter('selectedItem').mProperties['key'];
+				var selectedKey = event.getParameter('selectedItem').getProperty('key');
 	
 				this.userTypeField.setValueState(null);
 				this.userTypeField.setValueStateText(null);				
 	
 				sap.ui.core.BusyIndicator.show(0);
-				this.getBusinessPartnerByType(selectedKey, (bpData, oderTypeList)=>{
+				this.getBusinessPartnerByType(selectedKey, function(bpData, oderTypeList){
 					// switch the bpList display and provide the data 
-					var model = this.getModel(CONT_BPLISTMODEL);
+					var model = that.getModel(CONT_BPLISTMODEL);
 					var modelData = model.getData();
 					modelData.displayUi = true; 
 					modelData.bpList = bpData;

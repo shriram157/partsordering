@@ -1641,15 +1641,14 @@ sap.ui.define([
 					obj.StorageLocation = data.sloc;
 					obj.DocumentCurrency= "CAD";
 					obj.NetPriceAmount = '1';
-					obj.InvoiceIsExpected = false;
-					obj.GoodsReceiptIsExpected = false;	
-					obj.PurchaseOrderItemCategory = 'U';
+				//	obj.InvoiceIsExpected = false;
+				//	obj.GoodsReceiptIsExpected = false;	
+					obj.PurchaseOrderItemCategory = '7';
+					obj.PurOrdExternalItemCategory = 'U';
 				} else if ('NB' === orderType){
 					obj.PurchasingInfoRecord=data.newline[0].purInfoRecord;
 				}
 				
-				
-
 				//obj.NetPriceAmount = '2';
 
 				// obj.NetPriceAmount = data.newline.netPriceAmount;
@@ -1746,7 +1745,7 @@ sap.ui.define([
 						obj.CompanyCode = data.newline[0].companyCode;  
 						obj.DocumentCurrency= "CAD";
 
-						obj.Supplier = '7300';
+//						obj.Supplier = '7300';
 					} else if ('NB' === lv_orderType){
 						obj.ZZ1_AppSource_PDH = 'A';
 						obj.Supplier = lv_supplier;
