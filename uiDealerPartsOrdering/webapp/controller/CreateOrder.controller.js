@@ -83,7 +83,6 @@ sap.ui.define([
 						model.setProperty('/stoSupplyingPlant', data.to_CustomerSalesArea.results[0].SupplyingPlant);
 					}
 				});
-
 				this.loadDealerDraft(orderData.dealerCode , orderData, function(rData){
 					for (var x = 0; x < rData.items.length; x++){
 						rData.items[x].messageLevel = that.getMessageLevel(rData.items[x].messages); 

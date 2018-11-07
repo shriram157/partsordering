@@ -39,7 +39,10 @@ sap.ui.define([
 			},
 
 			_onObjectMatched: function (oEvent) {
-				this.checkDealerInfo();
+				var that = this;
+				if (!this.checkDealerInfo()){
+					return false;
+				}
 				var appStateModel = this.getStateModel();
 				appStateModel.setProperty('/tabKey', 'CO');
 				
@@ -49,6 +52,7 @@ sap.ui.define([
 				
 				var viewDataModel =	this.getUserTypeSelectionModel();
 				var viewData = viewDataModel.getData();
+
 				var currentOrderTypeList = [];
 				for (var i=0; i< viewData.userTypes.length; i++){
 					if(userType === viewData.userTypes[i].type){
@@ -56,8 +60,35 @@ sap.ui.define([
 					}
 				}
 				
+				// default
+				var bpCode = appStateModel.getProperty('/selectedBP/bpNumber');
 				var orderListModel = this.getModel(CONT_OTLISTMODEL);
 				orderListModel.setProperty('/typeList', currentOrderTypeList);
+
+
+				this.getBusinessPartnersByID(bpCode, function(sData){
+					if(!!sData && !!sData.to_Customer ){
+						var zGroup = sData.BusinessPartnerType;
+						var dealerType = sData.to_Customer.Attribute1;
+						appStateModel.setProperty('/selectedBP/bpType', dealerType );
+						appStateModel.setProperty('/selectedBP/bpGroup', zGroup );
+						if ('Z001' === zGroup ){
+
+							// redefine the order list 
+							that.getSalesDocTypeByBPCode(bpCode, dealerType, function(lData){
+								if(!!lData){
+									currentOrderTypeList = lData;
+				 				} else {
+				 					currentOrderTypeList = [];
+				 				}
+				 				orderListModel.setProperty('/typeList', currentOrderTypeList);
+							});
+							
+						}
+					}
+				});
+				
+
 				//var oItem = this.byId('iconTabHeader');
 			},
 			

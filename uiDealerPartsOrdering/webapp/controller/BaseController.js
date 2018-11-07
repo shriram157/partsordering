@@ -107,6 +107,24 @@ sap.ui.define([
 				return viewDataModel;
 			}, 
 			
+			
+			getOrderTypeByCode : function(code, dealerType){
+				var resourceBundle = this.getResourceBundle();
+				switch(code){
+					case 'ZOR':
+						return {code : 1, name  : resourceBundle.getText('order.type.standard'), zcode : code};
+					case 'ZRO':
+						return {code : 2, name  : resourceBundle.getText('order.type.rush'), zcode : code};
+					case 'ZCO':
+						if ('04' === dealerType){
+							return null; //dis-allowed for Land Rover dealer
+						} else {
+							return {code : 3, name  : resourceBundle.getText('order.type.campaign'), zcode : code};
+						}
+					default : 
+						return null;
+				};	
+			},
 			getFilterSelectionModel : function(){
 				var iDataMode = sap.ui.getCore().getModel("FilterSelectionModel");
 				if (!!!iDataMode){
@@ -860,6 +878,47 @@ sap.ui.define([
 
 				return;
 			},
+
+			getSalesDocTypeByBPCode : function(id, dealerType, callback){
+				var that = this;
+				var bModel = this.getApiBPModel();
+				var key = bModel.createKey('/Sales_DocTypeSet',{'Customer':id});				
+				bModel.read(key,
+					{ 
+						urlParameters: {
+    		 				// "$select": "BusinessPartnerType,BusinessPartner,BusinessPartnerName"
+    		 				//"$expand" : "to_Customer"
+						},
+						success:  function(oData, oResponse){
+							if (!!oData ){
+								var typeList = [];
+								var index = 0;
+								var typeItem = that.getOrderTypeByCode(oData.Zauart1, dealerType);
+								if (!!typeItem){
+									typeList[index++] = typeItem;
+								}
+								typeItem = that.getOrderTypeByCode(oData.Zauart2, dealerType);
+								if (!!typeItem){
+									typeList[index++] = typeItem;
+								}
+								typeItem = that.getOrderTypeByCode(oData.Zauart3, dealerType);
+								if (!!typeItem){
+									typeList[index++] = typeItem;
+								}
+								callback(typeList);
+							} else {
+								// error handleing 
+								callback(null);
+							}	
+						},
+						error: function(err){
+							// error handling here
+							callback(null);
+						}
+					}
+				);		
+				
+			},
 			
 			getBusinessPartnersByID : function(id, callback){
 				var bModel = this.getApiBPModel();
@@ -867,11 +926,12 @@ sap.ui.define([
 //				bModel.read("/A_BusinessPartner('"+id+"')",
 				bModel.read(key,
 					{ 
-						// urlParameters: {
-    		//  				"$select": "BusinessPartnerType,BusinessPartner,BusinessPartnerName"
-						// },
+						urlParameters: {
+    		 				// "$select": "BusinessPartnerType,BusinessPartner,BusinessPartnerName"
+    		 				"$expand" : "to_Customer"
+						},
 						success:  function(oData, oResponse){
-							if (!!oData && !!oData.results){
+							if (!!oData ){
 								callback(oData);
 							} else {
 								// error handleing 

@@ -27,14 +27,12 @@ sap.ui.define([
 	            // or just do it for the whole view
     	        oMessageManager.registerObject(this.getView(), true);
 
-				var viewState = { filterPanelEnable : true, contHigh : "100%", orders: []};
+				var viewState = { filterPanelEnable : false, contHigh : "85%", orders: []};
 				var viewModel = new JSONModel();
 				viewModel.setData(viewState);
 				this.setModel(viewModel, CONST_VIEW_MODEL);
 
-				var xModel = new JSONModel("/webapp/localService/orderStatus.json");
-				this.getView().setModel(xModel, 'sample');
-//				this.checkDealerInfo();
+				this.checkDealerInfo();
 				
 			},
 			
@@ -42,9 +40,9 @@ sap.ui.define([
 			_onObjectMatched: function (oEvent) {
 				// first, clean the message
 				sap.ui.getCore().getMessageManager().removeAllMessages();
-				// if(!this.checkDealerInfo()){
-				// 	return;
-				// }
+				if(!this.checkDealerInfo()){
+					return;
+				}
 
 				var appStateModel = this.getStateModel();
 				appStateModel.setProperty('/tabKey', 'CS');
@@ -55,7 +53,7 @@ sap.ui.define([
 					this.setModel(filterModel, 'filterModel');
 				}
 				
-//				this.refresh();
+				this.refresh();
 			},
 			
 			onSearch : function(oEvent){

@@ -50,6 +50,14 @@
 					"localUri": "model/ZMD_PRODUCT_FS_SRV/metadata.xml"
 				}
 			},
+			"ZC_CREATE_SO_SRV": {
+				"uri": "/sap/opu/odata/sap/ZC_CREATE_SO_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "model/ZC_CREATE_SO_SRV/metadata.xml"
+				}
+			},			
 			"MM_PUR_INFO_RECORDS_MANAGE_SRV": {
 				"uri": "/sap/opu/odata/sap/MM_PUR_INFO_RECORDS_MANAGE_SRV/",
 				"type": "OData",
@@ -189,6 +197,22 @@
 				},
 				"dataSource": "MD_PRODUCT_FS_SRV",
 				"preload": false
+			},
+			"ZC_CREATE_SO_SRV": {
+				"uri": "/sap/opu/odata/sap/ZC_CREATE_SO_SRV/",
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneWay",
+					"defaultCountMode": "Request",
+					"serviceUrlParams": {
+            			"sap-client": "200"
+        			},
+					"json": true,
+					"useBatch": true
+				},
+				"dataSource": "ZC_CREATE_SO_SRV",
+				"preload": true
 			},
 			"ZMD_PRODUCT_FS_SRV": {
 				"uri": "/sap/opu/odata/sap/ZMD_PRODUCT_FS_SRV/",

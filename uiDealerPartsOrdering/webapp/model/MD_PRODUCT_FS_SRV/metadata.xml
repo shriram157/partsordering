@@ -15,7 +15,8 @@
 	<edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx"
 		Uri="./IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='',Version='0001',SAP__Origin='ZODATA')/$value"><edmx:Include Namespace="MD_PRODUCT_FS_SRV" Alias="MD_PRODUCT_FS_SRV"/></edmx:Reference>
 	<edmx:DataServices m:DataServiceVersion="2.0">
-		<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="MD_PRODUCT_FS_SRV" xml:lang="en" sap:schema-version="1">
+		<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="MD_PRODUCT_FS_SRV" xml:lang="en" sap:schema-version="1"
+			sap:extending-service-id="Z_MD_PRODUCT_FS_SRV_SRV.0001">
 			<EntityType Name="C_Plant_FsType" sap:label="Consumption Factsheet - Plant view Facet" sap:content-version="1">
 				<Key><PropertyRef Name="Product"/><PropertyRef Name="Plant"/></Key><Property Name="Product" Type="Edm.String" Nullable="false" MaxLength="40" sap:display-format="UpperCase" sap:label="Material"
 					sap:quickinfo="Material Number"/><Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:label="Plant"/><Property Name="PurchasingGroup" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Purchasing Group"/><Property Name="MRPResponsible" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="MRP Controller"/><Property Name="MRPControllerName" Type="Edm.String" MaxLength="18" sap:label="MRP Controller Name"/><Property Name="PurchasingGroupName" Type="Edm.String" MaxLength="18" sap:label="Purchasing Grp Name" sap:quickinfo="Purchasing Group Name"/><Property Name="RegionName" Type="Edm.String" MaxLength="20" sap:label="Name of region"/><Property Name="RegionOfOrigin" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Region of origin"
@@ -147,6 +148,13 @@
 					sap:quickinfo="Vendor account group"/><Property Name="AccountGroupName" Type="Edm.String" MaxLength="30" sap:label="Account Group Name" sap:quickinfo="Name of Account Group"/><Property Name="FormattedName" Type="Edm.String" MaxLength="71" sap:display-format="UpperCase"/><Property Name="Customer" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Customer"
 					sap:quickinfo="Customer Number"/><Property Name="DocumentKeyForUnitCnvrsn" Type="Edm.String" MaxLength="25" sap:display-format="UpperCase" sap:label="Name"
 					sap:quickinfo="Search term for matchcode search"/><Property Name="PostalCode" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Postal Code"/></EntityType>
+			<EntityType Name="validate_data" sap:content-version="1">
+				<Key><PropertyRef Name="camp_code"/><PropertyRef Name="op_code"/><PropertyRef Name="VIN_no"/><PropertyRef Name="part_no"/></Key><Property Name="camp_code" Type="Edm.String" Nullable="false" MaxLength="40" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="op_code" Type="Edm.String" Nullable="false" MaxLength="40" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+					sap:filterable="false"/><Property Name="VIN_no" Type="Edm.String" Nullable="false" MaxLength="40" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+					sap:filterable="false"/><Property Name="part_no" Type="Edm.String" Nullable="false" MaxLength="40" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+					sap:filterable="false"/><Property Name="message" Type="Edm.String" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+					sap:filterable="false"/></EntityType>
 			<Association Name="assoc_DE97419CEA6087CC9C67C2754FAEA2E0" sap:content-version="1"><End Type="MD_PRODUCT_FS_SRV.C_Product_FsType" Multiplicity="1" Role="FromRole_assoc_DE97419CEA6087CC9C67C2754FAEA2E0"/><End Type="MD_PRODUCT_FS_SRV.I_DivisionTextType" Multiplicity="*" Role="ToRole_assoc_DE97419CEA6087CC9C67C2754FAEA2E0"/></Association>
 			<Association Name="assoc_C4C99D6D3ACA87181E7100A0C6406DAF" sap:content-version="1"><End Type="MD_PRODUCT_FS_SRV.C_Product_FsType" Multiplicity="1" Role="FromRole_assoc_C4C99D6D3ACA87181E7100A0C6406DAF"/><End Type="MD_PRODUCT_FS_SRV.I_MaterialGroupTextType" Multiplicity="*" Role="ToRole_assoc_C4C99D6D3ACA87181E7100A0C6406DAF"/></Association>
 			<Association Name="assoc_4C494D231A217AA63614EF4696C1EB6B" sap:content-version="1"><End Type="MD_PRODUCT_FS_SRV.C_Product_FsType" Multiplicity="1" Role="FromRole_assoc_4C494D231A217AA63614EF4696C1EB6B"/><End Type="MD_PRODUCT_FS_SRV.I_MaterialTextType" Multiplicity="*" Role="ToRole_assoc_4C494D231A217AA63614EF4696C1EB6B"/></Association>
@@ -188,7 +196,8 @@
 				</ReferentialConstraint>
 			</Association>
 			<Association Name="assoc_7ADADDCB6A351D47247121A12999ECF4" sap:content-version="1"><End Type="MD_PRODUCT_FS_SRV.C_PrchInfoRecords_FsType" Multiplicity="1" Role="FromRole_assoc_7ADADDCB6A351D47247121A12999ECF4"/><End Type="MD_PRODUCT_FS_SRV.P_Supplier_FsType" Multiplicity="1" Role="ToRole_assoc_7ADADDCB6A351D47247121A12999ECF4"/></Association>
-			<EntityContainer Name="MD_PRODUCT_FS_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx"><EntitySet Name="C_Plant_Fs" EntityType="MD_PRODUCT_FS_SRV.C_Plant_FsType" sap:creatable="false" sap:updatable="false" sap:deletable="false"
+			<EntityContainer Name="MD_PRODUCT_FS_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx"><EntitySet Name="validate_dataSet" EntityType="MD_PRODUCT_FS_SRV.validate_data" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="C_Plant_Fs" EntityType="MD_PRODUCT_FS_SRV.C_Plant_FsType" sap:creatable="false" sap:updatable="false" sap:deletable="false"
 				sap:searchable="true" sap:content-version="1"/><EntitySet Name="C_PrchInfoRecords_Fs" EntityType="MD_PRODUCT_FS_SRV.C_PrchInfoRecords_FsType" sap:creatable="false" sap:updatable="false"
 				sap:deletable="false" sap:searchable="true" sap:content-version="1"/><EntitySet Name="C_Product_Fs" EntityType="MD_PRODUCT_FS_SRV.C_Product_FsType" sap:creatable="false" sap:updatable="false"
 				sap:deletable="false" sap:searchable="true" sap:content-version="1"/><EntitySet Name="C_Purchaseorders_Fs" EntityType="MD_PRODUCT_FS_SRV.C_Purchaseorders_FsType" sap:creatable="false" sap:updatable="false"
