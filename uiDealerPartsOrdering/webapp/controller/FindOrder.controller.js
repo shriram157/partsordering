@@ -78,6 +78,8 @@ sap.ui.define([
 				var appStateModel = this.getStateModel();
 				//var oItem = this.byId('iconTabHeader');
 				var dealerCode = appStateModel.getProperty('/selectedBP/dealerCode');
+				var bpCode = appStateModel.getProperty('/selectedBP/bpNumber');
+				var bpGroup = appStateModel.getProperty('/selectedBP/bpGroup');
 				var viewModel = this.getModel(CONST_VIEW_MODEL);
 				
 				var conditions = null;
@@ -86,7 +88,7 @@ sap.ui.define([
 				}
 				sap.ui.core.BusyIndicator.show(0);
 				
-				this.searchDraftByDealerCode(dealerCode, conditions, function(results){
+				this.searchDraftByDealerCode(dealerCode, bpCode, bpGroup, conditions, function(results){
 				 	viewModel.setProperty('/orders', results);
 				 	sap.ui.core.BusyIndicator.hide();
 				});

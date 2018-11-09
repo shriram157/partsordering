@@ -29,6 +29,23 @@ sap.ui.define([
 				return 	resourceBundle.getText('Message.Draft.Item.Id', [uuid, pUuid]);			
 			},
 			
+			partNumberLabelFormat : function(typeB, typeD){
+				var resourceBundle = this.getResourceBundle();
+				if(!!typeB){
+					return 	resourceBundle.getText('Lable.CreateOrder.ContractNumber');			
+				} else if (!!typeD){
+					return 	resourceBundle.getText('Lable.CreateOrder.CampaignNumber');			
+				}	
+				return "";
+			},
+			partDescLabelFormat : function(typeB, typeD){
+				var resourceBundle = this.getResourceBundle();
+				if(!!typeD){
+					return 	resourceBundle.getText('Lable.CreateOrder.OpCodeVin');			
+				}	
+				return "";
+			},
+
 			orderStatus : function(code){
 				var resourceBundle = this.getResourceBundle();
 				switch(code){

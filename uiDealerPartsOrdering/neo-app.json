@@ -23,7 +23,7 @@
       "path": "/sap/opu/odata",
       "target": {
         "type": "destination",
-        "name": "DG2_200",
+        "name": "S4HANA_GW",
         "entryPath": "/sap/opu/odata"
       },
       "description": "DG2 200"

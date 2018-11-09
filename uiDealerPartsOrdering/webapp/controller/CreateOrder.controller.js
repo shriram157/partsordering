@@ -61,6 +61,7 @@ sap.ui.define([
 				var orderType = oEvent.getParameter("arguments").orderType;
 				var orderNum = oEvent.getParameter("arguments").orderNum;
 
+//				var orderData = { typeB: false, typeD:false };
 				var orderData = this.initLocalModels(orderType, orderNum.trim());	
 				var model = new sap.ui.model.json.JSONModel();
 				model.setData(orderData);
@@ -81,8 +82,12 @@ sap.ui.define([
 					// the default supplying plant for STO only 
 					if ( !!data && !!data.to_CustomerSalesArea && !!data.to_CustomerSalesArea.results && !!data.to_CustomerSalesArea.results.length > 0){
 						model.setProperty('/stoSupplyingPlant', data.to_CustomerSalesArea.results[0].SupplyingPlant);
+						model.setProperty('/SalesOrganization', data.to_CustomerSalesArea.results[0].SalesOrganization);
+						model.setProperty('/DistributionChannel', data.to_CustomerSalesArea.results[0].DistributionChannel);
+						model.setProperty('/Division', data.to_CustomerSalesArea.results[0].Division);
 					}
 				});
+				
 				this.loadDealerDraft(orderData.dealerCode , orderData, function(rData){
 					for (var x = 0; x < rData.items.length; x++){
 						rData.items[x].messageLevel = that.getMessageLevel(rData.items[x].messages); 
@@ -108,13 +113,35 @@ sap.ui.define([
 				var appStateModel = this.getStateModel();
 
 				var orderData = {};
+				// inital value 
+				orderData.typeB = false;
+				orderData.typeD = false;
+				
+				// if it is sale order, flag it, or it will be handled as purcahse order.		
+				orderData.isSalesOrder  = true;
 
+				
 				// main section for the order - will not affect by record in the system
 				orderData.orderTypeId =  orderType;
 				orderData.orderTypeName =  this.getOrderTypeName(orderData.orderTypeId);
 				orderData.tciOrderNumber = orderNum;
 				orderData.purBpCode = appStateModel.getProperty('/selectedBP/bpNumber');
 				orderData.dealerCode = appStateModel.getProperty('/selectedBP/dealerCode');
+				
+				orderData.dealerType = appStateModel.getProperty('/selectedBP/bpType');
+				orderData.bpTypeGroup = appStateModel.getProperty('/selectedBP/bpGroup');
+				if (orderData.dealerType === '04'){ // campaign 
+					orderData.typeB = true;
+				} else if (orderData.orderTypeId === '3'){
+					orderData.typeD = true;
+				}
+
+				// make decision
+				if('Z001' === orderData.bpTypeGroup){
+					orderData.isSalesOrder  = true;
+				} else {
+					orderData.isSalesOrder  = false;
+				}
 
 				orderData.newline = [this._getNewLine()];
 				
@@ -386,7 +413,7 @@ sap.ui.define([
             	var that = this;
             	var orderModel = this.getModel(CONT_ORDER_MODEL );
             	var orderData = orderModel.getData();
-
+    			var isSalesOrder = orderModel.getProperty('/isSalesOrder'); 
 				// prepare the to do list
 				var todoList = [];
 				if (!!orderData.associatedDrafts && orderData.associatedDrafts.length > 0){
@@ -410,7 +437,7 @@ sap.ui.define([
 							if (!!todoList && !!todoList.length && todoList.length > 0){
 								sap.ui.core.BusyIndicator.show(0);
 								for (var i = 0; i < todoList.length; i++){
-									that.deleteDraft(todoList[i], function(uuid, status){
+									that.deleteDraft(todoList[i], isSalesOrder, function(uuid, status){
 										if (status){
 											processedList.push(uuid);
 											successList.push(uuid);
@@ -573,17 +600,31 @@ sap.ui.define([
         		var path = oEvent.getSource().getBindingContext(CONT_ORDER_MODEL).getPath();
     			var obj = model.getProperty(path);		
     			var newValue = oEvent.getParameter("newValue"); 
-    			
+    			var isSalesOrder = model.getProperty('/isSalesOrder'); 
 				this.draftInd.showDraftSaving();
-
-    			this.updateOrderDraftItem([obj.uuid, obj.line], {'OrderQuantity' : newValue}, function(data, messageList){
-    				obj.messages = messageList;
-    				obj.colorCode = that.getMessageColor(messageList);
-    				obj.iconUrl = 'sap-icon://e-care';
-  					obj.messageLevel = that.getMessageLevel(messageList);   				
-    				model.setProperty(path, obj);
-    				that.draftInd.showDraftSaved();
-    			});             
+				
+				if (!!isSalesOrder){
+					//sales order 
+					this.updateSalesDraftItem([obj.uuid, obj.parentUuid ], {'CfopCode' : newValue.toString()}, function(data, messageList){
+    					obj.messages = messageList;
+    					obj.colorCode = that.getMessageColor(messageList);
+    					obj.iconUrl = 'sap-icon://e-care';
+  						obj.messageLevel = that.getMessageLevel(messageList);   				
+    					model.setProperty(path, obj);
+    					that.draftInd.showDraftSaved();
+    				});             
+					
+				} else {
+					// thr purchase order
+	    			this.updateOrderDraftItem([obj.uuid, obj.line], {'OrderQuantity' : newValue}, function(data, messageList){
+    					obj.messages = messageList;
+    					obj.colorCode = that.getMessageColor(messageList);
+    					obj.iconUrl = 'sap-icon://e-care';
+  						obj.messageLevel = that.getMessageLevel(messageList);   				
+    					model.setProperty(path, obj);
+    					that.draftInd.showDraftSaved();
+    				});             
+				}
 				
 			},
 			
@@ -593,16 +634,32 @@ sap.ui.define([
         		var path = oEvent.getSource().getBindingContext(CONT_ORDER_MODEL).getPath();
     			var obj = model.getProperty(path);				
     			var newValue = oEvent.getParameter("newValue"); 
+    			var isSalesOrder = model.getProperty('/isSalesOrder'); 
 				this.draftInd.showDraftSaving();
-    			this.updateOrderDraftItem([obj.uuid, obj.line], {'ZZ1_LongText_PDI' : newValue}, function(data, messageList){
-    				obj.messages = messageList;
-    				obj.colorCode = that.getMessageColor(messageList);
-    	    		obj.iconUrl = 'sap-icon://e-care';			
-  					obj.messageLevel = that.getMessageLevel(messageList);   				
-    				model.setProperty(path, obj);
-    				that.draftInd.showDraftSaved();
-    			});             
+				if (!!isSalesOrder){
+					//sales order 
+					this.updateSalesDraftItem([obj.uuid, obj.parentUuid ], {'ReqSegLong' : newValue}, function(data, messageList){
+    					obj.messages = messageList;
+    					obj.colorCode = that.getMessageColor(messageList);
+    					obj.iconUrl = 'sap-icon://e-care';
+  						obj.messageLevel = that.getMessageLevel(messageList);   				
+    					model.setProperty(path, obj);
+    					that.draftInd.showDraftSaved();
+    				});             
+					
+				} else {
+					// thr purchase order
+	    			this.updateOrderDraftItem([obj.uuid, obj.line], {'ZZ1_LongText_PDI' : newValue}, function(data, messageList){
+    					obj.messages = messageList;
+    					obj.colorCode = that.getMessageColor(messageList);
+    	    			obj.iconUrl = 'sap-icon://e-care';			
+  						obj.messageLevel = that.getMessageLevel(messageList);   				
+    					model.setProperty(path, obj);
+    					that.draftInd.showDraftSaved();
+    				});             
+				}
 				
+
 			},
 			
 			handleDeletePart : function(oEvent){
@@ -618,6 +675,7 @@ sap.ui.define([
     			var rData = model.getData();
     			var items = rData.items;
     			var newItems = [];
+    			var isSalesOrder = model.getProperty('/isSalesOrder'); 
     			
     			if (!!items && items.length >0){
     			
@@ -626,7 +684,7 @@ sap.ui.define([
     				for (var i=0; i < items.length; i++ ){
     					if (items[i].selected){
     						todoList.push(items[i].uuid);
-    						this.deleteOrderDraftItem([items[i].uuid, items[i].line, items[i].parentUuid ], function(keys, isOk, messages){
+    						this.deleteOrderDraftItem([items[i].uuid, items[i].line, items[i].parentUuid ],  isSalesOrder, function(keys, isOk, messages){
     							// only failed record will be returning message. message of good one will be ignored
     							if(isOk){
     								deletedList[keys[0]] = keys;

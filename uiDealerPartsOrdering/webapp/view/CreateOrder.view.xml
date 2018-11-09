@@ -67,55 +67,138 @@ displayBlock="true" xmlns="sap.m">
 					items="{orderModel>/newline}">
 				<columns>
 					<Column	width="40px" hAlign="Begin" >
-						<Button  type='Reject' icon="sap-icon://delete" press='handleDeletePart' />
-					</Column>
-					<Column width="8rem" >
-						<ObjectIdentifier title="{i18n>Lable.CreateOrder.PartNumber}" 
-							text="{i18n>Lable.CreateOrder.Line}" />	
+						<CheckBox select='toggleSelect'/>
+						<!--<Button  type='Reject' icon="sap-icon://delete" press='handleDeletePart' />-->
 					</Column>
 					<Column width="10rem" >
-						<Text text="{i18n>Lable.CreateOrder.PartDesc}" />
+						<ObjectIdentifier title="{i18n>Lable.CreateOrder.PartNumber}" 
+								text="{parts: [{path:'orderModel>/typeB'}, {path: 'orderModel>/typeD'}], formatter:'.formatter.partNumberLabelFormat' }"
+						/>
+					</Column>
+					<Column width="14rem" >
+						<ObjectIdentifier title="{i18n>Lable.CreateOrder.PartDesc}" 
+								text="{parts: [{path:'orderModel>/typeB'}, {path: 'orderModel>/typeD'}], formatter:'.formatter.partDescLabelFormat' }"
+						/>
 					</Column>
 					<Column width="3rem" >
-						<Text text="{i18n>Lable.CreateOrder.SPQ}" />
+						<ObjectIdentifier title="{i18n>Lable.CreateOrder.SPQ}" />
 					</Column>
 					<Column width="6rem" >
-						<Text text="{i18n>Lable.CreateOrder.qty}" />
+						<ObjectIdentifier title="{i18n>Lable.CreateOrder.qty}" />
 					</Column>
-					<Column>
-						<Text text="{i18n>Lable.CreateOrder.Comment}" />
+					<Column width="100%">
+						<HBox  justifyContent='SpaceBetween' width = '100%'>
+							<ObjectIdentifier title="{i18n>Lable.CreateOrder.Comment}" />
+							<HBox justifyContent='SpaceBetween' width="6rem">
+								<Button  type="Transparent" icon="sap-icon://delete" press='handleDeletePart' />
+								<Button id="addButton" type="Transparent" icon="sap-icon://cause"	press="onImport" />	
+							</HBox>
+						</HBox>						
 					</Column>
 					<Column width="2rem"
 						minScreenWidth="Tablet"
-						demandPopin="true"
+						demandPopin="true" vAlign="Middle"
 						hAlign="End">
-						<Button id="addButton" type="Transparent" icon="sap-icon://cause"	press="onImport" />	
+						<Button id="addButtonx" type="Transparent" icon="sap-icon://sort"	press="onImport" />	
 					</Column>
 				</columns>
 				<items>
 					<ColumnListItem>
 						<cells>
-							<CheckBox select='toggleSelect'/>
-							<Input	value="{orderModel>partNumber}" 
+							<Text></Text>
+							<!--<CheckBox select='toggleSelect'/>-->
+							<VBox>
+								<Input	value="{orderModel>partNumber}" 
+										type="Text"
+										textFormatMode="Key"
+										placeholder="{i18n>Placeholder.parts}"
+										showSuggestion='true'
+										suggest="handleSuggest"
+										change='handleProductChange'
+										startSuggestion="3"
+										suggestionItems="{path: 'infoRecordModel>/C_Product_Fs', templateShareable:true}"
+										maxSuggestionWidth = '500px'
+										fieldWidth="auto" >
+									<suggestionItems >
+										<core:ListItem key="{infoRecordModel>Material}" text="{infoRecordModel>Material}" additionalText="{infoRecordModel>MaterialName}" />
+									</suggestionItems>								
+								</Input>	
+								<Input value="{
+											path : 'orderModel>contractNum',
+											type: 'sap.ui.model.type.String',
+    	                                    contraints:'{minLength:1 , maxLength:14}'
+                                        }" 
 									type="Text"
-									textFormatMode="Key"
-									placeholder="{i18n>Placeholder.parts}"
-									showSuggestion='true'
-									suggest="handleSuggest"
-									change='handleProductChange'
-									startSuggestion="3"
-									suggestionItems="{path: 'infoRecordModel>/C_Product_Fs', templateShareable:true}"
-									maxSuggestionWidth = '500px'
-									fieldWidth="auto" >
-								<suggestionItems >
-									<core:ListItem key="{infoRecordModel>Material}" text="{infoRecordModel>Material}" additionalText="{infoRecordModel>MaterialName}" />
-								</suggestionItems>								
-							</Input>	
-							<Input value="{orderModel>partDesc}" enabled='false'/>
-							<Input value="{path: 'orderModel>spq', formatter:'.formatter.spqFormat'}" enabled='false'/>
-							<Input value="{orderModel>qty}" />
-							<Input value="{orderModel>comment}" />
-							<Button type='Transparent' icon="sap-icon://add" press='handleAddPart' ></Button>
+									valueStateText="{i18n>ValidationMessage.contractNum}"
+									placeholder="{i18n>Placeholder.contractNum}"
+									visible="{orderModel>/typeB}" 
+									enabled= "{orderModel>/typeB}" 
+									change='handleContractNumChange' />
+								<Input value="{
+											path : 'orderModel>campainNum',
+											type: 'sap.ui.model.type.String',
+    	                                    contraints:'{minLength:1 , maxLength:14}'
+										}"
+									type="Text"
+									valueStateText="{i18n>ValidationMessage.campainNum}"
+									placeholder="{i18n>Placeholder.campainNum}"
+									visible="{orderModel>/typeD}" 
+									enabled= "{orderModel>/typeD}" 
+									change='handleCampainNumChange'/>
+							</VBox>
+							<VBox>
+								<Input value="{orderModel>partDesc}" enabled='false'/>
+								<Input value="{
+										path : 'orderModel>opCode',
+										type: 'sap.ui.model.type.String',
+   	                                    contraints:'{minLength:1 , maxLength:10}'
+									}" 
+									type="Text"
+									valueStateText="{i18n>ValidationMessage.opCode}"
+									visible="{orderModel>/typeD}" 
+									placeholder="{i18n>Placeholder.opCode}"
+									enabled= "{orderModel>/typeD}" 
+									change='handleOpCodeChange'/>
+							</VBox>
+							<Input value="{
+								path: 'orderModel>spq', 
+								formatter:'.formatter.spqFormat'}" 
+								enabled='false'/>
+							<VBox justifyContent="SpaceBetween" alignItems="Center" >
+								<Input type="Number" 
+									valueStateText="{i18n>ValidationMessage.qty}"
+									value="{
+										path: 'orderModel>qty', 
+										type: 'sap.ui.model.type.Integer',
+										contraints:'{minimum :0 , maximum :6}'
+									}" />
+									<HBox alignItems="Center" displayInline="true" justifyContent='SpaceAround' height='50px' 	visible="{orderModel>/typeD}" >
+										<Label required="true" vAlign="Middle" design="Bold" textAlign="Center" textDirection="LTR" text="{i18n>Lable.CreateOrder.vin}"
+											visible="{orderModel>/typeD}" 
+										/>
+										
+									</HBox>
+							</VBox>	
+							<VBox>
+								<Input type="Text" 
+									value="{orderModel>comment}" 
+									placeholder="{i18n>Placeholder.comment}"
+									/>
+								<Input type="Text" 
+									value="{
+										path: 'orderModel>vin',
+										type: 'sap.ui.model.type.String',
+   	                                    contraints:'{minLength:1 , maxLength:35}'
+									}" 
+									valueStateText="{i18n>ValidationMessage.vinNum}"
+									placeholder="{i18n>Placeholder.vinNum}"
+									visible="{orderModel>/typeD}" 
+									enabled= "{orderModel>/typeD}" 
+									change='handleVinChange'/>
+							</VBox>
+							<VBox alignItems='Center' alignContent='Center' height='100%'>
+								<Button type='Transparent' icon="sap-icon://add" press='handleAddPart' ></Button>
+							</VBox>
 						</cells>
 					</ColumnListItem>
 				</items>
@@ -143,8 +226,8 @@ displayBlock="true" xmlns="sap.m">
 
 					<columns>
 						<Column width="40px" hAlign="Begin"/>
-						<Column width="8rem" vAlign="Middle"/>
-						<Column width="10rem" vAlign="Middle" />
+						<Column width="10rem" vAlign="Middle"/>
+						<Column width="14rem" vAlign="Middle" />
 						<Column width="3rem"  vAlign="Middle"/>
 						<Column width="6rem" vAlign="Middle"/>
 						<Column vAlign="Middle"/>

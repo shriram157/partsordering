@@ -65,7 +65,7 @@ sap.ui.define([
 				var orderListModel = this.getModel(CONT_OTLISTMODEL);
 				orderListModel.setProperty('/typeList', currentOrderTypeList);
 
-
+ 
 				this.getBusinessPartnersByID(bpCode, function(sData){
 					if(!!sData && !!sData.to_Customer ){
 						var zGroup = sData.BusinessPartnerType;
@@ -102,7 +102,12 @@ sap.ui.define([
 			},
 			onBack : function(event){
 				var that = this;
-				that.getRouter().navTo("FindOrder", null, false);
+				// var sPreviousHash = History.getInstance().getPreviousHash();
+				// if (sPreviousHash !== undefined) {
+				// 	history.go(-1);
+				// } else {
+					that.getRouter().navTo("FindOrder", null, false);
+				// }
 			},			
 
 			onCreateOrder : function(event){
