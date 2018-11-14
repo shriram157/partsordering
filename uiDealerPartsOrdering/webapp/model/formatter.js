@@ -18,6 +18,47 @@ sap.ui.define([
 				return parseFloat(sValue).toFixed(2);
 			},
 			
+			linex1Format :function(typeD, typeB, line, campCode, contCode){
+				var lv_line;
+				if (!!line){
+					lv_line =  line.replace(/^0+/, '');
+					lv_line = ''; // don't show the line number
+				}
+				if (!!typeD){
+					if(!!lv_line){
+						return lv_line +" / "+campCode;
+					} else {
+						return campCode;
+					}
+				} else if (!!typeB) {
+					if(!!lv_line){
+						return lv_line +" / "+contCode;
+					} else {
+						return contCode;
+					}
+					
+				} else {
+					return lv_line;
+				}
+			},
+
+			linex2Format :function(typeD, typeB, opCode, vin){
+				if (!!typeD){
+					if(!!opCode){
+						return opCode +" / "+vin;
+					} else {
+						return vin;
+					}
+				} 
+				return '';
+			},
+			
+			getItemNumber : function (sValue){
+				if (!!sValue){
+					return sValue.replace(/^0+/, '');
+				}	
+				return sValue;
+			}, 
 			shortDate: function(oDate) {
 				var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({pattern : "MMM dd, yyyy HH:mm" });   
 				var dateFormatted = dateFormat.format(oDate);
@@ -61,11 +102,11 @@ sap.ui.define([
 			orderType : function(type){
 				var resourceBundle = this.getResourceBundle();
 				switch(type){
-					case 1:
+					case '1':
 						return resourceBundle.getText('order.type.standard');
-					case 2:
+					case '2':
 						return resourceBundle.getText('order.type.rush');
-					case 3:
+					case '3':
 						return resourceBundle.getText('order.type.campaign');
 					default :
 						return "";

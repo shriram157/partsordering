@@ -80,22 +80,25 @@ sap.ui.define([
 
 				this.getCustomerById(orderData.purBpCode, function(data){
 					// the default supplying plant for STO only 
+					var aCustSaleArea = null;
 					if ( !!data && !!data.to_CustomerSalesArea && !!data.to_CustomerSalesArea.results && !!data.to_CustomerSalesArea.results.length > 0){
-						model.setProperty('/stoSupplyingPlant', data.to_CustomerSalesArea.results[0].SupplyingPlant);
-						model.setProperty('/SalesOrganization', data.to_CustomerSalesArea.results[0].SalesOrganization);
-						model.setProperty('/DistributionChannel', data.to_CustomerSalesArea.results[0].DistributionChannel);
-						model.setProperty('/Division', data.to_CustomerSalesArea.results[0].Division);
+						for(var x1 = 0; x1 < data.to_CustomerSalesArea.results.length; x1++ ){
+							aCustSaleArea = data.to_CustomerSalesArea.results[x1]; 
+							if('7000' === aCustSaleArea.SalesOrganization){
+								break;
+							} else {
+								aCustSaleArea = null;
+							}
+						}
+						if (!!!aCustSaleArea){ // fall back to first one 
+							aCustSaleArea = data.to_CustomerSalesArea.results[0];
+						}
+						model.setProperty('/stoSupplyingPlant', aCustSaleArea.SupplyingPlant);
+						model.setProperty('/SalesOrganization', aCustSaleArea.SalesOrganization);
+						model.setProperty('/DistributionChannel',aCustSaleArea.DistributionChannel);
+						model.setProperty('/Division', aCustSaleArea.Division);
 					}
 				});
-				
-				this.loadDealerDraft(orderData.dealerCode , orderData, function(rData){
-					for (var x = 0; x < rData.items.length; x++){
-						rData.items[x].messageLevel = that.getMessageLevel(rData.items[x].messages); 
-					}
-					model.setData(rData);
-					that.setModel(model,CONT_ORDER_MODEL );
-					sap.ui.core.BusyIndicator.hide();
-				});				
 				
 				this.getStorageInfo(orderData.purBpCode, function(data){
 					// populate the rest of field
@@ -106,6 +109,22 @@ sap.ui.define([
 //						orderData.revPlant = data.Plant;
 					}
 				});               
+				
+				this.loadDealerDraft(orderData.dealerCode , orderData, function(rData){
+					for (var x = 0; x < rData.items.length; x++){
+						rData.items[x].messageLevel = that.getMessageLevel(rData.items[x].messages); 
+					}
+					rData.totalLines	= rData.items.length;      
+					if (rData.dealerType === '04'){ // campaign 
+						rData.typeB = true;
+					} else if (rData.orderTypeId === '3'){
+						rData.typeD = true;
+					}
+
+					model.setData(rData);
+					that.setModel(model,CONT_ORDER_MODEL );
+					sap.ui.core.BusyIndicator.hide();
+				});				
 			}, 
 
 			initLocalModels : function(orderType, orderNum){
@@ -120,27 +139,29 @@ sap.ui.define([
 				// if it is sale order, flag it, or it will be handled as purcahse order.		
 				orderData.isSalesOrder  = true;
 
-				
-				// main section for the order - will not affect by record in the system
-				orderData.orderTypeId =  orderType;
-				orderData.orderTypeName =  this.getOrderTypeName(orderData.orderTypeId);
-				orderData.tciOrderNumber = orderNum;
 				orderData.purBpCode = appStateModel.getProperty('/selectedBP/bpNumber');
 				orderData.dealerCode = appStateModel.getProperty('/selectedBP/dealerCode');
 				
 				orderData.dealerType = appStateModel.getProperty('/selectedBP/bpType');
 				orderData.bpTypeGroup = appStateModel.getProperty('/selectedBP/bpGroup');
+
+				orderData.isSalesOrder = this.isSalesOrderAssociated(orderData.bpTypeGroup);
+
+				// main section for the order - will not affect by record in the system
+				if (!!orderType && orderType === '-1' && orderData.isSalesOrder){ // load sale order from uuid
+					// level it empty
+					//orderData.orderTypeId =  orderType;
+					orderData.DraftUUID = orderNum;
+				} else {
+					orderData.orderTypeId =  orderType;
+					orderData.orderTypeName =  this.getOrderTypeName(orderData.orderTypeId);
+					orderData.tciOrderNumber = orderNum;
+				}
+
 				if (orderData.dealerType === '04'){ // campaign 
 					orderData.typeB = true;
 				} else if (orderData.orderTypeId === '3'){
 					orderData.typeD = true;
-				}
-
-				// make decision
-				if('Z001' === orderData.bpTypeGroup){
-					orderData.isSalesOrder  = true;
-				} else {
-					orderData.isSalesOrder  = false;
 				}
 
 				orderData.newline = [this._getNewLine()];
@@ -183,6 +204,21 @@ sap.ui.define([
 				};
 			},
 			
+			handleContractNumChange : function(oEvent){
+	           	var that = this;
+                var sValue = oEvent.getParameter("newValue"); 
+            	var model = this.getModel(CONT_ORDER_MODEL );
+            	var newline = model.getProperty('/newline');
+            	var bpCode = model.getProperty('/purBpCode');
+            	var resourceBundle = this.getResourceBundle();			
+            	this.validateContractNumber(bpCode, sValue, newline[0].partNumber, function(data,isOK,messages){
+            		if(!!isOK && !!data){
+            			
+            		}
+            	});              
+
+			},
+			
 			handlePartMessage : function(oEvent){
 							// create popover
 				if (!this._oPopover) {
@@ -211,7 +247,7 @@ sap.ui.define([
                         var sTerm = oEvent.getParameter("suggestValue");
                         var aFilters = [];
                         if (sTerm) {
-                            aFilters.push(new sap.ui.model.Filter("Material", sap.ui.model.FilterOperator.StartsWith, sTerm));
+                            aFilters.push(new sap.ui.model.Filter("Material", sap.ui.model.FilterOperator.Contains, sTerm));
                         }
                     	oEvent.getSource().getBinding("suggestionItems").filter(aFilters);
  //                   	oEvent.getSource().getBinding("suggestionRows").filter(aFilters);
@@ -478,10 +514,12 @@ sap.ui.define([
             	var that = this;
             	var model = this.getModel(CONT_ORDER_MODEL );
 
-        				that.activateDraftOrder(model.getData(), function(rxData, hasError){
-							//sap.ui.core.BusyIndicator.hide();        				
-							that._showActivationResult(rxData, hasError);
-						});
+				// start show busy
+				sap.ui.core.BusyIndicator.show(0);		
+ 				that.activateDraftOrder(model.getData(), function(rxData, hasError){
+					sap.ui.core.BusyIndicator.hide();
+					that._showActivationResult(rxData, model.isSalesOrder, hasError);
+				});
 
 				// // start show busy
 				// sap.ui.core.BusyIndicator.show(0);		
@@ -505,7 +543,7 @@ sap.ui.define([
         		// });
             },
 
-			_showActivationResult : function (rData, hasError){
+			_showActivationResult : function (rData, isSalesOrder, hasError){
 				var that = this;
 				var resourceBundle = this.getResourceBundle();				
 				var lv_messageArrary = [];
@@ -528,7 +566,12 @@ sap.ui.define([
 								}
 							}
 						} else {
-							 lv_messageArrary.push(resourceBundle.getText('Message.Success.Activate.Draft',[lv_draftUuid, lv_orderNumber, lv_tciOrderNumber]));
+							if (!!isSalesOrder){
+								 lv_messageArrary.push(resourceBundle.getText('Message.Success.Activate.Draft.Sales',[lv_draftUuid, lv_orderNumber, lv_tciOrderNumber]));
+							} else {
+								 lv_messageArrary.push(resourceBundle.getText('Message.Success.Activate.Draft',[lv_draftUuid, lv_orderNumber, lv_tciOrderNumber]));
+							}
+							 
 						}
 					}
 				}
@@ -605,7 +648,7 @@ sap.ui.define([
 				
 				if (!!isSalesOrder){
 					//sales order 
-					this.updateSalesDraftItem([obj.uuid, obj.parentUuid ], {'CfopCode' : newValue.toString()}, function(data, messageList){
+					this.updateSalesDraftItem([obj.uuid, obj.parentUuid ], {'TargetQty' : newValue.toString()}, function(data, messageList){
     					obj.messages = messageList;
     					obj.colorCode = that.getMessageColor(messageList);
     					obj.iconUrl = 'sap-icon://e-care';
@@ -638,7 +681,7 @@ sap.ui.define([
 				this.draftInd.showDraftSaving();
 				if (!!isSalesOrder){
 					//sales order 
-					this.updateSalesDraftItem([obj.uuid, obj.parentUuid ], {'ReqSegLong' : newValue}, function(data, messageList){
+					this.updateSalesDraftItem([obj.uuid, obj.parentUuid ], {'Comments' : newValue}, function(data, messageList){
     					obj.messages = messageList;
     					obj.colorCode = that.getMessageColor(messageList);
     					obj.iconUrl = 'sap-icon://e-care';

@@ -65,7 +65,11 @@ sap.ui.define([
     			var obj = model.getProperty(path);				
     			
 				sap.ui.getCore().getMessageManager().removeAllMessages();
-				this.getRouter().navTo("CreateOrder", {orderNum : obj.orderNumber, orderType : obj.scOrderType});				
+				if (obj.isSalesOrder){
+					this.getRouter().navTo("CreateOrder", {orderNum : obj.uuid, orderType : '-1'});				
+				} else {
+					this.getRouter().navTo("CreateOrder", {orderNum : obj.orderNumber, orderType : obj.scOrderType});				
+				}
 			},
 			
 			onSearch : function(oEvent){

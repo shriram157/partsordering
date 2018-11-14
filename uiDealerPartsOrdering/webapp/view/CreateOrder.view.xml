@@ -241,18 +241,24 @@ displayBlock="true" xmlns="sap.m">
 						<ColumnListItem>
 							<cells>
 								<CheckBox selected='{orderModel>selected}' select='toggleRowSelect'/>
-								<ObjectIdentifier title="{orderModel>partNumber}" 
+								<ObjectIdentifier title="{ path : 'orderModel>partNumber', formatter : '.formatter.getItemNumber' }" 
 									titleActive = 'true' titlePress='showDraftItemInfo'
-									tooltip = "{parts: [{path: 'orderModel>uuid'}, {path: 'orderModel>parentUuid'}], formatter: '.formatter.getItemTooltip'}"
-									text="{path: 'orderModel>line', formatter:'.formatter.lineNumberFormat' }" />	
-								<Text text="{orderModel>partDesc}" />
+									text="{parts: [{path: 'orderModel>/typeD'}, {path: 'orderModel>/typeB'}, {path: 'orderModel>line'}, {path: 'orderModel>campainNum'}, {path: 'orderModel>contractNum'}], formatter:'.formatter.linex1Format' }" />	
+								<ObjectIdentifier title="{ path : 'orderModel>partDesc'}" 
+									titleActive = 'true' titlePress='showDraftItemAdditionInfo'
+									text="{parts: [{path: 'orderModel>/typeD'}, {path: 'orderModel>/typeB'}, {path: 'orderModel>opCode'}, {path: 'orderModel>vin'}], formatter:'.formatter.linex2Format' }" />	
 								<Text text="{path: 'orderModel>spq', formatter:'.formatter.spqFormat'}" />
 								<Input value="{orderModel>qty}" change='onQtyChange'/>
 								<Input value="{orderModel>comment}" change='onCommentChange'/>
 								<HBox justifyContent="End">
-									<core:Icon src="sap-icon://e-care" color="#FC0519" press='handlePartMessage' visible="{=${orderModel>messageLevel} === 3}" />
-									<core:Icon src="sap-icon://e-care" color="#FFDAB9" press='handlePartMessage' visible="{=${orderModel>messageLevel} === 2}" />
-									<core:Icon src="sap-icon://e-care" color="#2DFA06" press='handlePartMessage' visible="{=${orderModel>messageLevel} === 1}" />
+									<core:Icon src="sap-icon://e-care" color="#FC0519" 
+										press='handlePartMessage' 
+										visible="{=${orderModel>messageLevel} === 3}" />
+									<core:Icon src="sap-icon://e-care" color="#FFDAB9" 
+										press='handlePartMessage' 
+										visible="{=${orderModel>messageLevel} === 2}" />
+									<core:Icon src="sap-icon://e-care" color="#2DFA06" 
+										visible="{=${orderModel>messageLevel} === 1}" />
 								</HBox>
 							</cells>
 						</ColumnListItem>

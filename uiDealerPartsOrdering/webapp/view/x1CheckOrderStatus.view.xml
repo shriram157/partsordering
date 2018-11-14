@@ -1,0 +1,195 @@
+<mvc:View controllerName="tci.wave2.ui.parts.ordering.controller.CheckOrderStatus" 
+	xmlns:html="http://www.w3.org/1999/xhtml"	
+	xmlns:core="sap.ui.core"  
+	xmlns:mvc="sap.ui.core.mvc" 
+	xmlns:form="sap.ui.layout.form" 
+	xmlns:layout="sap.ui.layout"
+	xmlns:fb="sap.ui.comp.filterbar"
+	xmlns:u="sap.ui.unified"
+	xmlns:f="sap.f" 
+	xmlns:ui="sap.ui.table"
+	xmlns="sap.m"
+	xmlns:vm="sap.ui.comp.variants"
+	displayBlock="true" >
+	<Page showNavButton="false" floatingFooter="false" enableScrolling = 'false'>
+		<customHeader>
+			<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.TopHeader" type="XML"/>
+		</customHeader>	
+		<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.ToolHeader" type="XML"/>
+		
+		<content  height = "100%">
+			<!--<Toolbar>
+				<content>
+					<Button id="filterButton"  icon="sap-icon://add-filter" press="onExpandFilter" />							
+					<ToolbarSpacer />
+					<SearchField placeholder='{i18n>Placeholder.OrderNumber}' 
+						showRefreshButton = 'true'
+						search = 'onSearch'
+						width='60%' />	
+				</content>
+			</Toolbar>
+			-->
+			<fb:FilterBar	reset="onReset" 
+							search="onSearch" 
+							showRestoreButton="true" 
+							showClearButton="true" 
+							useToolbar='true' 
+							showGoOnFB='true' 
+							visible="{viewModel>/filterPanelEnable}" 
+							showFilterConfiguration='true'>
+				<fb:filterItems>
+					<fb:FilterItem name="A" label="{i18n>Label.Order.Type}" labelTooltip="{i18n>Label.Order.Type}" mandatory="true">
+						<fb:control>
+							<MultiComboBox 
+								placeholder="{i18n>Label.Order.Type}"
+								selectionFinish="onSelectionFinishOT"
+								width="15%"
+								items="{
+									path: 'filterModel>/orderTypeList'
+								}">
+								<core:Item key="{filterModel>code}" text="{filterModel>name}" />
+							</MultiComboBox>
+						</fb:control>				
+					</fb:FilterItem>
+				
+					<fb:FilterItem name="B" label="{i18n>Label.Order.Status}" labelTooltip="{i18n>Label.Order.Status}" mandatory="true">
+						<fb:control>
+							<MultiComboBox id="orderStatus"
+								placeholder="{i18n>Label.Order.Status}"
+								selectionFinish="onSelectionFinishOS"
+								width="15%"
+								items="{
+									path: 'filterModel>/orderStatusList'
+								}">
+									<core:Item key="{filterModel>code}" text="{filterModel>name}" />
+							</MultiComboBox>
+						</fb:control>				
+					</fb:FilterItem>				
+				</fb:filterItems>
+	    	</fb:FilterBar>		
+	    	
+	    	
+	    	<ui:Table 
+	    			id="TreeTableBasic"
+                    rows="{path:'sample>/orderStatus', parameters: {arrayNames:['categories']}}"
+        			selectionMode="Single"
+        			alternateRowColors="true"
+        			visibleRowCountMode="Interactive" 
+        			enableColumnReordering="false"
+        			enableSelectAll="false"
+                    ariaLabelledBy="title">
+	    		<ui:columns>
+                    <ui:Column width="6rem">
+                    	<ui:multiLabels>
+							<Label text="Part Number" textAlign="Center" width="100%"/>
+						</ui:multiLabels>
+                        <ui:template>
+                            <Text text="{sample>id}" wrapping="false" />
+                        </ui:template>
+                    </ui:Column>
+                    <ui:Column width="6rem">
+                    	<ui:multiLabels>
+							<Label text="Ship From" textAlign="Center" width="100%"/>
+						</ui:multiLabels>
+                        <ui:template>
+                            <Text text="{sample>shipFrom}" wrapping="false" />
+                        </ui:template>
+                    </ui:Column>
+                    <ui:Column width="3rem" >
+                    	<ui:multiLabels>
+							<Label text="Substituted" textAlign="Center" width="100%"/>
+						</ui:multiLabels>                    	
+                        <ui:template>
+                            <Text text="{sample>substituted}" wrapping="false" />
+                        </ui:template>
+                    </ui:Column>
+                    <ui:Column width="10%" headerSpan="5">
+                    	<ui:multiLabels>
+							<Label text="Quantity" textAlign="Center" width="100%"/>
+							<Label text="Ordered" textAlign="Center" width="100%"/>
+						</ui:multiLabels>                    	
+                        <ui:template>
+                            <Text text="{sample>qty}" wrapping="false" />
+                        </ui:template>
+                    </ui:Column>
+                    <ui:Column width="5%">
+                    	<ui:multiLabels>
+							<Label text="Quantity" />
+							<Label text="In Process" textAlign="Center" width="100%"/>
+						</ui:multiLabels>                    	
+                        <ui:template>
+                            <Text text="{sample>inpQty}" wrapping="false" />
+                        </ui:template>
+                    </ui:Column>
+                    <ui:Column width="5%">
+                    	<ui:multiLabels>
+							<Label text="Quantity" />
+							<Label text="Processed" textAlign="Center" width="100%"/>
+						</ui:multiLabels>                    	
+                        <ui:template>
+                            <Text text="{sample>prdQty}" wrapping="false" />
+                        </ui:template>
+                    </ui:Column>                    
+                    <ui:Column width="5%">
+                    	<ui:multiLabels>
+							<Label text="Quantity"/>
+							<Label text="Cancelled" textAlign="Center" width="100%"/>
+						</ui:multiLabels>                    	
+                        <ui:template>
+                            <Text text="{sample>cancelledQty}" wrapping="false" />
+                        </ui:template>
+                    </ui:Column>                        
+                    <ui:Column width="5%">
+                    	<ui:multiLabels>
+							<Label text="Quantity" textAlign="Center" width="100%"/>
+							<Label text="Back Ordered" textAlign="Center" width="100%"/>
+						</ui:multiLabels>                    	
+                        <ui:template>
+                            <Text text="{sample>x1}" wrapping="false" />
+                        </ui:template>
+                    </ui:Column>                        
+                    <ui:Column width="5%">
+                    	<ui:multiLabels>
+							<Label text="Dealer Order Number" textAlign="Center" width="100%"/>
+							<Label text="Estimated Delivery Date" textAlign="Center" width="100%"/>
+						</ui:multiLabels>                    	
+                        <ui:template>
+                            <Text text="{sample>x2}" wrapping="false" />
+                        </ui:template>
+                    </ui:Column>
+                    <ui:Column width="10%">
+                    	<ui:multiLabels>
+							<Label text="Order Type" textAlign="Center" width="100%"/>
+							<Label text="Delivery Number" textAlign="Center" width="100%"/>
+						</ui:multiLabels>                        	
+                    	<ObjectIdentifier	text="Estimated Delivery Date"/>
+                        <ui:template>
+                            <Text text="{sample>x3}" wrapping="false" />
+                        </ui:template>
+                    </ui:Column>
+                    <ui:Column width="9rem">
+                    	<ui:multiLabels>
+							<Label text="TCI Order Number" textAlign="Center" width="100%"/>
+							<Label text="Billing Document" textAlign="Center" width="100%"/>
+						</ui:multiLabels>
+                        <ui:template>
+                            <Text text="{sample>x4}" wrapping="false" />
+                        </ui:template>
+                    </ui:Column>
+                    
+                </ui:columns>
+	    	</ui:Table>
+		</content>
+		<footer>
+			<OverflowToolbar>
+				<Button 
+					icon="sap-icon://message-popup" 
+                    text="{=${message>/}.length}"
+                    visible="{=${message>/}.length > 0}"
+					type="Emphasized" 
+					press="handleMessagePopoverPress"/>
+				<ToolbarSpacer/>
+			</OverflowToolbar>
+		</footer>
+	</Page>			
+</mvc:View>

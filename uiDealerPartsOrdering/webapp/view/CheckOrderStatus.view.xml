@@ -5,9 +5,7 @@
 	xmlns:form="sap.ui.layout.form" 
 	xmlns:layout="sap.ui.layout"
 	xmlns:fb="sap.ui.comp.filterbar"
-	xmlns:u="sap.ui.unified"
 	xmlns:f="sap.f" 
-	xmlns:ui="sap.ui.table"
 	xmlns="sap.m"
 	xmlns:vm="sap.ui.comp.variants"
 	displayBlock="true" >
@@ -17,8 +15,8 @@
 		</customHeader>	
 		<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.ToolHeader" type="XML"/>
 		
-		<content  height = "100%">
-			<!--<Toolbar>
+		<content>
+			<Toolbar>
 				<content>
 					<Button id="filterButton"  icon="sap-icon://add-filter" press="onExpandFilter" />							
 					<ToolbarSpacer />
@@ -28,15 +26,15 @@
 						width='60%' />	
 				</content>
 			</Toolbar>
-			-->
+	
 			<fb:FilterBar	reset="onReset" 
 							search="onSearch" 
 							showRestoreButton="true" 
 							showClearButton="true" 
-							useToolbar='true' 
-							showGoOnFB='true' 
+							useToolbar='false' 
+							showGoOnFB='fasle' 
 							visible="{viewModel>/filterPanelEnable}" 
-							showFilterConfiguration='true'>
+							showFilterConfiguration='false'>
 				<fb:filterItems>
 					<fb:FilterItem name="A" label="{i18n>Label.Order.Type}" labelTooltip="{i18n>Label.Order.Type}" mandatory="true">
 						<fb:control>
@@ -68,113 +66,57 @@
 				</fb:filterItems>
 	    	</fb:FilterBar>		
 	    	
-	    	
-	    	<ui:TreeTable 
-	    			id="TreeTableBasic"
-                    rows="{path:'sample>/orderStatus', parameters: {arrayNames:['categories']}}"
-        			selectionMode="Single"
-        			alternateRowColors="true"
-        			visibleRowCountMode="Interactive" 
-        			enableColumnReordering="false"
-        			enableSelectAll="false"
-                    ariaLabelledBy="title">
-	    		<ui:columns>
-                    <ui:Column width="13rem">
-                    	<ui:multiLabels>
-							<Label text="Part Number" textAlign="Center" width="100%"/>
-						</ui:multiLabels>
-                        <ui:template>
-                            <Text text="{sample>id}" wrapping="false" />
-                        </ui:template>
-                    </ui:Column>
-                    <ui:Column width="9rem">
-                    	<ui:multiLabels>
-							<Label text="Ship From" textAlign="Center" width="100%"/>
-						</ui:multiLabels>
-                        <ui:template>
-                            <Text text="{sample>shipFrom}" wrapping="false" />
-                        </ui:template>
-                    </ui:Column>
-                    <ui:Column width="6rem">
-                    	<ui:multiLabels>
-							<Label text="Substituted" textAlign="Center" width="100%"/>
-						</ui:multiLabels>                    	
-                        <ui:template>
-                            <Text text="{sample>substituted}" wrapping="false" />
-                        </ui:template>
-                    </ui:Column>
-                    <ui:Column width="10%">
-                    	<ui:multiLabels>
-							<Label text="Quantity Ordered" textAlign="Center" width="100%"/>
-						</ui:multiLabels>                    	
-                        <ui:template>
-                            <Text text="{sample>qty}" wrapping="false" />
-                        </ui:template>
-                    </ui:Column>
-                    <ui:Column width="10%">
-                    	<ui:multiLabels>
-							<Label text="Quantity In Process" textAlign="Center" width="100%"/>
-						</ui:multiLabels>                    	
-                        <ui:template>
-                            <Text text="{sample>inpQty}" wrapping="false" />
-                        </ui:template>
-                    </ui:Column>
-                    <ui:Column width="10%">
-                    	<ui:multiLabels>
-							<Label text="Quantity Processed" textAlign="Center" width="100%"/>
-						</ui:multiLabels>                    	
-                        <ui:template>
-                            <Text text="{sample>prdQty}" wrapping="false" />
-                        </ui:template>
-                    </ui:Column>                    
-                    <ui:Column width="10%">
-                    	<ui:multiLabels>
-							<Label text="Quantity Cancelled" textAlign="Center" width="100%"/>
-						</ui:multiLabels>                    	
-                        <ui:template>
-                            <Text text="{sample>cancelledQty}" wrapping="false" />
-                        </ui:template>
-                    </ui:Column>                        
-                    <ui:Column width="10%">
-                    	<ui:multiLabels>
-							<Label text="Quantity Back Ordered" textAlign="Center" width="100%"/>
-							<Label text="Quantity Being Delivered" textAlign="Center" width="100%"/>
-						</ui:multiLabels>                    	
-                        <ui:template>
-                            <Text text="{sample>x1}" wrapping="false" />
-                        </ui:template>
-                    </ui:Column>                        
-                    <ui:Column width="10%">
-                    	<ui:multiLabels>
-							<Label text="Dealer Order Number" textAlign="Center" width="100%"/>
-							<Label text="Estimated Delivery Date" textAlign="Center" width="100%"/>
-						</ui:multiLabels>                    	
-                        <ui:template>
-                            <Text text="{sample>x2}" wrapping="false" />
-                        </ui:template>
-                    </ui:Column>
-                    <ui:Column width="10%">
-                    	<ui:multiLabels>
-							<Label text="Order Type" textAlign="Center" width="100%"/>
-							<Label text="Delivery Number" textAlign="Center" width="100%"/>
-						</ui:multiLabels>                        	
-                    	<ObjectIdentifier	text="Estimated Delivery Date"/>
-                        <ui:template>
-                            <Text text="{sample>x3}" wrapping="false" />
-                        </ui:template>
-                    </ui:Column>
-                    <ui:Column width="9rem">
-                    	<ui:multiLabels>
-							<Label text="TCI Order Number" textAlign="Center" width="100%"/>
-							<Label text="Billing Document" textAlign="Center" width="100%"/>
-						</ui:multiLabels>
-                        <ui:template>
-                            <Text text="{sample>x4}" wrapping="false" />
-                        </ui:template>
-                    </ui:Column>
-                    
-                </ui:columns>
-	    	</ui:TreeTable>
+			<Table id="idProductsTableHeader" showNoData="false">
+				<columns>
+					<Column width="12em">
+						<Text text="{i18n>Lable.Order.Number}" />
+					</Column>
+					<Column	minScreenWidth="Tablet"	demandPopin="true">
+						<Text text="{i18n>Label.Order.Type}" />
+					</Column>
+					<Column	minScreenWidth="Tablet"	demandPopin="true" hAlign="End">
+						<Text text="{i18n>Label.Order.Creation.Date}" />
+					</Column>
+				</columns>
+			</Table>	
+			<ScrollContainer id='flexContainer'
+				height="{viewModel>/contHigh}"
+				width="100%"
+				horizontal="true"
+				vertical="true"
+				focusable="true">
+				<Table	id="idProductsTable" 
+						items="{
+								path: 'viewModel>/orders',
+								sorter: {
+									path: 'createdOn'
+								}
+							}"
+						sticky = "{['sap.m.Sticky.ColumnHeaders', 'sap.m.Sticky.HeaderToolbar','sap.m.Sticky.InfoToolbar']}"
+					>
+					<columns>
+						<Column width="12em"/>
+						<Column	minScreenWidth="Tablet"	demandPopin="true"/>
+						<Column	minScreenWidth="Tablet"	demandPopin="true" hAlign="End"/>
+					</columns>
+					<items>
+						<ColumnListItem>
+							<cells>
+								<ObjectIdentifier	title="{viewModel>orderNumber}"	text="{viewModel>id}"/>
+								<Text text="{path : 'viewModel>scOrderType', formatter:'.formatter.orderType' }" />
+								<Text text="{path:'viewModel>createdOn', formatter:'.formatter.shortDate'}" />
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+				<Toolbar>
+					<content>
+						<Text text="" />
+					</content>
+				</Toolbar>
+
+			</ScrollContainer>
+
 		</content>
 		<footer>
 			<OverflowToolbar>

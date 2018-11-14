@@ -18,12 +18,13 @@
 		<content>
 			<Toolbar>
 				<content>
-					<Button id="filterButton"  icon="sap-icon://add-filter" press="onExpandFilter" />							
 					<ToolbarSpacer />
 					<SearchField id="oidSearch" placeholder='{i18n>Placeholder.OrderNumber}' 
 						showRefreshButton = 'true'
 						search='onSearch'
 						width='60%' />	
+					<Button id="sortButton" type='Transparent' icon="sap-icon://sort" press="onExpandFilter" />							
+					<Button id="filterButton" type='Transparent' icon="sap-icon://filter" press="onExpandFilter" />							
 				</content>
 			</Toolbar>
 	
@@ -74,20 +75,22 @@
 			
 			<Table id="idProductsTableHeader" showNoData="false">
 				<columns>
-					<Column width="12em">
-						<Text text="{i18n>Lable.Order.Number}" />
+					<Column width="30%">
+						<Label text="{i18n>Lable.Order.Number}" />
 					</Column>
-					<Column	minScreenWidth="Tablet"	demandPopin="true">
-						<Text text="{i18n>Label.Order.Type}" />
+					<Column	width="20%" minScreenWidth="Tablet"	demandPopin="true">
+						<Label text="{i18n>Label.Order.Type}" />
 					</Column>
-					<Column	minScreenWidth="Tablet"	demandPopin="true">
-						<Text text="{i18n>Label.Order.Creation.Date}" />
+					<Column	width="12em" minScreenWidth="Tablet"	demandPopin="true" hAlign="End">
+						<Label text="{i18n>Label.Order.Creation.Date}" />
 					</Column>
-					<Column	minScreenWidth="Tablet"	demandPopin="true" hAlign="End">
-						<Text text="{i18n>Label.Order.Modification.Date}" />
+					<Column	width="12em" minScreenWidth="Tablet"	demandPopin="false" hAlign="End">
+						<Label text="{i18n>Label.Order.Modification.Date}" />
 					</Column>
-					<Column	width="12em" hAlign="End">
-						<Button id="addButton" type="Transparent" icon="sap-icon://add"	press="onAdd" />	
+					<Column	width="3em" hAlign="End">
+						<HBox justifyContent='End' alignItems='End'>
+							<core:Icon id="addButton" src="sap-icon://add" color='#00bfff'	press="onAdd" />	
+						</HBox>
 					</Column>
 				</columns>
 			</Table>	
@@ -109,23 +112,21 @@
 						sticky = "{['sap.m.Sticky.ColumnHeaders', 'sap.m.Sticky.HeaderToolbar','sap.m.Sticky.InfoToolbar']}"
 					>
 					<columns>
-						<Column width="12em"/>
-						<Column	minScreenWidth="Tablet"	demandPopin="true"/>
-						<Column	minScreenWidth="Tablet"	demandPopin="true"/>
-						<Column	minScreenWidth="Tablet"	demandPopin="true" hAlign="End"/>
-						<Column	width="12em" hAlign="End"/>
+						<Column width="30%"/>
+						<Column	width="20%" minScreenWidth="Tablet"	demandPopin="true"/>
+						<Column	width="12em" minScreenWidth="Tablet"	demandPopin="false" hAlign="End"/>
+						<Column	width="12em" minScreenWidth="Tablet"	demandPopin="true" hAlign="End"/>
+						<Column	width="3rem" hAlign="End"/>
 					</columns>
 					<items>
 						<ColumnListItem>
 							<cells>
-								<Button text="{viewModel>orderNumber}" type='Transparent' enabled='false' />
-								<!--<ObjectIdentifier	title="{viewModel>orderNumber}"	text="{viewModel>orderNumber}"/>-->
+								<Link text="{viewModel>orderNumber}" enabled='false' />
 								<Text text="{path : 'viewModel>scOrderType', formatter:'.formatter.orderType' }" />
 								<Text text="{path:'viewModel>createdOn', formatter:'.formatter.shortDate'}" />
 								<Text text="{path:'viewModel>modifiedOn', formatter:'.formatter.shortDate'}" />
 								<HBox justifyContent='End' alignItems='End'>
-									<Button type="Transparent" icon="sap-icon://edit"	press="onEdit" />
-									<!--<Button type="Transparent" icon="sap-icon://sys-cancel"	press="onDelete" />-->
+									<core:Icon src="sap-icon://edit" color='#00bfff' press="onEdit" />
 								</HBox>
 							</cells>
 						</ColumnListItem>
