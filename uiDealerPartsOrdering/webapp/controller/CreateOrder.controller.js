@@ -215,7 +215,10 @@ sap.ui.define([
             	var resourceBundle = this.getResourceBundle();			
             	this.validateContractNumber(bpCode, sValue, newline[0].partNumber, function(data,isOK,messages){
             		if(!!isOK && !!data){
-            			
+            			newline[0].contractLine = data.line_item; 
+            			model.setProperty('/newline', newline);
+            		} else {
+            			//TODO -- ERROR 
             		}
             	});              
 
