@@ -42,6 +42,18 @@ sap.ui.define([
 				}
 			},
 
+			round2dec : function(sValue){
+				try {
+					if(!!sValue){
+						return parseFloat(sValue).toFixed(2);
+					}
+					
+				} catch(err){
+					
+				}
+				return 0.00;
+			},
+			
 			linex2Format :function(typeD, typeB, opCode, vin){
 				if (!!typeD){
 					if(!!opCode){
@@ -52,7 +64,12 @@ sap.ui.define([
 				} 
 				return '';
 			},
-			
+			sub2boolean : function(value){
+				if(!!value && 'YES' === value.toUpperCase()){
+					return true;
+				}
+				return false;
+			},
 			getItemNumber : function (sValue){
 				if (!!sValue){
 					return sValue.replace(/^0+/, '');
@@ -70,6 +87,10 @@ sap.ui.define([
 				return 	resourceBundle.getText('Message.Draft.Item.Id', [uuid, pUuid]);			
 			},
 			
+			totalLine1 : function(lines){
+				var resourceBundle = this.getResourceBundle();
+				return 	resourceBundle.getText('Label.CheckOrder.Totalparts', [lines]);			
+			},
 			partNumberLabelFormat : function(typeB, typeD){
 				var resourceBundle = this.getResourceBundle();
 				if(!!typeB){
@@ -107,6 +128,20 @@ sap.ui.define([
 					case '2':
 						return resourceBundle.getText('order.type.rush');
 					case '3':
+						return resourceBundle.getText('order.type.campaign');
+					default :
+						return "";
+				}	
+			},
+
+			orderTypeD : function(type){
+				var resourceBundle = this.getResourceBundle();
+				switch(type){
+					case 'ZOR':
+						return resourceBundle.getText('order.type.standard');
+					case 'ZRO':
+						return resourceBundle.getText('order.type.rush');
+					case 'ZCO':
 						return resourceBundle.getText('order.type.campaign');
 					default :
 						return "";

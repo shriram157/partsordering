@@ -130,12 +130,21 @@ sap.ui.define([
 				if (!!!iDataMode){
 					var resourceBundle = this.getResourceBundle();				
 					var iData = {
-						 orderTypeList : [ {code : 1, name  : resourceBundle.getText('order.type.standard')},
-										{code : 2, name  : resourceBundle.getText('order.type.rush')},
-										{code : 3, name  : resourceBundle.getText('order.type.campaign')}
+						 orderTypeList : [ 
+						 				{code : 'ALL', name  : resourceBundle.getText('order.type.all')},
+						 				{code : 'ZOR', name  : resourceBundle.getText('order.type.standard')},
+										{code : 'ZRO', name  : resourceBundle.getText('order.type.rush')},
+										{code : 'ZCO', name  : resourceBundle.getText('order.type.campaign')}
 									  ],
 						orderStatusList : [ {code : 'DF', name  : resourceBundle.getText('Order.Status.Draft')},
 											{code : 'ST', name  : resourceBundle.getText('Order.Status.Submitted')}
+										],				  
+						partsStateList : [ 
+											{code : 'ALL', name  : resourceBundle.getText('Parts.Status.All')},
+											{code : 'IP', name  : resourceBundle.getText('Parts.Status.InProcess')},
+											{code : 'PR', name  : resourceBundle.getText('Parts.Status.Processed')},
+											{code : 'CL', name  : resourceBundle.getText('Parts.Status.Cancelled')},
+											{code : 'BK', name  : resourceBundle.getText('Parts.Status.BackOrdered')}
 										]				  
 					};
 					var iDataModel = new sap.ui.model.json.JSONModel();
@@ -1521,6 +1530,95 @@ sap.ui.define([
 		    	}
 		    },
 		    
+		    searchPartsOrders : function(conditions, isSalesOrder, callback){
+		    	var that = this;
+		    	if (!!isSalesOrder){
+		    		that._seacrhPartsSalesOrder(conditions, function(oList){
+		    			if (!!oList && oList.length > 0 ){
+		    				var finalList = [];
+		    				var currentItem = null;
+		    				var currentKey = {};
+		    				currentKey.TCI_order_no = null;
+		    				currentKey.TCI_itemNo = null;
+		    				
+		    				for (var i = 0; i < oList.length; i++){
+		    					currentItem = oList[i];
+		    					if (currentKey.TCI_order_no === currentItem.TCI_order_no && currentKey.TCI_itemNo === currentItem.TCI_itemNo){
+
+		    					} else {
+		    						currentKey.TCI_order_no = currentItem.TCI_order_no;
+		    						currentKey.TCI_itemNo = currentItem.TCI_itemNo;
+		    						finalList.push(currentItem);
+		    					}
+	    						currentItem = null; 
+		    				}
+		    				callback(finalList);	
+		    				
+		    			} else {
+		    				callback([]);	
+		    			}
+		    		} );
+		    	} else {
+		    		
+		    	}
+		    	
+		    },
+		    
+		    _seacrhPartsSalesOrder : function(conditions, callback){
+		    	var that = this;
+				var bModel = this.getSalesOrderModel();
+
+				var oFilter = new Array();
+				//var dealerCode = conditions.dealerCode;
+				var dealerCode = conditions.bpCode;
+
+				oFilter[0] = new sap.ui.model.Filter("dealer_code", sap.ui.model.FilterOperator.EQ, dealerCode );
+				oFilter[1] = new sap.ui.model.Filter("erdat", sap.ui.model.FilterOperator.BT, conditions.fromOrderDate, conditions.toOrderDate );
+				
+				var aFilter = null;
+				if (!!conditions.partNumber ){
+					aFilter = new sap.ui.model.Filter("part_no", sap.ui.model.FilterOperator.Contains, conditions.partNumber );
+					oFilter.push(aFilter);
+				}
+				if (!!conditions.deleveryNumber ){
+					aFilter = new sap.ui.model.Filter("deliv_no", sap.ui.model.FilterOperator.Contains, conditions.deleveryNumber );
+					oFilter.push(aFilter);
+				}
+				if (!!conditions.fiNumber ){
+					aFilter = new sap.ui.model.Filter("bill_no", sap.ui.model.FilterOperator.Contains, conditions.fiNumber );
+					oFilter.push(aFilter);
+				}
+				if (!!conditions.orderNumber ){
+					aFilter = new sap.ui.model.Filter("dealer_orderNo", sap.ui.model.FilterOperator.Contains, conditions.orderNumber );
+					oFilter.push(aFilter);
+				}
+				if (!!conditions.tciOrderNumber ){
+					aFilter = new sap.ui.model.Filter("TCI_order_no", sap.ui.model.FilterOperator.Contains, conditions.tciOrderNumber );
+					oFilter.push(aFilter);
+				}
+
+				bModel.read('/find_soSet', {
+					urlParameters: {
+ //     		 			"$select": "PurchasingOrganization,PurchasingGroup,Supplier,PurchaseOrderType,ZZ1_DealerCode_PDH,ZZ1_DealerOrderNum_PDH,DraftUUID,DraftEntityCreationDateTime,DraftEntityLastChangeDateTime,to_PurchaseOrderItemTP",
+      		 		//	"$expand" : "to_PurchaseOrderItemTP",
+      		 			"$orderby": "TCI_order_no,TCI_itemNo"
+					},
+					filters:  oFilter,						
+					success:  function(oData, oResponse){
+						if (!!oData && !!oData.results){
+							callback(oData.results);
+						}
+					},
+					error: function(err){
+						var eee = err;
+						// error handling here
+						callback(null);
+					}
+				});
+
+		    	
+		    }, 
+		    
 		    loadSalesDraft : function(uuid, orderData, callback){
 		    	var that = this;
 		    	var lv_orderData =orderData;
@@ -2263,7 +2361,7 @@ sap.ui.define([
 							// prepare aDraft
 							aDraft = {};
 							aDraft.SalesOrganization = oData.SalesOrg;
-							aDraft.DistrChan = oData.DistributionChannel;
+							aDraft.DistributionChannel = oData.DistrChan;
 							aDraft.Division = oData.Division;
 							aDraft.OrderType = oData.DocType;
 							aDraft.DraftUUID = oData.HeaderDraftUUID;

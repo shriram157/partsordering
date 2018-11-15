@@ -21,7 +21,7 @@
 					
 					<Text text="{path : 'viewModel>/orders/length', formatter:'.formatter.totalLine1' }" />
 					<ToolbarSpacer />
-					<SearchField placeholder='{i18n>Placeholder.CheckOrder.QuickSearch}' 
+					<SearchField placeholder='{i18n>Placeholder.OrderNumber}' 
 						showRefreshButton = 'true'
 						showSearchButton = 'true'
 						liveChange = 'onLiveChange'
@@ -33,60 +33,20 @@
 			</Toolbar>
 	
 			<fb:FilterBar	reset="onReset" 
-							header=""
-							showClearOnFB="false"
-							showRestoreOnFB="true"
-							advancedMode = "false"
-							filterBarExpanded="true"
 							search="onSearch" 
 							showRestoreButton="true" 
 							showClearButton="true" 
-							useToolbar='false' 
-							showGoOnFB='false' 
+							useToolbar='true' 
+							showGoOnFB='true' 
 							visible="{viewModel>/filterPanelEnable}" 
 							showFilterConfiguration='false'>
 				<fb:filterItems>
-					<fb:FilterItem name="partStat" label="{i18n>Label.CheckOrder.PartsStat}" labelTooltip="{i18n>Label.CheckOrder.PartsStat}" >
-						<fb:control>
-							<MultiComboBox id="orderStatus"
-								placeholder="{i18n>Label.CheckOrder.PartsStat}"
-								selectionFinish="onSelectionFinishOS"
-								selectedKeys= "{viewModel>/filters/partsStates}"
-								width="15%"
-								items="{
-									path: 'filterModel>/partsStateList'
-								}">
-									<core:Item key="{filterModel>code}" text="{filterModel>name}" />
-							</MultiComboBox>
-						</fb:control>				
-					</fb:FilterItem>				
-					<fb:FilterItem name="partNumber" label="{i18n>Label.CheckOrder.PartsNumber}" labelTooltip="{i18n>Label.CheckOrder.PartsNumber}" >
-						<fb:control>
-							<Input type="Text" value="{viewModel>/filters/partNumber}" placeholder="{i18n>Label.CheckOrder.PartsNumber}" width="15%"></Input>
-						</fb:control>				
-					</fb:FilterItem>
-					<fb:FilterItem name="deleveryNumber" label="{i18n>Label.CheckOrder.deliveryNumber}" labelTooltip="{i18n>Label.CheckOrder.deliveryNumber}" >
-						<fb:control>
-							<Input value="{viewModel>/filters/deleveryNumber}" placeholder="{i18n>Label.CheckOrder.deliveryNumber}" width="15%"></Input>
-						</fb:control>				
-					</fb:FilterItem>
-					<fb:FilterItem name="fiNumber" label="{i18n>Label.CheckOrder.fiNumber}" labelTooltip="{i18n>Label.CheckOrder.fiNumber}" >
-						<fb:control>
-							<Input value="{viewModel>/filters/fiNumber}" placeholder="{i18n>Label.CheckOrder.fiNumber}" width="15%"></Input>
-						</fb:control>				
-					</fb:FilterItem>
-					<fb:FilterItem name="dealer" label="{i18n>Label.CheckOrder.Dealer}" labelTooltip="{i18n>Label.CheckOrder.Dealer}" >
-						<fb:control>
-							<Input value="{viewModel>/filters/dealer}" enabled="false" placeholder="{i18n>Label.CheckOrder.Dealer}" width="15%"></Input>
-						</fb:control>				
-					</fb:FilterItem>
-					<fb:FilterItem name="orderType" label="{i18n>Label.CheckOrder.OrderType}" labelTooltip="{i18n>Label.CheckOrder.OrderType}" mandatory="false">
+					<fb:FilterItem name="A" label="{i18n>Label.Order.Type}" labelTooltip="{i18n>Label.Order.Type}" mandatory="true">
 						<fb:control>
 							<MultiComboBox 
-								placeholder="{i18n>Label.CheckOrder.OrderType}"
+								placeholder="{i18n>Label.Order.Type}"
 								selectionFinish="onSelectionFinishOT"
 								width="15%"
-								selectedKeys= "{viewModel>/filters/orderStates}"
 								items="{
 									path: 'filterModel>/orderTypeList'
 								}">
@@ -94,47 +54,32 @@
 							</MultiComboBox>
 						</fb:control>				
 					</fb:FilterItem>
-					<fb:FilterItem name="orderNumber" label="{i18n>Label.CheckOrder.DealerOrder}" labelTooltip="{i18n>Label.CheckOrder.DealerOrder}" >
-						<fb:control>
-							<Input value="{viewModel>/filters/orderNumber}" placeholder="{i18n>Label.CheckOrder.DealerOrder}" width="15%"></Input>
-						</fb:control>				
-					</fb:FilterItem>
-					<fb:FilterItem name="tciOrderNumber" label="{i18n>Label.CheckOrder.TciOrder}" labelTooltip="{i18n>Label.CheckOrder.TciOrder}" >
-						<fb:control>
-							<Input value="{viewModel>/filters/tciOrderNumber}" placeholder="{i18n>Label.CheckOrder.TciOrder}" width="15%"></Input>
-						</fb:control>				
-					</fb:FilterItem>
-
-					<fb:FilterItem name="orderDateFrom" label="{i18n>Label.CheckOrder.OrderDate.From}" labelTooltip="{i18n>Label.CheckOrder.OrderDate.From}" >
-						<fb:control>
-							<DatePicker value="{viewModel>/filters/fromOrderDate}"
-										valueFormat="yyyyMMdd"
-										displayFormat="long"
-										placeholder="{i18n>Label.CheckOrder.OrderDate.From}"/>
-						</fb:control>				
-					</fb:FilterItem>
-					<fb:FilterItem name="orderDateTo" label="{i18n>Label.CheckOrder.OrderDate.To}" labelTooltip="{i18n>Label.CheckOrder.OrderDate.To}" >
-						<fb:control>
-							<DatePicker value="{viewModel>/filters/toOrderDate}"
-										valueFormat="yyyyMMdd"
-										displayFormat="long"
-										placeholder="{i18n>Label.CheckOrder.OrderDate.To}"/>
-						</fb:control>				
-					</fb:FilterItem>
-
 				
+					<fb:FilterItem name="B" label="{i18n>Label.Order.Status}" labelTooltip="{i18n>Label.Order.Status}" mandatory="true">
+						<fb:control>
+							<MultiComboBox id="orderStatus"
+								placeholder="{i18n>Label.Order.Status}"
+								selectionFinish="onSelectionFinishOS"
+								width="15%"
+								items="{
+									path: 'filterModel>/orderStatusList'
+								}">
+									<core:Item key="{filterModel>code}" text="{filterModel>name}" />
+							</MultiComboBox>
+						</fb:control>				
+					</fb:FilterItem>				
 				</fb:filterItems>
 	    	</fb:FilterBar>		
 	    	
 			<Table id="idProductsTableHeader" showNoData="false"  >
 				<columns>
-					<Column width="10em" >
+					<Column width="9em">
 						<Text text="{i18n>Label.CheckOrder.PartsNumber} "/>
 					</Column>
-					<Column minScreenWidth="Tablet"	demandPopin="true" width="4em" hAlign="End">
+					<Column minScreenWidth="Tablet"	demandPopin="true" width="4em">
 						<Text text="{i18n>Label.CheckOrder.ShipFrom} "/>
 					</Column>
-					<Column minScreenWidth="Tablet"	demandPopin="true" width="2em" hAlign="Center">
+					<Column minScreenWidth="Tablet"	demandPopin="true" width="2em">
 						<core:Icon src="sap-icon://share" color='#FF5733' tooltip='{i18n>Label.CheckOrder.Substitution}' />
 					</Column>
 					<Column width="5em">
@@ -153,13 +98,13 @@
 						<Text text="{i18n>Label.CheckOrder.Quantity.BackOrdered} "/>
 					</Column>
 					<Column	minScreenWidth="Tablet"	demandPopin="true">
-						<Text text="{i18n>Label.CheckOrder.DealerOrder}" />
+						<Text text="{i18n>Label.CheckOrder.Quantity.DealerOrder}" />
+					</Column>
+					<Column	minScreenWidth="Tablet"	demandPopin="true">
+						<Text text="{i18n>Label.CheckOrder.Quantity.OrderType}" />
 					</Column>
 					<Column	minScreenWidth="Tablet"	demandPopin="true" hAlign="End">
-						<Text text="{i18n>Label.CheckOrder.OrderType}" />
-					</Column>
-					<Column	minScreenWidth="Tablet"	demandPopin="true" hAlign="End">
-						<Text text="{i18n>Label.CheckOrder.TciOrder}" />
+						<Text text="{i18n>Label.CheckOrder.Quantity.TciOrder}" />
 					</Column>
 				</columns>
 			</Table>	
@@ -178,16 +123,16 @@
 						sticky = "{['sap.m.Sticky.ColumnHeaders', 'sap.m.Sticky.HeaderToolbar','sap.m.Sticky.InfoToolbar']}"
 					>
 					<columns>
-						<Column width="10em"/>
-						<Column minScreenWidth="Tablet"	demandPopin="true" width="4em" hAlign="End"/>
-						<Column minScreenWidth="Tablet"	demandPopin="true" width="2em" hAlign="Center"/>
+						<Column width="9em"/>
+						<Column minScreenWidth="Tablet"	demandPopin="true" width="4em"/>
+						<Column minScreenWidth="Tablet"	demandPopin="true" width="2em"/>
 						<Column width="5em"/>
 						<Column width="5em"/>
 						<Column width="5em"/>
 						<Column width="5em"/>
 						<Column width="5em"/>
 						<Column	minScreenWidth="Tablet"	demandPopin="true"/>
-						<Column	minScreenWidth="Tablet"	demandPopin="true" hAlign="End"/>
+						<Column	minScreenWidth="Tablet"	demandPopin="true"/>
 						<Column	minScreenWidth="Tablet"	demandPopin="true" hAlign="End"/>
 					</columns>
 					<items>
@@ -196,7 +141,7 @@
 								<Text text="{path : 'viewModel>part_no', formatter:'.formatter.getItemNumber' }" />
 								<Text text="{path : 'viewModel>ship_from' }" />
 								<core:Icon src="sap-icon://share" color='#FF5733' visible="{path : 'viewModel>sub_flag', formatter:'.formatter.sub2boolean'}" />
-								<ObjectNumber number="{path: 'viewModel>quant_ordered', formatter:'.formatter.round2dec'}" />
+								<ObjectNumber number="{path: 'viewModel>quant_ordered', formatter:'.formatter.round2dec'}"/>
 								<ObjectNumber number="{path: 'viewModel>quant_in_process', formatter:'.formatter.round2dec' }"/>
 								<ObjectNumber number="{path: 'viewModel>quant_processed', formatter:'.formatter.round2dec'}"/>
 								<ObjectNumber number="{path: 'viewModel>quant_cancelled', formatter:'.formatter.round2dec'}"/>
