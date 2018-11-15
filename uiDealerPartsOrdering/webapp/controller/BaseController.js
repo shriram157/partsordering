@@ -1537,6 +1537,7 @@ sap.ui.define([
 		    			if (!!oList && oList.length > 0 ){
 		    				var finalList = [];
 		    				var currentItem = null;
+		    				var oldItem = null;
 		    				var currentKey = {};
 		    				currentKey.TCI_order_no = null;
 		    				currentKey.TCI_itemNo = null;
@@ -1544,13 +1545,37 @@ sap.ui.define([
 		    				for (var i = 0; i < oList.length; i++){
 		    					currentItem = oList[i];
 		    					if (currentKey.TCI_order_no === currentItem.TCI_order_no && currentKey.TCI_itemNo === currentItem.TCI_itemNo){
-
+									
 		    					} else {
+		    						if (!!oldItem ){
+		    							oldItem.deliv_no_str = oldItem.deliv_no_list.join('.');
+		    							oldItem.bill_no_str = oldItem.bill_no_list.join('.');                         
+		    							finalList.push(oldItem);
+		    						}
+		    						oldItem = currentItem;
+		    						
+		    						oldItem.scheduleLines=[];
+		    						oldItem.scheduleLines.push({
+		    							"deliv_no": currentItem.deliv_no,
+										"deliv_itemNo": currentItem.deliv_itemNo,
+										"bill_no": currentItem.bill_no,
+										"bill_itemNo": currentItem.bill_itemNo,
+										"quant_being_delivered": currentItem.quant_being_delivered,
+										"est_deliv_date": currentItem.est_deliv_date
+		    						});
+		    						
+		    						oldItem.deliv_no_list =[];                         
+		    						oldItem.deliv_no_list.push(currentItem.deliv_no);
+		    						oldItem.bill_no_list =[];                         
+		    						oldItem.bill_no_list.push(currentItem.bill_no);             
+		    						
 		    						currentKey.TCI_order_no = currentItem.TCI_order_no;
 		    						currentKey.TCI_itemNo = currentItem.TCI_itemNo;
-		    						finalList.push(currentItem);
 		    					}
 	    						currentItem = null; 
+		    				}
+		    				if (!!oldItem ){
+		    					finalList.push(oldItem);
 		    				}
 		    				callback(finalList);	
 		    				

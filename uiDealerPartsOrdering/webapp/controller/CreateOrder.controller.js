@@ -95,8 +95,10 @@ sap.ui.define([
 						}
 						model.setProperty('/stoSupplyingPlant', aCustSaleArea.SupplyingPlant);
 						model.setProperty('/SalesOrganization', aCustSaleArea.SalesOrganization);
-						model.setProperty('/DistributionChannel',aCustSaleArea.DistributionChannel);
-						model.setProperty('/Division', aCustSaleArea.Division);
+						// model.setProperty('/DistributionChannel',aCustSaleArea.DistributionChannel);
+						// model.setProperty('/Division', aCustSaleArea.Division);
+						model.setProperty('/DistributionChannel',"10");
+						model.setProperty('/Division', "10");
 					}
 				});
 				

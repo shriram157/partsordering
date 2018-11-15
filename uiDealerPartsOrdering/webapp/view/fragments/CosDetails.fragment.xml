@@ -1,0 +1,59 @@
+<core:FragmentDefinition
+		xmlns="sap.m"
+		xmlns:core="sap.ui.core"
+		xmlns:mvc="sap.ui.core.mvc"
+		xmlns:semantic="sap.f.semantic">
+>
+	<Dialog contentWidth="60%" contentHeight="60%" >
+		<semantic:SemanticPage
+		id="detailPage">
+		<semantic:titleHeading>
+			<Title text=""/>
+		</semantic:titleHeading>
+		<semantic:headerContent>
+			<ObjectAttribute title=""/>
+
+		</semantic:headerContent>
+		<semantic:content>
+			<Table>
+				<headerToolbar>
+					<Toolbar>
+						<Title
+							id="lineItemsTitle"
+							text=""
+							titleStyle="H3"/>
+					</Toolbar>
+				</headerToolbar>
+				<columns>
+					<Column>
+						<Text text="0"/>
+					</Column>
+					<Column
+						minScreenWidth="Tablet"
+						demandPopin="true"
+						hAlign="End">
+						<Text text=""/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier
+								title="{Material}"
+								text="{ItmNumber}"/>
+							<ObjectNumber
+								number="{
+									path: 'TargetQty',
+									formatter: '.formatter.currencyValue'
+								}"
+								unit="{Division}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</semantic:content>
+
+	</semantic:SemanticPage>
+</Dialog>
+
+</core:FragmentDefinition>

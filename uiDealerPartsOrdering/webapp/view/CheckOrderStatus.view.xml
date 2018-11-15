@@ -19,7 +19,7 @@
 			<Toolbar>
 				<content>
 					
-					<Text text="{path : 'viewModel>/orders/length', formatter:'.formatter.totalLine1' }" />
+					<Text text="{path : 'viewModel>/filteredItems', formatter:'.formatter.totalLine1' }" />
 					<ToolbarSpacer />
 					<SearchField placeholder='{i18n>Placeholder.CheckOrder.QuickSearch}' 
 						showRefreshButton = 'true'
@@ -27,7 +27,7 @@
 						liveChange = 'onLiveChange'
 						search = 'onSearch'
 						width='60%' />	
-					<Button id="settingButton"  icon="sap-icon://customize" type="Transparent" press="osnExpandFilter" />							
+					<Button id="settingButton"  icon="sap-icon://customize" type="Transparent" press="onSetting" />							
 					<Button id="filterButton"  icon="sap-icon://add-filter" type="Transparent" press="onExpandFilter" />							
 				</content>
 			</Toolbar>
@@ -36,7 +36,7 @@
 							header=""
 							showClearOnFB="false"
 							showRestoreOnFB="true"
-							advancedMode = "false"
+							advancedMode = "true"
 							filterBarExpanded="true"
 							search="onSearch" 
 							showRestoreButton="true" 
@@ -46,40 +46,7 @@
 							visible="{viewModel>/filterPanelEnable}" 
 							showFilterConfiguration='false'>
 				<fb:filterItems>
-					<fb:FilterItem name="partStat" label="{i18n>Label.CheckOrder.PartsStat}" labelTooltip="{i18n>Label.CheckOrder.PartsStat}" >
-						<fb:control>
-							<MultiComboBox id="orderStatus"
-								placeholder="{i18n>Label.CheckOrder.PartsStat}"
-								selectionFinish="onSelectionFinishOS"
-								selectedKeys= "{viewModel>/filters/partsStates}"
-								width="15%"
-								items="{
-									path: 'filterModel>/partsStateList'
-								}">
-									<core:Item key="{filterModel>code}" text="{filterModel>name}" />
-							</MultiComboBox>
-						</fb:control>				
-					</fb:FilterItem>				
-					<fb:FilterItem name="partNumber" label="{i18n>Label.CheckOrder.PartsNumber}" labelTooltip="{i18n>Label.CheckOrder.PartsNumber}" >
-						<fb:control>
-							<Input type="Text" value="{viewModel>/filters/partNumber}" placeholder="{i18n>Label.CheckOrder.PartsNumber}" width="15%"></Input>
-						</fb:control>				
-					</fb:FilterItem>
-					<fb:FilterItem name="deleveryNumber" label="{i18n>Label.CheckOrder.deliveryNumber}" labelTooltip="{i18n>Label.CheckOrder.deliveryNumber}" >
-						<fb:control>
-							<Input value="{viewModel>/filters/deleveryNumber}" placeholder="{i18n>Label.CheckOrder.deliveryNumber}" width="15%"></Input>
-						</fb:control>				
-					</fb:FilterItem>
-					<fb:FilterItem name="fiNumber" label="{i18n>Label.CheckOrder.fiNumber}" labelTooltip="{i18n>Label.CheckOrder.fiNumber}" >
-						<fb:control>
-							<Input value="{viewModel>/filters/fiNumber}" placeholder="{i18n>Label.CheckOrder.fiNumber}" width="15%"></Input>
-						</fb:control>				
-					</fb:FilterItem>
-					<fb:FilterItem name="dealer" label="{i18n>Label.CheckOrder.Dealer}" labelTooltip="{i18n>Label.CheckOrder.Dealer}" >
-						<fb:control>
-							<Input value="{viewModel>/filters/dealer}" enabled="false" placeholder="{i18n>Label.CheckOrder.Dealer}" width="15%"></Input>
-						</fb:control>				
-					</fb:FilterItem>
+					<!--
 					<fb:FilterItem name="orderType" label="{i18n>Label.CheckOrder.OrderType}" labelTooltip="{i18n>Label.CheckOrder.OrderType}" mandatory="false">
 						<fb:control>
 							<MultiComboBox 
@@ -94,17 +61,36 @@
 							</MultiComboBox>
 						</fb:control>				
 					</fb:FilterItem>
+					<fb:FilterItem name="partStat" label="{i18n>Label.CheckOrder.PartsStat}" labelTooltip="{i18n>Label.CheckOrder.PartsStat}" >
+						<fb:control>
+							<MultiComboBox id="orderStatus"
+								placeholder="{i18n>Label.CheckOrder.PartsStat}"
+								selectionFinish="onSelectionFinishOS"
+								selectedKeys= "{viewModel>/filters/partsStates}"
+								width="15%"
+								items="{
+									path: 'filterModel>/partsStateList'
+								}">
+									<core:Item key="{filterModel>code}" text="{filterModel>name}" />
+							</MultiComboBox>
+						</fb:control>				
+					</fb:FilterItem>				
+					-->
+					<fb:FilterItem name="dealer" label="{i18n>Label.CheckOrder.Dealer}" labelTooltip="{i18n>Label.CheckOrder.Dealer}" >
+						<fb:control>
+							<Input value="{viewModel>/filters/dealer}" enabled="false" placeholder="{i18n>Label.CheckOrder.Dealer}" width="15%"></Input>
+						</fb:control>				
+					</fb:FilterItem>
 					<fb:FilterItem name="orderNumber" label="{i18n>Label.CheckOrder.DealerOrder}" labelTooltip="{i18n>Label.CheckOrder.DealerOrder}" >
 						<fb:control>
 							<Input value="{viewModel>/filters/orderNumber}" placeholder="{i18n>Label.CheckOrder.DealerOrder}" width="15%"></Input>
 						</fb:control>				
 					</fb:FilterItem>
-					<fb:FilterItem name="tciOrderNumber" label="{i18n>Label.CheckOrder.TciOrder}" labelTooltip="{i18n>Label.CheckOrder.TciOrder}" >
+					<fb:FilterItem name="partNumber" label="{i18n>Label.CheckOrder.PartsNumber}" labelTooltip="{i18n>Label.CheckOrder.PartsNumber}" >
 						<fb:control>
-							<Input value="{viewModel>/filters/tciOrderNumber}" placeholder="{i18n>Label.CheckOrder.TciOrder}" width="15%"></Input>
+							<Input type="Text" value="{viewModel>/filters/partNumber}" placeholder="{i18n>Label.CheckOrder.PartsNumber}" width="15%"></Input>
 						</fb:control>				
 					</fb:FilterItem>
-
 					<fb:FilterItem name="orderDateFrom" label="{i18n>Label.CheckOrder.OrderDate.From}" labelTooltip="{i18n>Label.CheckOrder.OrderDate.From}" >
 						<fb:control>
 							<DatePicker value="{viewModel>/filters/fromOrderDate}"
@@ -113,6 +99,23 @@
 										placeholder="{i18n>Label.CheckOrder.OrderDate.From}"/>
 						</fb:control>				
 					</fb:FilterItem>
+
+					<fb:FilterItem name="tciOrderNumber" label="{i18n>Label.CheckOrder.TciOrder}" labelTooltip="{i18n>Label.CheckOrder.TciOrder}" >
+						<fb:control>
+							<Input value="{viewModel>/filters/tciOrderNumber}" placeholder="{i18n>Label.CheckOrder.TciOrder}" width="15%"></Input>
+						</fb:control>				
+					</fb:FilterItem>
+					<fb:FilterItem name="deleveryNumber" label="{i18n>Label.CheckOrder.deliveryNumber}" labelTooltip="{i18n>Label.CheckOrder.deliveryNumber}" >
+						<fb:control>
+							<Input value="{viewModel>/filters/deleveryNumber}" placeholder="{i18n>Label.CheckOrder.deliveryNumber}" width="15%"></Input>
+						</fb:control>				
+					</fb:FilterItem>
+					<fb:FilterItem name="fiNumber" label="{i18n>Label.CheckOrder.fiNumber}" labelTooltip="{i18n>Label.CheckOrder.fiNumber}" >
+						<fb:control>
+							<Input value="{viewModel>/filters/fiNumber}" placeholder="{i18n>Label.CheckOrder.fiNumber}" width="15%"></Input>
+						</fb:control>				
+					</fb:FilterItem>
+
 					<fb:FilterItem name="orderDateTo" label="{i18n>Label.CheckOrder.OrderDate.To}" labelTooltip="{i18n>Label.CheckOrder.OrderDate.To}" >
 						<fb:control>
 							<DatePicker value="{viewModel>/filters/toOrderDate}"

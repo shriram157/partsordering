@@ -29,6 +29,7 @@ sap.ui.define([
     	        oMessageManager.registerObject(this.getView(), true);
 
 				var viewState = { 
+					filteredItems : 0,
 					filterPanelEnable : false, 
 					contHigh : "80%", 
 					orders: [], 
@@ -59,6 +60,15 @@ sap.ui.define([
 				};
 			},
 
+			onSetting : function(oEvent){
+				if (!this._oDialog) {
+					this._oDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.CosViewSettingsDialog", this);
+				}
+				this._oDialog.setModel(this.getView().getModel());
+				// toggle compact style
+				jQuery.sap.syncStyleClass("sapUiSizeCompact", this.getView(), this._oDialog);
+				this._oDialog.open();	
+			},
 			getRunningDefaultFilterValues : function(){
 				var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({pattern : "YYYYMMdd" }); 
 				var appStateModel = this.getStateModel();
@@ -109,7 +119,14 @@ sap.ui.define([
 			},
 			
 			onMasterSelected : function(oEvent){
-				MessageToast.show("select Haha");
+				if (!this._oDetailDialog) {
+					this._oDetailDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.CosDetails", this);
+				}
+				this._oDetailDialog.setModel(this.getView().getModel());
+				// toggle compact style
+				//jQuery.sap.syncStyleClass("sapUiSizeCompact", this.getView(), this._oDialog);
+				this._oDetailDialog.open();	
+
 			},
 			
 			onReset : function(oEvent){
@@ -134,9 +151,9 @@ sap.ui.define([
 					orFilters.push(filter);
 					filter = new sap.ui.model.Filter("TCI_order_no", sap.ui.model.FilterOperator.Contains, sQuery);
 					orFilters.push(filter);
-					filter = new sap.ui.model.Filter("deliv_no_list", sap.ui.model.FilterOperator.Contains, sQuery);
+					filter = new sap.ui.model.Filter("deliv_no_str", sap.ui.model.FilterOperator.Contains, sQuery);
 					orFilters.push(filter);
-					filter = new sap.ui.model.Filter("bill_no_list", sap.ui.model.FilterOperator.Contains, sQuery);
+					filter = new sap.ui.model.Filter("bill_no_str", sap.ui.model.FilterOperator.Contains, sQuery);
 					orFilters.push(filter);
 					filter = new sap.ui.model.Filter("dealer_orderNo", sap.ui.model.FilterOperator.Contains, sQuery);	
 					orFilters.push(filter);
@@ -153,6 +170,10 @@ sap.ui.define([
 				var list = this.byId("idProductsTable");
 				var binding = list.getBinding("items");
 				binding.filter(aFilters, "Application");
+
+				var viewModel = this.getModel( CONST_VIEW_MODEL);
+				viewModel.setProperty('/filteredItems',binding.getLength());
+				
 			},
 			
 			refresh : function(query){
@@ -201,6 +222,12 @@ sap.ui.define([
 
 				this.searchPartsOrders(conditions, isSalesOrder, function(results){
 				 	viewModel.setProperty('/orders', results);
+
+					var list = that.byId("idProductsTable");
+					var binding = list.getBinding("items");
+
+					viewModel.setProperty('/filteredItems',binding.getLength());
+				 	
 				 	sap.ui.core.BusyIndicator.hide();
 				});				
 
