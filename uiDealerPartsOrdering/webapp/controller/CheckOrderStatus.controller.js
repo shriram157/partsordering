@@ -32,6 +32,8 @@ sap.ui.define([
 					filteredItems : 0,
 					filterPanelEnable : false, 
 					contHigh : "80%", 
+					sortDescending : false,
+					sortKey : 'TCI_order_no',			 	
 					orders: [], 
 					filters: this.getDefaultFilterValues()
 				};
@@ -39,7 +41,7 @@ sap.ui.define([
 				viewModel.setData(viewState);
 				this.setModel(viewModel, CONST_VIEW_MODEL);
 				
-				var detailDialog = null;
+				this._oList = this.byId('idProductsTable');
 
 				this.checkDealerInfo();
 				
@@ -60,10 +62,22 @@ sap.ui.define([
 					toOrderDate :''
 				};
 			},
-
+			
+			onConfirmViewSettingsDialog : function(oEvent){
+				var mParams = oEvent.getParameters(),
+				sPath,
+				bDescending,
+				aSorters = [];				
+				sPath = mParams.sortItem.getKey();
+				bDescending = mParams.sortDescending;
+				aSorters.push(new sap.ui.model.Sorter(sPath, bDescending));
+				this._oList.getBinding("items").sort(aSorters);	
+			},
+			
 			onSetting : function(oEvent){
 				if (!this._oDialog) {
 					this._oDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.CosViewSettingsDialog", this);
+					this.getView().addDependent(this._oDialog);
 				}
 				this._oDialog.setModel(this.getView().getModel());
 				// toggle compact style

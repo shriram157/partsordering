@@ -4,14 +4,22 @@
 
 	<ViewSettingsDialog
 		id="viewSettingsDialog"
-		confirm="onConfirmViewSettingsDialog">
-
+		confirm="onConfirmViewSettingsDialog"
+		sortDescending="{viewModel>/sortDescending}">
 		<sortItems>
-			<ViewSettingsItem text="Parts Number" key="1" selected="true" />
-			<ViewSettingsItem text="Ship From" key="2" />
-			<ViewSettingsItem text="Tci Order" key="3" />
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.PartsNumber}" key="matnr" />
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.ShipFrom}" key="ship_from" />
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.Substitution}" key="sub_flag" />
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.Quantity.Ordered}" key="quant_ordered" />
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.Quantity.InProcess}" key="quant_in_process" />
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.Quantity.Processed}" key="quant_processed" />
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.Quantity.Cancelled}" key="quant_cancelled" />
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.Quantity.BackOrdered}" key="quant_back_ordered" />
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.DealerOrder}" key="dealer_orderNo" />
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.OrderType}" key="doc_type" />
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.TciOrder}" key="TCI_order_no" selected ='true'/>
 		</sortItems>
-		<filterItems>
+		<!--<filterItems>
 			<ViewSettingsFilterItem text="Order Type" key="1">
 				<items>
 					<ViewSettingsItem text="Standard Order " key="1b" />
@@ -27,6 +35,6 @@
 					<ViewSettingsItem text="Back Ordered" key="3e" />
 				</items>
 			</ViewSettingsFilterItem>
-		</filterItems>
+		</filterItems> -->
 	</ViewSettingsDialog>
 </core:FragmentDefinition>
