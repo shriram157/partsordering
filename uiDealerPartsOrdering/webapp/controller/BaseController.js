@@ -1529,7 +1529,16 @@ sap.ui.define([
 		    		return  this.loadPurDealerDraft(dealer, orderData, callback);	
 		    	}
 		    },
-		    
+		    s2date : function(ds){
+		    	var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({pattern : "YYYYMMDD" }); 
+		    	var dateF = dateFormat.parse(ds);
+		    	if (!!dateF ){
+		    		return dateF;
+		    	} else {
+		    		return null;
+		    	}
+		    	
+		    }, 
 		    searchPartsOrders : function(conditions, isSalesOrder, callback){
 		    	var that = this;
 		    	if (!!isSalesOrder){
@@ -1541,37 +1550,55 @@ sap.ui.define([
 		    				var currentKey = {};
 		    				currentKey.TCI_order_no = null;
 		    				currentKey.TCI_itemNo = null;
+		    				var aSLine = null;
+		    				var deliveryLine = null;
+		    				var fiLine = null;
 		    				
 		    				for (var i = 0; i < oList.length; i++){
 		    					currentItem = oList[i];
 		    					if (currentKey.TCI_order_no === currentItem.TCI_order_no && currentKey.TCI_itemNo === currentItem.TCI_itemNo){
-									
+									//TODO										
 		    					} else {
 		    						if (!!oldItem ){
 		    							oldItem.deliv_no_str = oldItem.deliv_no_list.join('.');
 		    							oldItem.bill_no_str = oldItem.bill_no_list.join('.');                         
 		    							finalList.push(oldItem);
 		    						}
+		    						
 		    						oldItem = currentItem;
-		    						
+		    						oldItem.subs = oldItem.sub_flag ==='YES' ? true: false;                         
 		    						oldItem.scheduleLines=[];
-		    						oldItem.scheduleLines.push({
-		    							"deliv_no": currentItem.deliv_no,
-										"deliv_itemNo": currentItem.deliv_itemNo,
-										"bill_no": currentItem.bill_no,
-										"bill_itemNo": currentItem.bill_itemNo,
-										"quant_being_delivered": currentItem.quant_being_delivered,
-										"est_deliv_date": currentItem.est_deliv_date
-		    						});
-		    						
 		    						oldItem.deliv_no_list =[];                         
-		    						oldItem.deliv_no_list.push(currentItem.deliv_no);
 		    						oldItem.bill_no_list =[];                         
-		    						oldItem.bill_no_list.push(currentItem.bill_no);             
-		    						
+		    						// last 
 		    						currentKey.TCI_order_no = currentItem.TCI_order_no;
 		    						currentKey.TCI_itemNo = currentItem.TCI_itemNo;
+		    						
 		    					}
+								// prepare for the line items
+	    						if (!!currentItem.SOtoDeliv && !!currentItem.SOtoDeliv.results && currentItem.SOtoDeliv.results.length >0){
+	    							for(var x=0; x<currentItem.SOtoDeliv.results.length; x++ ){
+	    								deliveryLine = currentItem.SOtoDeliv.results[x];
+	    								if (!!deliveryLine ){
+   											aSLine = {};
+   											aSLine.deliv_itemNo = deliveryLine.deliv_itemNo;
+   											aSLine.deliv_no = deliveryLine.deliv_no;
+				    						oldItem.deliv_no_list.push(aSLine.deliv_no);
+
+   											aSLine.bill_itemNo = deliveryLine.bill_itemNo;
+   											aSLine.bill_no = deliveryLine.bill_no;
+				    						oldItem.bill_no_list.push(aSLine.bill_no);
+				    						
+   											aSLine.estm_deliv_date = that.s2date(deliveryLine.estm_deliv_dt);
+   											aSLine.deliv_qty = deliveryLine.deliv_qty;
+   											aSLine.cnf_qty = deliveryLine.cnf_qty;
+
+   											oldItem.scheduleLines.push(aSLine);
+	    								}
+	    								
+	    							}
+		    							
+	    						} 
 	    						currentItem = null; 
 		    				}
 		    				if (!!oldItem ){
@@ -1601,6 +1628,13 @@ sap.ui.define([
 				oFilter[1] = new sap.ui.model.Filter("erdat", sap.ui.model.FilterOperator.BT, conditions.fromOrderDate, conditions.toOrderDate );
 				
 				var aFilter = null;
+
+				if (!!conditions.tciOrderNumber ){
+					
+					aFilter = new sap.ui.model.Filter("TCI_order_no", sap.ui.model.FilterOperator.EQ, conditions.tciOrderNumber.padStart(10,'0') );
+					oFilter.push(aFilter);
+				}
+
 				if (!!conditions.partNumber ){
 					aFilter = new sap.ui.model.Filter("part_no", sap.ui.model.FilterOperator.Contains, conditions.partNumber );
 					oFilter.push(aFilter);
@@ -1617,15 +1651,11 @@ sap.ui.define([
 					aFilter = new sap.ui.model.Filter("dealer_orderNo", sap.ui.model.FilterOperator.Contains, conditions.orderNumber );
 					oFilter.push(aFilter);
 				}
-				if (!!conditions.tciOrderNumber ){
-					aFilter = new sap.ui.model.Filter("TCI_order_no", sap.ui.model.FilterOperator.Contains, conditions.tciOrderNumber );
-					oFilter.push(aFilter);
-				}
 
 				bModel.read('/find_soSet', {
 					urlParameters: {
  //     		 			"$select": "PurchasingOrganization,PurchasingGroup,Supplier,PurchaseOrderType,ZZ1_DealerCode_PDH,ZZ1_DealerOrderNum_PDH,DraftUUID,DraftEntityCreationDateTime,DraftEntityLastChangeDateTime,to_PurchaseOrderItemTP",
-      		 		//	"$expand" : "to_PurchaseOrderItemTP",
+      		 			"$expand" : "SOtoDeliv",
       		 			"$orderby": "TCI_order_no,TCI_itemNo"
 					},
 					filters:  oFilter,						

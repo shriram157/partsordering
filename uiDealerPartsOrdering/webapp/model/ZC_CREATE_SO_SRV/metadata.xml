@@ -1,7 +1,8 @@
-<edmx:Edmx xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
-	xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData" Version="1.0">
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+	xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
 	<edmx:DataServices m:DataServiceVersion="2.0">
-		<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="ZC_CREATE_SO_SRV" xml:lang="en" sap:schema-version="1">
+		<Schema Namespace="ZC_CREATE_SO_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
 			<EntityType Name="zc_so_header" sap:content-version="1">
 				<Key><PropertyRef Name="PurchNoC"/></Key><Property Name="SalesDocument" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="SalesDocument"
 					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Division" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Division" sap:creatable="false"
@@ -13,33 +14,33 @@
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="CreatedBy" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="CreatedBy" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ContractNumber" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="ContractNumber"
 					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="PurchNoC" Type="Edm.String" Nullable="false" MaxLength="35" sap:unicode="false" sap:label="Cust. Reference"
-					sap:sortable="false"/><NavigationProperty Name="zc_so_dealer_commentsSet" Relationship="ZC_CREATE_SO_SRV.HeaderToComments" FromRole="FromRole_HeaderToComments"
-					ToRole="ToRole_HeaderToComments"/><NavigationProperty Name="zc_so_itemsSet" Relationship="ZC_CREATE_SO_SRV.HeaderToItems" FromRole="FromRole_HeaderToItems"
-					ToRole="ToRole_HeaderToItems"/><NavigationProperty Name="zc_so_scheduleSet" Relationship="ZC_CREATE_SO_SRV.HeaderToSchedule" FromRole="FromRole_HeaderToSchedule"
-					ToRole="ToRole_HeaderToSchedule"/><NavigationProperty Name="zc_so_partnersSet" Relationship="ZC_CREATE_SO_SRV.HeaderToPartner" FromRole="FromRole_HeaderToPartner"
-					ToRole="ToRole_HeaderToPartner"/><NavigationProperty Name="zc_so_configurationSet" Relationship="ZC_CREATE_SO_SRV.HeaderToConfiguration"
-					FromRole="FromRole_HeaderToConfiguration" ToRole="ToRole_HeaderToConfiguration"/><NavigationProperty Name="zc_so_confirmationSet" Relationship="ZC_CREATE_SO_SRV.SOtoConfirmation" FromRole="FromRole_SOtoConfirmation"
-					ToRole="ToRole_SOtoConfirmation"/></EntityType>
+					sap:sortable="false"/><NavigationProperty Name="zc_so_confirmationSet" Relationship="ZC_CREATE_SO_SRV.SOtoConfirmation" FromRole="FromRole_SOtoConfirmation"
+					ToRole="ToRole_SOtoConfirmation"/><NavigationProperty Name="zc_so_configurationSet" Relationship="ZC_CREATE_SO_SRV.HeaderToConfiguration"
+					FromRole="FromRole_HeaderToConfiguration" ToRole="ToRole_HeaderToConfiguration"/><NavigationProperty Name="zc_so_partnersSet" Relationship="ZC_CREATE_SO_SRV.HeaderToPartner" FromRole="FromRole_HeaderToPartner"
+					ToRole="ToRole_HeaderToPartner"/><NavigationProperty Name="zc_so_scheduleSet" Relationship="ZC_CREATE_SO_SRV.HeaderToSchedule" FromRole="FromRole_HeaderToSchedule"
+					ToRole="ToRole_HeaderToSchedule"/><NavigationProperty Name="zc_so_itemsSet" Relationship="ZC_CREATE_SO_SRV.HeaderToItems" FromRole="FromRole_HeaderToItems"
+					ToRole="ToRole_HeaderToItems"/><NavigationProperty Name="zc_so_dealer_commentsSet" Relationship="ZC_CREATE_SO_SRV.HeaderToComments" FromRole="FromRole_HeaderToComments"
+					ToRole="ToRole_HeaderToComments"/></EntityType>
 			<EntityType Name="zc_so_items" sap:content-version="1">
-				<Key><PropertyRef Name="ItmNumber"/></Key><Property Name="PoItmNo" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="PO item" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="PartDlv" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Part.dlv./item"
+				<Key><PropertyRef Name="ItmNumber"/></Key><Property Name="ItmNumber" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="Item" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Zzcampaign" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Ext. Recall No."
 					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="SeqNo" Type="Edm.String" Nullable="false" MaxLength="35" sap:unicode="false" sap:label="Sequence Number"
-					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Zzcampaign" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Ext. Recall No."
-					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ItmNumber" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="Item" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="StoreLoc" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Stor. location"
-					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Refobjtype" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Object Type"
-					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Zzopcode" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Labor Ops" sap:creatable="false"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="PartDlv" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Part.dlv./item"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="PoItmNo" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="PO item" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Material" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:label="Material" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ShortText" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Item Descript."
-					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="CfopCode" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="CFOP" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ZzkeyCode" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="OFP Serial code"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Zzopcode" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Labor Ops" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Refobjtype" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Object Type"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="StoreLoc" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Stor. location"
 					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Plant" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="SalesUnit" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Sales unit" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/><Property Name="ReqSegLong" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Reqmnt Segment"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ZzkeyCode" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="OFP Serial code"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="CfopCode" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="CFOP" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ShortText" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Item Descript."
 					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="TargetQty" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unicode="false" sap:label="Target Quantity"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ReqSegLong" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Reqmnt Segment"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="SalesUnit" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Sales unit" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/><Property Name="PurchNoC" Type="Edm.String" Nullable="false" MaxLength="35" sap:unicode="false" sap:label="Cust. Reference"
 					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Division" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Division" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="PurchNoC" Type="Edm.String" Nullable="false" MaxLength="35" sap:unicode="false" sap:label="Cust. Reference"
-					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="PurchDate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="Cust. Ref. Date"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="PurchDate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="Cust. Ref. Date"
 					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
 			<EntityType Name="zc_so_dealer_comments" sap:content-version="1">
 				<Key><PropertyRef Name="DocNumber"/></Key><Property Name="DocNumber" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Sales Document"
@@ -84,9 +85,25 @@
 					sap:sortable="false" sap:filterable="false"/><Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:creatable="false" sap:updatable="false"
 					sap:sortable="false" sap:filterable="false"/><Property Name="VIN_no" Type="Edm.String" Nullable="false" MaxLength="35" sap:unicode="false" sap:creatable="false" sap:updatable="false"
 					sap:sortable="false" sap:filterable="false"/><Property Name="SalesUnit" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:creatable="false" sap:updatable="false"
-					sap:sortable="false" sap:filterable="false"/><Property Name="TargetQty" Type="Edm.Decimal" Nullable="false" Precision="31" Scale="0" sap:unicode="false" sap:creatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="TargetQty" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:unicode="false" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Division" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:creatable="false" sap:updatable="false"
 					sap:sortable="false" sap:filterable="false"/><Property Name="Comments" Type="Edm.String" Nullable="false" MaxLength="250" sap:unicode="false" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="return" sap:content-version="1">
+				<Key><PropertyRef Name="HeaderDraftUUID"/></Key><Property Name="HeaderDraftUUID" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="vbeln" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="message" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="find_deliv" sap:content-version="1">
+				<Key><PropertyRef Name="dealer_code"/></Key><Property Name="estm_deliv_dt" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="deliv_no" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="deliv_itemNo" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="cnf_qty" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unicode="false" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="deliv_qty" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unicode="false" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="bill_no" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="bill_itemNo" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="dealer_code" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="erdat" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:creatable="false" sap:updatable="false"
 					sap:sortable="false" sap:filterable="false"/></EntityType>
 			<EntityType Name="zc_so_schedule" sap:content-version="1">
 				<Key><PropertyRef Name="ItmNumber"/></Key><Property Name="ItmNumber" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="Item" sap:creatable="false"
@@ -205,11 +222,7 @@
 			<EntityType Name="find_so" sap:content-version="1">
 				<Key><PropertyRef Name="dealer_code"/><PropertyRef Name="erdat"/></Key><Property Name="TCI_order_no" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="TCI_itemNo" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:creatable="false" sap:updatable="false"
-					sap:sortable="false" sap:filterable="false"/><Property Name="deliv_no" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false" sap:updatable="false"
-					sap:sortable="false" sap:filterable="false"/><Property Name="deliv_itemNo" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="bill_no" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false" sap:updatable="false"
-					sap:sortable="false" sap:filterable="false"/><Property Name="bill_itemNo" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="doc_type" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="doc_type" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:creatable="false" sap:updatable="false"
 					sap:sortable="false" sap:filterable="false"/><Property Name="dealer_orderNo" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="dealer_code" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="erdat" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:creatable="false" sap:updatable="false"
@@ -224,12 +237,7 @@
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="quant_back_ordered" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:unicode="false" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="quant_being_delivered" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:unicode="false"
 					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="est_deliv_date" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
-			<EntityType Name="return" sap:content-version="1">
-				<Key><PropertyRef Name="HeaderDraftUUID"/></Key><Property Name="HeaderDraftUUID" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="vbeln" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false"
-					sap:sortable="false" sap:filterable="false"/><Property Name="message" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false"
-					sap:sortable="false" sap:filterable="false"/></EntityType>
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><NavigationProperty Name="SOtoDeliv" Relationship="ZC_CREATE_SO_SRV.SO_to_deliv" FromRole="FromRole_SO_to_deliv" ToRole="ToRole_SO_to_deliv"/></EntityType>
 			<Association Name="HeaderToItems" sap:content-version="1"><End Type="ZC_CREATE_SO_SRV.zc_so_header" Multiplicity="1" Role="FromRole_HeaderToItems"/><End Type="ZC_CREATE_SO_SRV.zc_so_items" Multiplicity="*" Role="ToRole_HeaderToItems"/>
 				<ReferentialConstraint>
 					<Principal Role="FromRole_HeaderToItems"><PropertyRef Name="PurchNoC"/></Principal>
@@ -266,10 +274,16 @@
 					<Dependent Role="ToRole_HeaderToComments"><PropertyRef Name="DocNumber"/></Dependent>
 				</ReferentialConstraint>
 			</Association>
+			<Association Name="SO_to_deliv" sap:content-version="1"><End Type="ZC_CREATE_SO_SRV.find_so" Multiplicity="1" Role="FromRole_SO_to_deliv"/><End Type="ZC_CREATE_SO_SRV.find_deliv" Multiplicity="*" Role="ToRole_SO_to_deliv"/>
+				<ReferentialConstraint>
+					<Principal Role="FromRole_SO_to_deliv"><PropertyRef Name="dealer_code"/><PropertyRef Name="erdat"/></Principal>
+					<Dependent Role="ToRole_SO_to_deliv"><PropertyRef Name="dealer_code"/><PropertyRef Name="erdat"/></Dependent>
+				</ReferentialConstraint>
+			</Association>
 			<Association Name="draftSO_header_item" sap:content-version="1"><End Type="ZC_CREATE_SO_SRV.draft_soHeader" Multiplicity="1" Role="FromRole_draftSO_header_item"/><End Type="ZC_CREATE_SO_SRV.draft_soItem" Multiplicity="*" Role="ToRole_draftSO_header_item"/>
 				<ReferentialConstraint>
-					<Principal Role="FromRole_draftSO_header_item"><PropertyRef Name="HeaderDraftUUID"/><PropertyRef Name="IsActiveEntity"/></Principal>
-					<Dependent Role="ToRole_draftSO_header_item"><PropertyRef Name="HeaderDraftUUID"/><PropertyRef Name="IsActiveEntity"/></Dependent>
+					<Principal Role="FromRole_draftSO_header_item"><PropertyRef Name="IsActiveEntity"/><PropertyRef Name="HeaderDraftUUID"/></Principal>
+					<Dependent Role="ToRole_draftSO_header_item"><PropertyRef Name="IsActiveEntity"/><PropertyRef Name="HeaderDraftUUID"/></Dependent>
 				</ReferentialConstraint>
 			</Association>
 			<EntityContainer Name="ZC_CREATE_SO_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx"><EntitySet Name="zc_so_headerSet" EntityType="ZC_CREATE_SO_SRV.zc_so_header" sap:deletable="false" sap:searchable="true"
@@ -277,7 +291,8 @@
 				sap:requires-filter="true" sap:content-version="1"/><EntitySet Name="zc_so_dealer_commentsSet" EntityType="ZC_CREATE_SO_SRV.zc_so_dealer_comments" sap:creatable="false" sap:updatable="false"
 				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="draft_soHeaderSet" EntityType="ZC_CREATE_SO_SRV.draft_soHeader" sap:creatable="false" sap:updatable="false"
 				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="draft_soItemSet" EntityType="ZC_CREATE_SO_SRV.draft_soItem" sap:creatable="false" sap:updatable="false"
-				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="zc_so_scheduleSet" EntityType="ZC_CREATE_SO_SRV.zc_so_schedule" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="returnCollection" EntityType="ZC_CREATE_SO_SRV.return" sap:content-version="1"/><EntitySet Name="find_delivSet" EntityType="ZC_CREATE_SO_SRV.find_deliv" sap:creatable="false" sap:updatable="false" sap:deletable="false"
+				sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="zc_so_scheduleSet" EntityType="ZC_CREATE_SO_SRV.zc_so_schedule" sap:creatable="false" sap:updatable="false"
 				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="zc_so_partnerSet" EntityType="ZC_CREATE_SO_SRV.zc_so_partners" sap:creatable="false" sap:updatable="false"
 				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="zc_so_conditionSet" EntityType="ZC_CREATE_SO_SRV.zc_so_conditions" sap:creatable="false" sap:updatable="false"
 				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="zc_so_configurationSet" EntityType="ZC_CREATE_SO_SRV.zc_so_configuration" sap:creatable="false" sap:updatable="false"
@@ -285,13 +300,15 @@
 				sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="zc_so_confirmationSet" EntityType="ZC_CREATE_SO_SRV.zc_so_confirmation" sap:creatable="false" sap:updatable="false"
 				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="contractNo_validationSet" EntityType="ZC_CREATE_SO_SRV.contractNo_validation" sap:creatable="false" sap:updatable="false"
 				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="find_soSet" EntityType="ZC_CREATE_SO_SRV.find_so" sap:creatable="false" sap:updatable="false" sap:deletable="false"
-				sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="returnCollection" EntityType="ZC_CREATE_SO_SRV.return" sap:content-version="1"/>
+				sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
 				<AssociationSet Name="draftSO_header_itemSet" Association="ZC_CREATE_SO_SRV.draftSO_header_item" sap:creatable="false" sap:updatable="false"
 					sap:deletable="false" sap:content-version="1"><End EntitySet="draft_soHeaderSet" Role="FromRole_draftSO_header_item"/><End EntitySet="draft_soItemSet" Role="ToRole_draftSO_header_item"/></AssociationSet>
 				<AssociationSet Name="HeaderToConfigurationSet" Association="ZC_CREATE_SO_SRV.HeaderToConfiguration" sap:creatable="false"
 					sap:updatable="false" sap:deletable="false" sap:content-version="1"><End EntitySet="zc_so_headerSet" Role="FromRole_HeaderToConfiguration"/><End EntitySet="zc_so_configurationSet" Role="ToRole_HeaderToConfiguration"/></AssociationSet>
 				<AssociationSet Name="HeaderToCommentsSet" Association="ZC_CREATE_SO_SRV.HeaderToComments" sap:creatable="false" sap:updatable="false"
 					sap:deletable="false" sap:content-version="1"><End EntitySet="zc_so_headerSet" Role="FromRole_HeaderToComments"/><End EntitySet="zc_so_dealer_commentsSet" Role="ToRole_HeaderToComments"/></AssociationSet>
+				<AssociationSet Name="SO_to_delivSet" Association="ZC_CREATE_SO_SRV.SO_to_deliv" sap:creatable="false" sap:updatable="false"
+					sap:deletable="false" sap:content-version="1"><End EntitySet="find_soSet" Role="FromRole_SO_to_deliv"/><End EntitySet="find_delivSet" Role="ToRole_SO_to_deliv"/></AssociationSet>
 				<AssociationSet Name="SOtoConfirmationSet" Association="ZC_CREATE_SO_SRV.SOtoConfirmation" sap:creatable="false" sap:updatable="false"
 					sap:deletable="false" sap:content-version="1"><End EntitySet="zc_so_headerSet" Role="FromRole_SOtoConfirmation"/><End EntitySet="zc_so_confirmationSet" Role="ToRole_SOtoConfirmation"/></AssociationSet>
 				<AssociationSet Name="HeaderToScheduleSet" Association="ZC_CREATE_SO_SRV.HeaderToSchedule" sap:creatable="false" sap:updatable="false"
@@ -300,7 +317,11 @@
 					sap:deletable="false" sap:content-version="1"><End EntitySet="zc_so_headerSet" Role="FromRole_HeaderToPartner"/><End EntitySet="zc_so_partnerSet" Role="ToRole_HeaderToPartner"/></AssociationSet>
 				<AssociationSet Name="HeaderToItemsSet" Association="ZC_CREATE_SO_SRV.HeaderToItems" sap:creatable="false" sap:updatable="false"
 					sap:deletable="false" sap:content-version="1"><End EntitySet="zc_so_headerSet" Role="FromRole_HeaderToItems"/><End EntitySet="zc_so_itemsSet" Role="ToRole_HeaderToItems"/></AssociationSet>
-				<FunctionImport Name="DraftToSO" ReturnType="ZC_CREATE_SO_SRV.return" EntitySet="returnCollection" m:HttpMethod="GET"><Parameter Name="TestRun" Type="Edm.Boolean" Mode="In"/><Parameter Name="IsActiveEntity" Type="Edm.Boolean" Mode="In"/><Parameter Name="HeaderDraftUUID" Type="Edm.Guid" Mode="In"/></FunctionImport>
-			</EntityContainer><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="./sap/ZC_CREATE_SO_SRV/$metadata"/><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version" href="./sap/ZC_CREATE_SO_SRV/$metadata"/></Schema>
+				<FunctionImport Name="DraftToSO" ReturnType="ZC_CREATE_SO_SRV.return" EntitySet="returnCollection" m:HttpMethod="GET"><Parameter Name="HeaderDraftUUID" Type="Edm.Guid" Mode="In"/><Parameter Name="IsActiveEntity" Type="Edm.Boolean" Mode="In"/><Parameter Name="TestRun" Type="Edm.Boolean" Mode="In"/></FunctionImport>
+			</EntityContainer><atom:link rel="self"
+				href="https://webidecp-d36z7bqhz1.dispatcher.ca1.hana.ondemand.com/destinations/S4HANA_GW/sap/opu/odata/sap/ZC_CREATE_SO_SRV/$metadata"
+				xmlns:atom="http://www.w3.org/2005/Atom"/><atom:link rel="latest-version"
+				href="https://webidecp-d36z7bqhz1.dispatcher.ca1.hana.ondemand.com/destinations/S4HANA_GW/sap/opu/odata/sap/ZC_CREATE_SO_SRV/$metadata"
+				xmlns:atom="http://www.w3.org/2005/Atom"/></Schema>
 	</edmx:DataServices>
 </edmx:Edmx>

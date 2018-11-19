@@ -38,7 +38,8 @@ sap.ui.define([
 				var viewModel = new JSONModel();
 				viewModel.setData(viewState);
 				this.setModel(viewModel, CONST_VIEW_MODEL);
-
+				
+				var detailDialog = null;
 
 				this.checkDealerInfo();
 				
@@ -68,6 +69,12 @@ sap.ui.define([
 				// toggle compact style
 				jQuery.sap.syncStyleClass("sapUiSizeCompact", this.getView(), this._oDialog);
 				this._oDialog.open();	
+			},
+			
+			onDialogClose : function(oEvent){
+				if(!!this._oDetailDialog ){
+					this._oDetailDialog.close();
+				}
 			},
 			getRunningDefaultFilterValues : function(){
 				var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({pattern : "YYYYMMdd" }); 
@@ -119,14 +126,32 @@ sap.ui.define([
 			},
 			
 			onMasterSelected : function(oEvent){
+				var sPath = null;
 				if (!this._oDetailDialog) {
 					this._oDetailDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.CosDetails", this);
+					this.getView().addDependent(this._oDetailDialog);
 				}
-				this._oDetailDialog.setModel(this.getView().getModel());
+				var sPathList = oEvent.getSource().getSelectedContextPaths();
+				if (!!sPathList && sPathList.length > 0){
+					sPath = sPathList[0];
+				}
+				var theData = this.getModel(CONST_VIEW_MODEL).getProperty(sPath);
+				
+				//this._oDetailDialog.bindElement("viewModel>" +sPath);
+				var aModel = new JSONModel();
+				aModel.setData(theData);
+				this._oDetailDialog.setModel(aModel);
 				// toggle compact style
-				//jQuery.sap.syncStyleClass("sapUiSizeCompact", this.getView(), this._oDialog);
+				jQuery.sap.syncStyleClass("sapUiSizeCompact", this.getView(), this._oDetailDialog);
 				this._oDetailDialog.open();	
 
+			},
+			
+			cleanUpDialog : function(oEvent){
+				this.byId('idProductsTable').removeSelections(true);
+			},
+			onXXX: function(oEvent){
+			  var x = 	oEvent;
 			},
 			
 			onReset : function(oEvent){

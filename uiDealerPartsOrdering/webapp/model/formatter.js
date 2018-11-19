@@ -41,7 +41,9 @@ sap.ui.define([
 					return lv_line;
 				}
 			},
-
+			deliveryDate : function(sValue){
+				return 	"2018";
+			},
 			round2dec : function(sValue){
 				try {
 					if(!!sValue){
@@ -71,6 +73,12 @@ sap.ui.define([
 				return false;
 			},
 			getItemNumber : function (sValue){
+				if (!!sValue){
+					return sValue.replace(/^0+/, '');
+				}	
+				return sValue;
+			}, 
+			removeLeadingZero : function (sValue){
 				if (!!sValue){
 					return sValue.replace(/^0+/, '');
 				}	
@@ -144,7 +152,7 @@ sap.ui.define([
 					case 'ZCO':
 						return resourceBundle.getText('order.type.campaign');
 					default :
-						return "";
+						return resourceBundle.getText('order.type.other',[type]);
 				}	
 			},
 			
