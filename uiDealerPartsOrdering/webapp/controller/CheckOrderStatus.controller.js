@@ -76,6 +76,11 @@ sap.ui.define([
 					this._oDetailDialog.close();
 				}
 			},
+			afterDialogOpen : function(oEvent){
+				if(!!this._oDetailDialog ){
+					sap.ui.getCore().byId('topPageHeader').focus();
+				}
+			}, 			
 			getRunningDefaultFilterValues : function(){
 				var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({pattern : "YYYYMMdd" }); 
 				var appStateModel = this.getStateModel();
@@ -126,6 +131,7 @@ sap.ui.define([
 			},
 			
 			onMasterSelected : function(oEvent){
+				var that = this;
 				var sPath = null;
 				if (!this._oDetailDialog) {
 					this._oDetailDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.CosDetails", this);
@@ -140,10 +146,16 @@ sap.ui.define([
 				//this._oDetailDialog.bindElement("viewModel>" +sPath);
 				var aModel = new JSONModel();
 				aModel.setData(theData);
-				this._oDetailDialog.setModel(aModel);
-				// toggle compact style
-				jQuery.sap.syncStyleClass("sapUiSizeCompact", this.getView(), this._oDetailDialog);
-				this._oDetailDialog.open();	
+				// call a server to get the desc
+				
+				this.getMaterialDesc(theData.part_no, 0, function(index, desc){
+					theData.partdesc = desc;
+					that._oDetailDialog.setModel(aModel);
+					// toggle compact style
+					jQuery.sap.syncStyleClass("sapUiSizeCompact", that.getView(), that._oDetailDialog);
+					that._oDetailDialog.open();	
+				});			
+				
 
 			},
 			

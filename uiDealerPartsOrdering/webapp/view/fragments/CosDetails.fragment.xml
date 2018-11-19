@@ -6,21 +6,22 @@
 >
 	<Dialog contentWidth="600px" contentHeight="70%" 
 		afterClose='cleanUpDialog'
-		afterOpen='moreData'
-		title="" 
-		verticalScrolling='false'
+		afterOpen='afterDialogOpen'
+		title="{path : '/doc_type', formatter:'.formatter.orderTypeD'} : {/dealer_orderNo}" 
+		verticalScrolling='true'
 	>
 		<beginButton>
 			<Button text="{i18n>Label.CheckOrder.Button.Close}" press='onDialogClose' />
 		</beginButton>	
 		<content>
 			<ObjectHeader
+				id="topPageHeader"
 				responsive="true"
 				fullScreenOptimized="false"
 				iconDensityAware = "false"
 				icon="images/car.png"
 				iconAlt="{i18n>Label.CheckOrder.Name}"
-				intro=""
+				intro="{/partdesc}"
 				title="{path : '/part_no', formatter:'.formatter.removeLeadingZero'}"
 				titleActive="false"
 				number="{/scheduleLines/length}"
@@ -38,12 +39,6 @@
 					<ObjectAttribute
 						title="{i18n>Label.CheckOrder.Tci.Order.Line}"
 						text="{ path : '/TCI_itemNo', formatter:'.formatter.removeLeadingZero'}"/>
-					<ObjectAttribute
-						title="{i18n>Label.CheckOrder.Tci.Order.Type}"
-						text="{path : '/doc_type', formatter:'.formatter.orderTypeD'}"/>
-					<ObjectAttribute
-						title="{i18n>Label.CheckOrder.Dealer.Order.Number}"
-						text="{/dealer_orderNo}"/>
 					<ObjectAttribute
 						title="{i18n>Label.CheckOrder.Ship.From}"
 						text="{/ship_from}"/>

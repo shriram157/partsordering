@@ -421,6 +421,29 @@ sap.ui.define([
 				});
 			},
 			
+			getMaterialDesc : function (material, index, callback){
+				var bModel = this.getProductModel(); 
+				var lan = this.getSapLangugaeFromLocal();
+				var key = bModel.createKey('/I_MaterialText',{'Material': material, "Language" : lan});				
+				bModel.read(key, 
+					{
+						urlParameters: {
+						},
+						success:  function(oData, oResponse){
+	 						if (!!oData){
+								callback(index, oData.MaterialName);
+							} else {
+								callback(index, null);
+							}	
+						},
+						error: function(err){
+							callback(index, null);
+						}
+					
+				});
+				
+			},
+			
 			getMaterialById : function(id, callback){
 				var bModel = this.getProductModel(); 
 				var oFilter = new Array();
@@ -448,7 +471,11 @@ sap.ui.define([
 					
 				});
 			},
-
+			
+			getSapLangugaeFromLocal : function(){
+				return sap.ui.getCore().getConfiguration().getLanguage().toUpperCase().substring(0,2);	
+			},
+			
 			
 			/// only for Z004/Z005 
 			getInfoFromPart : function(partNum, bpVendor, callback){
