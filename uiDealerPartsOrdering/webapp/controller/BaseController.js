@@ -77,12 +77,11 @@ sap.ui.define([
 			},
 			
 			/**
-			 * user type 
+			 * Start of local models
 			 */
 			createUserTypeModel : function() {
-			
 				var resourceBundle = this.getResourceBundle();
-				
+
 				var viewDatas = { userTypes : [
 					{ type : "001", code : "Z004", name : resourceBundle.getText('userType.VPC'), init : false,	
 					  orderTypeList : [ {code : 1, name  : resourceBundle.getText('order.type.standard') } ]
@@ -107,7 +106,6 @@ sap.ui.define([
 				return viewDataModel;
 			}, 
 			
-			
 			getOrderTypeByCode : function(code, dealerType){
 				var resourceBundle = this.getResourceBundle();
 				switch(code){
@@ -125,6 +123,7 @@ sap.ui.define([
 						return null;
 				};	
 			},
+			
 			getFilterSelectionModel : function(){
 				var iDataMode = sap.ui.getCore().getModel("FilterSelectionModel");
 				if (!!!iDataMode){
@@ -163,8 +162,48 @@ sap.ui.define([
 				return dataModel;
 			},
 
+			getHeaderMenuModel : function() {
+				var dataModel = sap.ui.getCore().getModel("HeaderMenuModel");
+				if (dataModel  === null || dataModel === undefined){
+					var resourceBundle = this.getResourceBundle();
+					var jsonData = {headeremuList : [
+							{key : "001", name : resourceBundle.getText('headerMenu.CreateOrder')},
+							{key : "001", name : resourceBundle.getText('headerMenu.FindOrder')},
+							{key : "001", name : resourceBundle.getText('headerMenu.CheckOrderStatus')},
+						]};
+				
+					dataModel = new sap.ui.model.json.JSONModel();
+					dataModel.setData(jsonData);
+					sap.ui.getCore().setModel(dataModel, "HeaderMenuModel");
+				}
+				return dataModel;
+			}, 
+
+			getStateModel : function(){
+				var appState = models.getAppStateModel();
+				return appState;
+			},
+
 			setUserTypeSelectionModel : function(model){
 				sap.ui.getCore().setModel(model, "UserTypeSelectionModel");
+			},
+
+			// parts section 
+			getPartCacheData : function(){
+				var model = this.getOwnerComponent().getModel(CONST_PARTS_CACHE);
+				if (!!model){
+					return model.getData();
+				} else {
+					return null;
+				}	
+			},
+			
+			setPartCacheData : function(data){
+				if (!!data){
+					var model = new sap.ui.model.json.JSONModel();
+					model.setData(data);
+					this.getOwnerComponent().setModel(model, CONST_PARTS_CACHE);
+				}
 			},
 
 			//error 
@@ -186,34 +225,13 @@ sap.ui.define([
 				this.getRouter().navTo("Login", null, false);
 				
 			},
-
-			///
-			getHeaderMenuModel : function() {
-				var dataModel = sap.ui.getCore().getModel("HeaderMenuModel");
-				if (dataModel  === null || dataModel === undefined){
-					var resourceBundle = this.getResourceBundle();
-					var jsonData = {headeremuList : [
-							{key : "001", name : resourceBundle.getText('headerMenu.CreateOrder')},
-							{key : "001", name : resourceBundle.getText('headerMenu.FindOrder')},
-							{key : "001", name : resourceBundle.getText('headerMenu.CheckOrderStatus')},
-						]};
-				
-					dataModel = new sap.ui.model.json.JSONModel();
-					dataModel.setData(jsonData);
-					sap.ui.getCore().setModel(dataModel, "HeaderMenuModel");
-				}
-				return dataModel;
-			}, 
+			/**
+			 * End of local models
+			 */
 			
-			getStateModel : function(){
-				var appState = models.getAppStateModel();
-				return appState;
-			},
-			
-			getInfoRecordModel : function(){
-				return this.getOwnerComponent().getModel("MM_PUR_INFO_RECORDS_MANAGE_SRV");
-			},
-
+			/**
+			 * End of Odata models
+			 */
 			getProductModel : function(){
 				return this.getOwnerComponent().getModel("MD_PRODUCT_FS_SRV");
 			},
@@ -230,54 +248,68 @@ sap.ui.define([
 				return this.getOwnerComponent().getModel("API_BUSINESS_PARTNER");
 			},
 
-			getPurV2Model : function(){
-				return this.getOwnerComponent().getModel("MM_PUR_PO_MAINT_V2_SRV");
-			},
-
 			getSalesOrderModel : function(){
 				return this.getOwnerComponent().getModel("ZC_CREATE_SO_SRV");
 			},
 
-			// parts section 
-			getPartCacheData : function(){
-				var model = this.getOwnerComponent().getModel(CONST_PARTS_CACHE);
-				if (!!model){
-					return model.getData();
-				} else {
-					return null;
-				}	
-			},
-			
-			setPartCacheData : function(data){
-				if (!!data){
-					var model = new sap.ui.model.json.JSONModel();
-					model.setData(data);
-					this.getOwnerComponent().setModel(model, CONST_PARTS_CACHE);
-				}
+			getInfoRecordModel : function(){
+				return this.getOwnerComponent().getModel("MM_PUR_INFO_RECORDS_MANAGE_SRV");
 			},
 
-			getPartsInfoById : function(id, callback){
-				var bModel = this.getApiProductModel();
-				var key = bModel.createKey('/A_Product',{'Product': id});				
-//				bModel.read("/A_Product('"+id+"')", {
-				bModel.read(key, {
+			getPurV2Model : function(){
+				return this.getOwnerComponent().getModel("MM_PUR_PO_MAINT_V2_SRV");
+			},
+
+			getPurchaseOrderModel : function(){
+				return this.getOwnerComponent().getModel("API_PURCHASEORDER_PROCESS_SRV");
+			},
+
+			// Start -- MD_PRODUCT_FS_SRV model related
+			getMaterialDesc : function (material, index, callback){
+				var bModel = this.getProductModel(); 
+				var lan = this.getSapLangugaeFromLocal();
+				var key = bModel.createKey('/I_MaterialText',{'Material': material, "Language" : lan});				
+				bModel.read(key, 
+					{
 						urlParameters: {
-    		  			//	"$select": "ItemCategoryGroup,to_SalesDelivery/ProductSalesOrg,to_SalesDelivery/ProductDistributionChnl",
-    						"$expand": "to_SalesDelivery"    		
 						},
 						success:  function(oData, oResponse){
 	 						if (!!oData){
-								callback(oData);
+								callback(index, oData.MaterialName);
 							} else {
-								callback(null);
+								callback(index, null);
 							}	
 						},
 						error: function(err){
-							callback(null);
+							callback(index, null);
 						}
-				});				
+				});
 			},
-			
+
+			getMaterialById : function(id, callback){
+				var bModel = this.getProductModel(); 
+				var key = bModel.createKey('/C_Product_Fs',{'Material': id});
+				bModel.read(key, 
+				{
+					urlParameters: {
+    						 "$expand": "to_Plant,to_PurchasingInfoRecord,to_Supplier"
+					},
+					success:  function(oData, oResponse){
+ 						if (!!oData){
+							callback(oData);
+						} else {
+							callback(null);
+						}	
+					},
+					error: function(err){
+						// error handling here
+						callback(null);
+					}
+				});
+			},
+			// End -- MD_PRODUCT_FS_SRV model related
+
+			// Start -- ZMD_PRODUCT_FS_SRV model related
 			getRoundingprofileOFVendor : function(id, saleOrg, disChannel, callback){
 				var bModel = this.getZProductModel();
 				var key = bModel.createKey('/zc_PriceSet', {
@@ -318,6 +350,55 @@ sap.ui.define([
 					}
 				});				
 			},
+
+			getZMaterialById : function(id, callback){
+				var bModel = this.getZProductModel(); 
+				var oFilter = new Array();
+				var key = bModel.createKey('/C_Product_Fs',{'Material': id});				
+				bModel.read(key, 
+				{
+					urlParameters: {
+    		 		//	"$select": "Material,MaterialName,Division,to_PurchasingInfoRecord/PurchasingInfoRecord,to_PurchasingInfoRecord/Supplier,to_PurchasingInfoRecord/IsDeleted",
+    					"$expand": "to_PurchasingInfoRecord"
+					},
+					success:  function(oData, oResponse){
+	 					if (!!oData){
+							callback(oData);
+						} else {
+							callback(null);
+						}
+					},
+					error: function(err){
+						callback(null);
+					}
+				});
+			},
+			// End -- ZMD_PRODUCT_FS_SRV model related			
+
+			// Start -- API_PRODUCT_SRV model related			
+			getPartsInfoById : function(id, callback){
+				var bModel = this.getApiProductModel();
+				var key = bModel.createKey('/A_Product',{'Product': id});				
+//				bModel.read("/A_Product('"+id+"')", {
+				bModel.read(key, {
+						urlParameters: {
+    		  			//	"$select": "ItemCategoryGroup,to_SalesDelivery/ProductSalesOrg,to_SalesDelivery/ProductDistributionChnl",
+    						"$expand": "to_SalesDelivery"    		
+						},
+						success:  function(oData, oResponse){
+	 						if (!!oData){
+								callback(oData);
+							} else {
+								callback(null);
+							}	
+						},
+						error: function(err){
+							callback(null);
+						}
+				});				
+			},
+			// End -- API_PRODUCT_SRV model related		
+
 
 			getPriceInfoFromInfoRecord : function( infoRecord,purOrg,callback){
 				var bModel = 	this.getInfoRecordModel();	
@@ -397,80 +478,6 @@ sap.ui.define([
 			}, 
 			
 			
-			getZMaterialById : function(id, callback){
-				var bModel = this.getZProductModel(); 
-				var oFilter = new Array();
-				var key = bModel.createKey('/C_Product_Fs',{'Material': id});				
-//				bModel.read("/C_Product_Fs('"+id+"')", 
-				bModel.read(key, 
-				{
-					urlParameters: {
-    		 		//	"$select": "Material,MaterialName,Division,to_PurchasingInfoRecord/PurchasingInfoRecord,to_PurchasingInfoRecord/Supplier,to_PurchasingInfoRecord/IsDeleted",
-    					"$expand": "to_PurchasingInfoRecord"
-					},
-					success:  function(oData, oResponse){
-	 					if (!!oData){
-							callback(oData);
-						} else {
-							callback(null);
-						}
-					},
-					error: function(err){
-						callback(null);
-					}
-				});
-			},
-			
-			getMaterialDesc : function (material, index, callback){
-				var bModel = this.getProductModel(); 
-				var lan = this.getSapLangugaeFromLocal();
-				var key = bModel.createKey('/I_MaterialText',{'Material': material, "Language" : lan});				
-				bModel.read(key, 
-					{
-						urlParameters: {
-						},
-						success:  function(oData, oResponse){
-	 						if (!!oData){
-								callback(index, oData.MaterialName);
-							} else {
-								callback(index, null);
-							}	
-						},
-						error: function(err){
-							callback(index, null);
-						}
-					
-				});
-				
-			},
-			
-			getMaterialById : function(id, callback){
-				var bModel = this.getProductModel(); 
-				var oFilter = new Array();
-				oFilter[0] = new sap.ui.model.Filter("Material", sap.ui.model.FilterOperator.Contains, id );
-				var key = bModel.createKey('/C_Product_Fs',{'Material': id});
-
-				// bModel.read("/C_Product_Fs('"+id+"')", 
-				bModel.read(key, 
-					{
-						urlParameters: {
-    						 "$expand": "to_Plant,to_PurchasingInfoRecord,to_Supplier"
-						},
-//				filters:  oFilter,
-						success:  function(oData, oResponse){
-	 						if (!!oData){
-								callback(oData);
-							} else {
-								callback(null);
-							}	
-						},
-						error: function(err){
-							// error handling here
-							callback(null);
-						}
-					
-				});
-			},
 			
 			getSapLangugaeFromLocal : function(){
 				return sap.ui.getCore().getConfiguration().getLanguage().toUpperCase().substring(0,2);	

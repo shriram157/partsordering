@@ -97,7 +97,7 @@
 						<Text text="{i18n>Label.CheckOrder.Being.Deliveried}" />
 					</Column>
 					<Column  width='5rem'  >
-						<Text text="{i18n>Label.CheckOrder.Being.Deliveried}" />						
+						<Text text="{i18n>Label.CheckOrder.Confirmed.Quantity}" />						
 					</Column>								
 					<Column  >
 						<Text text="{i18n>Label.CheckOrder.Estimated.Delivery.Date}" />						

@@ -15,7 +15,7 @@ module.exports = class ProxyRequestHandler {
         this._apiUtil = apiUtil;
     }
     
-    apiProxy(req, res, sssext, endpoint, logger){
+    apiProxy(req, res, next, endpoint, logger){
     	
     	let self = this;    	
 
@@ -31,12 +31,11 @@ module.exports = class ProxyRequestHandler {
 			delete req.headers['host'];
         }
 
-        if (!!req.headers['x-csrf-token']){
-//            headOptions['x-csrf-token'] = req.headers['x-csrf-token'];
-           // headOptions['x-csrf-token'] = 'Fetch';
-		   delete req.headers['x-csrf-token'];
-
-        }
+   //     if (!!req.headers['x-csrf-token']){
+   //         headOptions['x-csrf-token'] = req.headers['x-csrf-token'];
+   //     	headOptions['x-csrf-token'] = 'Fetch';
+			// delete req.headers['x-csrf-token'];
+   //     }
         
         if ('BASIC' ===  endpoint.authType) {
         	let authHeader = 'Basic ' + new Buffer(endpoint.userName + ':' + endpoint.password ).toString('base64');
@@ -49,9 +48,9 @@ module.exports = class ProxyRequestHandler {
 
         let method = req.method;
         let newUrl = req.url;
-        if (!!newUrl){
+        if (newUrl !== undefined && newUrl !== null){
         	let iSub = newUrl.indexOf(endpoint.prefix);
-        	iSub = iSub + endpoint.prefix.length -1
+        	iSub = iSub + endpoint.prefix.length -1;
         	if (iSub > 0 && iSub < newUrl.length  ){
         		newUrl = newUrl.substr(iSub );
         	}
@@ -62,8 +61,7 @@ module.exports = class ProxyRequestHandler {
 		// if (method === 'POST' || method === 'PUT' || method === 'PATCH' || method ===
 		// } else if (method === 'GET' || method === 'HEADER' || method === 'DELETE' ) {
 		// }
-		
-	
+
         let xRequest = 
 			request({
 				method : method,
@@ -76,12 +74,13 @@ module.exports = class ProxyRequestHandler {
         
         
         xRequest.on('response', (response) => {
-        	delete response.headers['set-cookie'];
+        	// in order to make the csrfToken work
+        	//delete response.headers['set-cookie'];
         	let csrfToken = response.headers['x-csrf-token'];
         	xRequest.pipe(res);
         }).on('error', (error) => {
-        	let bErr = Boom.badGateway("error", error);
+        	//let bErr = Boom.badGateway("error", error);
         	next(Boom.badGateway("error", error));
-       })   
+    	});   
     }
 };

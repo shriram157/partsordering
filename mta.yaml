@@ -1,7 +1,7 @@
 ID: XSA_DealerPartsOrderingPartsOrderStatusInq
 _schema-version: '2.1'
 description: 'The Dealer parts Ordering and Parts Status Inquiry application '
-version: 0.0.1
+version: 0.0.2
 modules:
   - name: nodeSrvDPOPSI
     type: nodejs
@@ -19,7 +19,7 @@ modules:
         properties:
           url: '${default-url}'
     requires:
-      - name: XSA_NODE_SRV_CFG
+      - name: PARTS_ORDERING_APIM_CUPS
       - name: cf-logging-elk
       
       
@@ -43,10 +43,10 @@ modules:
           forwardAuthToken: true
       
 resources:
-  - name: XSA_NODE_SRV_CFG
+  - name: PARTS_ORDERING_APIM_CUPS
     type: org.cloudfoundry.existing-service
     parameters:
-      service-name: XSA_NODE_SRV_CFG
+      service-name: PARTS_ORDERING_APIM_CUPS
     properties:
       odata-call-service-name: '${service-name}'
   - name: uaa_XSA_DealerPartsOrderingPartsOrderStatusInq

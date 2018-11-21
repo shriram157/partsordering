@@ -30,7 +30,7 @@ module.exports = class ConfigurationProvider {
 		let options = {};
 		options = Object.assign(options, xsenv.getServices({
 			api: {
-				name: "XSA_NODE_SRV_CFG"
+				name: "PARTS_ORDERING_APIM_CUPS"
 			}
 		}));
 		
