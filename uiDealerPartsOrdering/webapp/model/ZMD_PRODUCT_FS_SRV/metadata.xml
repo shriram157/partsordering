@@ -1,7 +1,5 @@
 <edmx:Edmx xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
 	xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData" Version="1.0">
-	<edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx"
-		Uri="./IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='ZODATA')/$value"><edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/></edmx:Reference>
 	<edmx:DataServices m:DataServiceVersion="2.0">
 		<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="ZMD_PRODUCT_FS_SRV" xml:lang="en" sap:schema-version="1">
 			<EntityType Name="zc_ForwSuper" sap:content-version="1">
@@ -57,135 +55,6 @@
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="SalesDocType" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Sales doc. type"
 					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="SalesOrg" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Sales Org." sap:creatable="false"
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
-			<EntityType Name="C_Plant_FsType" sap:label="Consumption Factsheet - Plant view Facet" sap:content-version="1">
-				<Key><PropertyRef Name="Product"/><PropertyRef Name="Plant"/></Key><Property Name="Product" Type="Edm.String" Nullable="false" MaxLength="40" sap:display-format="UpperCase" sap:label="Material"
-					sap:quickinfo="Material Number"/><Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:label="Plant"/><Property Name="PurchasingGroup" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Purchasing Group"/><Property Name="MRPResponsible" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="MRP Controller"/><Property Name="MRPControllerName" Type="Edm.String" MaxLength="18" sap:label="MRP Controller Name"/><Property Name="PurchasingGroupName" Type="Edm.String" MaxLength="18" sap:label="Purchasing Grp Name" sap:quickinfo="Purchasing Group Name"/><Property Name="RegionName" Type="Edm.String" MaxLength="20" sap:label="Name of region"/><Property Name="RegionOfOrigin" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Region of origin"
-					sap:quickinfo="Region of Origin of Material (Non-Preferential Origin)"/><Property Name="ABCIndicator" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="ABC Indicator"/><Property Name="CountryOfOrigin" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Country of origin"
-					sap:quickinfo="Country of Origin of Material (Non-Preferential Origin)"/><Property Name="PlantName" Type="Edm.String" MaxLength="30" sap:label="Plant Name"/><Property Name="PurchasingGroupPhoneNumber" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase" sap:label="Tel.no. purch. group"
-					sap:quickinfo="Telephone number of purchasing group (buyer group)"/><Property Name="MRPControllerPhoneNumber" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase" sap:label="MRP Controller Phone"
-					sap:quickinfo="MRP Controller's Phone Number"/><NavigationProperty Name="to_Product" Relationship="ZMD_PRODUCT_FS_SRV.assoc_34960ED132699E89F565E2C802D2E185"
-					FromRole="ToRole_assoc_34960ED132699E89F565E2C802D2E185" ToRole="FromRole_assoc_34960ED132699E89F565E2C802D2E185"/></EntityType>
-			<EntityType Name="C_PrchInfoRecords_FsType" sap:label="Product Factsheet - Consumption view" sap:content-version="1">
-				<Key><PropertyRef Name="PurchasingInfoRecord"/></Key><Property Name="PurchasingInfoRecord" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase"
-					sap:label="Purchasing info rec." sap:quickinfo="Number of purchasing info record"/><Property Name="Supplier" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Vendor"
-					sap:quickinfo="Vendor's account number"/><Property Name="Manufacturer" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Manufacturer"/><Property Name="ManufacturerName" Type="Edm.String" MaxLength="35" sap:label="Manufacturer" sap:quickinfo="Name of manufacturer"/><Property Name="BaseUnit" Type="Edm.String" MaxLength="3" sap:label="Base Unit of Measure" sap:semantics="unit-of-measure"/><Property Name="CreationDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Created on"
-					sap:quickinfo="Date on which the record was created"/><Property Name="IsDeleted" Type="Edm.Boolean" sap:display-format="UpperCase" sap:label="Complete info record"
-					sap:quickinfo="Purchasing info: General data flagged for deletion"/><Property Name="Material" Type="Edm.String" MaxLength="40" sap:display-format="UpperCase" sap:label="Material"
-					sap:quickinfo="Material Number"/><Property Name="PurgDocOrderQuantityUnit" Type="Edm.String" MaxLength="3" sap:label="Order Unit"
-					sap:quickinfo="Purchase Order Unit of Measure" sap:semantics="unit-of-measure"/><Property Name="PriorSupplier" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Prior Supplier"/><Property Name="PriorSupplierName" Type="Edm.String" MaxLength="35" sap:label="Name" sap:quickinfo="Name 1"/><Property Name="IsRegularSupplier" Type="Edm.Boolean" sap:display-format="UpperCase" sap:label="Regular Supplier"/><Property Name="PurchasingInfoRecordDesc" Type="Edm.String" MaxLength="40" sap:label="Info Short Text"
-					sap:quickinfo="Short Text for Purchasing Info Record"/><Property Name="SupplierPhoneNumber" Type="Edm.String" MaxLength="16" sap:label="Telephone" sap:quickinfo="Supplier's Telephone Number"/><Property Name="SupplierMaterialGroup" Type="Edm.String" MaxLength="18" sap:display-format="UpperCase" sap:label="Supplier Mat. Group"
-					sap:quickinfo="Supplier Material Group"/><Property Name="SupplierRespSalesPersonName" Type="Edm.String" MaxLength="30" sap:label="Salesperson"
-					sap:quickinfo="Salesperson Responsible in the Event of Queries"/><Property Name="SupplierMaterialNumber" Type="Edm.String" MaxLength="35" sap:display-format="UpperCase" sap:label="Supplier Mat. No."
-					sap:quickinfo="Material Number Used by Supplier"/><Property Name="CreatedByUser" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase" sap:label="Created By"
-					sap:quickinfo="Name of Person Responsible for Creating the Object"/><Property Name="MaterialGroup" Type="Edm.String" MaxLength="9" sap:display-format="UpperCase" sap:label="Product Group"/><Property Name="ProductPurchasePointsQty" Type="Edm.Decimal" Precision="13" Scale="3" sap:unit="ProductPurchasePointsQtyUnit"
-					sap:label="Points" sap:quickinfo="Number of Points"/><Property Name="ProductPurchasePointsQtyUnit" Type="Edm.String" MaxLength="3" sap:label="Points unit" sap:semantics="unit-of-measure"/><Property Name="SupplierSubrange" Type="Edm.String" MaxLength="6" sap:display-format="UpperCase" sap:label="Supplier Subrange"/><Property Name="PersonFullName" Type="Edm.String" MaxLength="80" sap:label="Full Name" sap:quickinfo="Full Name of Person"/><Property Name="MaterialGroupName" Type="Edm.String" MaxLength="20" sap:label="Product Group Desc."
-					sap:quickinfo="Product Group Description"/><Property Name="ProductDescription" Type="Edm.String" MaxLength="40" sap:label="Product Description"/><Property Name="PreferredSupplierName" Type="Edm.String" MaxLength="48" sap:display-format="UpperCase"/><NavigationProperty Name="to_Supplier" Relationship="ZMD_PRODUCT_FS_SRV.assoc_7ADADDCB6A351D47247121A12999ECF4"
-					FromRole="FromRole_assoc_7ADADDCB6A351D47247121A12999ECF4" ToRole="ToRole_assoc_7ADADDCB6A351D47247121A12999ECF4"/><NavigationProperty Name="to_Product" Relationship="ZMD_PRODUCT_FS_SRV.assoc_0D70EAD41F24D380631A6C222678F03B"
-					FromRole="ToRole_assoc_0D70EAD41F24D380631A6C222678F03B" ToRole="FromRole_assoc_0D70EAD41F24D380631A6C222678F03B"/></EntityType>
-			<EntityType Name="C_Product_FsType" sap:label="Product factsheet - Consumption view" sap:content-version="1">
-				<Key><PropertyRef Name="Material"/></Key><Property Name="Material" Type="Edm.String" Nullable="false" MaxLength="40" sap:display-format="UpperCase" sap:text="Material_Text"
-					sap:label="Product" sap:quickinfo="Product Number"/><Property Name="Material_Text" Type="Edm.String" MaxLength="40" sap:label="Material description" sap:creatable="false" sap:updatable="false"/><Property Name="MaterialName" Type="Edm.String" MaxLength="40" sap:label="Material description"/><Property Name="MaterialTypeName" Type="Edm.String" MaxLength="25" sap:label="Material Type Descr."
-					sap:quickinfo="Description of material type"/><Property Name="MaterialGroupName" Type="Edm.String" MaxLength="20" sap:label="Product Group Desc."
-					sap:quickinfo="Product Group Description"/><Property Name="ProductGroup" Type="Edm.String" MaxLength="9" sap:display-format="UpperCase" sap:text="ProductGroup_Text"
-					sap:label="Product Group"/><Property Name="ProductGroup_Text" Type="Edm.String" MaxLength="20" sap:label="Product Group Desc."
-					sap:quickinfo="Product Group Description" sap:creatable="false" sap:updatable="false"/><Property Name="BaseUnit" Type="Edm.String" MaxLength="3" sap:text="BaseUnit_Text" sap:label="Base Unit of Measure"
-					sap:semantics="unit-of-measure"/><Property Name="BaseUnit_Text" Type="Edm.String" MaxLength="30" sap:label="Unit text"
-					sap:quickinfo="Unit of Measurement Text (Maximum 30 Characters)" sap:creatable="false" sap:updatable="false"/><Property Name="Division" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:text="Division_Text" sap:label="Division"
-					sap:value-list="standard"/><Property Name="Division_Text" Type="Edm.String" MaxLength="20" sap:label="Division Description" sap:creatable="false" sap:updatable="false"/><Property Name="UnitOfMeasureLongName" Type="Edm.String" MaxLength="30" sap:label="Unit text"
-					sap:quickinfo="Unit of Measurement Text (Maximum 30 Characters)"/><Property Name="GrossWeight" Type="Edm.Decimal" Precision="13" Scale="3" sap:unit="PDC41A566ED3E85328A59F37D3ED92AA3"
-					sap:label="Gross Weight"/><Property Name="CompetitorID" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Competitor"/><Property Name="CreatedByUser" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase" sap:label="Created By"
-					sap:quickinfo="Name of Person Responsible for Creating the Object"/><Property Name="ProductType" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Product Type"/><NavigationProperty Name="to_Division" Relationship="ZMD_PRODUCT_FS_SRV.assoc_DE97419CEA6087CC9C67C2754FAEA2E0"
-					FromRole="FromRole_assoc_DE97419CEA6087CC9C67C2754FAEA2E0" ToRole="ToRole_assoc_DE97419CEA6087CC9C67C2754FAEA2E0"/><NavigationProperty Name="to_MaterialGroup" Relationship="ZMD_PRODUCT_FS_SRV.assoc_C4C99D6D3ACA87181E7100A0C6406DAF"
-					FromRole="FromRole_assoc_C4C99D6D3ACA87181E7100A0C6406DAF" ToRole="ToRole_assoc_C4C99D6D3ACA87181E7100A0C6406DAF"/><NavigationProperty Name="to_MaterialName" Relationship="ZMD_PRODUCT_FS_SRV.assoc_4C494D231A217AA63614EF4696C1EB6B"
-					FromRole="FromRole_assoc_4C494D231A217AA63614EF4696C1EB6B" ToRole="ToRole_assoc_4C494D231A217AA63614EF4696C1EB6B"/><NavigationProperty Name="to_Plant" Relationship="ZMD_PRODUCT_FS_SRV.assoc_34960ED132699E89F565E2C802D2E185"
-					FromRole="FromRole_assoc_34960ED132699E89F565E2C802D2E185" ToRole="ToRole_assoc_34960ED132699E89F565E2C802D2E185"/><NavigationProperty Name="to_PurchasingDocument" Relationship="ZMD_PRODUCT_FS_SRV.assoc_8E27CC86EF58F00D1095C7F293784396"
-					FromRole="FromRole_assoc_8E27CC86EF58F00D1095C7F293784396" ToRole="ToRole_assoc_8E27CC86EF58F00D1095C7F293784396"/><NavigationProperty Name="to_PurchasingInfoRecord" Relationship="ZMD_PRODUCT_FS_SRV.assoc_0D70EAD41F24D380631A6C222678F03B"
-					FromRole="FromRole_assoc_0D70EAD41F24D380631A6C222678F03B" ToRole="ToRole_assoc_0D70EAD41F24D380631A6C222678F03B"/><NavigationProperty Name="to_Supplier" Relationship="ZMD_PRODUCT_FS_SRV.assoc_1D2D0E0859E18C11097629FAE3822229"
-					FromRole="FromRole_assoc_1D2D0E0859E18C11097629FAE3822229" ToRole="ToRole_assoc_1D2D0E0859E18C11097629FAE3822229"/><NavigationProperty Name="to_SupplierContact" Relationship="ZMD_PRODUCT_FS_SRV.assoc_EDF308A46FDBB44569CF7BC53B760E9D"
-					FromRole="FromRole_assoc_EDF308A46FDBB44569CF7BC53B760E9D" ToRole="ToRole_assoc_EDF308A46FDBB44569CF7BC53B760E9D"/><NavigationProperty Name="to_UnitOfMeasure" Relationship="ZMD_PRODUCT_FS_SRV.assoc_9C5AF4D6397E5F2BA163D921B83C4C20"
-					FromRole="FromRole_assoc_9C5AF4D6397E5F2BA163D921B83C4C20" ToRole="ToRole_assoc_9C5AF4D6397E5F2BA163D921B83C4C20"/><NavigationProperty Name="to_ValuationArea" Relationship="ZMD_PRODUCT_FS_SRV.assoc_C6EACD608250E572E4109BD52A0A99CE"
-					FromRole="FromRole_assoc_C6EACD608250E572E4109BD52A0A99CE" ToRole="ToRole_assoc_C6EACD608250E572E4109BD52A0A99CE"/></EntityType>
-			<EntityType Name="C_Purchaseorders_FsType" sap:label="Consumption Factsheet-Purchase Ord Facet" sap:content-version="1">
-				<Key><PropertyRef Name="PurchasingDocument"/></Key><Property Name="PurchasingDocument" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase"
-					sap:label="Purchasing Document" sap:quickinfo="Purchasing Document Number"/><Property Name="CompanyCode" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Company Code"/><Property Name="Material" Type="Edm.String" MaxLength="40" sap:display-format="UpperCase" sap:label="Material"
-					sap:quickinfo="Material Number"/><Property Name="CompanyCodeName" Type="Edm.String" MaxLength="25" sap:label="Company Name" sap:quickinfo="Name of Company Code or Company"/><Property Name="PurchasingDocumentDeletionCode" Type="Edm.String" MaxLength="6" sap:display-format="UpperCase"/><Property Name="IncotermsClassification" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Incoterms"
-					sap:quickinfo="Incoterms (Part 1)"/><Property Name="IncotermsTransferLocation" Type="Edm.String" MaxLength="28" sap:label="Incoterms (Part 2)"/><Property Name="PurchasingGroup" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Purchasing Group"/><Property Name="PurchasingOrganization" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Purch. organization"
-					sap:quickinfo="Purchasing organization"/><Property Name="Supplier" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Supplier"/><Property Name="SupplyingPlant" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Supplying Plant"
-					sap:quickinfo="Supplying (issuing) plant in case of stock transport order"/><Property Name="PaymentTerms" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Terms of Payment"
-					sap:quickinfo="Terms of Payment Key"/><Property Name="PurchaseContract" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Outline agreement"
-					sap:quickinfo="Number of principal purchase agreement"/><Property Name="CreationDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Created on"
-					sap:quickinfo="Date on which the record was created"/><Property Name="CreatedByUser" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase" sap:label="Created By"
-					sap:quickinfo="Name of Person Responsible for Creating the Object"/><Property Name="DocumentCurrency" Type="Edm.String" MaxLength="5" sap:label="Currency" sap:quickinfo="Currency Key"
-					sap:semantics="currency-code"/><Property Name="PurchasingDocumentOrderDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Document Date"
-					sap:quickinfo="Purchasing Document Date"/><Property Name="PurchasingGroupName" Type="Edm.String" MaxLength="18" sap:label="Purchasing Grp Name" sap:quickinfo="Purchasing Group Name"/><Property Name="PurchasingOrganizationName" Type="Edm.String" MaxLength="20" sap:label="Purch. Org. Name"
-					sap:quickinfo="Purchasing Organization Name"/><Property Name="SupplierName" Type="Edm.String" MaxLength="48" sap:display-format="UpperCase"/><Property Name="PersonFullName" Type="Edm.String" MaxLength="80" sap:label="Full Name" sap:quickinfo="Full Name of Person"/><Property Name="PurchasingDocumentTypeName" Type="Edm.String" MaxLength="20" sap:label="Doc. Type Descript."
-					sap:quickinfo="Short Description of Purchasing Document Type"/><Property Name="PlantName" Type="Edm.String" MaxLength="30" sap:label="Plant Name"/></EntityType>
-			<EntityType Name="C_SalesView_FSType" sap:label="Consumption Factsheet - sales view facet" sap:content-version="1">
-				<Key><PropertyRef Name="Product"/><PropertyRef Name="ValuationArea"/><PropertyRef Name="ValuationType"/></Key><Property Name="Product" Type="Edm.String" Nullable="false" MaxLength="40" sap:display-format="UpperCase" sap:label="Material"
-					sap:quickinfo="Material Number"/><Property Name="ValuationArea" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:label="Valuation area"/><Property Name="ValuationType" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Valuation Type"/><Property Name="MovingAveragePrice" Type="Edm.Decimal" Precision="12" Scale="3" sap:label="Moving price"
-					sap:quickinfo="Moving Average Price/Periodic Unit Price"/><Property Name="PriceUnitQty" Type="Edm.Decimal" Precision="5" Scale="0" sap:label="Price unit"/><Property Name="InventoryValuationProcedure" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Price control"
-					sap:quickinfo="Price control indicator"/><Property Name="StandardPrice" Type="Edm.Decimal" Precision="12" Scale="3" sap:label="Standard price"/><Property Name="CompanyCode" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Company Code"/><Property Name="Currency" Type="Edm.String" MaxLength="5" sap:label="Currency" sap:quickinfo="Currency Key" sap:semantics="currency-code"/><Property Name="Plant" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Plant"/><Property Name="PlantName" Type="Edm.String" MaxLength="30" sap:label="Plant Name"/><Property Name="PriceControlText" Type="Edm.String" MaxLength="60" sap:label="Short Descript." sap:quickinfo="Short Text for Fixed Values"/><Property Name="UnitOfMeasureLongName" Type="Edm.String" MaxLength="30" sap:label="Unit text"
-					sap:quickinfo="Unit of Measurement Text (Maximum 30 Characters)"/><NavigationProperty Name="to_Product" Relationship="ZMD_PRODUCT_FS_SRV.assoc_C6EACD608250E572E4109BD52A0A99CE"
-					FromRole="ToRole_assoc_C6EACD608250E572E4109BD52A0A99CE" ToRole="FromRole_assoc_C6EACD608250E572E4109BD52A0A99CE"/></EntityType>
-			<EntityType Name="C_Supplier_FsType" sap:label="Consumption Factsheet - Supplier Facet" sap:content-version="1">
-				<Key><PropertyRef Name="Supplier"/></Key><Property Name="Supplier" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Vendor"
-					sap:quickinfo="Account Number of Vendor or Creditor" sap:creatable="false" sap:updatable="false"/><Property Name="SupplierName" Type="Edm.String" MaxLength="35" sap:label="Name" sap:quickinfo="Name 1"/><Property Name="Material" Type="Edm.String" MaxLength="40" sap:display-format="UpperCase" sap:label="Material"
-					sap:quickinfo="Material Number"/><Property Name="SupplierCityName" Type="Edm.String" MaxLength="35" sap:label="City"/><Property Name="AddressID" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Address"/><Property Name="InternationalLocationNumber3" Type="Edm.String" MaxLength="1" sap:display-format="NonNegative" sap:label="Check digit"
-					sap:quickinfo="Check digit for the international location number"/><Property Name="PostingIsBlocked" Type="Edm.Boolean" sap:display-format="UpperCase" sap:label="Posting Block"
-					sap:quickinfo="Central posting block"/><Property Name="PurchasingIsBlockedForSupplier" Type="Edm.Boolean" sap:display-format="UpperCase" sap:label="Purch. block"
-					sap:quickinfo="Centrally imposed purchasing block"/><Property Name="FaxNumber" Type="Edm.String" MaxLength="31" sap:label="Fax Number"/><Property Name="SupplierIndustry" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Industry"
-					sap:quickinfo="Industry key"/><Property Name="SupplierIndustryName" Type="Edm.String" MaxLength="20" sap:label="Industry Key"
-					sap:quickinfo="Description of the Industry Key"/><Property Name="InternationalLocationNumber1" Type="Edm.String" MaxLength="7" sap:display-format="NonNegative"
-					sap:label="Int. location no. 1" sap:quickinfo="International location number (part 1)"/><Property Name="InternationalLocationNumber2" Type="Edm.String" MaxLength="5" sap:display-format="NonNegative"
-					sap:label="Int. location no. 2" sap:quickinfo="International location number (Part 2)"/><Property Name="Language" Type="Edm.String" MaxLength="2" sap:label="Language Key"/><Property Name="CountryName" Type="Edm.String" MaxLength="50" sap:label="Country Long Name"/><Property Name="AdditionalName" Type="Edm.String" MaxLength="35" sap:label="Supplier Addl Name" sap:quickinfo="Supplier Additional Name"/><Property Name="InternationalPhoneNumber" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Telephone number"
-					sap:quickinfo="Complete number: dialling code+number+extension"/><Property Name="RoleOwnerEmailAddress" Type="Edm.String" MaxLength="20" sap:display-format="UpperCase" sap:label="E-Mail Address"
-					sap:quickinfo="E-Mail Address Search Field"/><Property Name="InternationalMobilePhoneNumber" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Mobile"
-					sap:quickinfo="Mobile number"/><Property Name="InternationalFaxNumber" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Fax"
-					sap:quickinfo="Fax number: dialling code+number"/><Property Name="PhoneNumber2" Type="Edm.String" MaxLength="16" sap:label="Telephone 2" sap:quickinfo="Second telephone number"/><Property Name="Plant" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Plant"
-					sap:quickinfo="Plant (Own or External)"/><Property Name="POBox" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="PO Box"/><Property Name="RegionName" Type="Edm.String" MaxLength="20" sap:label="Supplier Region Name"/><Property Name="StreetAddressName" Type="Edm.String" MaxLength="35" sap:label="Street" sap:quickinfo="Street and House Number"/><Property Name="SupplierTaxID1" Type="Edm.String" MaxLength="16" sap:display-format="UpperCase" sap:label="Tax Number 1"/><Property Name="UniformResourceLocator" Type="Edm.String" MaxLength="132" sap:label="URL" sap:quickinfo="Uniform resource locator"/><Property Name="SupplierVATRegistration" Type="Edm.String" MaxLength="20" sap:display-format="UpperCase" sap:label="VAT Registration No."
-					sap:quickinfo="VAT Registration Number"/><Property Name="SupplierAccountGroup" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Account group"
-					sap:quickinfo="Vendor account group"/><Property Name="PlantName" Type="Edm.String" MaxLength="30" sap:label="Plant Name"/><Property Name="LocationTimeZone" Type="Edm.String" MaxLength="6" sap:display-format="UpperCase" sap:label="Time Zone"/><Property Name="BusinessPartner" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Business Partner"
-					sap:quickinfo="Business Partner Number"/><Property Name="AccountGroupName" Type="Edm.String" MaxLength="30" sap:label="Account Group Name" sap:quickinfo="Name of Account Group"/><Property Name="DocumentKeyForUnitCnvrsn" Type="Edm.String" MaxLength="25" sap:display-format="UpperCase" sap:label="Name"
-					sap:quickinfo="Search term for matchcode search"/><Property Name="PostalCode" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Postal Code"/><NavigationProperty Name="to_Product" Relationship="ZMD_PRODUCT_FS_SRV.assoc_1D2D0E0859E18C11097629FAE3822229"
-					FromRole="ToRole_assoc_1D2D0E0859E18C11097629FAE3822229" ToRole="FromRole_assoc_1D2D0E0859E18C11097629FAE3822229"/></EntityType>
-			<EntityType Name="I_DivisionTextType" sap:label="Division Text" sap:content-version="1">
-				<Key><PropertyRef Name="Division"/><PropertyRef Name="Language"/></Key><Property Name="Division" Type="Edm.String" Nullable="false" MaxLength="2" sap:display-format="UpperCase" sap:label="Division"/><Property Name="Language" Type="Edm.String" Nullable="false" MaxLength="2" sap:label="Language Key"/><Property Name="DivisionName" Type="Edm.String" MaxLength="20" sap:label="Division Description"/></EntityType>
-			<EntityType Name="I_MaterialGroupTextType" sap:label="Material Group Text" sap:content-version="1">
-				<Key><PropertyRef Name="MaterialGroup"/><PropertyRef Name="Language"/></Key><Property Name="MaterialGroup" Type="Edm.String" Nullable="false" MaxLength="9" sap:display-format="UpperCase" sap:label="Product Group"/><Property Name="Language" Type="Edm.String" Nullable="false" MaxLength="2" sap:label="Language Key"/><Property Name="MaterialGroupName" Type="Edm.String" MaxLength="20" sap:label="Product Group Desc."
-					sap:quickinfo="Product Group Description"/><Property Name="MaterialGroupText" Type="Edm.String" MaxLength="60" sap:label="Material Grp Desc. 2"
-					sap:quickinfo="Description of the Material Group"/></EntityType>
-			<EntityType Name="I_MaterialTextType" sap:label="Material Text" sap:content-version="1">
-				<Key><PropertyRef Name="Material"/><PropertyRef Name="Language"/></Key><Property Name="Material" Type="Edm.String" Nullable="false" MaxLength="40" sap:display-format="UpperCase" sap:label="Material"
-					sap:quickinfo="Material Number"/><Property Name="Language" Type="Edm.String" Nullable="false" MaxLength="2" sap:label="Language Key"/><Property Name="MaterialName" Type="Edm.String" MaxLength="40" sap:label="Material description"/></EntityType>
-			<EntityType Name="I_UnitOfMeasureTextType" sap:label="Unit of Measure Text" sap:content-version="1">
-				<Key><PropertyRef Name="Language"/><PropertyRef Name="UnitOfMeasure"/></Key><Property Name="Language" Type="Edm.String" Nullable="false" MaxLength="2" sap:label="Language Key"/><Property Name="UnitOfMeasure" Type="Edm.String" Nullable="false" MaxLength="3" sap:label="Int. meas. unit"
-					sap:quickinfo="Unit of Measurement" sap:semantics="unit-of-measure"/><Property Name="UnitOfMeasureLongName" Type="Edm.String" MaxLength="30" sap:label="Unit text"
-					sap:quickinfo="Unit of Measurement Text (Maximum 30 Characters)"/><Property Name="UnitOfMeasureName" Type="Edm.String" MaxLength="10" sap:label="Measuremt unit text"
-					sap:quickinfo="Unit of Measurement Text (Maximum 10 Characters)"/><Property Name="UnitOfMeasureTechnicalName" Type="Edm.String" MaxLength="6" sap:label="Technical"
-					sap:quickinfo="External Unit of Measurement in Technical Format (6-Char.)"/><Property Name="UnitOfMeasure_E" Type="Edm.String" MaxLength="3" sap:label="Commercial"
-					sap:quickinfo="External Unit of Measurement in Commercial Format (3-Char.)"/></EntityType>
-			<EntityType Name="P_Supplier_FsType" sap:content-version="1">
-				<Key><PropertyRef Name="Supplier"/></Key><Property Name="Supplier" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:text="FormattedName"
-					sap:label="Vendor" sap:quickinfo="Account Number of Vendor or Creditor" sap:creatable="false" sap:updatable="false"/><Property Name="RoleOwnerEmailAddress" Type="Edm.String" MaxLength="20" sap:display-format="UpperCase" sap:label="E-Mail Address"
-					sap:quickinfo="E-Mail Address Search Field"/><Property Name="InternationalFaxNumber" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Fax"
-					sap:quickinfo="Fax number: dialling code+number"/><Property Name="InternationalPhoneNumber" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Telephone number"
-					sap:quickinfo="Complete number: dialling code+number+extension"/><Property Name="InternationalMobilePhoneNumber" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Mobile"
-					sap:quickinfo="Mobile number"/><Property Name="RegionName" Type="Edm.String" MaxLength="20" sap:label="Supplier Region Name"/><Property Name="Material" Type="Edm.String" MaxLength="40" sap:display-format="UpperCase" sap:label="Material"
-					sap:quickinfo="Material Number"/><Property Name="PlantName" Type="Edm.String" MaxLength="30" sap:label="Plant Name"/><Property Name="LocationTimeZone" Type="Edm.String" MaxLength="6" sap:display-format="UpperCase" sap:label="Time Zone"/><Property Name="BusinessPartner" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Business Partner"
-					sap:quickinfo="Business Partner Number"/><Property Name="CountryName" Type="Edm.String" MaxLength="50" sap:label="Country Long Name"/><Property Name="SupplierCityName" Type="Edm.String" MaxLength="35" sap:label="City"/><Property Name="SupplierIndustryName" Type="Edm.String" MaxLength="20" sap:label="Industry Key"
-					sap:quickinfo="Description of the Industry Key"/><Property Name="Country" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Country" sap:quickinfo="Country Key"/><Property Name="AddressID" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Address"/><Property Name="InternationalLocationNumber3" Type="Edm.String" MaxLength="1" sap:display-format="NonNegative" sap:label="Check digit"
-					sap:quickinfo="Check digit for the international location number"/><Property Name="PostingIsBlocked" Type="Edm.Boolean" sap:display-format="UpperCase" sap:label="Posting Block"
-					sap:quickinfo="Central posting block"/><Property Name="PurchasingIsBlockedForSupplier" Type="Edm.Boolean" sap:display-format="UpperCase" sap:label="Purch. block"
-					sap:quickinfo="Centrally imposed purchasing block"/><Property Name="FaxNumber" Type="Edm.String" MaxLength="31" sap:label="Fax Number"/><Property Name="SupplierCorporateGroup" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Group key"/><Property Name="SupplierIndustry" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Industry"
-					sap:quickinfo="Industry key"/><Property Name="InternationalLocationNumber1" Type="Edm.String" MaxLength="7" sap:display-format="NonNegative"
-					sap:label="Int. location no. 1" sap:quickinfo="International location number (part 1)"/><Property Name="InternationalLocationNumber2" Type="Edm.String" MaxLength="5" sap:display-format="NonNegative"
-					sap:label="Int. location no. 2" sap:quickinfo="International location number (Part 2)"/><Property Name="Language" Type="Edm.String" MaxLength="2" sap:label="Language Key"/><Property Name="SupplierName" Type="Edm.String" MaxLength="35" sap:label="Name" sap:quickinfo="Name 1"/><Property Name="AdditionalName" Type="Edm.String" MaxLength="35" sap:label="Supplier Addl Name" sap:quickinfo="Supplier Additional Name"/><Property Name="PhoneNumber2" Type="Edm.String" MaxLength="16" sap:label="Telephone 2" sap:quickinfo="Second telephone number"/><Property Name="Plant" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Plant"
-					sap:quickinfo="Plant (Own or External)"/><Property Name="POBox" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="PO Box"/><Property Name="SupplierRegion" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Region"
-					sap:quickinfo="Region (State, Province, County)"/><Property Name="StreetAddressName" Type="Edm.String" MaxLength="35" sap:label="Street" sap:quickinfo="Street and House Number"/><Property Name="SupplierTaxID1" Type="Edm.String" MaxLength="16" sap:display-format="UpperCase" sap:label="Tax Number 1"/><Property Name="UniformResourceLocator" Type="Edm.String" MaxLength="132" sap:label="URL" sap:quickinfo="Uniform resource locator"/><Property Name="SupplierVATRegistration" Type="Edm.String" MaxLength="20" sap:display-format="UpperCase" sap:label="VAT Registration No."
-					sap:quickinfo="VAT Registration Number"/><Property Name="SupplierAccountGroup" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Account group"
-					sap:quickinfo="Vendor account group"/><Property Name="AccountGroupName" Type="Edm.String" MaxLength="30" sap:label="Account Group Name" sap:quickinfo="Name of Account Group"/><Property Name="FormattedName" Type="Edm.String" MaxLength="71" sap:display-format="UpperCase"/><Property Name="Customer" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Customer"
-					sap:quickinfo="Customer Number"/><Property Name="DocumentKeyForUnitCnvrsn" Type="Edm.String" MaxLength="25" sap:display-format="UpperCase" sap:label="Name"
-					sap:quickinfo="Search term for matchcode search"/><Property Name="PostalCode" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Postal Code"/></EntityType>
 			<ComplexType Name="zc_PartsSuper"><Property Name="Matnr" Type="Edm.String" Nullable="false" MaxLength="40" sap:label="Material" sap:creatable="false" sap:updatable="false"
 				sap:sortable="false" sap:filterable="false"/><Property Name="SalesOrg" Type="Edm.String" Nullable="false" MaxLength="4" sap:label="Sales Org." sap:creatable="false"
 				sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="DisChannel" Type="Edm.String" Nullable="false" MaxLength="2" sap:label="Distr. Channel" sap:creatable="false"
@@ -251,155 +120,26 @@
 				sap:sortable="false" sap:filterable="false"/><Property Name="Z3plflag" Type="Edm.String" Nullable="false" MaxLength="1" sap:label="ALV on Result" sap:creatable="false"
 				sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Z3plflagdesc" Type="Edm.String" Nullable="false" MaxLength="5" sap:label="CHAR05" sap:creatable="false"
 				sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Z3plqtyavail" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:label="Quantity" sap:creatable="false"
+				sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="PIOInd" Type="Edm.String" Nullable="false" MaxLength="3" sap:label="PIOInd" sap:creatable="false" sap:updatable="false"
+				sap:sortable="false" sap:filterable="false"/><Property Name="PartsDispInd" Type="Edm.String" Nullable="false" MaxLength="3" sap:label="PartsDispInd" sap:creatable="false"
+				sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="DoNotDisp" Type="Edm.String" Nullable="false" MaxLength="1" sap:label="DoNotDisp" sap:creatable="false"
 				sap:updatable="false" sap:sortable="false" sap:filterable="false"/></ComplexType>
 			<ComplexType Name="ZPartsPricing"><Property Name="Subrc" Type="Edm.Int32" Nullable="false" sap:label="Return Code" sap:creatable="false" sap:updatable="false"
 				sap:sortable="false" sap:filterable="false"/></ComplexType>
-			<Association Name="assoc_DE97419CEA6087CC9C67C2754FAEA2E0" sap:content-version="1"><End Type="ZMD_PRODUCT_FS_SRV.C_Product_FsType" Multiplicity="1" Role="FromRole_assoc_DE97419CEA6087CC9C67C2754FAEA2E0"/><End Type="ZMD_PRODUCT_FS_SRV.I_DivisionTextType" Multiplicity="*" Role="ToRole_assoc_DE97419CEA6087CC9C67C2754FAEA2E0"/></Association>
-			<Association Name="assoc_C4C99D6D3ACA87181E7100A0C6406DAF" sap:content-version="1"><End Type="ZMD_PRODUCT_FS_SRV.C_Product_FsType" Multiplicity="1" Role="FromRole_assoc_C4C99D6D3ACA87181E7100A0C6406DAF"/><End Type="ZMD_PRODUCT_FS_SRV.I_MaterialGroupTextType" Multiplicity="*" Role="ToRole_assoc_C4C99D6D3ACA87181E7100A0C6406DAF"/></Association>
-			<Association Name="assoc_4C494D231A217AA63614EF4696C1EB6B" sap:content-version="1"><End Type="ZMD_PRODUCT_FS_SRV.C_Product_FsType" Multiplicity="1" Role="FromRole_assoc_4C494D231A217AA63614EF4696C1EB6B"/><End Type="ZMD_PRODUCT_FS_SRV.I_MaterialTextType" Multiplicity="*" Role="ToRole_assoc_4C494D231A217AA63614EF4696C1EB6B"/></Association>
-			<Association Name="assoc_34960ED132699E89F565E2C802D2E185" sap:content-version="1"><End Type="ZMD_PRODUCT_FS_SRV.C_Product_FsType" Multiplicity="1" Role="FromRole_assoc_34960ED132699E89F565E2C802D2E185"/><End Type="ZMD_PRODUCT_FS_SRV.C_Plant_FsType" Multiplicity="*" Role="ToRole_assoc_34960ED132699E89F565E2C802D2E185"/>
-				<ReferentialConstraint>
-					<Principal Role="FromRole_assoc_34960ED132699E89F565E2C802D2E185"><PropertyRef Name="Material"/></Principal>
-					<Dependent Role="ToRole_assoc_34960ED132699E89F565E2C802D2E185"><PropertyRef Name="Product"/></Dependent>
-				</ReferentialConstraint>
-			</Association>
-			<Association Name="assoc_8E27CC86EF58F00D1095C7F293784396" sap:content-version="1"><End Type="ZMD_PRODUCT_FS_SRV.C_Product_FsType" Multiplicity="1" Role="FromRole_assoc_8E27CC86EF58F00D1095C7F293784396"/><End Type="ZMD_PRODUCT_FS_SRV.C_Purchaseorders_FsType" Multiplicity="*" Role="ToRole_assoc_8E27CC86EF58F00D1095C7F293784396"/>
-				<ReferentialConstraint>
-					<Principal Role="FromRole_assoc_8E27CC86EF58F00D1095C7F293784396"><PropertyRef Name="Material"/></Principal>
-					<Dependent Role="ToRole_assoc_8E27CC86EF58F00D1095C7F293784396"><PropertyRef Name="Material"/></Dependent>
-				</ReferentialConstraint>
-			</Association>
-			<Association Name="assoc_0D70EAD41F24D380631A6C222678F03B" sap:content-version="1"><End Type="ZMD_PRODUCT_FS_SRV.C_Product_FsType" Multiplicity="1" Role="FromRole_assoc_0D70EAD41F24D380631A6C222678F03B"/><End Type="ZMD_PRODUCT_FS_SRV.C_PrchInfoRecords_FsType" Multiplicity="*" Role="ToRole_assoc_0D70EAD41F24D380631A6C222678F03B"/>
-				<ReferentialConstraint>
-					<Principal Role="FromRole_assoc_0D70EAD41F24D380631A6C222678F03B"><PropertyRef Name="Material"/></Principal>
-					<Dependent Role="ToRole_assoc_0D70EAD41F24D380631A6C222678F03B"><PropertyRef Name="Material"/></Dependent>
-				</ReferentialConstraint>
-			</Association>
-			<Association Name="assoc_1D2D0E0859E18C11097629FAE3822229" sap:content-version="1"><End Type="ZMD_PRODUCT_FS_SRV.C_Product_FsType" Multiplicity="1" Role="FromRole_assoc_1D2D0E0859E18C11097629FAE3822229"/><End Type="ZMD_PRODUCT_FS_SRV.C_Supplier_FsType" Multiplicity="*" Role="ToRole_assoc_1D2D0E0859E18C11097629FAE3822229"/>
-				<ReferentialConstraint>
-					<Principal Role="FromRole_assoc_1D2D0E0859E18C11097629FAE3822229"><PropertyRef Name="Material"/></Principal>
-					<Dependent Role="ToRole_assoc_1D2D0E0859E18C11097629FAE3822229"><PropertyRef Name="Material"/></Dependent>
-				</ReferentialConstraint>
-			</Association>
-			<Association Name="assoc_EDF308A46FDBB44569CF7BC53B760E9D" sap:content-version="1"><End Type="ZMD_PRODUCT_FS_SRV.C_Product_FsType" Multiplicity="1" Role="FromRole_assoc_EDF308A46FDBB44569CF7BC53B760E9D"/><End Type="ZMD_PRODUCT_FS_SRV.P_Supplier_FsType" Multiplicity="*" Role="ToRole_assoc_EDF308A46FDBB44569CF7BC53B760E9D"/>
-				<ReferentialConstraint>
-					<Principal Role="FromRole_assoc_EDF308A46FDBB44569CF7BC53B760E9D"><PropertyRef Name="Material"/></Principal>
-					<Dependent Role="ToRole_assoc_EDF308A46FDBB44569CF7BC53B760E9D"><PropertyRef Name="Material"/></Dependent>
-				</ReferentialConstraint>
-			</Association>
-			<Association Name="assoc_9C5AF4D6397E5F2BA163D921B83C4C20" sap:content-version="1"><End Type="ZMD_PRODUCT_FS_SRV.C_Product_FsType" Multiplicity="1" Role="FromRole_assoc_9C5AF4D6397E5F2BA163D921B83C4C20"/><End Type="ZMD_PRODUCT_FS_SRV.I_UnitOfMeasureTextType" Multiplicity="*" Role="ToRole_assoc_9C5AF4D6397E5F2BA163D921B83C4C20"/></Association>
-			<Association Name="assoc_C6EACD608250E572E4109BD52A0A99CE" sap:content-version="1"><End Type="ZMD_PRODUCT_FS_SRV.C_Product_FsType" Multiplicity="1" Role="FromRole_assoc_C6EACD608250E572E4109BD52A0A99CE"/><End Type="ZMD_PRODUCT_FS_SRV.C_SalesView_FSType" Multiplicity="*" Role="ToRole_assoc_C6EACD608250E572E4109BD52A0A99CE"/>
-				<ReferentialConstraint>
-					<Principal Role="FromRole_assoc_C6EACD608250E572E4109BD52A0A99CE"><PropertyRef Name="Material"/></Principal>
-					<Dependent Role="ToRole_assoc_C6EACD608250E572E4109BD52A0A99CE"><PropertyRef Name="Product"/></Dependent>
-				</ReferentialConstraint>
-			</Association>
-			<Association Name="assoc_7ADADDCB6A351D47247121A12999ECF4" sap:content-version="1"><End Type="ZMD_PRODUCT_FS_SRV.C_PrchInfoRecords_FsType" Multiplicity="1" Role="FromRole_assoc_7ADADDCB6A351D47247121A12999ECF4"/><End Type="ZMD_PRODUCT_FS_SRV.P_Supplier_FsType" Multiplicity="1" Role="ToRole_assoc_7ADADDCB6A351D47247121A12999ECF4"/></Association>
 			<Association Name="BackToForw" sap:content-version="1"><End Type="ZMD_PRODUCT_FS_SRV.zc_BackSuper" Multiplicity="0..1" Role="FromRole_BackToForw"/><End Type="ZMD_PRODUCT_FS_SRV.zc_ForwSuper" Multiplicity="*" Role="ToRole_BackToForw"/>
 				<ReferentialConstraint>
-					<Principal Role="FromRole_BackToForw"><PropertyRef Name="Customer"/><PropertyRef Name="DisChannel"/><PropertyRef Name="Division"/><PropertyRef Name="LanguageKey"/><PropertyRef Name="Matnr"/><PropertyRef Name="Plant"/><PropertyRef Name="SalesDocType"/><PropertyRef Name="SalesOrg"/></Principal>
-					<Dependent Role="ToRole_BackToForw"><PropertyRef Name="Customer"/><PropertyRef Name="DisChannel"/><PropertyRef Name="Division"/><PropertyRef Name="LanguageKey"/><PropertyRef Name="Matnr"/><PropertyRef Name="Plant"/><PropertyRef Name="SalesDocType"/><PropertyRef Name="SalesOrg"/></Dependent>
+					<Principal Role="FromRole_BackToForw"><PropertyRef Name="SalesOrg"/><PropertyRef Name="SalesDocType"/><PropertyRef Name="Plant"/><PropertyRef Name="Matnr"/><PropertyRef Name="LanguageKey"/><PropertyRef Name="Division"/><PropertyRef Name="DisChannel"/><PropertyRef Name="Customer"/></Principal>
+					<Dependent Role="ToRole_BackToForw"><PropertyRef Name="SalesOrg"/><PropertyRef Name="SalesDocType"/><PropertyRef Name="Plant"/><PropertyRef Name="Matnr"/><PropertyRef Name="LanguageKey"/><PropertyRef Name="Division"/><PropertyRef Name="DisChannel"/><PropertyRef Name="Customer"/></Dependent>
 				</ReferentialConstraint>
 			</Association>
 			<EntityContainer Name="ZMD_PRODUCT_FS_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx"><EntitySet Name="zc_BackSuperSet" EntityType="ZMD_PRODUCT_FS_SRV.zc_BackSuper" sap:creatable="false" sap:updatable="false"
 				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="zc_QuantitySet" EntityType="ZMD_PRODUCT_FS_SRV.zc_Quantity" sap:creatable="false" sap:updatable="false"
 				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="zc_AlternateuomSet" EntityType="ZMD_PRODUCT_FS_SRV.zc_Alternateuom" sap:creatable="false" sap:updatable="false"
 				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="zc_PriceSet" EntityType="ZMD_PRODUCT_FS_SRV.zc_Price" sap:creatable="false" sap:updatable="false" sap:deletable="false"
-				sap:pageable="false" sap:content-version="1"/><EntitySet Name="C_Plant_Fs" EntityType="ZMD_PRODUCT_FS_SRV.C_Plant_FsType" sap:creatable="false" sap:updatable="false"
-				sap:deletable="false" sap:searchable="true" sap:content-version="1"/><EntitySet Name="C_PrchInfoRecords_Fs" EntityType="ZMD_PRODUCT_FS_SRV.C_PrchInfoRecords_FsType" sap:creatable="false" sap:updatable="false"
-				sap:deletable="false" sap:searchable="true" sap:content-version="1"/><EntitySet Name="C_Product_Fs" EntityType="ZMD_PRODUCT_FS_SRV.C_Product_FsType" sap:creatable="false" sap:updatable="false"
-				sap:deletable="false" sap:searchable="true" sap:content-version="1"/><EntitySet Name="C_Purchaseorders_Fs" EntityType="ZMD_PRODUCT_FS_SRV.C_Purchaseorders_FsType" sap:creatable="false" sap:updatable="false"
-				sap:deletable="false" sap:searchable="true" sap:content-version="1"/><EntitySet Name="C_SalesView_FS" EntityType="ZMD_PRODUCT_FS_SRV.C_SalesView_FSType" sap:creatable="false" sap:updatable="false"
-				sap:deletable="false" sap:searchable="true" sap:content-version="1"/><EntitySet Name="C_Supplier_Fs" EntityType="ZMD_PRODUCT_FS_SRV.C_Supplier_FsType" sap:creatable="false" sap:updatable="false"
-				sap:deletable="false" sap:searchable="true" sap:content-version="1"/><EntitySet Name="I_DivisionText" EntityType="ZMD_PRODUCT_FS_SRV.I_DivisionTextType" sap:creatable="false" sap:updatable="false"
-				sap:deletable="false" sap:searchable="true" sap:content-version="1"/><EntitySet Name="I_MaterialGroupText" EntityType="ZMD_PRODUCT_FS_SRV.I_MaterialGroupTextType" sap:creatable="false" sap:updatable="false"
-				sap:deletable="false" sap:content-version="1"/><EntitySet Name="I_MaterialText" EntityType="ZMD_PRODUCT_FS_SRV.I_MaterialTextType" sap:creatable="false" sap:updatable="false"
-				sap:deletable="false" sap:content-version="1"/><EntitySet Name="I_UnitOfMeasureText" EntityType="ZMD_PRODUCT_FS_SRV.I_UnitOfMeasureTextType" sap:creatable="false" sap:updatable="false"
-				sap:deletable="false" sap:content-version="1"/><EntitySet Name="P_Supplier_Fs" EntityType="ZMD_PRODUCT_FS_SRV.P_Supplier_FsType" sap:creatable="false" sap:updatable="false"
-				sap:deletable="false" sap:content-version="1"/><EntitySet Name="zc_ForwSuperSet" EntityType="ZMD_PRODUCT_FS_SRV.zc_ForwSuper" sap:creatable="false" sap:updatable="false"
+				sap:pageable="false" sap:content-version="1"/><EntitySet Name="zc_ForwSuperSet" EntityType="ZMD_PRODUCT_FS_SRV.zc_ForwSuper" sap:creatable="false" sap:updatable="false"
 				sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
-				<AssociationSet Name="assoc_9C5AF4D6397E5F2BA163D921B83C4C20" Association="ZMD_PRODUCT_FS_SRV.assoc_9C5AF4D6397E5F2BA163D921B83C4C20"
-					sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"><End EntitySet="C_Product_Fs" Role="FromRole_assoc_9C5AF4D6397E5F2BA163D921B83C4C20"/><End EntitySet="I_UnitOfMeasureText" Role="ToRole_assoc_9C5AF4D6397E5F2BA163D921B83C4C20"/></AssociationSet>
-				<AssociationSet Name="assoc_34960ED132699E89F565E2C802D2E185" Association="ZMD_PRODUCT_FS_SRV.assoc_34960ED132699E89F565E2C802D2E185"
-					sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"><End EntitySet="C_Product_Fs" Role="FromRole_assoc_34960ED132699E89F565E2C802D2E185"/><End EntitySet="C_Plant_Fs" Role="ToRole_assoc_34960ED132699E89F565E2C802D2E185"/></AssociationSet>
-				<AssociationSet Name="assoc_DE97419CEA6087CC9C67C2754FAEA2E0" Association="ZMD_PRODUCT_FS_SRV.assoc_DE97419CEA6087CC9C67C2754FAEA2E0"
-					sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"><End EntitySet="C_Product_Fs" Role="FromRole_assoc_DE97419CEA6087CC9C67C2754FAEA2E0"/><End EntitySet="I_DivisionText" Role="ToRole_assoc_DE97419CEA6087CC9C67C2754FAEA2E0"/></AssociationSet>
-				<AssociationSet Name="assoc_EDF308A46FDBB44569CF7BC53B760E9D" Association="ZMD_PRODUCT_FS_SRV.assoc_EDF308A46FDBB44569CF7BC53B760E9D"
-					sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"><End EntitySet="C_Product_Fs" Role="FromRole_assoc_EDF308A46FDBB44569CF7BC53B760E9D"/><End EntitySet="P_Supplier_Fs" Role="ToRole_assoc_EDF308A46FDBB44569CF7BC53B760E9D"/></AssociationSet>
 				<AssociationSet Name="BackToForwSet" Association="ZMD_PRODUCT_FS_SRV.BackToForw" sap:creatable="false" sap:updatable="false"
 					sap:deletable="false" sap:content-version="1"><End EntitySet="zc_BackSuperSet" Role="FromRole_BackToForw"/><End EntitySet="zc_ForwSuperSet" Role="ToRole_BackToForw"/></AssociationSet>
-				<AssociationSet Name="assoc_8E27CC86EF58F00D1095C7F293784396" Association="ZMD_PRODUCT_FS_SRV.assoc_8E27CC86EF58F00D1095C7F293784396"
-					sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"><End EntitySet="C_Product_Fs" Role="FromRole_assoc_8E27CC86EF58F00D1095C7F293784396"/><End EntitySet="C_Purchaseorders_Fs" Role="ToRole_assoc_8E27CC86EF58F00D1095C7F293784396"/></AssociationSet>
-				<AssociationSet Name="assoc_1D2D0E0859E18C11097629FAE3822229" Association="ZMD_PRODUCT_FS_SRV.assoc_1D2D0E0859E18C11097629FAE3822229"
-					sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"><End EntitySet="C_Product_Fs" Role="FromRole_assoc_1D2D0E0859E18C11097629FAE3822229"/><End EntitySet="C_Supplier_Fs" Role="ToRole_assoc_1D2D0E0859E18C11097629FAE3822229"/></AssociationSet>
-				<AssociationSet Name="assoc_4C494D231A217AA63614EF4696C1EB6B" Association="ZMD_PRODUCT_FS_SRV.assoc_4C494D231A217AA63614EF4696C1EB6B"
-					sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"><End EntitySet="C_Product_Fs" Role="FromRole_assoc_4C494D231A217AA63614EF4696C1EB6B"/><End EntitySet="I_MaterialText" Role="ToRole_assoc_4C494D231A217AA63614EF4696C1EB6B"/></AssociationSet>
-				<AssociationSet Name="assoc_C6EACD608250E572E4109BD52A0A99CE" Association="ZMD_PRODUCT_FS_SRV.assoc_C6EACD608250E572E4109BD52A0A99CE"
-					sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"><End EntitySet="C_Product_Fs" Role="FromRole_assoc_C6EACD608250E572E4109BD52A0A99CE"/><End EntitySet="C_SalesView_FS" Role="ToRole_assoc_C6EACD608250E572E4109BD52A0A99CE"/></AssociationSet>
-				<AssociationSet Name="assoc_0D70EAD41F24D380631A6C222678F03B" Association="ZMD_PRODUCT_FS_SRV.assoc_0D70EAD41F24D380631A6C222678F03B"
-					sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"><End EntitySet="C_Product_Fs" Role="FromRole_assoc_0D70EAD41F24D380631A6C222678F03B"/><End EntitySet="C_PrchInfoRecords_Fs" Role="ToRole_assoc_0D70EAD41F24D380631A6C222678F03B"/></AssociationSet>
-				<AssociationSet Name="assoc_C4C99D6D3ACA87181E7100A0C6406DAF" Association="ZMD_PRODUCT_FS_SRV.assoc_C4C99D6D3ACA87181E7100A0C6406DAF"
-					sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"><End EntitySet="C_Product_Fs" Role="FromRole_assoc_C4C99D6D3ACA87181E7100A0C6406DAF"/><End EntitySet="I_MaterialGroupText" Role="ToRole_assoc_C4C99D6D3ACA87181E7100A0C6406DAF"/></AssociationSet>
-				<AssociationSet Name="assoc_7ADADDCB6A351D47247121A12999ECF4" Association="ZMD_PRODUCT_FS_SRV.assoc_7ADADDCB6A351D47247121A12999ECF4"
-					sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"><End EntitySet="C_PrchInfoRecords_Fs" Role="FromRole_assoc_7ADADDCB6A351D47247121A12999ECF4"/><End EntitySet="P_Supplier_Fs" Role="ToRole_assoc_7ADADDCB6A351D47247121A12999ECF4"/></AssociationSet>
-			</EntityContainer>
-			<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="ZMD_PRODUCT_FS_SRV.C_Product_FsType/Division">
-				<Annotation Term="Common.ValueList">
-					<Record><PropertyValue Property="Label" String="Division Text"/><PropertyValue Property="CollectionPath" String="I_DivisionText"/><PropertyValue Property="SearchSupported" Bool="true"/>
-						<PropertyValue Property="Parameters">
-							<Collection>
-								<Record Type="Common.ValueListParameterInOut"><PropertyValue Property="LocalDataProperty" PropertyPath="Division"/><PropertyValue Property="ValueListProperty" String="Division"/></Record>
-								<Record Type="Common.ValueListParameterDisplayOnly"><PropertyValue Property="ValueListProperty" String="DivisionName"/></Record>
-							</Collection>
-						</PropertyValue>
-					</Record>
-				</Annotation>
-			</Annotations>
-			<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="ZMD_PRODUCT_FS_SRV.C_Plant_FsType">
-				<Annotation Term="Common.SemanticKey">
-					<Collection>
-						<PropertyPath>Plant</PropertyPath>
-						<PropertyPath>Product</PropertyPath>
-					</Collection>
-				</Annotation>
-			</Annotations>
-			<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="ZMD_PRODUCT_FS_SRV.C_PrchInfoRecords_FsType">
-				<Annotation Term="Common.SemanticKey">
-					<Collection>
-						<PropertyPath>Supplier</PropertyPath>
-						<PropertyPath>Material</PropertyPath>
-					</Collection>
-				</Annotation>
-			</Annotations>
-			<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="ZMD_PRODUCT_FS_SRV.C_Product_FsType">
-				<Annotation Term="Common.SemanticKey">
-					<Collection>
-						<PropertyPath>Material</PropertyPath>
-					</Collection>
-				</Annotation>
-			</Annotations>
-			<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="ZMD_PRODUCT_FS_SRV.C_Purchaseorders_FsType">
-				<Annotation Term="Common.SemanticKey">
-					<Collection>
-						<PropertyPath>PurchasingDocument</PropertyPath>
-					</Collection>
-				</Annotation>
-			</Annotations>
-			<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="ZMD_PRODUCT_FS_SRV.C_SalesView_FSType">
-				<Annotation Term="Common.SemanticKey">
-					<Collection>
-						<PropertyPath>ValuationType</PropertyPath>
-						<PropertyPath>ValuationArea</PropertyPath>
-						<PropertyPath>Product</PropertyPath>
-					</Collection>
-				</Annotation>
-			</Annotations>
-			<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="ZMD_PRODUCT_FS_SRV.C_Supplier_FsType">
-				<Annotation Term="Common.SemanticKey">
-					<Collection>
-						<PropertyPath>Supplier</PropertyPath>
-					</Collection>
-				</Annotation>
-			</Annotations><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="./sap/ZMD_PRODUCT_FS_SRV/$metadata"/><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version" href="./sap/ZMD_PRODUCT_FS_SRV/$metadata"/></Schema>
+			</EntityContainer><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="./sap/ZMD_PRODUCT_FS_SRV/$metadata"/><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version" href="./sap/ZMD_PRODUCT_FS_SRV/$metadata"/></Schema>
 	</edmx:DataServices>
 </edmx:Edmx>
