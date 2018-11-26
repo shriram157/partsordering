@@ -1,12 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
-	xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
-	<edmx:Reference
-		Uri="https://webidecp-d36z7bqhz1.dispatcher.ca1.hana.ondemand.com/destinations/S4HANA_GW/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='ZODATA')/$value"
-		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx"><edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/></edmx:Reference>
+<edmx:Edmx xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+	xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData" Version="1.0">
+	<edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx"
+		Uri="./IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='ZODATA')/$value"><edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/></edmx:Reference>
 	<edmx:DataServices m:DataServiceVersion="2.0">
-		<Schema Namespace="API_PURCHASEORDER_PROCESS_SRV" xml:lang="en" sap:schema-version="1"
-			sap:extending-service-id="ZPO_PARTS_ORDERING_SRV.0001" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+		<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="API_PURCHASEORDER_PROCESS_SRV" xml:lang="en" sap:schema-version="1"
+			sap:extending-service-id="ZPO_PARTS_ORDERING_SRV.0001">
 			<EntityType Name="A_PurOrdAccountAssignmentType" sap:label="PO Account Assignment for API" sap:content-version="1">
 				<Key><PropertyRef Name="PurchaseOrder"/><PropertyRef Name="PurchaseOrderItem"/><PropertyRef Name="AccountAssignmentNumber"/></Key><Property Name="PurchaseOrder" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase"
 					sap:label="Purchasing Document" sap:quickinfo="Purchasing Document Number"/><Property Name="PurchaseOrderItem" Type="Edm.String" Nullable="false" MaxLength="5" sap:display-format="NonNegative" sap:label="Item"
@@ -183,26 +181,62 @@
 					sap:filterable="false"/><Property Name="message" Type="Edm.String" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"
 					sap:filterable="false"/></EntityType>
 			<EntityType Name="Find_DeliveryPo" sap:content-version="1">
-				<Key><PropertyRef Name="DealerCode"/></Key><Property Name="DealerCode" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="Dealer Code" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="DeliNum" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="Delivery" sap:creatable="false" sap:updatable="false"
-					sap:sortable="false" sap:filterable="false"/><Property Name="DeliItem" Type="Edm.String" Nullable="false" MaxLength="6" sap:label="Item" sap:creatable="false" sap:updatable="false"
-					sap:sortable="false" sap:filterable="false"/><Property Name="DeliDate" Type="Edm.String" Nullable="false" sap:label="Delivery Date" sap:creatable="false" sap:updatable="false"
-					sap:sortable="false" sap:filterable="false"/><Property Name="DeliQty" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:label="Delivery Qty" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="PoNum" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="Purchasing Doc." sap:creatable="false"
-					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="PoItem" Type="Edm.String" Nullable="false" MaxLength="5" sap:label="Item" sap:creatable="false" sap:updatable="false"
-					sap:sortable="false" sap:filterable="false"/><Property Name="ScheItemCtr" Type="Edm.String" Nullable="false" MaxLength="4" sap:label="Schedule Line" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ScheDate" Type="Edm.String" Nullable="false" sap:label="Delivery date" sap:creatable="false" sap:updatable="false"
-					sap:sortable="false" sap:filterable="false"/><Property Name="ScheQty" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:label="Scheduled Qty" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:label="Plant" sap:creatable="false" sap:updatable="false"
-					sap:sortable="false" sap:filterable="false"/><Property Name="PlantDesc" Type="Edm.String" Nullable="false" MaxLength="30" sap:label="Name 1" sap:creatable="false" sap:updatable="false"
-					sap:sortable="false" sap:filterable="false"/><Property Name="PartNum" Type="Edm.String" Nullable="false" MaxLength="40" sap:label="Material" sap:creatable="false" sap:updatable="false"
-					sap:sortable="false" sap:filterable="false"/><Property Name="DealerOrderNum" Type="Edm.String" Nullable="false" MaxLength="12" sap:label="Dealer Order Num" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+				<Key><PropertyRef Name="DealerCode"/></Key><Property Name="DealerCode" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="DeliNum" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="DeliItem" Type="Edm.String" Nullable="false" MaxLength="6" sap:label="" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="DeliDate" Type="Edm.String" Nullable="false" sap:label="" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+					sap:filterable="false"/><Property Name="DeliQty" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:label="" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="PoNum" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="PoItem" Type="Edm.String" Nullable="false" MaxLength="5" sap:label="" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="ScheItemCtr" Type="Edm.String" Nullable="false" MaxLength="4" sap:label="" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="ScheDate" Type="Edm.String" Nullable="false" sap:label="" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+					sap:filterable="false"/><Property Name="ScheQty" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:label="" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:label="" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="PlantDesc" Type="Edm.String" Nullable="false" MaxLength="30" sap:label="" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="PartNum" Type="Edm.String" Nullable="false" MaxLength="40" sap:label="" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="DealerOrderNum" Type="Edm.String" Nullable="false" MaxLength="12" sap:label="" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="find_po" sap:content-version="1">
+				<Key><PropertyRef Name="dealer_code"/><PropertyRef Name="erdat"/></Key><Property Name="TCI_order_no" Type="Edm.String" Nullable="false" MaxLength="10" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="TCI_itemNo" Type="Edm.String" Nullable="false" MaxLength="6" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="doc_type" Type="Edm.String" Nullable="false" MaxLength="4" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+					sap:filterable="false"/><Property Name="dealer_orderNo" Type="Edm.String" Nullable="false" MaxLength="10" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="dealer_code" Type="Edm.String" Nullable="false" MaxLength="10" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="erdat" Type="Edm.String" Nullable="false" MaxLength="8" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+					sap:filterable="false"/><Property Name="matnr" Type="Edm.String" Nullable="false" MaxLength="40" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+					sap:filterable="false"/><Property Name="part_no" Type="Edm.String" Nullable="false" MaxLength="40" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+					sap:filterable="false"/><Property Name="ship_from" Type="Edm.String" Nullable="false" MaxLength="4" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+					sap:filterable="false"/><Property Name="sub_flag" Type="Edm.String" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+					sap:filterable="false"/><Property Name="quant_ordered" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="quant_in_process" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="quant_processed" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="quant_cancelled" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="quant_back_ordered" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="quant_being_delivered" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="est_deliv_date" Type="Edm.String" Nullable="false" MaxLength="8" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="deliv_no" Type="Edm.String" Nullable="false" MaxLength="10" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+					sap:filterable="false"/><NavigationProperty Name="POtoDeliv" Relationship="API_PURCHASEORDER_PROCESS_SRV.PO_to_deliv" FromRole="FromRole_PO_to_deliv"
+					ToRole="ToRole_PO_to_deliv"/></EntityType>
+			<EntityType Name="find_deliv" sap:content-version="1">
+				<Key><PropertyRef Name="dealer_code"/></Key><Property Name="estm_deliv_dt" Type="Edm.String" Nullable="false" MaxLength="8" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="deliv_no" Type="Edm.String" Nullable="false" MaxLength="10" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+					sap:filterable="false"/><Property Name="deliv_itemNo" Type="Edm.String" Nullable="false" MaxLength="6" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="cnf_qty" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="deliv_qty" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="dealer_code" Type="Edm.String" Nullable="false" MaxLength="10" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="erdat" Type="Edm.String" Nullable="false" MaxLength="8" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+					sap:filterable="false"/></EntityType>
 			<Association Name="assoc_19BBE09FA429018258275EDA1C9534B1" sap:content-version="1"><End Type="API_PURCHASEORDER_PROCESS_SRV.A_PurchaseOrderItemType" Multiplicity="1" Role="FromRole_assoc_19BBE09FA429018258275EDA1C9534B1"/><End Type="API_PURCHASEORDER_PROCESS_SRV.A_PurOrdAccountAssignmentType" Multiplicity="*"
 				Role="ToRole_assoc_19BBE09FA429018258275EDA1C9534B1"/></Association>
 			<Association Name="assoc_EFF2B310CC1279C17A53542CD0A7DF92" sap:content-version="1"><End Type="API_PURCHASEORDER_PROCESS_SRV.A_PurchaseOrderItemType" Multiplicity="1" Role="FromRole_assoc_EFF2B310CC1279C17A53542CD0A7DF92"/><End Type="API_PURCHASEORDER_PROCESS_SRV.A_PurOrdPricingElementType" Multiplicity="*" Role="ToRole_assoc_EFF2B310CC1279C17A53542CD0A7DF92"/></Association>
 			<Association Name="assoc_8A637AB8579B29B7A7F36730E8B65ACD" sap:content-version="1"><End Type="API_PURCHASEORDER_PROCESS_SRV.A_PurchaseOrderItemType" Multiplicity="1" Role="FromRole_assoc_8A637AB8579B29B7A7F36730E8B65ACD"/><End Type="API_PURCHASEORDER_PROCESS_SRV.A_PurchaseOrderScheduleLineType" Multiplicity="*"
 				Role="ToRole_assoc_8A637AB8579B29B7A7F36730E8B65ACD"/></Association>
+			<Association Name="PO_to_deliv" sap:content-version="1"><End Type="API_PURCHASEORDER_PROCESS_SRV.find_po" Multiplicity="1" Role="FromRole_PO_to_deliv"/><End Type="API_PURCHASEORDER_PROCESS_SRV.find_deliv" Multiplicity="*" Role="ToRole_PO_to_deliv"/>
+				<ReferentialConstraint>
+					<Principal Role="FromRole_PO_to_deliv"><PropertyRef Name="dealer_code"/><PropertyRef Name="erdat"/></Principal>
+					<Dependent Role="ToRole_PO_to_deliv"><PropertyRef Name="dealer_code"/><PropertyRef Name="erdat"/></Dependent>
+				</ReferentialConstraint>
+			</Association>
 			<Association Name="assoc_B82FE5DCCFCFC7E372EA017CC6733068" sap:content-version="1"><End Type="API_PURCHASEORDER_PROCESS_SRV.A_PurchaseOrderType" Multiplicity="1" Role="FromRole_assoc_B82FE5DCCFCFC7E372EA017CC6733068"/><End Type="API_PURCHASEORDER_PROCESS_SRV.A_PurchaseOrderItemType" Multiplicity="*" Role="ToRole_assoc_B82FE5DCCFCFC7E372EA017CC6733068"/>
 				<ReferentialConstraint>
 					<Principal Role="FromRole_assoc_B82FE5DCCFCFC7E372EA017CC6733068"><PropertyRef Name="PurchaseOrder"/></Principal>
@@ -218,6 +252,8 @@
 			<EntityContainer Name="API_PURCHASEORDER_PROCESS_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx"><EntitySet Name="FI_returnCollection" EntityType="API_PURCHASEORDER_PROCESS_SRV.FI_return" sap:content-version="1"/><EntitySet Name="Draft_POHeaderSet" EntityType="API_PURCHASEORDER_PROCESS_SRV.Draft_POHeader" sap:creatable="false" sap:updatable="false"
 				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="Draft_POItemSet" EntityType="API_PURCHASEORDER_PROCESS_SRV.Draft_POItem" sap:creatable="false" sap:updatable="false"
 				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="Find_DeliveryPoSet" EntityType="API_PURCHASEORDER_PROCESS_SRV.Find_DeliveryPo" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="find_poSet" EntityType="API_PURCHASEORDER_PROCESS_SRV.find_po" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="find_delivSet" EntityType="API_PURCHASEORDER_PROCESS_SRV.find_deliv" sap:creatable="false" sap:updatable="false"
 				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="A_PurOrdAccountAssignment" EntityType="API_PURCHASEORDER_PROCESS_SRV.A_PurOrdAccountAssignmentType" sap:content-version="1"/><EntitySet Name="A_PurOrdPricingElement" EntityType="API_PURCHASEORDER_PROCESS_SRV.A_PurOrdPricingElementType" sap:content-version="1"/><EntitySet Name="A_PurchaseOrder" EntityType="API_PURCHASEORDER_PROCESS_SRV.A_PurchaseOrderType" sap:content-version="1"/><EntitySet Name="A_PurchaseOrderItem" EntityType="API_PURCHASEORDER_PROCESS_SRV.A_PurchaseOrderItemType" sap:content-version="1"/><EntitySet Name="A_PurchaseOrderScheduleLine" EntityType="API_PURCHASEORDER_PROCESS_SRV.A_PurchaseOrderScheduleLineType"
 				sap:content-version="1"/>
 				<AssociationSet Name="DraftPoHeader_to_ItemSet" Association="API_PURCHASEORDER_PROCESS_SRV.DraftPoHeader_to_Item" sap:creatable="false"
@@ -231,14 +267,12 @@
 				<AssociationSet Name="assoc_B82FE5DCCFCFC7E372EA017CC6733068"
 					Association="API_PURCHASEORDER_PROCESS_SRV.assoc_B82FE5DCCFCFC7E372EA017CC6733068" sap:creatable="false" sap:updatable="false"
 					sap:deletable="false" sap:content-version="1"><End EntitySet="A_PurchaseOrder" Role="FromRole_assoc_B82FE5DCCFCFC7E372EA017CC6733068"/><End EntitySet="A_PurchaseOrderItem" Role="ToRole_assoc_B82FE5DCCFCFC7E372EA017CC6733068"/></AssociationSet>
+				<AssociationSet Name="PO_to_delivSet" Association="API_PURCHASEORDER_PROCESS_SRV.PO_to_deliv" sap:creatable="false" sap:updatable="false"
+					sap:deletable="false" sap:content-version="1"><End EntitySet="find_poSet" Role="FromRole_PO_to_deliv"/><End EntitySet="find_delivSet" Role="ToRole_PO_to_deliv"/></AssociationSet>
 				<AssociationSet Name="assoc_EFF2B310CC1279C17A53542CD0A7DF92"
 					Association="API_PURCHASEORDER_PROCESS_SRV.assoc_EFF2B310CC1279C17A53542CD0A7DF92" sap:creatable="false" sap:updatable="false"
 					sap:deletable="false" sap:content-version="1"><End EntitySet="A_PurchaseOrderItem" Role="FromRole_assoc_EFF2B310CC1279C17A53542CD0A7DF92"/><End EntitySet="A_PurOrdPricingElement" Role="ToRole_assoc_EFF2B310CC1279C17A53542CD0A7DF92"/></AssociationSet>
 				<FunctionImport Name="DraftToPO" ReturnType="API_PURCHASEORDER_PROCESS_SRV.FI_return" EntitySet="FI_returnCollection" m:HttpMethod="GET"><Parameter Name="TestRun" Type="Edm.Boolean" Mode="In"/><Parameter Name="IsActiveEntity" Type="Edm.Boolean" Mode="In"/><Parameter Name="HeaderDraftUUID" Type="Edm.Guid" Mode="In"/></FunctionImport>
-			</EntityContainer><atom:link rel="self"
-				href="https://webidecp-d36z7bqhz1.dispatcher.ca1.hana.ondemand.com/destinations/S4HANA_GW/sap/opu/odata/sap/API_PURCHASEORDER_PROCESS_SRV/$metadata"
-				xmlns:atom="http://www.w3.org/2005/Atom"/><atom:link rel="latest-version"
-				href="https://webidecp-d36z7bqhz1.dispatcher.ca1.hana.ondemand.com/destinations/S4HANA_GW/sap/opu/odata/sap/API_PURCHASEORDER_PROCESS_SRV/$metadata"
-				xmlns:atom="http://www.w3.org/2005/Atom"/></Schema>
+			</EntityContainer><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="./sap/API_PURCHASEORDER_PROCESS_SRV/$metadata"/><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version" href="./sap/API_PURCHASEORDER_PROCESS_SRV/$metadata"/></Schema>
 	</edmx:DataServices>
 </edmx:Edmx>

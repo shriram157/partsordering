@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
-	xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+<edmx:Edmx xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+	xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData" Version="1.0">
 	<edmx:DataServices m:DataServiceVersion="2.0">
-		<Schema Namespace="ZC_CREATE_SO_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+		<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="ZC_CREATE_SO_SRV" xml:lang="en" sap:schema-version="1">
 			<EntityType Name="zc_so_header" sap:content-version="1">
 				<Key><PropertyRef Name="PurchNoC"/></Key><Property Name="SalesDocument" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="SalesDocument"
 					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Division" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Division" sap:creatable="false"
@@ -318,10 +317,6 @@
 				<AssociationSet Name="HeaderToItemsSet" Association="ZC_CREATE_SO_SRV.HeaderToItems" sap:creatable="false" sap:updatable="false"
 					sap:deletable="false" sap:content-version="1"><End EntitySet="zc_so_headerSet" Role="FromRole_HeaderToItems"/><End EntitySet="zc_so_itemsSet" Role="ToRole_HeaderToItems"/></AssociationSet>
 				<FunctionImport Name="DraftToSO" ReturnType="ZC_CREATE_SO_SRV.return" EntitySet="returnCollection" m:HttpMethod="GET"><Parameter Name="HeaderDraftUUID" Type="Edm.Guid" Mode="In"/><Parameter Name="IsActiveEntity" Type="Edm.Boolean" Mode="In"/><Parameter Name="TestRun" Type="Edm.Boolean" Mode="In"/></FunctionImport>
-			</EntityContainer><atom:link rel="self"
-				href="https://webidecp-d36z7bqhz1.dispatcher.ca1.hana.ondemand.com/destinations/S4HANA_GW/sap/opu/odata/sap/ZC_CREATE_SO_SRV/$metadata"
-				xmlns:atom="http://www.w3.org/2005/Atom"/><atom:link rel="latest-version"
-				href="https://webidecp-d36z7bqhz1.dispatcher.ca1.hana.ondemand.com/destinations/S4HANA_GW/sap/opu/odata/sap/ZC_CREATE_SO_SRV/$metadata"
-				xmlns:atom="http://www.w3.org/2005/Atom"/></Schema>
+			</EntityContainer><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="./sap/ZC_CREATE_SO_SRV/$metadata"/><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version" href="./sap/ZC_CREATE_SO_SRV/$metadata"/></Schema>
 	</edmx:DataServices>
 </edmx:Edmx>

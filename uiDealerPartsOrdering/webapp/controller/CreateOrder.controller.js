@@ -93,12 +93,18 @@ sap.ui.define([
 						if (!!!aCustSaleArea){ // fall back to first one 
 							aCustSaleArea = data.to_CustomerSalesArea.results[0];
 						}
+
 						model.setProperty('/stoSupplyingPlant', aCustSaleArea.SupplyingPlant);
 						model.setProperty('/SalesOrganization', aCustSaleArea.SalesOrganization);
-						// model.setProperty('/DistributionChannel',aCustSaleArea.DistributionChannel);
-						// model.setProperty('/Division', aCustSaleArea.Division);
+						model.setProperty('/DistributionChannel',aCustSaleArea.DistributionChannel);
+						model.setProperty('/Division', aCustSaleArea.Division);
+						
+						// hard code ---
+						model.setProperty('/SalesOrganization', '7000');
 						model.setProperty('/DistributionChannel',"10");
-						model.setProperty('/Division', "10");
+						if ('00' === aCustSaleArea.Division){
+							model.setProperty('/Division', "10");
+						}
 					}
 				});
 				
@@ -664,7 +670,7 @@ sap.ui.define([
 					
 				} else {
 					// thr purchase order
-	    			this.updateOrderDraftItem([obj.uuid, obj.line], {'OrderQuantity' : newValue}, function(data, messageList){
+	    			this.updateOrderDraftItem([obj.uuid, obj.parentUuid, obj.line], {'Quantity' : newValue}, function(data, messageList){
     					obj.messages = messageList;
     					obj.colorCode = that.getMessageColor(messageList);
     					obj.iconUrl = 'sap-icon://e-care';
@@ -697,7 +703,7 @@ sap.ui.define([
 					
 				} else {
 					// thr purchase order
-	    			this.updateOrderDraftItem([obj.uuid, obj.line], {'ZZ1_LongText_PDI' : newValue}, function(data, messageList){
+	    			this.updateOrderDraftItem([obj.uuid, obj.parentUuid, obj.line], {'Comments' : newValue}, function(data, messageList){
     					obj.messages = messageList;
     					obj.colorCode = that.getMessageColor(messageList);
     	    			obj.iconUrl = 'sap-icon://e-care';			
