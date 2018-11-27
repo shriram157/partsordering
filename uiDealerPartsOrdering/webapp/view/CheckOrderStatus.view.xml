@@ -26,7 +26,7 @@
 						showSearchButton = 'true'
 						liveChange = 'onLiveChange'
 						search = 'onSearch'
-						width='60%' />	
+						width='500px' />	
 					<Button id="settingButton"  icon="sap-icon://sort" type="Transparent" press="onSetting" />							
 					<Button id="filterButton"  icon="sap-icon://add-filter" type="Transparent" press="onExpandFilter" />							
 				</content>
@@ -48,17 +48,17 @@
 				<fb:filterItems>
 					<fb:FilterItem name="dealer" label="{i18n>Label.CheckOrder.Dealer}" labelTooltip="{i18n>Label.CheckOrder.Dealer}" >
 						<fb:control>
-							<Input value="{viewModel>/filters/dealer}" enabled="false" placeholder="{i18n>Label.CheckOrder.Dealer}" width="15%"></Input>
+							<Input value="{viewModel>/filters/dealer}" enabled="false" placeholder="{i18n>Label.CheckOrder.Dealer}" width="15%" ></Input>
 						</fb:control>				
 					</fb:FilterItem>
 					<fb:FilterItem name="orderNumber" label="{i18n>Label.CheckOrder.DealerOrder}" labelTooltip="{i18n>Label.CheckOrder.DealerOrder}" >
 						<fb:control>
-							<Input value="{viewModel>/filters/orderNumber}" placeholder="{i18n>Label.CheckOrder.DealerOrder}" width="15%"></Input>
+							<Input value="{viewModel>/filters/orderNumber}" enabled="{viewModel>/filterAll}" placeholder="{i18n>Label.CheckOrder.DealerOrder}" width="15%"></Input>
 						</fb:control>				
 					</fb:FilterItem>
 					<fb:FilterItem name="partNumber" label="{i18n>Label.CheckOrder.PartsNumber}" labelTooltip="{i18n>Label.CheckOrder.PartsNumber}" >
 						<fb:control>
-							<Input type="Text" value="{viewModel>/filters/partNumber}" placeholder="{i18n>Label.CheckOrder.PartsNumber}" width="15%"></Input>
+							<Input type="Text" value="{viewModel>/filters/partNumber}" enabled="{viewModel>/filterAll}" placeholder="{i18n>Label.CheckOrder.PartsNumber}" width="15%"></Input>
 						</fb:control>				
 					</fb:FilterItem>
 					<fb:FilterItem name="orderType" label="{i18n>Label.CheckOrder.OrderType}" labelTooltip="{i18n>Label.CheckOrder.OrderType}" mandatory="false">
@@ -66,6 +66,8 @@
 							<MultiComboBox 
 								placeholder="{i18n>Label.CheckOrder.OrderType}"
 								selectionFinish="onSelectionFinishOT"
+								selectionChange="onSelectChangeOT"
+								enabled="{viewModel>/filterAll}"
 								width="15%"
 								selectedKeys= "{viewModel>/filters/orderStates}"
 								items="{
@@ -80,6 +82,7 @@
 						<fb:control>
 							<DatePicker value="{viewModel>/filters/fromOrderDate}"
 										valueFormat="yyyyMMdd"
+										enabled="{viewModel>/filterAll}"
 										displayFormat="long"
 										placeholder="{i18n>Label.CheckOrder.OrderDate.From}"/>
 						</fb:control>				
@@ -87,17 +90,17 @@
 
 					<fb:FilterItem name="tciOrderNumber" label="{i18n>Label.CheckOrder.TciOrder}" labelTooltip="{i18n>Label.CheckOrder.TciOrder}" >
 						<fb:control>
-							<Input value="{viewModel>/filters/tciOrderNumber}" placeholder="{i18n>Label.CheckOrder.TciOrder}" width="15%"></Input>
+							<Input id="tciOrderNumberFilter" value="{viewModel>/filters/tciOrderNumber}" placeholder="{i18n>Label.CheckOrder.TciOrder}" width="15%" change="onFilterChange"></Input>
 						</fb:control>				
 					</fb:FilterItem>
 					<fb:FilterItem name="deleveryNumber" label="{i18n>Label.CheckOrder.deliveryNumber}" labelTooltip="{i18n>Label.CheckOrder.deliveryNumber}" >
 						<fb:control>
-							<Input value="{viewModel>/filters/deleveryNumber}" placeholder="{i18n>Label.CheckOrder.deliveryNumber}" width="15%"></Input>
+							<Input id="deleveryNumberFilter" value="{viewModel>/filters/deleveryNumber}" placeholder="{i18n>Label.CheckOrder.deliveryNumber}" width="15%" change="onFilterChange"></Input>
 						</fb:control>				
 					</fb:FilterItem>
 					<fb:FilterItem name="fiNumber" label="{i18n>Label.CheckOrder.fiNumber}" labelTooltip="{i18n>Label.CheckOrder.fiNumber}" >
 						<fb:control>
-							<Input value="{viewModel>/filters/fiNumber}" placeholder="{i18n>Label.CheckOrder.fiNumber}" width="15%"></Input>
+							<Input id="fiNumberFilter" value="{viewModel>/filters/fiNumber}" placeholder="{i18n>Label.CheckOrder.fiNumber}" width="15%" change="onFilterChange" ></Input>
 						</fb:control>				
 					</fb:FilterItem>
 					<fb:FilterItem name="partStat" label="{i18n>Label.CheckOrder.PartsStat}" labelTooltip="{i18n>Label.CheckOrder.PartsStat}" >
@@ -105,6 +108,8 @@
 							<MultiComboBox id="orderStatus"
 								placeholder="{i18n>Label.CheckOrder.PartsStat}"
 								selectionFinish="onSelectionFinishOS"
+								selectionChange="onSelectChangeOS"
+								enabled="{viewModel>/filterAll}"
 								selectedKeys= "{viewModel>/filters/partsStates}"
 								width="15%"
 								items="{
@@ -119,6 +124,7 @@
 							<DatePicker value="{viewModel>/filters/toOrderDate}"
 										valueFormat="yyyyMMdd"
 										displayFormat="long"
+										enabled="{viewModel>/filterAll}"
 										placeholder="{i18n>Label.CheckOrder.OrderDate.To}"/>
 						</fb:control>				
 					</fb:FilterItem>
@@ -129,37 +135,37 @@
 	    	
 			<Table id="idProductsTableHeader" showNoData="false"  >
 				<columns>
-					<Column width="10em" >
+					<Column width="11%" >
 						<Text text="{i18n>Label.CheckOrder.PartsNumber} "/>
 					</Column>
-					<Column minScreenWidth="Tablet"	demandPopin="true" width="4em" hAlign="End">
+					<Column minScreenWidth="Tablet"	demandPopin="true" width="6%" hAlign="End">
 						<Text text="{i18n>Label.CheckOrder.ShipFrom} "/>
 					</Column>
-					<Column minScreenWidth="Tablet"	demandPopin="true" width="2em" hAlign="Center">
+					<Column minScreenWidth="Tablet"	demandPopin="true" width="2%" hAlign="Center">
 						<core:Icon src="sap-icon://share" color='#FF5733' tooltip='{i18n>Label.CheckOrder.Substitution}' />
 					</Column>
-					<Column width="5em">
+					<Column width="8%">
 						<Text text="{i18n>Label.CheckOrder.Quantity.Ordered} "/>
 					</Column>
-					<Column width="5em">
+					<Column width="8%">
 						<Text text="{i18n>Label.CheckOrder.Quantity.InProcess} "/>
 					</Column>
-					<Column width="5em">
+					<Column width="8%">
 						<Text text="{i18n>Label.CheckOrder.Quantity.Processed} "/>
 					</Column>
-					<Column width="5em">
+					<Column width="8%">
 						<Text text="{i18n>Label.CheckOrder.Quantity.Cancelled} "/>
 					</Column>
-					<Column width="5em">
+					<Column width="9%">
 						<Text text="{i18n>Label.CheckOrder.Quantity.BackOrdered} "/>
 					</Column>
-					<Column	minScreenWidth="Tablet"	demandPopin="true">
+					<Column	width="10%" minScreenWidth="Tablet"	demandPopin="true">
 						<Text text="{i18n>Label.CheckOrder.DealerOrder}" />
 					</Column>
-					<Column	minScreenWidth="Tablet"	demandPopin="true" hAlign="End">
+					<Column	width="10%" minScreenWidth="Tablet"	demandPopin="true">
 						<Text text="{i18n>Label.CheckOrder.OrderType}" />
 					</Column>
-					<Column	minScreenWidth="Tablet"	demandPopin="true" hAlign="End">
+					<Column	width="10%" minScreenWidth="Tablet"	demandPopin="true" hAlign="End">
 						<Text text="{i18n>Label.CheckOrder.TciOrder}" />
 					</Column>
 				</columns>
@@ -180,17 +186,17 @@
 						sticky = "{['sap.m.Sticky.ColumnHeaders', 'sap.m.Sticky.HeaderToolbar','sap.m.Sticky.InfoToolbar']}"
 					>
 					<columns>
-						<Column width="10em"/>
-						<Column minScreenWidth="Tablet"	demandPopin="true" width="4em" hAlign="End"/>
-						<Column minScreenWidth="Tablet"	demandPopin="true" width="2em" hAlign="Center"/>
-						<Column width="5em"/>
-						<Column width="5em"/>
-						<Column width="5em"/>
-						<Column width="5em"/>
-						<Column width="5em"/>
-						<Column	minScreenWidth="Tablet"	demandPopin="true"/>
-						<Column	minScreenWidth="Tablet"	demandPopin="true" hAlign="End"/>
-						<Column	minScreenWidth="Tablet"	demandPopin="true" hAlign="End"/>
+						<Column width="11%"/>
+						<Column minScreenWidth="Tablet"	demandPopin="true" width="6%" hAlign="End"/>
+						<Column minScreenWidth="Tablet"	demandPopin="true" width="2%" hAlign="Center"/>
+						<Column width="8%"/>
+						<Column width="8%"/>
+						<Column width="8%"/>
+						<Column width="8%"/>
+						<Column width="9%"/>
+						<Column	width="10%" minScreenWidth="Tablet"	demandPopin="true"/>
+						<Column	width="10%" minScreenWidth="Tablet"	demandPopin="true"/>
+						<Column	width="10%" minScreenWidth="Tablet"	demandPopin="true" hAlign="End"/>
 					</columns>
 					<items>
 						<ColumnListItem>

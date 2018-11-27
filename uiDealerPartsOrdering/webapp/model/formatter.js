@@ -145,6 +145,10 @@ sap.ui.define([
 			orderTypeD : function(type){
 				var resourceBundle = this.getResourceBundle();
 				switch(type){
+					case 'UB':
+						return resourceBundle.getText('order.type.standard');
+					case 'NB':
+						return resourceBundle.getText('order.type.standard');
 					case 'ZOR':
 						return resourceBundle.getText('order.type.standard');
 					case 'ZRO':

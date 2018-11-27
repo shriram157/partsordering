@@ -9,6 +9,7 @@ sap.ui.define([
 ], function(BaseController, MessagePopover, MessageItem, MessageToast, Link, JSONModel, formatter) {
 	"use strict";
 
+	var CONT_OTLISTMODEL = "orderTypeListModel";	
 	var CONST_VIEW_MODEL = 'viewModel';
 	return BaseController.extend("tci.wave2.ui.parts.ordering.controller.CheckOrderStatus", {
 
@@ -35,22 +36,51 @@ sap.ui.define([
 					sortDescending : false,
 					sortKey : 'TCI_order_no',			 	
 					orders: [], 
-					filters: this.getDefaultFilterValues()
+					filters: this.getDefaultFilterValues(),
+					filterAll : true
 				};
 				var viewModel = new JSONModel();
 				viewModel.setData(viewState);
 				this.setModel(viewModel, CONST_VIEW_MODEL);
 				
 				this._oList = this.byId('idProductsTable');
+				this._oFilterTciOrderNumber = this.byId('tciOrderNumberFilter');
+				this._oFilterDeleveryNumber = this.byId('deleveryNumberFilter');
+				this._oFilterFiNumber = this.byId('fiNumberFilter');
 
 				this.checkDealerInfo();
 				
 			},
 			
+			onFilterChange : function (oEvent){
+				var shouldExclude = false;
+				var lc_value = this._oFilterTciOrderNumber.getValue().trim();
+				if (!!lc_value){
+					shouldExclude  = true;
+				}
+				
+				lc_value = this._oFilterDeleveryNumber.getValue().trim();
+				if (!!lc_value){
+					shouldExclude  = true;
+				}
+
+				lc_value = this._oFilterFiNumber.getValue().trim();
+				if (!!lc_value){
+					shouldExclude  = true;
+				}
+				
+				var viewModel = this.getModel( CONST_VIEW_MODEL);
+				if (!!shouldExclude) {
+					viewModel.setProperty('/filterAll', false) ;
+				} else {
+					viewModel.setProperty('/filterAll', true) ;
+				}
+			},
+			
 			getDefaultFilterValues : function(){
 				return {
 					partsStates:['ALL'],
-					orderStates:['ALL'],
+					orderStates:[0],
 					partNumber: '',
 					deleveryNumber: '',
 					fiNumber: '',
@@ -90,11 +120,49 @@ sap.ui.define([
 					this._oDetailDialog.close();
 				}
 			},
+			
 			afterDialogOpen : function(oEvent){
 				if(!!this._oDetailDialog ){
 					sap.ui.getCore().byId('topPageHeader').focus();
 				}
 			}, 			
+			
+			onSelectChangeOT : function(oEvent){
+				var currentKey = oEvent.getParameters('changedItem').changedItem.getKey();
+				var state = oEvent.getParameters('changedItem').selected;
+				if (!!state){ // only for the selected
+
+					if('0' ===  currentKey){ 
+						oEvent.getSource().setSelectedKeys(['0']);
+					} else {
+						var keys = oEvent.getSource().getSelectedKeys();
+						var index = keys.indexOf('0');
+						if (index >=0){
+							keys = keys.splice(index+1);
+							oEvent.getSource().setSelectedKeys(keys);
+						}
+					}
+				}
+			},
+
+			onSelectChangeOS : function(oEvent){
+				var currentKey = oEvent.getParameters('changedItem').changedItem.getKey();
+				var state = oEvent.getParameters('changedItem').selected;
+				if (!!state){ // only for the selected
+
+					if('ALL' ===  currentKey){ 
+						oEvent.getSource().setSelectedKeys(['ALL']);
+					} else {
+						var keys = oEvent.getSource().getSelectedKeys();
+						var index = keys.indexOf('ALL');
+						if (index >=0){
+							keys = keys.splice(index+1);
+							oEvent.getSource().setSelectedKeys(keys);
+						}
+					}
+				}
+			},
+			
 			getRunningDefaultFilterValues : function(){
 				var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({pattern : "YYYYMMdd" }); 
 				var appStateModel = this.getStateModel();
@@ -110,7 +178,7 @@ sap.ui.define([
 				var fromDateStr = ''+fromYear+fromMonth+nowDate.getDate();
 				return {
 					partsStates:['ALL'],
-					orderStates:['ALL'],
+					orderStates:[0],
 					partNumber: '',
 					deleveryNumber: '',
 					fiNumber: '',
@@ -133,11 +201,18 @@ sap.ui.define([
 				var appStateModel = this.getStateModel();
 				appStateModel.setProperty('/tabKey', 'CS');
 
+				// dynamic the type list 
 				var filterModel = this.getModel('filterModel');
 				if (!!!filterModel){
 					filterModel = this.getFilterSelectionModel();
 					this.setModel(filterModel, 'filterModel');
-				}
+				} 
+				var otList = this.getCurrentOrderTypeList().getData();
+				var resourceBundle = this.getResourceBundle();					
+				var newList = [{code : 0, name  : resourceBundle.getText('Parts.Status.All')}];
+				newList = newList.concat(otList.typeList);
+				filterModel.setProperty('/orderTypeList', newList);
+				
 				var viewModel = this.getModel( CONST_VIEW_MODEL);
 				viewModel.setProperty('/filters',this.getRunningDefaultFilterValues());
 
@@ -176,13 +251,11 @@ sap.ui.define([
 			cleanUpDialog : function(oEvent){
 				this.byId('idProductsTable').removeSelections(true);
 			},
-			onXXX: function(oEvent){
-			  var x = 	oEvent;
-			},
-			
+
 			onReset : function(oEvent){
 				var viewModel = this.getModel( CONST_VIEW_MODEL);
 				viewModel.setProperty('/filters',this.getRunningDefaultFilterValues());
+				viewModel.setProperty('/filterAll', true) ;				
 			}, 
 			
 			onSearch : function(oEvent){
@@ -210,7 +283,7 @@ sap.ui.define([
 					orFilters.push(filter);
 					filter = new sap.ui.model.Filter("ship_from", sap.ui.model.FilterOperator.Contains, sQuery);	
 					orFilters.push(filter);
-					
+
 					filter = new sap.ui.model.Filter({ filters: orFilters, and: false});
 					aFilters.push(filter);
 				} else {
@@ -241,9 +314,17 @@ sap.ui.define([
 				sap.ui.core.BusyIndicator.show(0);
 				
 				var conditions = {};
-				conditions.bpCode = bpCode;
+				if (!!isSalesOrder){
+					conditions.bpCode = bpCode;
+				} else {
+					conditions.bpCode = dealerCode;
+				}
+				
 				var viewModel = this.getModel(CONST_VIEW_MODEL);
 				var filters = viewModel.getProperty('/filters');
+				var filterAll  = viewModel.getProperty('/filterAll');
+				var lc_index = -1;
+				var exactMode = !filterAll;
 				if (!!filters){
 					if (!!filters.partNumber && filters.partNumber.trim().length >0){
 						conditions.partNumber = filters.partNumber.trim();
@@ -262,16 +343,23 @@ sap.ui.define([
 					}
 					conditions.fromOrderDate = filters.fromOrderDate;
 					conditions.toOrderDate = filters.toOrderDate;
+
+					// the ALL will not put new condition to the search query
+					if (!!filters.partsStates){
+						lc_index = filters.partsStates.indexOf('ALL');
+						if(lc_index < 0){ // can not find
+							conditions.partsStates = filters.partsStates;
+						}
+					}
+					if (!!filters.orderStates){
+						lc_index = filters.partsStates.indexOf('0');
+						if(lc_index < 0){ // can not find
+							conditions.orderStates = filters.orderStates;
+						}
+					}
 				}
 				
-					// partsStates:['ALL'],
-					// orderStates:['ALL'],
-				// if (!!query){
-				// 	conditions = {'orderNumber' : query.trim()};
-				// }
-				
-
-				this.searchPartsOrders(conditions, isSalesOrder, function(results){
+				this.searchPartsOrders(exactMode, conditions, isSalesOrder, function(results){
 				 	viewModel.setProperty('/orders', results);
 
 					var list = that.byId("idProductsTable");

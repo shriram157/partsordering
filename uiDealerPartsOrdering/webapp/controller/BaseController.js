@@ -149,7 +149,15 @@ sap.ui.define([
 				}
 				return iDataModel;
 			}, 
-
+			
+			getCurrentOrderTypeList : function (){
+				return sap.ui.getCore().getModel("CurrentOrderTypeList");
+			},
+			
+			setCurrentOrderTypeList : function(model){
+				return sap.ui.getCore().setModel(model, "CurrentOrderTypeList");
+			},
+			
 			getUserTypeSelectionModel : function(){
 				var dataModel = sap.ui.getCore().getModel("UserTypeSelectionModel");
 				if (dataModel  === null || dataModel === undefined){
@@ -454,6 +462,16 @@ sap.ui.define([
 						return '1'; // as the default? 
 				}	
 			},
+			
+			getInnerPurchaseOrderTypeByZOrderType : function(orderType){
+				switch(orderType){
+					case 'UB':
+						return '1';
+					case 'NB':
+						return '1' ;
+				}	
+			},
+			
 			
 			getRealOrderTypeByItemCategoryGroup : function(itemCG, isSalesOrder, orderType ){
 				if (!!isSalesOrder){
@@ -1166,7 +1184,7 @@ sap.ui.define([
 				);		
 			},
 
-		    _seacrhPartsSalesOrder : function(conditions, callback){
+		    _searchPartsSalesOrder : function(exactMode,conditions, callback){
 		    	var that = this;
 				var bModel = this.getSalesOrderModel();
 
@@ -1175,34 +1193,79 @@ sap.ui.define([
 				var dealerCode = conditions.bpCode;
 
 				oFilter[0] = new sap.ui.model.Filter("dealer_code", sap.ui.model.FilterOperator.EQ, dealerCode );
-				oFilter[1] = new sap.ui.model.Filter("erdat", sap.ui.model.FilterOperator.BT, conditions.fromOrderDate, conditions.toOrderDate );
 				
 				var aFilter = null;
-
-				if (!!conditions.tciOrderNumber ){
+				
+				if (!!exactMode){
+					if (!!conditions.tciOrderNumber ){
+						aFilter = new sap.ui.model.Filter("TCI_order_no", sap.ui.model.FilterOperator.EQ, conditions.tciOrderNumber.padStart(10,'0') );
+						oFilter.push(aFilter);
+					}
+					if(!!conditions.deleveryNumber){
+						oFilter.push(new sap.ui.model.Filter("deliv_no", sap.ui.model.FilterOperator.EQ, conditions.deleveryNumber ));		
+					}
+					if(!!conditions.fiNumber){
+						oFilter.push(new sap.ui.model.Filter("bill_no", sap.ui.model.FilterOperator.EQ, conditions.fiNumber ));		
+					}
 					
-					aFilter = new sap.ui.model.Filter("TCI_order_no", sap.ui.model.FilterOperator.EQ, conditions.tciOrderNumber.padStart(10,'0') );
-					oFilter.push(aFilter);
+					
+				} else {
+					oFilter[1] = new sap.ui.model.Filter("erdat", sap.ui.model.FilterOperator.BT, conditions.fromOrderDate, conditions.toOrderDate );
+
+					if (!!conditions.partNumber ){
+						aFilter = new sap.ui.model.Filter("part_no", sap.ui.model.FilterOperator.Contains, conditions.partNumber );
+						oFilter.push(aFilter);
+					}
+					if (!!conditions.orderNumber ){
+						aFilter = new sap.ui.model.Filter("dealer_orderNo", sap.ui.model.FilterOperator.Contains, conditions.orderNumber );
+						oFilter.push(aFilter);
+					}
+
+					// order type has only one - standard order
+					if (!!conditions.partsStates && conditions.partsStates.length > 0){
+						var partsSts = [];
+						for (var x1 = 0; x1 < conditions.partsStates.length; x1++){
+							switch (conditions.partsStates[x1]){
+								case 'IP':
+									partsSts.push(new sap.ui.model.Filter("quant_in_process", sap.ui.model.FilterOperator.GT, '0' ));
+									break;
+								case 'PR':
+									partsSts.push(new sap.ui.model.Filter("quant_processed", sap.ui.model.FilterOperator.GT, '0' ));
+									break;
+								case 'CL':
+									partsSts.push(new sap.ui.model.Filter("quant_cancelled", sap.ui.model.FilterOperator.GT, '0' ));
+									break;
+								case 'BK':
+									partsSts.push(new sap.ui.model.Filter("quant_back_ordered", sap.ui.model.FilterOperator.GT, '0' ));
+									break;
+							}
+						}
+						aFilter = new sap.ui.model.Filter(partsSts, false);
+						oFilter.push(aFilter);
+					}				
+
+					if (!!conditions.orderStates && conditions.orderStates.length > 0){ 
+						var ordersSts = [];
+						for (var x2 = 0; x2 < conditions.orderStates.length; x2++){
+							switch (conditions.orderStates[x2]){
+								case '1':
+									partsSts.push(new sap.ui.model.Filter("doc_type", sap.ui.model.FilterOperator.EQ, 'ZOR' ));
+									break;
+								case '2':
+									partsSts.push(new sap.ui.model.Filter("doc_type", sap.ui.model.FilterOperator.EQ, 'ZRO' ));
+									break;
+								case '3':
+									partsSts.push(new sap.ui.model.Filter("doc_type", sap.ui.model.FilterOperator.EQ, 'ZCO' ));
+									break;
+							}
+						}
+						aFilter = new sap.ui.model.Filter(ordersSts, false);
+						oFilter.push(aFilter);
+					}				
+					
 				}
 
-				if (!!conditions.partNumber ){
-					aFilter = new sap.ui.model.Filter("part_no", sap.ui.model.FilterOperator.Contains, conditions.partNumber );
-					oFilter.push(aFilter);
-				}
-				if (!!conditions.deleveryNumber ){
-					aFilter = new sap.ui.model.Filter("deliv_no", sap.ui.model.FilterOperator.Contains, conditions.deleveryNumber );
-					oFilter.push(aFilter);
-				}
-				if (!!conditions.fiNumber ){
-					aFilter = new sap.ui.model.Filter("bill_no", sap.ui.model.FilterOperator.Contains, conditions.fiNumber );
-					oFilter.push(aFilter);
-				}
-				if (!!conditions.orderNumber ){
-					aFilter = new sap.ui.model.Filter("dealer_orderNo", sap.ui.model.FilterOperator.Contains, conditions.orderNumber );
-					oFilter.push(aFilter);
-				}
-
-				bModel.read('/find_soSet', {
+ 				bModel.read('/find_soSet', {
 					urlParameters: {
  //     		 			"$select": "PurchasingOrganization,PurchasingGroup,Supplier,PurchaseOrderType,ZZ1_DealerCode_PDH,ZZ1_DealerOrderNum_PDH,DraftUUID,DraftEntityCreationDateTime,DraftEntityLastChangeDateTime,to_PurchaseOrderItemTP",
       		 			"$expand" : "SOtoDeliv",
@@ -1212,6 +1275,8 @@ sap.ui.define([
 					success:  function(oData, oResponse){
 						if (!!oData && !!oData.results){
 							callback(oData.results);
+						} else {
+							callback(null);
 						}
 					},
 					error: function(err){
@@ -1475,6 +1540,151 @@ sap.ui.define([
 			// END -- ZC_CREATE_SO_SRV model related			
 			
 			// START -- SALES/PO related
+		    searchPartsOrders : function(exactMode, conditions, isSalesOrder, callback){
+		    	var that = this;
+		    	if (!!isSalesOrder){
+		    		that._searchPartsSalesOrder(exactMode,conditions, function(oList){
+		    			if (!!oList && oList.length > 0 ){
+		    				var finalList = [];
+		    				var currentItem = null;
+		    				var oldItem = null;
+		    				var currentKey = {};
+		    				currentKey.TCI_order_no = null;
+		    				currentKey.TCI_itemNo = null;
+		    				var aSLine = null;
+		    				var deliveryLine = null;
+		    				var fiLine = null;
+		    				
+		    				for (var i = 0; i < oList.length; i++){
+		    					currentItem = oList[i];
+		    					if (currentKey.TCI_order_no === currentItem.TCI_order_no && currentKey.TCI_itemNo === currentItem.TCI_itemNo){
+									//TODO										
+		    					} else {
+		    						if (!!oldItem ){
+		    							oldItem.deliv_no_str = oldItem.deliv_no_list.join('.');
+		    							oldItem.bill_no_str = oldItem.bill_no_list.join('.');                         
+		    							finalList.push(oldItem);
+		    						}
+		    						
+		    						oldItem = currentItem;
+		    						oldItem.subs = oldItem.sub_flag ==='YES' ? true: false;                         
+		    						oldItem.scheduleLines=[];
+		    						oldItem.deliv_no_list =[];                         
+		    						oldItem.bill_no_list =[];                         
+		    						// last 
+		    						currentKey.TCI_order_no = currentItem.TCI_order_no;
+		    						currentKey.TCI_itemNo = currentItem.TCI_itemNo;
+		    						
+		    					}
+								// prepare for the line items
+	    						if (!!currentItem.SOtoDeliv && !!currentItem.SOtoDeliv.results && currentItem.SOtoDeliv.results.length >0){
+	    							for(var x=0; x<currentItem.SOtoDeliv.results.length; x++ ){
+	    								deliveryLine = currentItem.SOtoDeliv.results[x];
+	    								if (!!deliveryLine ){
+   											aSLine = {};
+   											aSLine.deliv_itemNo = deliveryLine.deliv_itemNo;
+   											aSLine.deliv_no = deliveryLine.deliv_no;
+				    						oldItem.deliv_no_list.push(aSLine.deliv_no);
+
+   											aSLine.bill_itemNo = deliveryLine.bill_itemNo;
+   											aSLine.bill_no = deliveryLine.bill_no;
+				    						oldItem.bill_no_list.push(aSLine.bill_no);
+				    						
+   											aSLine.estm_deliv_date = that.s2date(deliveryLine.estm_deliv_dt);
+   											aSLine.deliv_qty = deliveryLine.deliv_qty;
+   											aSLine.cnf_qty = deliveryLine.cnf_qty;
+
+   											oldItem.scheduleLines.push(aSLine);
+	    								}
+	    								
+	    							}
+		    							
+	    						} 
+	    						currentItem = null; 
+		    				}
+		    				if (!!oldItem ){
+		    					finalList.push(oldItem);
+		    				}
+		    				callback(finalList);	
+		    				
+		    			} else {
+		    				callback([]);	
+		    			}
+		    		} );
+		    	} else {
+		    		this._searchPurchaseOrder(exactMode, conditions, function(oList){
+		    			if (!!oList && oList.length > 0 ){
+		    				var finalList = [];
+		    				var currentItem = null;
+		    				var oldItem = null;
+		    				var currentKey = {};
+		    				currentKey.TCI_order_no = null;
+		    				currentKey.TCI_itemNo = null;
+		    				var aSLine = null;
+		    				var deliveryLine = null;
+		    				var fiLine = null;
+		    				
+		    				for (var i = 0; i < oList.length; i++){
+		    					currentItem = oList[i];
+		    					if (currentKey.TCI_order_no === currentItem.TCI_order_no && currentKey.TCI_itemNo === currentItem.TCI_itemNo){
+									//TODO										
+		    					} else {
+		    						if (!!oldItem ){
+		    							oldItem.deliv_no_str = oldItem.deliv_no_list.join('.');
+		    							oldItem.bill_no_str = oldItem.bill_no_list.join('.');                         
+		    							finalList.push(oldItem);
+		    						}
+		    						
+		    						oldItem = currentItem;
+		    						oldItem.subs = oldItem.sub_flag ==='YES' ? true: false;                         
+		    						oldItem.scheduleLines=[];
+		    						oldItem.deliv_no_list =[];                         
+		    						oldItem.bill_no_list =[];                         
+		    						// last 
+		    						currentKey.TCI_order_no = currentItem.TCI_order_no;
+		    						currentKey.TCI_itemNo = currentItem.TCI_itemNo;
+		    						
+		    					}
+								// prepare for the line items
+	    						if (!!currentItem.POtoDeliv && !!currentItem.POtoDeliv.results && currentItem.POtoDeliv.results.length >0){
+	    							for(var x=0; x<currentItem.POtoDeliv.results.length; x++ ){
+	    								deliveryLine = currentItem.POtoDeliv.results[x];
+	    								if (!!deliveryLine ){
+   											aSLine = {};
+   											aSLine.deliv_itemNo = deliveryLine.deliv_itemNo;
+   											aSLine.deliv_no = deliveryLine.deliv_no;
+				    						oldItem.deliv_no_list.push(aSLine.deliv_no);
+
+   											aSLine.bill_itemNo = deliveryLine.bill_itemNo;
+   											aSLine.bill_no = deliveryLine.bill_no;
+				    						oldItem.bill_no_list.push(aSLine.bill_no);
+				    						
+   											aSLine.estm_deliv_date = that.s2date(deliveryLine.estm_deliv_dt);
+   											aSLine.deliv_qty = deliveryLine.deliv_qty;
+   											aSLine.cnf_qty = deliveryLine.cnf_qty;
+
+   											oldItem.scheduleLines.push(aSLine);
+	    								}
+	    								
+	    							}
+		    							
+	    						} 
+	    						currentItem = null; 
+		    				}
+		    				if (!!oldItem ){
+		    					finalList.push(oldItem);
+		    				}
+		    				callback(finalList);	
+		    				
+		    			} else {
+		    				callback([]);	
+		    			}
+		    			
+		    		});
+		    	}
+		    	
+		    },
+			
 			deleteDraft : function(uuid , isSalesOrder, callback){
 		    	var that = this; 
 				var bModel = null;
@@ -2484,149 +2694,88 @@ sap.ui.define([
 					} 
 				} );
 			},			
+
+			_searchPurchaseOrder : function(exactMode, conditions, callback){
+				var bModel = this.getPurchaseOrderModel();
+				var oFilter = new Array();
+				var aFilter = null;
+				var dealerCode = conditions.bpCode;
+				
+				oFilter[0] = new sap.ui.model.Filter("dealer_code", sap.ui.model.FilterOperator.EQ, dealerCode );
+				if (!!exactMode ){
+					if(!!conditions.tciOrderNumber){
+						oFilter.push(new sap.ui.model.Filter("TCI_order_no", sap.ui.model.FilterOperator.EQ, conditions.tciOrderNumber ));		
+					}
+					if(!!conditions.deleveryNumber){
+						oFilter.push(new sap.ui.model.Filter("deliv_no", sap.ui.model.FilterOperator.EQ, conditions.deleveryNumber ));		
+					}
+					// if(!!conditions.fiNumber){
+					// 	oFilter.push(new sap.ui.model.Filter("TCI_order_no", sap.ui.model.FilterOperator.EQ, conditions.fiNumber ));		
+					// }
+				} else {
+					oFilter[1] = new sap.ui.model.Filter("erdat", sap.ui.model.FilterOperator.BT, conditions.fromOrderDate, conditions.toOrderDate );
+					if (!!conditions.partNumber ){
+						aFilter = new sap.ui.model.Filter("part_no", sap.ui.model.FilterOperator.Contains, conditions.partNumber );
+						oFilter.push(aFilter);
+					}
+					if (!!conditions.orderNumber ){
+						aFilter = new sap.ui.model.Filter("dealer_orderNo", sap.ui.model.FilterOperator.Contains, conditions.orderNumber );
+						oFilter.push(aFilter);
+					}
+
+					// order type has only one - standard order
+					if (!!conditions.partsStates && conditions.partsStates.length > 0){
+						var partsSts = [];
+						for (var x1 = 0; x1 < conditions.partsStates.length; x1++){
+							switch (conditions.partsStates[x1]){
+								case 'IP':
+									partsSts.push(new sap.ui.model.Filter("quant_in_process", sap.ui.model.FilterOperator.GT, '0' ));
+									break;
+								case 'PR':
+									partsSts.push(new sap.ui.model.Filter("quant_processed", sap.ui.model.FilterOperator.GT, '0' ));
+									break;
+								case 'CL':
+									partsSts.push(new sap.ui.model.Filter("quant_cancelled", sap.ui.model.FilterOperator.GT, '0' ));
+									break;
+								case 'BK':
+									partsSts.push(new sap.ui.model.Filter("quant_back_ordered", sap.ui.model.FilterOperator.GT, '0' ));
+									break;
+							}
+						}
+						aFilter = new sap.ui.model.Filter(partsSts, false);
+						oFilter.push(aFilter);
+					}				
+				}
+
+				bModel.read('/find_poSet', 
+					{ 
+						urlParameters: {
+      		 		//		"$select": "PurchaseOrder,CompanyCode,PurchasingOrganization,PurchasingGroup,Supplier,DocumentCurrency,PurchaseOrderStatus,PurchaseOrderNetAmount,PurchaseOrderType,CreationDate,ZZ1_DealerCode_PDH,ZZ1_AppSource_PDH,ZZ1_DealerOrderNum_PDH,CreatedByUser",
+      		 				"$expand": "POtoDeliv",
+      		 				"$orderby": "erdat"
+						},
+						filters:  oFilter,						
+						success:  function(oData, oResponse){
+							var orders = [];
+							if (!!oData && !!oData.results ){
+								callback(oData.results);
+							} else{
+								callback(null);
+							}
+						},
+						error: function(err){
+							callback(null);
+						}
+					}
+				);		
+			},
+
 			// End of new Purchase Order
 			
 
 
 			// start of purchase order old 
 			// for now, only the purchase order	
-			searchPOrderByDealerCode : function(dealer, conditions, callback){
-				var bModel = this.getPurV2Model();
-				var oFilter = new Array();
-				//var dealerCode = conditions.dealerCode;
-				var dealerCode = dealer;
-				//var filterDraft = new sap.ui.model.Filter("IsActiveEntity", sap.ui.model.FilterOperator.EQ, false );
-				//var filterOrder = new sap.ui.model.Filter("SiblingEntity/IsActiveEntity", sap.ui.model.FilterOperator.EQ, null );
-				
-				//var filters1 = sap.ui.model.Filter( [filterDraft, filterOrder], false);
-
-				// oFilter[0] =  new sap.ui.model.Filter({
-				// 		filters: [filterDraft, filterOrder],
-				// 		and : false
-				// 	});
-				oFilter[0] =  new sap.ui.model.Filter("IsActiveEntity", sap.ui.model.FilterOperator.EQ, true );
-				oFilter[1] = new sap.ui.model.Filter("SiblingEntity/IsActiveEntity", sap.ui.model.FilterOperator.EQ, null );
-				oFilter[2] = new sap.ui.model.Filter("ZZ1_DealerCode_PDH", sap.ui.model.FilterOperator.EQ, dealerCode );
-			
-				if (!!conditions){
-					if(!!conditions.orderNumber){
-						oFilter[3] = new sap.ui.model.Filter("ZZ1_DealerOrderNum_PDH", sap.ui.model.FilterOperator.Contains, conditions.orderNumber );
-					}
-				}				
-
-				bModel.read('/C_PurchaseOrderTP', 
-					{ 
-						urlParameters: {
-      		 		//		"$select": "PurchaseOrder,CompanyCode,PurchasingOrganization,PurchasingGroup,Supplier,DocumentCurrency,PurchaseOrderStatus,PurchaseOrderNetAmount,PurchaseOrderType,CreationDate,ZZ1_DealerCode_PDH,ZZ1_AppSource_PDH,ZZ1_DealerOrderNum_PDH,CreatedByUser",
-      		 				"$orderby": "CreationDate"
-						},
-						filters:  oFilter,						
-						success:  function(oData, oResponse){
-							var orders = [];
-							if (!!oData && !!oData.results ){
-								var lv_order = null;
-								var lv_aResult = null;
-								var aOrderItem = null;
-								var currentOrderNumber = null;
-								for (var i=0; i < oData.results.length; i++  ){
-									lv_aResult = oData.results[i];
-									lv_order = {};
-									
-									lv_order.orderNumber= lv_aResult.ZZ1_DealerOrderNum_PDH;;
-									lv_order.id= lv_aResult.PurchaseOrder;
-									lv_order.dealerCode = lv_aResult.ZZ1_DealerCode_PDH;
-									lv_order.createdOn = lv_aResult.CreationDate;
-									lv_order.scOrderType = 1; // always standard as in front view 									
-									orders.push(lv_order);
-								}
-							}
-								
-							callback(orders);
-						},
-						error: function(err){
-							callback([]);
-						}
-					}
-				);		
-			},
-	
-		    searchPartsOrders : function(conditions, isSalesOrder, callback){
-		    	var that = this;
-		    	if (!!isSalesOrder){
-		    		that._seacrhPartsSalesOrder(conditions, function(oList){
-		    			if (!!oList && oList.length > 0 ){
-		    				var finalList = [];
-		    				var currentItem = null;
-		    				var oldItem = null;
-		    				var currentKey = {};
-		    				currentKey.TCI_order_no = null;
-		    				currentKey.TCI_itemNo = null;
-		    				var aSLine = null;
-		    				var deliveryLine = null;
-		    				var fiLine = null;
-		    				
-		    				for (var i = 0; i < oList.length; i++){
-		    					currentItem = oList[i];
-		    					if (currentKey.TCI_order_no === currentItem.TCI_order_no && currentKey.TCI_itemNo === currentItem.TCI_itemNo){
-									//TODO										
-		    					} else {
-		    						if (!!oldItem ){
-		    							oldItem.deliv_no_str = oldItem.deliv_no_list.join('.');
-		    							oldItem.bill_no_str = oldItem.bill_no_list.join('.');                         
-		    							finalList.push(oldItem);
-		    						}
-		    						
-		    						oldItem = currentItem;
-		    						oldItem.subs = oldItem.sub_flag ==='YES' ? true: false;                         
-		    						oldItem.scheduleLines=[];
-		    						oldItem.deliv_no_list =[];                         
-		    						oldItem.bill_no_list =[];                         
-		    						// last 
-		    						currentKey.TCI_order_no = currentItem.TCI_order_no;
-		    						currentKey.TCI_itemNo = currentItem.TCI_itemNo;
-		    						
-		    					}
-								// prepare for the line items
-	    						if (!!currentItem.SOtoDeliv && !!currentItem.SOtoDeliv.results && currentItem.SOtoDeliv.results.length >0){
-	    							for(var x=0; x<currentItem.SOtoDeliv.results.length; x++ ){
-	    								deliveryLine = currentItem.SOtoDeliv.results[x];
-	    								if (!!deliveryLine ){
-   											aSLine = {};
-   											aSLine.deliv_itemNo = deliveryLine.deliv_itemNo;
-   											aSLine.deliv_no = deliveryLine.deliv_no;
-				    						oldItem.deliv_no_list.push(aSLine.deliv_no);
-
-   											aSLine.bill_itemNo = deliveryLine.bill_itemNo;
-   											aSLine.bill_no = deliveryLine.bill_no;
-				    						oldItem.bill_no_list.push(aSLine.bill_no);
-				    						
-   											aSLine.estm_deliv_date = that.s2date(deliveryLine.estm_deliv_dt);
-   											aSLine.deliv_qty = deliveryLine.deliv_qty;
-   											aSLine.cnf_qty = deliveryLine.cnf_qty;
-
-   											oldItem.scheduleLines.push(aSLine);
-	    								}
-	    								
-	    							}
-		    							
-	    						} 
-	    						currentItem = null; 
-		    				}
-		    				if (!!oldItem ){
-		    					finalList.push(oldItem);
-		    				}
-		    				callback(finalList);	
-		    				
-		    			} else {
-		    				callback([]);	
-		    			}
-		    		} );
-		    	} else {
-		    		
-		    	}
-		    	
-		    },
-
 			activateDraftOrder : function(iData, callBack){
 				var that = this;
 				var lv_hasError = false;
@@ -2725,75 +2874,6 @@ sap.ui.define([
 				} 
 			},
 
-
-			activateDraftXXO : function(uuid, index, isSalesOrder, callBack){
-				var that = this;
-				var bModel = null;
-				if (!!uuid){
-					if(!!isSalesOrder){
-						bModel = this.getSalesOrderModel();  //TODORY
-						// var key = bModel.createKey('/draft_soHeaderSet', {
-						// 	'HeaderDraftUUID' : uuid,
-						// 	'IsActiveEntity' : true
-						// });
-						// var entry = bModel.createEntry(key, {
-						// 	'HeaderDraftUUID' : uuid,
-						// 	'IsActiveEntity' : true
-						// });
-						// //var obj = entry.getObject();
-						var obj = {   "d":
-							{	'HeaderDraftUUID' : uuid,
-								'IsActiveEntity' : true,
-								'headerToItemDraft' : {
-    								'results' : [
-    									 {
-        								}
-    								]
-    							}
-							}
-						};
-
-						bModel.create('/draft_soHeaderSet', obj, {
-							success : function( oData, response){
-								// prepare aDraft
-								var aDraft = {};
-								// aDraft.SalesOrganization = oData.SalesOrg;
-								// aDraft.DistrChan = oData.DistributionChannel;
-								// aDraft.Division = oData.Division;
-								// aDraft.OrderType = oData.DocType;
-								// aDraft.DraftUUID = oData.HeaderDraftUUID;
-								// aDraft.Lines = 0;
-							}, 
-							error :  function(oError){
-								var err = oError;
-								// callback(data, false);
-							} 
-						});
-					} else {
-						bModel = this.getPurV2Model();
-
-						bModel.callFunction('/C_PurchaseOrderTPActivation', {
-							method : "POST",
-							urlParameters: {
-                		    	PurchaseOrder: '',
-                    			DraftUUID: uuid,
-                    			IsActiveEntity: false
-                    		},					
-							success : function( oData, oResponse){
-								var messageList = that._extractSapItemMessages(oResponse);
-								//var hasError = that._hasError(messageList);
-								//orderDraft.draftUuid = oData.DraftUUID;                         
-								callBack(oData.PurchaseOrder, index,  messageList );
-							}, 
-							error :  function(oError){
-								var messageList = that._extractSapErrorMessage(oError);
-								callBack(null, index, messageList);
-							} 
-						});
-					}
-				}
-			}, 
-			
 			validateDraft : function(uuid, index, callBack){
 				var that = this;
 				

@@ -22,9 +22,9 @@
 					<SearchField id="oidSearch" placeholder='{i18n>Placeholder.OrderNumber}' 
 						showRefreshButton = 'true'
 						search='onSearch'
-						width='60%' />	
-					<Button id="sortButton" type='Transparent' icon="sap-icon://sort" press="onExpandFilter" />							
-					<Button id="filterButton" type='Transparent' icon="sap-icon://filter" press="onExpandFilter" />							
+						width='400px' />	
+					<Button id="sortButton" type='Transparent' icon="sap-icon://customize" press="onExpandFilter" />							
+					<!--<Button id="filterButton" type='Transparent' icon="sap-icon://customize" press="onExpandFilter" />-->					
 				</content>
 			</Toolbar>
 	
@@ -78,16 +78,16 @@
 					<Column width="30%">
 						<Label text="{i18n>Lable.Order.Number}" />
 					</Column>
-					<Column	width="20%" minScreenWidth="Tablet"	demandPopin="true">
+					<Column	width="20%" minScreenWidth="Tablet"	demandPopin="true" hAlign="Begin">
 						<Label text="{i18n>Label.Order.Type}" />
 					</Column>
-					<Column	width="12em" minScreenWidth="Tablet"	demandPopin="true" hAlign="End">
+					<Column	width="20%" minScreenWidth="Tablet"	demandPopin="true" hAlign="Center">
 						<Label text="{i18n>Label.Order.Creation.Date}" />
 					</Column>
-					<Column	width="12em" minScreenWidth="Tablet"	demandPopin="false" hAlign="End">
+					<Column	width="20%" minScreenWidth="Tablet"	demandPopin="false" hAlign="Center">
 						<Label text="{i18n>Label.Order.Modification.Date}" />
 					</Column>
-					<Column	width="3em" hAlign="End">
+					<Column	width="40px" hAlign="Center">
 						<HBox justifyContent='End' alignItems='End'>
 							<core:Icon id="addButton" src="sap-icon://add" color='#00bfff'	press="onAdd" />	
 						</HBox>
@@ -113,10 +113,10 @@
 					>
 					<columns>
 						<Column width="30%"/>
-						<Column	width="20%" minScreenWidth="Tablet"	demandPopin="true"/>
-						<Column	width="12em" minScreenWidth="Tablet"	demandPopin="false" hAlign="End"/>
-						<Column	width="12em" minScreenWidth="Tablet"	demandPopin="true" hAlign="End"/>
-						<Column	width="3rem" hAlign="End"/>
+						<Column	width="20%" minScreenWidth="Tablet"	demandPopin="true" hAlign="Begin"/>
+						<Column	width="20%" minScreenWidth="Tablet"	demandPopin="false" hAlign="Center"/>
+						<Column	width="20%" minScreenWidth="Tablet"	demandPopin="true" hAlign="Center"/>
+						<Column	width="36px" hAlign="End"/>
 					</columns>
 					<items>
 						<ColumnListItem>
@@ -137,11 +137,8 @@
 						<Text text="" />
 					</content>
 				</Toolbar>
-
 			</ScrollContainer>
-			
 		</content>
-
 
 		<footer>
 			<OverflowToolbar>

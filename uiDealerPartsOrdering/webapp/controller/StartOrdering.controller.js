@@ -64,7 +64,7 @@ sap.ui.define([
 				var bpCode = appStateModel.getProperty('/selectedBP/bpNumber');
 				var orderListModel = this.getModel(CONT_OTLISTMODEL);
 				orderListModel.setProperty('/typeList', currentOrderTypeList);
-
+				that.setCurrentOrderTypeList(orderListModel);
  
 				this.getBusinessPartnersByID(bpCode, function(sData){
 					if(!!sData && !!sData.to_Customer ){
@@ -82,6 +82,7 @@ sap.ui.define([
 				 					currentOrderTypeList = [];
 				 				}
 				 				orderListModel.setProperty('/typeList', currentOrderTypeList);
+				 				that.setCurrentOrderTypeList(orderListModel);
 							});
 							
 						}
