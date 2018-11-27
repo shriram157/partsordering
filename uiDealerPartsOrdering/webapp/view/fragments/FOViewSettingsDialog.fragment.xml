@@ -1,0 +1,16 @@
+<core:FragmentDefinition
+		xmlns="sap.m"
+		xmlns:core="sap.ui.core">
+
+	<ViewSettingsDialog
+		id="viewSettingsDialog"
+		confirm="onConfirmViewSettingsDialog"
+		sortDescending="{viewModel>/sortDescending}">
+		<sortItems>
+			<ViewSettingsItem text="{i18n>Lable.Order.Number}" key="orderNumber" selected ='true' />
+			<ViewSettingsItem text="{i18n>Label.Order.Type}" key="scOrderType" />
+			<ViewSettingsItem text="{i18n>Label.Order.Creation.Date}" key="createdOn" />
+			<ViewSettingsItem text="{i18n>Label.Order.Modification.Date}" key="modifiedOn" />
+		</sortItems>
+	</ViewSettingsDialog>
+</core:FragmentDefinition>

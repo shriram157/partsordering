@@ -29,11 +29,15 @@ sap.ui.define([
 				this.orderTypeSelection = this.byId("orderType");
 				this.orderNumberSearch = this.byId('oidSearch');
 				//view model 
-				var viewState = { filterPanelEnable : false, contHigh : "85%", orders: []};
+				var viewState = { 
+					filterPanelEnable : false, 
+					sortDescending : false,
+					contHigh : "85%", orders: []};
 				var viewModel = new JSONModel();
 				viewModel.setData(viewState);
 				this.setModel(viewModel, CONST_VIEW_MODEL);
 				
+				this._oList = this.byId('idProductsTable');
 				this.checkDealerInfo();
 
 			},
@@ -52,6 +56,18 @@ sap.ui.define([
 				this.setModel(appStateModel);
 				this.refresh(this.orderNumberSearch.getValue());
 
+			},
+
+			onConfirmViewSettingsDialog : function(oEvent){
+				var mParams = oEvent.getParameters(),
+				sPath,
+				bDescending,
+				aSorters = [];
+				
+				sPath = mParams.sortItem.getKey();
+				bDescending = mParams.sortDescending;
+				aSorters.push(new sap.ui.model.Sorter(sPath, bDescending));
+				this._oList.getBinding("items").sort(aSorters);	
 			},
 			
 			onAdd : function(oEvent){
@@ -96,6 +112,17 @@ sap.ui.define([
 				 	viewModel.setProperty('/orders', results);
 				 	sap.ui.core.BusyIndicator.hide();
 				});
+			},
+			
+			onSetting : function(oEvent){
+				if (!this._oDialog) {
+					this._oDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.FOViewSettingsDialog", this);
+					this.getView().addDependent(this._oDialog);
+				}
+				this._oDialog.setModel(this.getView().getModel());
+				// toggle compact style
+				jQuery.sap.syncStyleClass("sapUiSizeCompact", this.getView(), this._oDialog);
+				this._oDialog.open();	
 			},
 			
 			onExpandFilter: function(oEvevt){

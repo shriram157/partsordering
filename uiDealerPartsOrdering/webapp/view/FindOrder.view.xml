@@ -23,17 +23,17 @@
 						showRefreshButton = 'true'
 						search='onSearch'
 						width='400px' />	
-					<Button id="sortButton" type='Transparent' icon="sap-icon://customize" press="onExpandFilter" />							
-					<!--<Button id="filterButton" type='Transparent' icon="sap-icon://customize" press="onExpandFilter" />-->					
+					<Button id="sortButton" type='Transparent' icon="sap-icon://sort" press="onSetting" />							
+					<Button id="filterButton" type='Transparent' icon="sap-icon://filter" press="onExpandFilter" />					
 				</content>
 			</Toolbar>
 	
 			<fb:FilterBar	reset="onReset" 
-							search="onSearch" 
 							showRestoreButton="true" 
-							showClearButton="true" 
+							showClearButton="false" 
 							useToolbar='false' 
-							showGoOnFB='fasle' 
+							showGoOnFB='fasle'
+							advancedMode = "true"							
 							visible="{viewModel>/filterPanelEnable}" 
 							showFilterConfiguration='false'>
 				<fb:filterItems>
