@@ -18,13 +18,15 @@
 		<content>
 			<Toolbar>
 				<content>
+					<Text text="{path : 'viewModel>/filteredItems', formatter:'.formatter.totalDraft' }" />
 					<ToolbarSpacer />
 					<SearchField id="oidSearch" placeholder='{i18n>Placeholder.OrderNumber}' 
 						showRefreshButton = 'true'
+						liveChange='onLiveChange'
 						search='onSearch'
-						width='400px' />	
+						width='450px' />	
 					<Button id="sortButton" type='Transparent' icon="sap-icon://sort" press="onSetting" />							
-					<Button id="filterButton" type='Transparent' icon="sap-icon://filter" press="onExpandFilter" />					
+					<Button id="filterButton" type='Transparent' icon="sap-icon://add-filter" press="onExpandFilter" />					
 				</content>
 			</Toolbar>
 	
@@ -42,33 +44,16 @@
 							<MultiComboBox id="orderType"
 								placeholder="{i18n>Label.Order.Type}"
 								selectionFinish="onSelectionFinishOT"
-								width="15%">
-									<items>
-										<core:Item  text="{i18n>order.type.standard}" 
-											key="1"/>
-									</items>
+								selectionChange="onSelectChangeOT"								
+								width="15%"
+								selectedKeys= "{viewModel>/filters/orderStates}"
+								items="{
+									path: 'viewModel>/orderTypeList'
+								}">
+								<core:Item key="{viewModel>code}" text="{viewModel>name}" />
 							</MultiComboBox>
 						</fb:control>				
 					</fb:FilterItem>
-				
-					<fb:FilterItem name="B" label="{i18n>Label.Order.Status}" visible = "fasle" labelTooltip="{i18n>Label.Order.Status}" mandatory="true">
-						<fb:control>
-							<MultiComboBox id="orderStatus"
-								placeholder="{i18n>Label.Order.Status}"
-								selectionFinish="onSelectionFinishOS"
-
-								width="15%">
-								<items>
-									<core:Item  text="Column headers"
-										key="ColumnHeaders"/>
-									<core:Item  text="Header Toolbar"
-										key="HeaderToolbar"/>
-									<core:Item  text="Info Toolbar"
-										key="InfoToolbar"/>
-								</items>
-							</MultiComboBox>
-						</fb:control>				
-					</fb:FilterItem>				
 				</fb:filterItems>
 	    	</fb:FilterBar>		
 	
@@ -103,6 +88,7 @@
 				focusable="true">
 				<Table	id="idProductsTable" 
 						mode='SingleSelectMaster'
+						updateFinished="onUpdateFinished"
 						items="{
 								path: 'viewModel>/orders',
 								sorter: {

@@ -1031,13 +1031,37 @@ sap.ui.define([
 				var that = this;
 				var bModel = this.getSalesOrderModel();
 				var oFilter = new Array();
+				var aFilter = null;
 				//oFilter[0] = new sap.ui.model.Filter("IsActiveEntity", sap.ui.model.FilterOperator.EQ, false );
 				oFilter[0] = new sap.ui.model.Filter("SoldtoParty", sap.ui.model.FilterOperator.EQ, bpNumber );
+				
 				if (!!conditions){
 					if(!!conditions.orderNumber){
 						oFilter[1] = new sap.ui.model.Filter("PurchNoC", sap.ui.model.FilterOperator.Contains, conditions.orderNumber );
 					}
 				}
+				
+				if (!!conditions.orderStates && conditions.orderStates.length > 0){ 
+					var ordersSts = [];
+					for (var x2 = 0; x2 < conditions.orderStates.length; x2++){
+						switch (conditions.orderStates[x2]){
+							case '1':
+								ordersSts.push(new sap.ui.model.Filter("DocType", sap.ui.model.FilterOperator.EQ, 'ZOR' ));
+								break;
+							case '2':
+								ordersSts.push(new sap.ui.model.Filter("DocType", sap.ui.model.FilterOperator.EQ, 'ZRO' ));
+								break;
+							case '3':
+								ordersSts.push(new sap.ui.model.Filter("DocType", sap.ui.model.FilterOperator.EQ, 'ZCO' ));
+								break;
+						}
+					}
+					if (ordersSts.length > 0){
+						aFilter = new sap.ui.model.Filter(ordersSts, false);
+						oFilter.push(aFilter);
+					}
+				}				
+
 
 				bModel.read('/draft_soHeaderSet', 
 					{ 
@@ -1177,8 +1201,7 @@ sap.ui.define([
  							callback(drafts);
 						},
 						error: function(err){
-							var eee = err;
-							// error handling here
+							callback(null);
 						}
 					}
 				);		
@@ -1249,13 +1272,13 @@ sap.ui.define([
 						for (var x2 = 0; x2 < conditions.orderStates.length; x2++){
 							switch (conditions.orderStates[x2]){
 								case '1':
-									partsSts.push(new sap.ui.model.Filter("doc_type", sap.ui.model.FilterOperator.EQ, 'ZOR' ));
+									ordersSts.push(new sap.ui.model.Filter("doc_type", sap.ui.model.FilterOperator.EQ, 'ZOR' ));
 									break;
 								case '2':
-									partsSts.push(new sap.ui.model.Filter("doc_type", sap.ui.model.FilterOperator.EQ, 'ZRO' ));
+									ordersSts.push(new sap.ui.model.Filter("doc_type", sap.ui.model.FilterOperator.EQ, 'ZRO' ));
 									break;
 								case '3':
-									partsSts.push(new sap.ui.model.Filter("doc_type", sap.ui.model.FilterOperator.EQ, 'ZCO' ));
+									ordersSts.push(new sap.ui.model.Filter("doc_type", sap.ui.model.FilterOperator.EQ, 'ZCO' ));
 									break;
 							}
 						}

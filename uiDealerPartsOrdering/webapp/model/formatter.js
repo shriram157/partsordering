@@ -99,6 +99,11 @@ sap.ui.define([
 				var resourceBundle = this.getResourceBundle();
 				return 	resourceBundle.getText('Label.CheckOrder.Totalparts', [lines]);			
 			},
+
+			totalDraft : function(lines){
+				var resourceBundle = this.getResourceBundle();
+				return 	resourceBundle.getText('Label.FindOrder.Total', [lines]);			
+			},
 			partNumberLabelFormat : function(typeB, typeD){
 				var resourceBundle = this.getResourceBundle();
 				if(!!typeB){

@@ -352,7 +352,7 @@ sap.ui.define([
 						}
 					}
 					if (!!filters.orderStates){
-						lc_index = filters.partsStates.indexOf('0');
+						lc_index = filters.orderStates.indexOf('0');
 						if(lc_index < 0){ // can not find
 							conditions.orderStates = filters.orderStates;
 						}
