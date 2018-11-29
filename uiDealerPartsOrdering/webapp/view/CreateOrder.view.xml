@@ -26,42 +26,6 @@ displayBlock="true" xmlns="sap.m">
 		</ObjectHeader>
 		
 		<content>
-		<!--
-			<Panel >
-				<content>
-					<HBox alignItems="Stretch" justifyContent="Start">
-						<VBox>
-							<Label text="{i18n>Lable.CreateOrder.OrderType}"/>	
-							<Input value="{orderModel>/orderTypeName}" width="90%" editable='false' />
-						</VBox>
-						<VBox>
-							<Label text="{i18n>Lable.CreateOrder.OrderNumber}"/>	
-							<Input value="{orderModel>/tciOrderNumber}" width="90%" editable='false' />
-						</VBox>
-						<VBox>
-							<Label text="{i18n>Lable.CreateOrder.CreateDate}"/>									
-							<DatePicker value="{
-								path : 'orderModel>/createDate',
-								type:'sap.ui.model.type.DateTime', 
-								formatOptions: { format: 'yyyyMMMddHHmm', strictParsing: true }
-								}" width="90%" editable='false' />
-						</VBox>
-						<VBox>
-							<Label text="{i18n>Lable.CreateOrder.ModifiedOn}"/>									
-							<DatePicker value="{
-								path : 'orderModel>/createDate',
-								type:'sap.ui.model.type.DateTime', 
-								formatOptions: { format: 'yyyyMMMddHHmm', strictParsing: true }
-								}" width="90%" editable='false' />
-						</VBox>
-						<VBox>
-							<Label text="{i18n>Lable.CreateOrder.OrderLines}"/>									
-							<Input value="{orderModel>/totalLines}" width="90%" editable='false' />
-						</VBox>
-					</HBox>
-				</content>
-			</Panel>
-		-->
 			<Table	id="idProductsTableHeader" 
 					showNoData="false" 
 					items="{orderModel>/newline}">
@@ -70,21 +34,20 @@ displayBlock="true" xmlns="sap.m">
 						<CheckBox select='toggleSelect'/>
 						<!--<Button  type='Reject' icon="sap-icon://delete" press='handleDeletePart' />-->
 					</Column>
-					<Column width="10rem" >
+					<Column width="10rem" vAlign="Middle">
 						<ObjectIdentifier title="{i18n>Lable.CreateOrder.PartNumber}" 
-								text="{parts: [{path:'orderModel>/typeB'}, {path: 'orderModel>/typeD'}], formatter:'.formatter.partNumberLabelFormat' }"
-						/>
+								text="{parts: [{path:'orderModel>/typeB'}, {path: 'orderModel>/typeD'}], formatter:'.formatter.partNumberLabelFormat' }" />
 					</Column>
 					<Column width="14rem" >
 						<ObjectIdentifier title="{i18n>Lable.CreateOrder.PartDesc}" 
 								text="{parts: [{path:'orderModel>/typeB'}, {path: 'orderModel>/typeD'}], formatter:'.formatter.partDescLabelFormat' }"
 						/>
 					</Column>
-					<Column width="3rem" >
+					<Column width="3rem" vAlign="Middle">
 						<ObjectIdentifier title="{i18n>Lable.CreateOrder.SPQ}" />
 					</Column>
-					<Column width="6rem" >
-						<ObjectIdentifier title="{i18n>Lable.CreateOrder.qty}" />
+					<Column width="6rem"  vAlign="Middle">
+						<ObjectIdentifier title="{i18n>Lable.CreateOrder.Order}" text="{i18n>Lable.CreateOrder.qty}"/>
 					</Column>
 					<Column width="100%">
 						<HBox  justifyContent='SpaceBetween' width = '100%'>
@@ -99,7 +62,7 @@ displayBlock="true" xmlns="sap.m">
 						minScreenWidth="Tablet"
 						demandPopin="true" vAlign="Middle"
 						hAlign="End">
-						<Button id="addButtonx" type="Transparent" icon="sap-icon://sort"	press="onImport" />	
+						<Button id="addButtonx" type="Transparent" icon="sap-icon://sort"	press="onSort" />	
 					</Column>
 				</columns>
 				<items>

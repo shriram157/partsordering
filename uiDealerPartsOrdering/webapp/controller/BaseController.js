@@ -486,9 +486,9 @@ sap.ui.define([
 							return 'ZOR'; // as the default? 
 					}	
 				} else {
-					if ('NORM' === itemCG){
+					if ('BANS' === itemCG){
 						return 'NB';
-					} else if ('BANS' === itemCG){
+					} else if ('NORM' === itemCG){
 						 return 'UB';
 					} else {
 						return 'NB'; // default
@@ -2368,6 +2368,7 @@ sap.ui.define([
 					obj.DealerCode = data.dealerCode;
 					obj.DealerOrderNo = data.tciOrderNumber;
 					obj.Doc_Type = lv_orderType;
+
 					
 					// do we nee it?
 					obj.Comp_Code = data.newline[0].companyCode;  
@@ -2376,15 +2377,17 @@ sap.ui.define([
 					//TODO
 					if ('UB' === lv_orderType ){
 		//				obj.Supplier = data.revPlant;
-						obj.Suppl_Plnt ='7300';
-						obj.Currency= "USD";
-						obj.Pur_Group = "150";
+						obj.Suppl_Plnt = data.stoSupplyingPlant;
+						obj.Currency= data.documentCurrency;
+		//				obj.Currency= "USD";
+		//				obj.Pur_Group = "150";
 					} else if ('NB' === lv_orderType){
 						//fake the data					
-						obj.Comp_Code = "2014";
-						obj.Currency= "USD";
-						obj.Pur_Group = "500";
-						lv_supplier = "T2030";
+		//				obj.Comp_Code = "2014";
+		//				obj.Currency= "USD";
+		//				obj.Pur_Group = "500";
+		//				lv_supplier = "T2030";
+						obj.Currency= data.newline[0].currency;
 						obj.Vendor = lv_supplier;
 					}
 
@@ -2439,9 +2442,11 @@ sap.ui.define([
 				if ('UB' === orderType ){
 					obj.Plant = data.revPlant;          
 					obj.Stge_Loc = data.sloc;
-					obj.Plant = "6000";          
+//					obj.Plant = "6000";          
 				} else if ('NB' === orderType){
-					obj.Plant = "6000";          
+//					obj.Plant = "6000";          // Should I pass the sloc?
+					obj.Plant = data.revPlant;          
+					obj.Stge_Loc = data.sloc;
 					//obj.PurchasingInfoRecord=data.newline[0].purInfoRecord;
 				}
 				

@@ -1,0 +1,15 @@
+<core:FragmentDefinition
+		xmlns="sap.m"
+		xmlns:core="sap.ui.core">
+
+	<ViewSettingsDialog
+		id="viewSettingsDialog"
+		confirm="onConfirmViewSettingsDialog"
+		sortDescending="{viewModel>/sortDescending}"
+		sortItems = "{path: 'viewModel>/columnList'}"
+		>
+		<sortItems>
+			<ViewSettingsItem text="{viewModel>name}" key="{viewModel>code}" />
+		</sortItems>
+	</ViewSettingsDialog>
+</core:FragmentDefinition>

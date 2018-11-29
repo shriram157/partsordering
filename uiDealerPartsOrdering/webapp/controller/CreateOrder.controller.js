@@ -33,7 +33,10 @@ sap.ui.define([
     	        oMessageManager.registerObject(this.getView(), true);
 	
 				//view model 
-				var viewState = { filterPanelEnable : false, contHigh : "60%"};
+				var viewState = { 
+					filterPanelEnable : false, 
+					columnList : [],
+					contHigh : "60%"};
 				var viewModel = new JSONModel();
 				viewModel.setData(viewState);
 				this.setModel(viewModel, CONST_VIEW_MODEL);
@@ -77,6 +80,8 @@ sap.ui.define([
 					model.setProperty('/companyCode', companyCode);
 					//orderData.companyCode = companyCode;
 				});
+
+
 
 				this.getCustomerById(orderData.purBpCode, function(data){
 					// the default supplying plant for STO only 
@@ -134,6 +139,28 @@ sap.ui.define([
 					sap.ui.core.BusyIndicator.hide();
 				});				
 			}, 
+
+			onSort : function(oEvent){
+				if (!this._oDialog) {
+					this._oDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.COViewSettingsDialog", this);
+					this.getView().addDependent(this._oDialog);
+				}
+
+				var viewModel  = this.getModel(CONST_VIEW_MODEL);				
+				var list = [];
+				// var item = {} ;
+				// item.code = 'SSSS';
+				// item.name = 'SSSS1';
+				
+				// list.push(item);
+				viewModel.setProperty("/columnList", list);				
+				
+				
+				this._oDialog.setModel(this.getView().getModel());
+				// toggle compact style
+				jQuery.sap.syncStyleClass("sapUiSizeCompact", this.getView(), this._oDialog);
+				this._oDialog.open();	
+			},
 
 			initLocalModels : function(orderType, orderNum){
 				// default mode
