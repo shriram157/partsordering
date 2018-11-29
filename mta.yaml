@@ -1,7 +1,7 @@
 ID: XSA_DealerPartsOrderingPartsOrderStatusInq
 _schema-version: '2.1'
 description: 'The Dealer parts Ordering and Parts Status Inquiry application '
-version: 0.0.2
+version: 0.0.3
 modules:
   - name: nodeSrvDPOPSI
     type: nodejs

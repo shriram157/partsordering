@@ -1,0 +1,16 @@
+{
+	"LOGGING_LEVEL": 1,
+	"ENDPOINTS": {
+		"DESTINATION_DG2": {
+			"proto": "https",
+			"host": "sapqa.apimanagement.ca1.hana.ondemand.com",
+			"prefix": "/sap/opu/odata/sap/",
+			"port": 443,
+			"client": 200,
+			"authType": "APIKEY",
+			"apiKey": "qdVSvATskip9WKN8yNUfOoXKGMFVyWDB",
+			"userName": "SYS_CON_APPS",
+			"password": "Odata@123"
+		}
+	}
+}
