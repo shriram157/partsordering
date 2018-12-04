@@ -1,12 +1,12 @@
 {
-  "welcomeFile": "/uiDealerPartsOrdering/index.html",
+  "welcomeFile": "/partsOrdering/index.html",
   "authenticationMethod": "route",
   "logout": {
     "logoutEndpoint": "/do/logout"
   },
   "routes": [
     {
-      "source": "^/uiDealerPartsOrdering/(.*)$",
+      "source": "^/partsOrdering/(.*)$",
       "target": "$1",
       "localDir": "webapp",
       "authenticationType": "none"      
@@ -24,4 +24,4 @@
 		"authenticationType": "none"
     }    
   ]
-}
+}  

@@ -1282,8 +1282,14 @@ sap.ui.define([
 									break;
 							}
 						}
-						aFilter = new sap.ui.model.Filter(ordersSts, false);
-						oFilter.push(aFilter);
+						if (!!ordersSts && ordersSts.length > 0){
+							if (ordersSts.length === 1){
+								oFilter.push(ordersSts[0]);
+							} else {
+								aFilter = new sap.ui.model.Filter(ordersSts, false);
+								oFilter.push(aFilter);
+							}
+						}
 					}				
 					
 				}
