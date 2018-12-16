@@ -25,7 +25,7 @@ sap.ui.define([
 				var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 				oRouter.getRoute("StartOrdering").attachPatternMatched(this._onObjectMatched, this);
 
-				this.checkDealerInfo();
+				//this.checkDealerInfo();
 
 				var currentOrderTypeList = { displayUi : true, typeList : []	};
 				var orderTypeListModel =  new sap.ui.model.json.JSONModel();
@@ -36,61 +36,118 @@ sap.ui.define([
 				this.orderNumberField = this.byId("orderNumberInput");
 				var lv_headerMeneMode = this.getHeaderMenuModel(); 
 				this.setModel(orderTypeListModel, CONT_HEADERMODEL);
+				
+				this.init();
 			},
 
-			_onObjectMatched: function (oEvent) {
+			init : function(){
 				var that = this;
-				if (!this.checkDealerInfo()){
-					return false;
-				}
 				var appStateModel = this.getStateModel();
 				appStateModel.setProperty('/tabKey', 'CO');
 				
 				// find the proper user type related info
 				var appStateModel = this.getModel();
-				var userType = appStateModel.getProperty('/userInfo/userType');
 				
+				var userProfile = appStateModel.getProperty('/userProfile');
 				var viewDataModel =	this.getUserTypeSelectionModel();
 				var viewData = viewDataModel.getData();
+				
+				var bpCode = null;
+				var userType = null;
+				var dealerType = null;
+				var zGroup = null;
+				var customer = null;
 
 				var currentOrderTypeList = [];
-				for (var i=0; i< viewData.userTypes.length; i++){
-					if(userType === viewData.userTypes[i].type){
-						currentOrderTypeList = viewData.userTypes[i].orderTypeList;
-					}
-				}
-				
-				// default
-				var bpCode = appStateModel.getProperty('/selectedBP/bpNumber');
 				var orderListModel = this.getModel(CONT_OTLISTMODEL);
-				orderListModel.setProperty('/typeList', currentOrderTypeList);
-				that.setCurrentOrderTypeList(orderListModel);
- 
-				this.getBusinessPartnersByID(bpCode, function(sData){
-					if(!!sData && !!sData.to_Customer ){
-						var zGroup = sData.BusinessPartnerType;
-						var dealerType = sData.to_Customer.Attribute1;
+				if (!!userProfile && !!userProfile.loaded ){
+					this.getBusinessPartnersByDealerCode(userProfile.dealerCode, function(sData){
+						bpCode = sData.BusinessPartner;
+						appStateModel.setProperty('/selectedBP/bpNumber', bpCode);
+						appStateModel.setProperty('/selectedBP/bpName', sData.BusinessPartnerName);
+						appStateModel.setProperty('/selectedBP/dealerCode', userProfile.dealerCode);
+						appStateModel.setProperty('/selectedBP/customer', sData.Customer);		
+						
+						zGroup = sData.BusinessPartnerType;
+						dealerType = sData.to_Customer.Attribute1;
 						appStateModel.setProperty('/selectedBP/bpType', dealerType );
 						appStateModel.setProperty('/selectedBP/bpGroup', zGroup );
-						if ('Z001' === zGroup ){
 
+						// get the user type
+						userType =	that.getInternalUserType(userProfile.userType, zGroup);	
+						appStateModel.setProperty('/userInfo/userType', userType );
+						if ('Z001' === zGroup){
 							// redefine the order list 
 							that.getSalesDocTypeByBPCode(bpCode, dealerType, function(lData){
 								if(!!lData){
 									currentOrderTypeList = lData;
-				 				} else {
-				 					currentOrderTypeList = [];
-				 				}
-				 				orderListModel.setProperty('/typeList', currentOrderTypeList);
-				 				that.setCurrentOrderTypeList(orderListModel);
+			 					} else {
+			 						currentOrderTypeList = [];
+			 					}
+			 					orderListModel.setProperty('/typeList', currentOrderTypeList);
+			 					that.setCurrentOrderTypeList(orderListModel);
 							});
-							
+						} else {
+							for (var i=0; i< viewData.userTypes.length; i++){
+								if(userType === viewData.userTypes[i].type){
+									currentOrderTypeList = viewData.userTypes[i].orderTypeList;
+								}
+							}
+							orderListModel.setProperty('/typeList', currentOrderTypeList);
+							that.setCurrentOrderTypeList(orderListModel);
+						}
+					});
+					
+				} else {
+					var userType = appStateModel.getProperty('/userInfo/userType');
+
+				
+					for (var i=0; i< viewData.userTypes.length; i++){
+						if(userType === viewData.userTypes[i].type){
+							currentOrderTypeList = viewData.userTypes[i].orderTypeList;
 						}
 					}
-				});
-				
+			
+					// default
+					bpCode = appStateModel.getProperty('/selectedBP/bpNumber');
+					orderListModel.setProperty('/typeList', currentOrderTypeList);
+					that.setCurrentOrderTypeList(orderListModel);
+					
+ 
+					this.getBusinessPartnersByID(bpCode, function(sData){
+						if(!!sData && !!sData.to_Customer ){
+							zGroup = sData.BusinessPartnerType;
+							dealerType = sData.to_Customer.Attribute1;
+							appStateModel.setProperty('/selectedBP/bpType', dealerType );
+							appStateModel.setProperty('/selectedBP/bpGroup', zGroup );
+							if ('Z001' === zGroup ){
 
-				//var oItem = this.byId('iconTabHeader');
+								// redefine the order list 
+								that.getSalesDocTypeByBPCode(bpCode, dealerType, function(lData){
+									if(!!lData){
+										currentOrderTypeList = lData;
+				 					} else {
+				 						currentOrderTypeList = [];
+				 					}
+				 					orderListModel.setProperty('/typeList', currentOrderTypeList);
+				 					that.setCurrentOrderTypeList(orderListModel);
+								});
+							
+							}
+						}
+					});
+					
+				}
+				
+			},
+			
+			_onObjectMatched: function (oEvent) {
+				var that = this;
+				if (!this.checkDealerInfo()){
+					return false;
+				}
+				
+				this.init();
 			},
 			
 			onOrderTypeChange : function(event){

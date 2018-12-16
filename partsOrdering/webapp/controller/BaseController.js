@@ -76,6 +76,28 @@ sap.ui.define([
 			/**
 			 * Start of local models
 			 */
+			getInternalUserType: function(exteranlUT, dealerType ){
+				var internalUT = null;
+				if (!!exteranlUT ){
+					if(exteranlUT.trim(). toLowerCase() === 'dealer'){
+						switch (dealerType){
+							case "Z004" : 
+								internalUT = "001";
+								break;
+							case "Z005" : 
+								internalUT = "002";
+								break;
+							case "Z001" : 
+								internalUT = "003";
+								break;
+						}
+					} else { // should be internal 
+						internalUT = '000';
+					}
+				}
+				return internalUT;
+			}, 
+			
 			createUserTypeModel : function() {
 				var resourceBundle = this.getResourceBundle();
 				var viewDatas = { userTypes : [
@@ -173,8 +195,8 @@ sap.ui.define([
 					var resourceBundle = this.getResourceBundle();
 					var jsonData = {headeremuList : [
 							{key : "001", name : resourceBundle.getText('headerMenu.CreateOrder')},
-							{key : "001", name : resourceBundle.getText('headerMenu.FindOrder')},
-							{key : "001", name : resourceBundle.getText('headerMenu.CheckOrderStatus')}
+							{key : "002", name : resourceBundle.getText('headerMenu.FindOrder')},
+							{key : "003", name : resourceBundle.getText('headerMenu.CheckOrderStatus')}
 						]};
 					dataModel = new sap.ui.model.json.JSONModel();
 					dataModel.setData(jsonData);
@@ -432,7 +454,7 @@ sap.ui.define([
 				}
 				if (hasError){
 					sap.ui.getCore().getMessageManager().removeAllMessages();
-					this.getRouter().navTo("Login", null, false);
+					this.getRouter().navTo("StartOrdering", null, false);
 					return false;
 				} else {
 					return true;
@@ -901,6 +923,50 @@ sap.ui.define([
 					}
 				);		
 			},
+
+			getBusinessPartnersByDealerCode : function(dealerCode, callback){
+				var oFilter = new Array();
+				oFilter[0] = new sap.ui.model.Filter("SearchTerm2", sap.ui.model.FilterOperator.EQ, dealerCode );
+				oFilter[1] = new sap.ui.model.Filter(
+						[ 
+							new sap.ui.model.Filter("BusinessPartnerType", sap.ui.model.FilterOperator.EQ, 'Z001'),
+							new sap.ui.model.Filter("BusinessPartnerType", sap.ui.model.FilterOperator.EQ, 'Z004'),
+							new sap.ui.model.Filter("BusinessPartnerType", sap.ui.model.FilterOperator.EQ, 'Z005')
+						], false);
+
+				var bModel = this.getApiBPModel();
+				bModel.read('/A_BusinessPartner',
+					{ 
+						filters:  oFilter,
+						urlParameters: {
+    		 				// "$select": "BusinessPartnerType,BusinessPartner,BusinessPartnerName"
+    		 				"$expand" : "to_Customer"
+						},
+						success:  function(oData, oResponse){
+							if (!!oData && !!oData.results && oData.results.length > 0 ){
+								var bpRecord = null;
+								for (var x1 = 0; x1 < oData.results.length; x1++ ){
+									bpRecord = oData.results[x1];
+									if (!!bpRecord && bpRecord.zstatus !== 'X'){
+										break;
+									} else {
+										bpRecord = null;
+									}
+								}
+								callback(bpRecord);
+							} else {
+								// error handleing 
+								callback(null);
+							}	
+						},
+						error: function(err){
+							// error handling here
+							callback(null);
+						}
+					}
+				);		
+			},
+
 			
 			getBusinessPartnersByID : function(id, callback){
 				var bModel = this.getApiBPModel();

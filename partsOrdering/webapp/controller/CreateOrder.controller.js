@@ -269,8 +269,22 @@ sap.ui.define([
 				this._oPopover.bindElement("orderModel>" +path);
 				this._oPopover.openBy(oEvent.getSource());
 			},
-			
+
 			showDraftItemInfo : function(oEvent){
+				var vModel = this.getModel(); // get the view model
+
+				var root = vModel.getProperty('/appLinkes/PARTS_AVAILIBILITY');
+				var lang = vModel.getProperty('/userProfile/language');
+				var div = vModel.getProperty('/userProfile/division');
+
+				var partsNumber =  oEvent.getSource().getBindingContext('orderModel').getProperty('partNumber');
+
+				var url = root+"index.html?partNumber="+partsNumber+"&Division="+div+"+&Language="+lang;
+				var win = window.open(url, 'PartsAvailibility');
+				win.focus();
+			},
+			
+			showDraftItemInfoX : function(oEvent){
 				if (!this._oToolTipPopover) {
 					this._oToolTipPopover = sap.ui.xmlfragment(this.getView().getId() + "-rowTooltip", "tci.wave2.ui.parts.ordering.view.fragments.TooltipPopover", this);
 					this.getView().addDependent(this._oToolTipPopover);

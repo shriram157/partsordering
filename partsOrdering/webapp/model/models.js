@@ -27,12 +27,28 @@ sap.ui.define([
 						dealerCode : "",
 						bpNumber :"",
 						bpName : ""	,
+						bpGroup : "",
+						dealerType : "",
 						customer : ''
+					},
+					userProfile : {
+						loaded : false,
+						firstName :'',
+						lastName  :'',
+						dealerCode : '',
+						language : '',
+						userType  : '',
+						division : '',
+						email : ''						
 					},
 					selectedOrderMeta : {
 						order_type : "",
 						order_name : "",
 						order_id :""
+					},
+					appLinkes : {
+						loaded : false,
+						PARTS_AVAILIBILITY : ''
 					}
 				};
 				odataModel = new sap.ui.model.json.JSONModel();

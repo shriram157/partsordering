@@ -12,5 +12,8 @@
 			"userName": "SYS_CON_APPS",
 			"password": "Odata@123"
 		}
+	},
+	"APPLINKS" : {
+		"PARTS_AVAILIBILITY" : "https://partsavailability.cfapps.us10.hana.ondemand.com/partsavailability/" 
 	}
 }

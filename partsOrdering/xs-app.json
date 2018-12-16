@@ -9,19 +9,19 @@
       "source": "^/partsOrdering/(.*)$",
       "target": "$1",
       "localDir": "webapp",
-      "authenticationType": "none"      
+      "authenticationType": "xsuaa"
     },
     {
       "source": "/node(.*)",
       "destination": "core-node-backend",
       "csrfProtection": false,
-      "authenticationType": "none"
+      "authenticationType": "xsuaa"
     },
     {
 		"source": "/sap/opu/odata/sap/(.*)",
 		"destination": "core-node-backend",
 		"csrfProtection" : false,
-		"authenticationType": "none"
+		"authenticationType": "xsuaa"
     }    
   ]
 }  

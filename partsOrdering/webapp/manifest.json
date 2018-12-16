@@ -295,7 +295,7 @@
 			"routes": [{
 				"pattern": "",
 				"name": "Default",
-				"target": ["Login"]
+				"target": ["StartOrdering"]
 			}, {
 				"pattern": "StartOrdering",
 				"name": "StartOrdering",

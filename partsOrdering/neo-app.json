@@ -27,6 +27,14 @@
         "entryPath": "/sap/opu/odata"
       },
       "description": "DG2 200"
+    },
+    {
+      "path": "/nodezz",
+      "target": {
+        "type": "destination",
+        "name": "sf1H4f11leOa64ntartsOrdering-node"
+      },
+      "description": "sf1H4f11leOa64ntartsOrdering-node"
     }
   ],
   "sendWelcomeFileRedirect": true

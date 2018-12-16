@@ -2,5 +2,6 @@
 "use strict";
 
 module.exports = (app, server) => {
-	app.use("/node/os", require("./routes/env")());
+	app.use("/node/os", require("./routes/os")());
+	app.use('/node/env', require('./routes/env')());
 };

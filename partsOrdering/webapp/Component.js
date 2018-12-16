@@ -18,6 +18,7 @@ sap.ui.define([
 		 * @override
 		 */
 		init: function() {
+			var that = this;
 			// call the base component's init function
 			UIComponent.prototype.init.apply(this, arguments);
 
@@ -27,13 +28,139 @@ sap.ui.define([
 			
 			// set the device model
 			this.setModel(models.createDeviceModel(), "device");
+
+			sap.ui.core.BusyIndicator.show(0);			
+			var division = jQuery.sap.getUriParameters().get('Division');
+			var lang = jQuery.sap.getUriParameters().get('Language');
 			
-			
+			var appMode = models.getAppStateModel();
+			this.setModel(appMode, "ApplicationMode");
+
 			// Parse the current url and display the targets of the route that matches the hash
 			this.getRouter().initialize();
+			
+			this.loadUserProfile(function(userData){
+				var userProfile ={};
+				userProfile.loaded = true;          
 
+				if (!!userData && !!userData.userContext && !!userData.userContext.userAttributes){
+					//var appMode = that.getModel('ApplicationMode');
+					if (!!userData.userContext.userAttributes.DealerCode && userData.userContext.userAttributes.DealerCode.length > 0){
+						userProfile.dealerCode = userData.userContext.userAttributes.DealerCode[0];        
+					}
+
+					// only two lang					
+					if (!!lang ){
+						lang = lang.trim().toLowerCase();
+						if ('fr' === lang){
+							userProfile.language ="fr";
+						} else {
+							userProfile.language ="en";
+						}
+					} else {
+						if (!!userData.userContext.userAttributes.Language && userData.userContext.userAttributes.Language.length > 0){
+							lang = userData.userContext.userAttributes.Language[0];
+							if (!!lang){
+								lang = lang.trim().toLowerCase();
+								if ('french' === lang){
+									userProfile.language ="fr";
+								} else {
+									userProfile.language ="en";
+								}
+							}
+						}
+					}
+					
+					if(!!userProfile.language){
+						// only set the locale is the lang is set, 
+						sap.ui.getCore().getConfiguration().setLanguage(userProfile.language);
+					}
+					
+					
+					if (!!userData.userContext.userAttributes.UserType && userData.userContext.userAttributes.UserType.length > 0){
+						userProfile.userType = userData.userContext.userAttributes.UserType[0];        
+					}
+					
+					if(!!userData.userContext.userInfo){
+						userProfile.email = userData.userContext.userInfo.email;
+						userProfile.familyName = userData.userContext.userInfo.familyName;
+						userProfile.givenName = userData.userContext.userInfo.givenName;
+						userProfile.logonName = userData.userContext.userInfo.logonName;
+					}
+					
+					if (!!division){
+						userProfile.division = 	division;
+					} else {
+						userProfile.division = 	'';
+					}					
+					
+
+					appMode.setProperty("/userProfile", userProfile);
+				}
+				
+				if (that.isAppModelLoaded() ){
+					sap.ui.core.BusyIndicator.hide();
+				}
+			});
+			
+			this.loadConfiguration(function(configurationData){
+				var appLinkes = {};
+				appLinkes.loaded = true;
+				if (!!configurationData && !!configurationData.api.APPLINKS ){
+					appLinkes.PARTS_AVAILIBILITY = configurationData.api.APPLINKS.PARTS_AVAILIBILITY;
+					appMode.setProperty("/appLinkes", appLinkes);
+				}
+				if (that.isAppModelLoaded() ){
+					sap.ui.core.BusyIndicator.hide();
+				}				
+			});
 		},
 		
+	    getAppMode : function(){
+	    	return this.getModel('ApplicationMode');
+	    }, 
+	    
+	    isAppModelLoaded : function(){
+	    	var isLoaded = false;
+	    	var appMode = this.getModel('ApplicationMode');
+	    	if (!!appMode && !!appMode.getData()){
+	    		var appData = appMode.getData();
+	    		if( !!appData.userProfile && !!appData.userProfile.loaded && !!appData.appLinkes && !!appData.appLinkes.loaded  ){
+	    			isLoaded = true;
+	    		}
+	    	}
+	    	return isLoaded;
+	    }, 
+	    
+		loadUserProfile : function(callbackFunc){
+			var that = this;
+			$.ajax({
+				url: "/node/env/userProfile",
+				type: "GET",
+				dataType: "json",
+				success: function (oData,a,b) {
+					callbackFunc(oData);
+				},
+				error: function (response) {
+					callbackFunc(null);
+				}
+			});
+		},
+		
+		loadConfiguration : function(callbackFunc){
+			var that = this;
+			$.ajax({
+				url: "/node/env/configuration",
+				type: "GET",
+				dataType: "json",
+				success: function (oData,a,b) {
+					callbackFunc(oData);
+				},
+				error: function (response) {
+					callbackFunc(oData);
+				}
+			});
+		},
 		/**
 		 * The component is destroyed by UI5 automatically.
 		 * In this method, the ErrorHandler is destroyed.
