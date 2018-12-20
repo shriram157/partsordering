@@ -1,7 +1,7 @@
 ID: XSA_DealerPartsOrderingPartsOrderStatusInq
 _schema-version: '2.1'
 description: The Dealer parts Ordering and Parts Status Inquiry application
-version: 0.2.16
+version: 0.3.1
 modules:
   - name: partsOrdering
     type: html5
@@ -37,6 +37,7 @@ modules:
           url: '${default-url}'
     requires:
       - name: PARTS_ORDERING_APIM_CUPS
+      - name: cf-logging_partsOrdering      
       - name: uaa_partsOrdering
       
 resources:

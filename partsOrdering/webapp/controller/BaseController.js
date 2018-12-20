@@ -69,7 +69,7 @@ sap.ui.define([
 					if (sPreviousHash !== undefined) {
 					history.go(-1);
 				} else {
-					this.getRouter().navTo("Login", null, true);
+	//				this.getRouter().navTo("Login", null, true);
 				}
 			},
 			
@@ -248,7 +248,7 @@ sap.ui.define([
 			},
 
 			handleLogout : function(oEvent){
-				this.getRouter().navTo("Login", null, false);
+			//	this.getRouter().navTo("Login", null, false);
 				
 			},
 
@@ -1291,10 +1291,10 @@ sap.ui.define([
 						oFilter.push(aFilter);
 					}
 					if(!!conditions.deleveryNumber){
-						oFilter.push(new sap.ui.model.Filter("deliv_no", sap.ui.model.FilterOperator.EQ, conditions.deleveryNumber ));		
+						oFilter.push(new sap.ui.model.Filter("deliv_no", sap.ui.model.FilterOperator.EQ, conditions.deleveryNumber.padStart(10,'0')));		
 					}
 					if(!!conditions.fiNumber){
-						oFilter.push(new sap.ui.model.Filter("bill_no", sap.ui.model.FilterOperator.EQ, conditions.fiNumber ));		
+						oFilter.push(new sap.ui.model.Filter("bill_no", sap.ui.model.FilterOperator.EQ, conditions.fiNumber.padStart(10,'0') ));		
 					}
 					
 					
@@ -2804,10 +2804,10 @@ sap.ui.define([
 				oFilter[0] = new sap.ui.model.Filter("dealer_code", sap.ui.model.FilterOperator.EQ, dealerCode );
 				if (!!exactMode ){
 					if(!!conditions.tciOrderNumber){
-						oFilter.push(new sap.ui.model.Filter("TCI_order_no", sap.ui.model.FilterOperator.EQ, conditions.tciOrderNumber ));		
+						oFilter.push(new sap.ui.model.Filter("TCI_order_no", sap.ui.model.FilterOperator.EQ, conditions.tciOrderNumber.padStart(10,'0') ));		
 					}
 					if(!!conditions.deleveryNumber){
-						oFilter.push(new sap.ui.model.Filter("deliv_no", sap.ui.model.FilterOperator.EQ, conditions.deleveryNumber ));		
+						oFilter.push(new sap.ui.model.Filter("deliv_no", sap.ui.model.FilterOperator.EQ, conditions.deleveryNumber.padStart(10,'0') ));		
 					}
 					// if(!!conditions.fiNumber){
 					// 	oFilter.push(new sap.ui.model.Filter("TCI_order_no", sap.ui.model.FilterOperator.EQ, conditions.fiNumber ));		

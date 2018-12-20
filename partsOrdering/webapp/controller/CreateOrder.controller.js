@@ -279,7 +279,7 @@ sap.ui.define([
 
 				var partsNumber =  oEvent.getSource().getBindingContext('orderModel').getProperty('partNumber');
 
-				var url = root+"index.html?partNumber="+partsNumber+"&Division="+div+"+&Language="+lang;
+				var url = root+"index.html?partNumber="+partsNumber+"&Division="+div+"&Language="+lang;
 				var win = window.open(url, 'PartsAvailibility');
 				win.focus();
 			},

@@ -28,7 +28,7 @@
 						search = 'onSearch'
 						width='500px' />	
 					<Button id="settingButton"  icon="sap-icon://sort" type="Transparent" press="onSetting" />							
-					<Button id="filterButton"  icon="sap-icon://add-filter" type="Transparent" press="onExpandFilter" />							
+					<Button id="filterButton"  icon="sap-icon://collapse" type="Transparent" press="onExpandFilter" />							
 				</content>
 			</Toolbar>
 	
@@ -53,12 +53,12 @@
 					</fb:FilterItem>
 					<fb:FilterItem name="orderNumber" label="{i18n>Label.CheckOrder.DealerOrder}" labelTooltip="{i18n>Label.CheckOrder.DealerOrder}" >
 						<fb:control>
-							<Input value="{viewModel>/filters/orderNumber}" enabled="{viewModel>/filterAll}" placeholder="{i18n>Label.CheckOrder.DealerOrder}" width="15%"></Input>
+							<Input value="{viewModel>/filters/orderNumber}" enabled="{viewModel>/filterAllx}" placeholder="{i18n>Label.CheckOrder.DealerOrder}" width="15%"></Input>
 						</fb:control>				
 					</fb:FilterItem>
 					<fb:FilterItem name="partNumber" label="{i18n>Label.CheckOrder.PartsNumber}" labelTooltip="{i18n>Label.CheckOrder.PartsNumber}" >
 						<fb:control>
-							<Input type="Text" value="{viewModel>/filters/partNumber}" enabled="{viewModel>/filterAll}" placeholder="{i18n>Label.CheckOrder.PartsNumber}" width="15%"></Input>
+							<Input type="Text" value="{viewModel>/filters/partNumber}" enabled="{viewModel>/filterAllx}" placeholder="{i18n>Label.CheckOrder.PartsNumber}" width="15%"></Input>
 						</fb:control>				
 					</fb:FilterItem>
 					<fb:FilterItem name="orderType" label="{i18n>Label.CheckOrder.OrderType}" labelTooltip="{i18n>Label.CheckOrder.OrderType}" mandatory="false">
@@ -67,7 +67,7 @@
 								placeholder="{i18n>Label.CheckOrder.OrderType}"
 								selectionFinish="onSelectionFinishOT"
 								selectionChange="onSelectChangeOT"
-								enabled="{viewModel>/filterAll}"
+								enabled="{viewModel>/filterAllx}"
 								width="15%"
 								selectedKeys= "{viewModel>/filters/orderStates}"
 								items="{
@@ -82,7 +82,7 @@
 						<fb:control>
 							<DatePicker value="{viewModel>/filters/fromOrderDate}"
 										valueFormat="yyyyMMdd"
-										enabled="{viewModel>/filterAll}"
+										enabled="{viewModel>/filterAllx}"
 										displayFormat="long"
 										placeholder="{i18n>Label.CheckOrder.OrderDate.From}"/>
 						</fb:control>				
@@ -109,7 +109,7 @@
 								placeholder="{i18n>Label.CheckOrder.PartsStat}"
 								selectionFinish="onSelectionFinishOS"
 								selectionChange="onSelectChangeOS"
-								enabled="{viewModel>/filterAll}"
+								enabled="{viewModel>/filterAllx}"
 								selectedKeys= "{viewModel>/filters/partsStates}"
 								width="15%"
 								items="{
@@ -124,7 +124,7 @@
 							<DatePicker value="{viewModel>/filters/toOrderDate}"
 										valueFormat="yyyyMMdd"
 										displayFormat="long"
-										enabled="{viewModel>/filterAll}"
+										enabled="{viewModel>/filterAllx}"
 										placeholder="{i18n>Label.CheckOrder.OrderDate.To}"/>
 						</fb:control>				
 					</fb:FilterItem>

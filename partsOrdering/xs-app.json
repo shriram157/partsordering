@@ -1,6 +1,7 @@
 {
   "welcomeFile": "/partsOrdering/index.html",
   "authenticationMethod": "route",
+  "sessionTimeout": 15,
   "logout": {
     "logoutEndpoint": "/do/logout"
   },

@@ -93,9 +93,9 @@
 					</Toolbar>
 				</headerToolbar>
 				<columns>
-					<Column  width='4rem'>
+					<!--<Column  width='4rem'>
 						<Text text="{i18n>Label.CheckOrder.Being.Deliveried}" />
-					</Column>
+					</Column> -->
 					<Column  width='5rem'  >
 						<Text text="{i18n>Label.CheckOrder.Confirmed.Quantity}" />						
 					</Column>								
@@ -123,7 +123,7 @@
 				<items>
 					<ColumnListItem>
 						<cells>
-							<Text text="{path: 'deliv_qty', formatter:'.formatter.round2dec'}"/>
+							<!--<Text text="{path: 'deliv_qty', formatter:'.formatter.round2dec'}"/>-->
 							<Text text="{path: 'cnf_qty', formatter:'.formatter.round2dec' }"/>
 							<Text text="{path: 'estm_deliv_date', type : 'sap.ui.model.type.Date', formatOptions: { style : 'medium'}}" />
 							<ObjectIdentifier

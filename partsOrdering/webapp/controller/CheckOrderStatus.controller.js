@@ -31,13 +31,14 @@ sap.ui.define([
 
 				var viewState = { 
 					filteredItems : 0,
-					filterPanelEnable : false, 
-					contHigh : "80%", 
+					filterPanelEnable : true, 
+					contHigh : "40%", 
 					sortDescending : false,
 					sortKey : 'TCI_order_no',			 	
 					orders: [], 
 					filters: this.getDefaultFilterValues(),
-					filterAll : true
+					filterAll : true,
+					filterAllx : true
 				};
 				var viewModel = new JSONModel();
 				viewModel.setData(viewState);
@@ -168,14 +169,16 @@ sap.ui.define([
 				var appStateModel = this.getStateModel();
 				var dealerCode = appStateModel.getProperty('/selectedBP/dealerCode');
 				var nowDate = new Date();
-				var fromMonth = nowDate.getMonth() + 1 -3; // three months
-				var fromYear = nowDate.getFullYear();
-				if (fromMonth < 0){
-					fromMonth = fromMonth + 12;
-					fromYear = fromYear -1;
-				}
-				var fromDate = new Date(fromYear,fromMonth,nowDate.getDate());
-				var fromDateStr = ''+fromYear+fromMonth+nowDate.getDate();
+// //				var fromMonth = nowDate.getMonth() + 1 -3; // three months
+// 				var fromYear = nowDate.getFullYear();
+// 				if (fromMonth < 0){
+// 					fromMonth = fromMonth + 12;
+// 					fromYear = fromYear -1;
+// 				}
+// 				var fromDate = new Date(fromYear,fromMonth,nowDate.getDate());
+				var timelong  = nowDate.getTime() - (15*1000 * 60 * 60 * 24);
+				var fromDate = new Date(timelong);
+				//var fromDateStr = ''+fromYear+fromMonth+nowDate.getDate();
 				return {
 					partsStates:['ALL'],
 					orderStates:[0],
