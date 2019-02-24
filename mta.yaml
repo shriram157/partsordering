@@ -7,6 +7,7 @@ modules:
     type: html5
     path: partsOrdering
     parameters:
+      host: tci-dev-partsordering
       disk-quota: 512M
       memory: 128M
       instances: 1
@@ -27,6 +28,7 @@ modules:
     type: nodejs
     path: partsOrdering_node
     parameters:
+      host: tci-dev-partsordering-node
       service-url: '${default-url}'
       disk-quota: 256M
       memory: 128M
