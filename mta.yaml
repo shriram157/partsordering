@@ -1,67 +1,59 @@
-ID: XSA_DealerPartsOrderingPartsOrderStatusInq
+ID: partsOrdering
 _schema-version: '2.1'
 description: The Dealer parts Ordering and Parts Status Inquiry application
 version: 0.3.1
 modules:
-  - name: partsOrdering
-    type: html5
-    path: partsOrdering
-    parameters:
+ - name: partsOrdering_node
+   type: nodejs
+   path: partsOrdering_node
+   parameters:
+      host: tci-dev-partsordering-node
+      disk-quota: 256M
+      memory: 256M
+   provides:
+    - name: partsOrdering_node_api
+      properties:
+         url: '${default-url}'
+   requires:
+    - name: cf-logging_partsOrdering
+    - name: uaa_partsOrdering
+    - name: PARTS_ORDERING_APIM_CUPS
+
+ - name: partsOrdering
+   type: html5
+   path: partsOrdering
+   parameters:
       host: tci-dev-partsordering
       disk-quota: 512M
-      memory: 128M
-      instances: 1
-    build-parameters:
+      memory: 512M
+   build-parameters:
       builder: grunt
-    requires:
-      - name: uaa_partsOrdering
-      - name: dest_partsOrdering
-      - name: cf-logging_partsOrdering
-      - name: partsOrdering_node_api
-        group: destinations
-        properties:
-          name: core-node-backend
-#          url: 'https://sf1h4f11leoa64ntartsordering-node.cfapps.us10.hana.ondemand.com/'
-          url: '~{url}'
-          forwardAuthToken: true
-  - name: partsOrdering_node
-    type: nodejs
-    path: partsOrdering_node
-    parameters:
-      host: tci-dev-partsordering-node
-      service-url: '${default-url}'
-      disk-quota: 256M
-      memory: 128M
-      instances: 1
-    provides:
-      - name: partsOrdering_node_api
-        properties:
-          url: '${default-url}'
-    requires:
-      - name: PARTS_ORDERING_APIM_CUPS
-      - name: cf-logging_partsOrdering      
-      - name: uaa_partsOrdering
-      
+   requires:
+    - name: cf-logging_partsOrdering
+    - name: uaa_partsOrdering
+    - name: partsOrdering_node_api
+      group: destinations
+      properties:
+         name: core-node-backend
+         forwardAuthToken: true
+         timeout: 60000
+         url: '~{url}'
+
 resources:
-  - name: PARTS_ORDERING_APIM_CUPS
-    type: org.cloudfoundry.existing-service
-    parameters:
-      service-name: PARTS_ORDERING_APIM_CUPS
-    properties:
-      odata-call-service-name: '${service-name}'
-  - name: uaa_partsOrdering
-    parameters:
-      path: ./xs-security.json
-      service-plan: application
-      service: xsuaa
-    type: org.cloudfoundry.managed-service
-  - name: dest_partsOrdering
-    parameters:
-      service-plan: lite
-      service: destination
-    type: org.cloudfoundry.managed-service
-  - name: cf-logging_partsOrdering
-    parameters:
-      service-plan: lite
+ - name: cf-logging_partsOrdering
+   parameters:
       service: application-logs
-    type: org.cloudfoundry.managed-service
+      service-plan: lite
+   type: org.cloudfoundry.managed-service
+
+ - name: uaa_partsOrdering
+   parameters:
+      path: ./xs-security.json
+      service: xsuaa
+      service-plan: application
+   type: org.cloudfoundry.managed-service
+
+ - name: PARTS_ORDERING_APIM_CUPS
+   type: org.cloudfoundry.existing-service
+   parameters:
+      service-name: PARTS_ORDERING_APIM_CUPS
