@@ -1,7 +1,8 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns="sap.m">
 	<Bar class="sapUiSmallPaddingBeginEnd clCustomHeaderBg">
 		<contentLeft>
-			<Image id="idLexusLogo" src="images/Lexus_EN.png" width="100px"/>
+			<!--<Image id="idLogo" src="images/Lexus_EN.png" width="100px"/>-->
+		<Image id="idLogo" src="{/userProfile/logoImage}" width="100px"/>
 			<Text text="|" class="sapUiTinyMarginBeginEnd"/>
 			<Text class="clCustomFont" text="{i18n>appTitle}"/>
 		</contentLeft>

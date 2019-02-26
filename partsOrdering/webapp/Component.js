@@ -31,6 +31,7 @@ sap.ui.define([
 
 			sap.ui.core.BusyIndicator.show(0);			
 			var division = jQuery.sap.getUriParameters().get('Division');
+			 
 			var lang = jQuery.sap.getUriParameters().get('Language');
 			
 			var appMode = models.getAppStateModel();
@@ -90,8 +91,15 @@ sap.ui.define([
 					
 					if (!!division){
 						userProfile.division = 	division;
+						if (division === "20") {
+						  	userProfile.logoImage = 'images/Lexus_EN.png'; 
+						} else {
+							userProfile.logoImage = 'images/toyota.png';
+						}
 					} else {
 						userProfile.division = 	'';
+						//Default
+						userProfile.logoImage = 'images/toyota.png';
 					}					
 					
 
