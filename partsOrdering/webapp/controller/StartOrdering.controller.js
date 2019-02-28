@@ -64,7 +64,8 @@ sap.ui.define([
 					this.getBusinessPartnersByDealerCode(userProfile.dealerCode, function(sData){
 						bpCode = sData.BusinessPartner;
 						appStateModel.setProperty('/selectedBP/bpNumber', bpCode);
-						appStateModel.setProperty('/selectedBP/bpName', sData.BusinessPartnerName);
+						//appStateModel.setProperty('/selectedBP/bpName', sData.BusinessPartnerName);
+						appStateModel.setProperty('/selectedBP/bpName', sData.OrganizationBPName1);
 						appStateModel.setProperty('/selectedBP/dealerCode', userProfile.dealerCode);
 						appStateModel.setProperty('/selectedBP/customer', sData.Customer);		
 						
