@@ -29,12 +29,13 @@
       "description": "DG2 200"
     },
     {
-      "path": "/nodezz",
+      "path": "/node",
       "target": {
         "type": "destination",
-        "name": "sf1H4f11leOa64ntartsOrdering-node"
+        "name": "partsordering-node",
+        "entryPath": "/node"
       },
-      "description": "sf1H4f11leOa64ntartsOrdering-node"
+      "description": "partsordering-node"
     }
   ],
   "sendWelcomeFileRedirect": true

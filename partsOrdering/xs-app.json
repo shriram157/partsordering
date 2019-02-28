@@ -1,5 +1,5 @@
 {
-  "welcomeFile": "/partsOrdering/index.html",
+  "welcomeFile": "/partsordering/index.html",
   "authenticationMethod": "route",
   "sessionTimeout": 15,
   "logout": {
@@ -7,7 +7,7 @@
   },
   "routes": [
     {
-      "source": "^/partsOrdering/(.*)$",
+      "source": "^/partsordering/(.*)$",
       "target": "$1",
       "localDir": "webapp",
       "authenticationType": "xsuaa"
