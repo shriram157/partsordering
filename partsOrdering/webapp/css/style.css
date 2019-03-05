@@ -1,11 +1,13 @@
 /*======================= Start custom fonts and custom color on header style ==========================*/
 
 @import url('https://fonts.googleapis.com/css?family=Raleway');
+
 /*@import url('https://fonts.googleapis.com/css?family=Satisfy');*/
+
 .clCustomFont {
-   /* font-family: 'Raleway', sans-serif;*/
-   /*font-family: 'Satisfy', cursive;*/
-   font-family: 'Raleway', cursive;
+    /* font-family: 'Raleway', sans-serif;*/
+    /*font-family: 'Satisfy', cursive;*/
+    font-family: 'Raleway', cursive;
 }
 
 .sapContrastPlus.clCustomHeaderBg {
@@ -15,10 +17,10 @@
 }
 
 .zsapMDraftIndicator {
-	style: italic;
-	left: 1rem;
-	right: 1rem;
-	color: #dddddd;
+    style: italic;
+    left: 1rem;
+    right: 1rem;
+    color: #dddddd;
 }
 
 .sapContrastPlus.clCustomHeaderBg .sapMBtnInner {
@@ -96,6 +98,7 @@
     content: '';
     width: 100%;
 }
+
 .sapContrastPlus.clCustomHeaderBg .sapMText {
     color: #2f3c48;
 }
@@ -105,33 +108,32 @@
     color: #346187;
 }
 
+
 /* Customized CSS by Aarti Dhamat */
 
 .styleHLayout .sapUiHLayoutChildWrapper:nth-child(1),
 .styleHLayout .sapUiHLayoutChildWrapper:nth-child(2),
-.styleHLayout .sapUiHLayoutChildWrapper:nth-child(3){
-	width: 40%;
+.styleHLayout .sapUiHLayoutChildWrapper:nth-child(3) {
+    width: 40%;
 }
 
 .styleHLayout .sapMHBox .sapMFlexItem:nth-child(2) {
-	width: 100%;
+    width: 100%;
 }
 
 .styleRightAlign {
-	float: right;
-	clear: right;
+    float: right;
+    clear: right;
 }
 
 .styleFontSize {
-	font-size: 18px;
+    font-size: 18px;
 }
 
-.styleFontSizeSmall {
-	
-} 
+.styleFontSizeSmall {}
 
 .styleShortWidth {
-	width: 40% !important;
+    width: 40% !important;
 }
 
 .formDetails .sapUiFormTitleH5 {
@@ -142,6 +144,28 @@
     font-weight: bold !important;
 }
 
+.customStyleBox .sapUiTableMTbr.sapUiTableTbr {
+    height: 3rem !important;
+}
 
+.customToolBar .sapMTB {
+	height: 3rem !important;
+}
 
+.size1 {
+	font-size : 1.0rem !important;
+}
+.size2 {
+	font-size : 2.0rem !important;
+
+}
+.size3 {
+	font-size : 5rem;
+}
+.size4 {
+	font-size : 7.5rem;
+}
+.size5 {
+	font-size : 10rem;
+}
 /* Enter your custom styles here */
