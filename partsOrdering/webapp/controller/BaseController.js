@@ -1521,29 +1521,29 @@ sap.ui.define([
 				var obj = entry.getObject();
 				obj.HeaderDraftUUID = pUuid;
 				
-				//obj.TargetQty = data.newline[0].qty.toString();                //*
-				obj.TargetQty = data.newline[0].qty.toString();                //*
-				obj.Material = data.newline[0].partNumber;              //*  
-				obj.Comments = data.newline[0].comment;
+				//obj.TargetQty = items[0].qty.toString();                //*
+				obj.TargetQty = data.items[0].qty.toString() || "0";                //*
+				obj.Material = data.items[0].partNumber;              //*  
+				obj.Comments = data.items[0].comment;
 				if (!!data.typeD){ // Campiagn
-					obj.Zzcampaign = data.newline[0].campainNum;
-					obj.Zzopcode = data.newline[0].opCode;
-					obj.VIN_no = data.newline[0].vin;
+					obj.Zzcampaign = data.items[0].campainNum;
+					obj.Zzopcode = data.items[0].opCode;
+					obj.VIN_no = data.items[0].vin;
 				} else if (!!data.typeB){
-					obj.RefDoc = data.newline[0].contractNum;
-					obj.RefDocItemNo = data.newline[0].contractLine;                
+					obj.RefDoc = data.items[0].contractNum;
+					obj.RefDocItemNo = data.items[0].contractLine;                
 				}
 				
 				bModel.create('/draft_soItemSet', obj, {
 					success : function( oData, oResponse){
 						//TODO
 						var messageList = that._extractSapItemMessages(oResponse);
-						data.newline[0].uuid = oData.ItemDraftUUID;    
-						data.newline[0].parentUuid = oData.HeaderDraftUUID;
-						data.newline[0].line = oData.ItmNumber;
-						data.newline[0].messageLevel = that.getMessageLevel(messageList); 
-						data.newline[0].messages = messageList;
-						callback(data.newline[0]);
+						data.items[0].uuid = oData.ItemDraftUUID;    
+						data.items[0].parentUuid = oData.HeaderDraftUUID;
+						data.items[0].line = oData.ItmNumber;
+						data.items[0].messageLevel = that.getMessageLevel(messageList); 
+						data.items[0].messages = messageList;
+						callback(data.items[0]);
 					}, 
 					error :  function(oError){
 						var err = oError;
@@ -1554,8 +1554,8 @@ sap.ui.define([
 			
 			_createSalesOrderDraft : function(data, callback){
 				var that = this;
-				var lv_orderType = this.getRealOrderTypeByItemCategoryGroup( data.newline[0].itemCategoryGroup , data.isSalesOrder, data.orderTypeId );
-				
+				//var lv_orderType = this.getRealOrderTypeByItemCategoryGroup( items[0].itemCategoryGroup , data.isSalesOrder, data.orderTypeId );
+				var lv_orderType = this.getRealOrderTypeByItemCategoryGroup( data.items[0].itemCategoryGroup , data.isSalesOrder, data.orderTypeId );
 				var aDraft = null;
 				//first of all, let us find the existing order header, 
 				for(var x1 = 0 ; x1 < data.associatedDrafts.length; x1++){
@@ -1574,7 +1574,7 @@ sap.ui.define([
 				if (!!aDraft){
 					that._addSalesDraftItem(aDraft.DraftUUID, data, lv_orderType, function(rItem){
 						if(!!rItem){
-							data.items.push(rItem);
+							//data.items.push(rItem);
 							aDraft.Lines = aDraft.Lines +1;
 							callback(data, true);
 						} else {
@@ -1595,8 +1595,8 @@ sap.ui.define([
 					obj.PurchNoC = data.tciOrderNumber;
 					obj.DocType = lv_orderType;
 					
-					// if (!!data.newline[0].contractNum){
-					// 	obj.ContractNumber = data.newline[0].contractNum;
+					// if (!!items[0].contractNum){
+					// 	obj.ContractNumber = items[0].contractNum;
 					// 	obj.ContractNumber ="1";
 					// } else {
 					// 	obj.ContractNumber ="1";
@@ -1615,7 +1615,7 @@ sap.ui.define([
 
 							that._addSalesDraftItem(aDraft.DraftUUID, data, lv_orderType, function(rItem){
 								if(!!rItem){
-									data.items.push(rItem);
+									//data.items.push(rItem);
 									aDraft.Lines = aDraft.Lines +1;
 									data.associatedDrafts.push(aDraft);
 									callback(data, true);
@@ -2378,7 +2378,7 @@ sap.ui.define([
 			_createPurchaseOrderDraft : function (data, callback){
 				var that = this;
 				var aDraft = null;
-				var lv_orderType = this.getRealOrderTypeByItemCategoryGroup( data.newline[0].itemCategoryGroup , data.isSalesOrder, data.orderTypeId );
+				var lv_orderType = this.getRealOrderTypeByItemCategoryGroup( items[0].itemCategoryGroup , data.isSalesOrder, data.orderTypeId );
 
 				//first of all, let us find the existing order header, 
 				for(var x1 = 0 ; x1 < data.associatedDrafts.length; x1++){
@@ -2398,7 +2398,7 @@ sap.ui.define([
 				if ('UB' === lv_orderType ){
 					lv_supplier = data.purBpCode;
 				} else if ('NB' === lv_orderType){
-					lv_supplier = data.newline[0].supplier;
+					lv_supplier = items[0].supplier;
 				}
 
 				var aDraft = null;
@@ -2419,7 +2419,7 @@ sap.ui.define([
 				if (!!aDraft){
 					that._addOrderDraftItem(aDraft.DraftUUID, data, lv_orderType, function(rItem){
 						if(!!rItem){
-							data.items.push(rItem);
+							//data.items.push(rItem);
 							aDraft.Lines = aDraft.Lines +1;
 						} 
 						callback(data, true);
@@ -2443,7 +2443,7 @@ sap.ui.define([
 
 					
 					// do we nee it?
-					obj.Comp_Code = data.newline[0].companyCode;  
+					obj.Comp_Code = data.items[0].companyCode;  
 					
 					
 					//TODO
@@ -2459,7 +2459,7 @@ sap.ui.define([
 		//				obj.Currency= "USD";
 		//				obj.Pur_Group = "500";
 		//				lv_supplier = "T2030";
-						obj.Currency= data.newline[0].currency;
+						obj.Currency= data.items[0].currency;
 						obj.Vendor = lv_supplier;
 					}
 
@@ -2477,7 +2477,7 @@ sap.ui.define([
 
 							that._addOrderDraftItem(aDraft.DraftUUID, data, lv_orderType, function(rItem){
 								if(!!rItem){
-									data.items.push(rItem);
+									//data.items.push(rItem);
 									aDraft.Lines = aDraft.Lines +1;
 								} 
 								data.associatedDrafts.push(aDraft);
@@ -2504,9 +2504,9 @@ sap.ui.define([
 				// --- PYPASS -1
 
 				obj.HeaderDraftUUID	= pUuid;
-				obj.Quantity = data.newline[0].qty.toString();                
-				obj.Material = data.newline[0].partNumber;                
-				obj.Comments = 	data.newline[0].comment;
+				obj.Quantity = data.items[0].qty.toString();                
+				obj.Material = data.items[0].partNumber;                
+				obj.Comments = 	data.items[0].comment;
 				
 				// fake the data	
 				obj.Po_Unit ='EA';
@@ -2519,7 +2519,7 @@ sap.ui.define([
 //					obj.Plant = "6000";          // Should I pass the sloc?
 					obj.Plant = data.revPlant;          
 					obj.Stge_Loc = data.sloc;
-					//obj.PurchasingInfoRecord=data.newline[0].purInfoRecord;
+					//obj.PurchasingInfoRecord=items[0].purInfoRecord;
 				}
 				
 				// --- PYPASS -1
@@ -2527,12 +2527,12 @@ sap.ui.define([
 				bModel.create("/Draft_POItemSet", {"d":obj}, {
 					success : function( oData, oResponse){
 						var messageList = that._extractSapItemMessages(oResponse);
-						data.newline[0].uuid = oData.ItemDraftUUID;    
-						data.newline[0].parentUuid = oData.HeaderDraftUUID;
-						data.newline[0].line = oData.Po_Item;
-						data.newline[0].messageLevel = that.getMessageLevel(messageList); 
-						data.newline[0].messages = messageList;
-						callback(data.newline[0]);
+						data.items[0].uuid = oData.ItemDraftUUID;    
+					data.items[0].parentUuid = oData.HeaderDraftUUID;
+						data.items[0].line = oData.Po_Item;
+						data.items[0].messageLevel = that.getMessageLevel(messageList); 
+						data.items[0].messages = messageList;
+						callback(data.items[0]);
 					}, 
 					error :  function(oError){
 						callback(null);
