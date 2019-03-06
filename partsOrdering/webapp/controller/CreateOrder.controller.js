@@ -62,7 +62,7 @@ sap.ui.define([
 				remPartno: "12rem",
 				remPartDesc: "20rem",
 				remSPQ: "4rem",
-				remQty: "4rem",
+				remQty: "7rem",
 				remComments: "32rem"
 			};
 		},
@@ -73,7 +73,7 @@ sap.ui.define([
 				remPartno: "12rem",
 				remPartDesc: "20rem",
 				remSPQ: "4rem",
-				remQty: "4rem",
+				remQty: "7rem",
 				remContractNo: "8rem",
 				remComments: "20rem"
 			};
@@ -85,7 +85,7 @@ sap.ui.define([
 				remPartno: "12rem",
 				remPartDesc: "18rem",
 				remSPQ: "4rem",
-				remQty: "4rem",
+				remQty: "7rem",
 				remCampaignNo: "10rem",
 				remOpCode: "6rem",
 				remVin: "6rem",
