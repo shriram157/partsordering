@@ -1306,7 +1306,7 @@ sap.ui.define([
 						oFilter.push(aFilter);
 					}
 					if (!!conditions.orderNumber ){
-						aFilter = new sap.ui.model.Filter("dealer_orderNo", sap.ui.model.FilterOperator.Contains, conditions.orderNumber );
+						aFilter = new sap.ui.model.Filter("dealer_orderNo", sap.ui.model.FilterOperator.EQ, conditions.orderNumber );
 						oFilter.push(aFilter);
 					}
 
@@ -2819,7 +2819,7 @@ sap.ui.define([
 						oFilter.push(aFilter);
 					}
 					if (!!conditions.orderNumber ){
-						aFilter = new sap.ui.model.Filter("dealer_orderNo", sap.ui.model.FilterOperator.Contains, conditions.orderNumber );
+						aFilter = new sap.ui.model.Filter("dealer_orderNo", sap.ui.model.FilterOperator.EQ, conditions.orderNumber );
 						oFilter.push(aFilter);
 					}
 

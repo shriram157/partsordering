@@ -282,7 +282,7 @@ sap.ui.define([
 					orFilters.push(filter);
 					filter = new sap.ui.model.Filter("bill_no_str", sap.ui.model.FilterOperator.Contains, sQuery);
 					orFilters.push(filter);
-					filter = new sap.ui.model.Filter("dealer_orderNo", sap.ui.model.FilterOperator.Contains, sQuery);	
+					filter = new sap.ui.model.Filter("dealer_orderNo", sap.ui.model.FilterOperator.EQ, sQuery);	
 					orFilters.push(filter);
 					filter = new sap.ui.model.Filter("ship_from", sap.ui.model.FilterOperator.Contains, sQuery);	
 					orFilters.push(filter);
