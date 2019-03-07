@@ -221,7 +221,20 @@ sap.ui.define([
 				if (!!line){
 					return line.substr(-2);
 				}
-			}			
+			},
+			
+			confDelFormat : function(cnfQty,delQty) {
+			  if (cnfQty.trim() > 0) {
+			  	return Math.round(cnfQty);
+			  } else if (delQty.trim() > 0) {
+			  	 return Math.round(delQty);
+			  } else {
+			  	 return "";
+			  }
+				
+			} 
+			
+			
 			
 			
 		};
