@@ -223,6 +223,7 @@ sap.ui.define([
 				}
 			},
 			
+			
 			confDelFormat : function(cnfQty,delQty) {
 			  if (cnfQty.trim() > 0) {
 			  	return Math.round(cnfQty);
