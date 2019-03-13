@@ -2,18 +2,21 @@ ID: partsOrdering
 _schema-version: '2.1'
 description: The Dealer parts Ordering and Parts Status Inquiry application
 version: 0.3.1
+
 modules:
  - name: partsOrdering_node
    type: nodejs
    path: partsOrdering_node
    parameters:
       host: tci-dev-partsordering-node
-      disk-quota: 256M
+      disk-quota: 512M
       memory: 256M
+   properties:
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
    provides:
     - name: partsOrdering_node_api
       properties:
-         url: '${default-url}'
+         url: ${default-url}
    requires:
     - name: cf-logging_partsOrdering
     - name: uaa_partsOrdering
@@ -35,23 +38,23 @@ modules:
       group: destinations
       properties:
          name: core-node-backend
+         url: ~{url}
          forwardAuthToken: true
          timeout: 60000
-         url: '~{url}'
 
 resources:
  - name: cf-logging_partsOrdering
+   type: org.cloudfoundry.managed-service
    parameters:
       service: application-logs
       service-plan: lite
-   type: org.cloudfoundry.managed-service
 
  - name: uaa_partsOrdering
+   type: org.cloudfoundry.managed-service
    parameters:
-      path: ./xs-security.json
       service: xsuaa
       service-plan: application
-   type: org.cloudfoundry.managed-service
+      path: ./xs-security.json
 
  - name: PARTS_ORDERING_APIM_CUPS
    type: org.cloudfoundry.existing-service
