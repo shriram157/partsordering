@@ -153,7 +153,7 @@ sap.ui.define([], function () {
 			switch (type) {
 			case 'UB':
 				return resourceBundle.getText('order.type.standard');
-			case 'NB':
+			case 'ZLOC':
 				return resourceBundle.getText('order.type.standard');
 			case 'ZOR':
 				return resourceBundle.getText('order.type.standard');

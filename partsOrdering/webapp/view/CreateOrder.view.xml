@@ -20,13 +20,13 @@
 				selectionMode="MultiToggle" ariaLabelledBy="title" class="sapUiNoMarginTop sapUiNoMarginEnd">-->
 			<HBox class="customStyleBox">
 				<ui:Table id="idProductsTable" alternateRowColors="false" showNoData="false" rows="{orderModel>/items}" visibleRowCount="12"
-					selectionMode="MultiToggle" ariaLabelledBy="title" class="sapUiSizeCompact" rowHeight="25px" sort="handleSortColumn">
+					selectionMode="None" ariaLabelledBy="title" class="sapUiSizeCompact" rowHeight="25px" sort="handleSortColumn">
 					<ui:extension>
 						<Toolbar class="customToolBar">
 							<content>
 								<!--<Title id="title" text="Order" />-->
 								<!--<Button type='Reject' 	icon="sap-icon://sorting-ranking" tooltip="{i18n>Button.Error.Rows}" class="size2" press='handleSortError' visible="false" id="btnFilterError" />	-->
-								<Button type='Reject' icon="sap-icon://delete" tooltip="{i18n>ToolTip.CreateOrder.Delete.LineItem}" class="size2" press='handleDeletePart'/>
+								<Button type='Reject' icon="sap-icon://delete" tooltip="{i18n>ToolTip.CreateOrder.Delete.LineItem}" class="size2" press='handleDeletePart' visible="true"/>
 								<ToolbarSpacer/>
 								<Button type="Default" icon="sap-icon://sort" tooltip="{i18n>ToolTip.Sort.Error.Rows}" class="size2" press='handleSortError' visible="false"
 									id="btnSortError"/>
@@ -38,6 +38,12 @@
 						</Toolbar>
 					</ui:extension>
 					<ui:columns>
+							<ui:Column width="3rem">
+							<Label text=""/>
+							<ui:template>
+								<CheckBox select='toggleSelect' wrapping="false" visible="{= ${orderModel>line} === 0 ? false : true }"/>
+							</ui:template>
+						</ui:Column>
 						<ui:Column width="{sizeModel>/remLine}">
 							<!--<Label text="{i18n>Lable.CreateOrder.Line} #"/>-->
 							<Label text="#"/>
@@ -45,7 +51,7 @@
 								<Text text="{orderModel>line}" wrapping="false" visible="{= ${orderModel>line} === 0 ? false : true }"/>
 							</ui:template>
 						</ui:Column>
-						<ui:Column width="{sizeModel>/remPartNo}" id="Material" sortProperty="Material">
+						<ui:Column width="{sizeModel>/remPartNo}" id="Material" sortProperty="Material" >
 							<Label text="{i18n>Lable.CreateOrder.PartNumber}*"/>
 							<ui:template>
 								<Input value="{orderModel>partNumber}" type="Text" textFormatMode="Key" showSuggestion='true' suggest="handleSuggest"
@@ -77,7 +83,7 @@
 							<Label text="{i18n>Lable.CreateOrder.Order}*"/>
 							<ui:template>
 								<Input type="Number" valueStateText="{i18n>ValidationMessage.qty}" required='true'
-									value="{ path: 'orderModel>qty', type: 'sap.ui.model.type.Integer', contraints:'{minimum :1}' }" valueState="None"/>
+									value="{ path: 'orderModel>qty', type: 'sap.ui.model.type.Integer', contraints:'{minimum :1}' }" valueState="None" change='onQtyChange'/>
 							</ui:template>
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remContractNo}" visible="{orderModel>/typeB}" id="ContractNo" sortProperty="ContractNo">
@@ -143,7 +149,8 @@
 				<ToolbarSpacer/>
 				<DraftIndicator id='draftInd'/>
 				<ToolbarSpacer/>
-				<Button type="Transparent" text="{i18n>Button.CreateOrder.ExportOrder}" class="size2" press='onExport'/>
+		<!--		<Button type="Transparent" text="{i18n>Button.CreateOrder.ImportOrder}" class="size2" press='onImport'/>
+				<Button type="Transparent" text="{i18n>Button.CreateOrder.ExportOrder}" class="size2" press='onExport'/>-->
 				<Button type="Reject" text="{i18n>Button.CreateOrder.DeleteOrder}" class="size2" press='onDelete'/>
 				<Button type="Accept" text="{i18n>Button.CreateOrder.SubmitOrder}" class="size2" press='onActivate'/>
 			</OverflowToolbar>

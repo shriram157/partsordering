@@ -57,7 +57,7 @@
 					"odataVersion": "2.0",
 					"localUri": "model/ZC_CREATE_SO_SRV/metadata.xml"
 				}
-			},			
+			},
 			"MM_PUR_INFO_RECORDS_MANAGE_SRV": {
 				"uri": "/sap/opu/odata/sap/MM_PUR_INFO_RECORDS_MANAGE_SRV/",
 				"type": "OData",
@@ -71,7 +71,7 @@
 				"type": "OData",
 				"settings": {
 					"odataVersion": "2.0",
-					"localUri": "model/MM_PUR_PO_MAINT_V2_SRV/metadata.xml"					
+					"localUri": "model/MM_PUR_PO_MAINT_V2_SRV/metadata.xml"
 				}
 			},
 			"ZC_STOR_LOCN_CDS": {
@@ -80,6 +80,14 @@
 				"settings": {
 					"odataVersion": "2.0",
 					"localUri": "model/ZC_STOR_LOCN_CDS/metadata.xml"
+				}
+			},
+			"ZC_MATERIAL_SPQ_SRV": {
+				"uri": "/sap/opu/odata/sap/Z_SEARCH_HELPS_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "model/Z_SEARCH_HELPS_SRV/metadata.xml"
 				}
 			}
 		},
@@ -110,7 +118,7 @@
 			"viewName": "tci.wave2.ui.parts.ordering.view.App",
 			"type": "XML"
 		},
-		"handleValidation": true,		
+		"handleValidation": true,
 		"dependencies": {
 			"minUI5Version": "1.38.34",
 			"libs": {
@@ -142,8 +150,8 @@
 					"defaultBindingMode": "OneWay",
 					"defaultCountMode": "Request",
 					"serviceUrlParams": {
-            			"sap-client": "200"
-        			},
+						"sap-client": "200"
+					},
 					"json": true,
 					"useBatch": true
 				},
@@ -158,8 +166,8 @@
 					"defaultBindingMode": "OneWay",
 					"defaultCountMode": "Request",
 					"serviceUrlParams": {
-            			"sap-client": "200"
-        			},
+						"sap-client": "200"
+					},
 					"json": true,
 					"useBatch": true
 				},
@@ -174,8 +182,8 @@
 					"defaultBindingMode": "OneWay",
 					"defaultCountMode": "Request",
 					"serviceUrlParams": {
-            			"sap-client": "200"
-        			},
+						"sap-client": "200"
+					},
 					"json": true,
 					"useBatch": true
 				},
@@ -190,8 +198,8 @@
 					"defaultBindingMode": "OneWay",
 					"defaultCountMode": "Request",
 					"serviceUrlParams": {
-            			"sap-client": "200"
-        			},
+						"sap-client": "200"
+					},
 					"json": true,
 					"useBatch": true
 				},
@@ -206,8 +214,8 @@
 					"defaultBindingMode": "OneWay",
 					"defaultCountMode": "Request",
 					"serviceUrlParams": {
-            			"sap-client": "200"
-        			},
+						"sap-client": "200"
+					},
 					"json": true,
 					"useBatch": true
 				},
@@ -222,8 +230,8 @@
 					"defaultBindingMode": "OneWay",
 					"defaultCountMode": "Request",
 					"serviceUrlParams": {
-            			"sap-client": "200"
-        			},
+						"sap-client": "200"
+					},
 					"json": true,
 					"useBatch": true
 				},
@@ -238,8 +246,8 @@
 					"defaultBindingMode": "OneWay",
 					"defaultCountMode": "Request",
 					"serviceUrlParams": {
-            			"sap-client": "200"
-        			},
+						"sap-client": "200"
+					},
 					"json": true,
 					"useBatch": true
 				},
@@ -254,8 +262,8 @@
 					"defaultBindingMode": "TwoWay",
 					"defaultCountMode": "Request",
 					"serviceUrlParams": {
-            			"sap-client": "200"
-        			}
+						"sap-client": "200"
+					}
 				},
 				"dataSource": "MM_PUR_PO_MAINT_V2_SRV",
 				"preload": true
@@ -268,18 +276,36 @@
 					"defaultBindingMode": "OneWay",
 					"defaultCountMode": "Request",
 					"serviceUrlParams": {
-            			"sap-client": "200"
-        			},
+						"sap-client": "200"
+					},
 					"json": true,
 					"useBatch": true
 				},
 				"dataSource": "ZC_STOR_LOCN_CDS",
+				"preload": false
+			},
+			"ZC_MATERIAL_SPQ_SRV": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneWay",
+					"defaultCountMode": "Request",
+					"serviceUrlParams": {
+						"sap-client": "200"
+					},
+					"json": true,
+					"useBatch": true
+				},
+				"dataSource": "ZC_MATERIAL_SPQ_SRV",
 				"preload": false
 			}
 		},
 		"resources": {
 			"css": [{
 				"uri": "css/style.css"
+			}],
+			"XLXS" : [{
+				"uri" : "libs/xlsx.full.min.js"
 			}]
 		},
 		"routing": {
@@ -324,7 +350,7 @@
 					"clearControlAggregation": false,
 					"viewLevel": 1,
 					"transition": "slide"
-				},				
+				},
 				"StartOrdering": {
 					"viewName": "StartOrdering",
 					"viewType": "XML",

@@ -1,3 +1,4 @@
+/* global XLSX:true */
 sap.ui.define([
 	"tci/wave2/ui/parts/ordering/controller/BaseController",
 	'sap/m/MessagePopover',
@@ -60,6 +61,9 @@ sap.ui.define([
 			this.btnFilterError = this.byId('btnFilterError');
 			this.btnSortError = this.byId('btnSortError');
 			this.btnClearFilterError = this.byId('btnClearFilterError');
+
+			this.partDescModel = this.getZCMATERIALSPQModel();
+			this.slang = this.getSapLangugaeFromLocal();
 
 			// make sure the dealer information is there
 			this.checkDealerInfo();
@@ -124,11 +128,11 @@ sap.ui.define([
 			//				var orderData = { typeB: false, typeD:false };
 			var orderData = this.initLocalModels(orderType, orderNum.trim());
 			var model = new sap.ui.model.json.JSONModel();
-			if (orderData.items && orderData.items.length === 0) {
-				//this.itemTable.unbindRows();
-				this._resetValueStateOfRows();
-				orderData.items.splice(0, 0, that._getNewItem());
-			}
+			//if (orderData.items && orderData.items.length === 0) {
+			//this.itemTable.unbindRows();
+			this._resetValueStateOfRows();
+			//orderData.items.splice(0, 0, that._getNewItem());
+			//}
 			model.setData(orderData);
 			this.setModel(model, CONT_ORDER_MODEL);
 
@@ -174,8 +178,8 @@ sap.ui.define([
 					}
 
 					model.setProperty('/stoSupplyingPlant', aCustSaleArea.SupplyingPlant);
-					model.setProperty('/SalesOrganization', aCustSaleArea.SalesOrganization);
-					model.setProperty('/DistributionChannel', aCustSaleArea.DistributionChannel);
+					//model.setProperty('/SalesOrganization', aCustSaleArea.SalesOrganization);
+					//model.setProperty('/DistributionChannel', aCustSaleArea.DistributionChannel);
 					model.setProperty('/Division', aCustSaleArea.Division);
 
 					// hard code ---
@@ -188,8 +192,8 @@ sap.ui.define([
 				}
 
 			});
-
-			this.getStorageInfo(orderData.purBpCode, function (data) {
+			//For UB
+			this.getStorageInfo(orderData.Customer, function (data) {
 				// populate the rest of field
 				if (!!data && !!orderData.purBpCode) {
 					model.setProperty('/sloc', data.SLoc);
@@ -203,8 +207,15 @@ sap.ui.define([
 				for (var x = 0; x < rData.items.length; x++) {
 					rData.items[x].messageLevel = that.getMessageLevel(rData.items[x].messages);
 				}
-				if (rData.items.length < 0) {
-					rData.totalLines = rData.items.length - 1;
+				if (rData.items.length > 0) {
+
+					for (var i = 0; i < rData.items.length; i++) {
+
+						rData.items[i].addIcon = false;
+						rData.items[i].hasError = false;
+
+					}
+					rData.totalLines = rData.items.length;
 				} else {
 					rData.totalLines = 0;
 				}
@@ -214,6 +225,7 @@ sap.ui.define([
 					rData.typeD = true;
 				}
 
+				orderData.items.splice(0, 0, that._getNewItem());
 				model.setData(rData);
 				that.setModel(model, CONT_ORDER_MODEL);
 				sap.ui.core.BusyIndicator.hide();
@@ -259,6 +271,9 @@ sap.ui.define([
 			orderData.dealerType = appStateModel.getProperty('/selectedBP/bpType');
 			orderData.bpTypeGroup = appStateModel.getProperty('/selectedBP/bpGroup');
 
+			//Added
+			orderData.Customer = appStateModel.getProperty('/selectedBP/customer');
+
 			orderData.isSalesOrder = this.isSalesOrderAssociated(orderData.bpTypeGroup);
 
 			// main section for the order - will not affect by record in the system
@@ -297,24 +312,8 @@ sap.ui.define([
 
 			// calculated filed
 			orderData.totalLines = 0;
-			return orderData;
-		},
 
-		_getNewLine: function () {
-			return {
-				hasError: false,
-				selected: false,
-				line: '',
-				partNumber: '',
-				partDesc: "",
-				spq: '',
-				qty: 0,
-				fillBo: 0,
-				comment: "",
-				companyCode: "",
-				purcahseOrg: "",
-				itemCategoryGroup: ''
-			};
+			return orderData;
 		},
 
 		_getNewItem: function () {
@@ -331,6 +330,8 @@ sap.ui.define([
 				companyCode: "",
 				purcahseOrg: "",
 				itemCategoryGroup: '',
+				sloc: '',
+				revPlant: '',
 				addIcon: true
 
 			};
@@ -415,26 +416,25 @@ sap.ui.define([
 			//var newItem = model.getData().items[0];
 			//var newline = model.getProperty('/newline');
 			var resourceBundle = this.getResourceBundle();
-			if (iRowIndex === 0) {
-				oItem.addIcon = true;
-				oItem.hasError = false;
-			} else {
-				oItem.addIcon = false;
-				oItem.hasError = oItem.hasError || false;
-			}
-			that.getInfoFromPart(sValue, model.getProperty('/purBpCode'), function (item1Data) {
+
+			that.getPartDescSPQForPart(sValue, model.getProperty('/SalesOrganization'), model.getProperty('/DistributionChannel'), function (
+				item1Data) {
+				//that.getInfoFromPart(sValue, model.getProperty('/purBpCode'), function (item1Data) {
 				if (!!item1Data) {
-					//oItem.hasError = oItem.hasError || false;
-					oItem.itemCategoryGroup = item1Data.itemCategoryGroup;
-					oItem.division = item1Data.division;
-					oItem.partDesc = item1Data.partDesc;
-					oItem.supplier = item1Data.supplier;
-					oItem.purInfoRecord = item1Data.purInfoRecord;
-					oItem.companyCode = item1Data.companyCode;
-					oItem.currency = item1Data.currency;
-					oItem.netPriceAmount = item1Data.netPriceAmount;
-					oItem.taxCode = item1Data.taxCode;
-					oItem.spq = item1Data.spq;
+					oItem.hasError = false;
+					oItem.itemCategoryGroup = item1Data[0].categoryGroup;
+					oItem.division = item1Data[0].Division;
+					oItem.partDesc = item1Data[0].MaterialDescription;
+
+					oItem.sloc = model.getProperty("/sloc"); //Valid for UB Only-will be updated for ZLOC
+					oItem.revPlant = model.getProperty("/revPlant"); //Valid for UB Only-will be updated for ZLOC
+					//	oItem.supplier = item1Data[0].supplier; //inforecord
+					//	oItem.purInfoRecord = item1Data[0].purInfoRecord;
+					oItem.companyCode = "2014";
+					//	oItem.currency = item1Data[0].currency; //NR
+					//	oItem.netPriceAmount = item1Data[0].netPriceAmount //NR
+					//	oItem.taxCode = item1Data[0].taxCode;  //
+					oItem.spq = item1Data[0].SPQ;
 
 				} else {
 					oItem.hasError = true;
@@ -456,11 +456,51 @@ sap.ui.define([
 							sap.ui.core.BusyIndicator.hide();
 						}
 					});
+					if (iRowIndex === 0) {
+						oItem.addIcon = true;
+						oItem.hasError = false;
+					} else {
+						oItem.addIcon = false;
+						oItem.hasError = oItem.hasError || false;
+					}
 
 				}
 				//model.getData().items[0] = newItem;
 				model.refresh(true);
+				//that.getInfoFromPart(sValue, model.getProperty('/purBpCode'), oItem);
 				//model.setProperty('/newline', newline);
+			});
+
+		},
+
+		getPartDescSPQForPart: function (sPartNo, sSalesOrganization, sDistributionChannel, callback) {
+			var that = this;
+
+			var oFilter = new Array();
+			oFilter[0] = new sap.ui.model.Filter("MaterialNumber", sap.ui.model.FilterOperator.EQ, sPartNo);
+			oFilter[1] = new sap.ui.model.Filter("SalesOrganization", sap.ui.model.FilterOperator.EQ, sSalesOrganization);
+			oFilter[2] = new sap.ui.model.Filter("DistributionChannel", sap.ui.model.FilterOperator.EQ, sDistributionChannel);
+			oFilter[3] = new sap.ui.model.Filter("LanguageKey", sap.ui.model.FilterOperator.EQ, that.slang);
+
+			that.partDescModel.read("/ZC_MATERIAL_SPQ", {
+				filters: new Array(new sap.ui.model.Filter({
+					filters: oFilter,
+					and: true
+				})),
+				success: function (oData, oResponse) {
+					if (!!oData && !!oData.results && oData.results.length > 0) {
+						callback(oData.results);
+					} else {
+						// error
+						callback(null);
+					}
+
+				},
+
+				error: function (err) {
+					// handle error?
+					callback(null);
+				}
 			});
 
 		},
@@ -549,44 +589,70 @@ sap.ui.define([
 		handleAddPart: function (oEvent) {
 			var that = this;
 			var model = this.getModel(CONT_ORDER_MODEL);
+			var oSource = oEvent.getSource();
 			var iData = model.getData();
 			var resourceBundle = this.getResourceBundle();
 			var failedtext = null;
-			if (iData.items[0].hasError) {
+			if (oSource) {
+				oSource.setEnabled(false);
+			}
+			if (iData.items[0].hasError || iData.items[0].partNumber === "") {
 				failedtext = resourceBundle.getText('Message.Failed.Load.Part', [iData.items[0].partNumber]);
 				MessageBox.error(failedtext, {
 					onClose: function (sAction) {}
 				});
+				oSource.setEnabled(true);
 				return false;
 			}
 
 			// TODO-- check the values, warning message..
 			failedtext = resourceBundle.getText('Message.Failed.Add.Part');
 			sap.ui.core.BusyIndicator.show(0);
+			//Code to get itemCategortype & Supplier
+
 			this.draftInd.showDraftSaving();
-			this.createOrderDraft(iData, function (rData, isOk) {
-				if (isOk) {
-					// this step, all good, move the new line to to items
-					iData.items[0].line = rData.totalLines + 1;
-					iData.items[0].addIcon = false;
-					rData.items.splice(rData.items.length, 0, JSON.parse(JSON.stringify(iData.items[0])));
-					rData.items.splice(0, 1);
-					rData.items.splice(0, 0, that._getNewItem());
-					//rData.newline = [that._getNewLine()];
-					rData.totalLines = rData.items.length - 1;
-					// ---to save some newwork traffic
-					rData.modifiedOn = new Date();
-					model.setData(rData);
-					that.draftInd.showDraftSaved();
-				} else {
-					MessageBox.error(failedtext, {
-						onClose: function (sAction) {
-							//TODO??
-						}
-					});
-				}
-				sap.ui.core.BusyIndicator.hide();
+
+			var oItem = JSON.parse(JSON.stringify(iData.items[0]));
+			oItem.addIcon = false;
+			oItem.hasError = false;
+			// this step, all good, move the new line to to items
+			/*	oItem.line = rData.totalLines + 1;
+				oItem.addIcon = false;
+				rData.items.splice(rData.items.length, 0, oItem);
+				rData.items.splice(0, 1);
+				rData.items.splice(0, 0, that._getNewItem());
+				//rData.newline = [that._getNewLine()];
+				rData.totalLines = rData.items.length - 1;
+				// ---to save some newwork traffic
+				rData.modifiedOn = new Date();*/
+			that.getInfoForPart(oItem, iData, model.getProperty('/purBpCode'), iData.dealerCode, function (documentType) {
+				that.createOrderDraft(iData, function (rData, isOk) {
+					if (isOk) {
+						rData.items[0].line = rData.totalLines + 1;
+						rData.items[0].addIcon = false;
+						rData.items.splice(rData.items.length, 0, rData.items[0]);
+						rData.items.splice(0, 1);
+						rData.items.splice(0, 0, that._getNewItem());
+						//rData.newline = [that._getNewLine()];
+						rData.totalLines = rData.items.length - 1;
+						// ---to save some newwork traffic
+						rData.modifiedOn = new Date();
+						model.setData(rData);
+						that.draftInd.showDraftSaved();
+					} else {
+						iData.items[0].addIcon = true;
+						MessageBox.error(failedtext, {
+							onClose: function (sAction) {
+								//TODO??
+							}
+						});
+					};
+				});
 			});
+
+			sap.ui.core.BusyIndicator.hide();
+			oSource.setEnabled(true);
+			//});
 		},
 
 		toggleSelect: function (oEvent) {
@@ -594,7 +660,7 @@ sap.ui.define([
 			var isSelected = oEvent.getParameters("Selected").selected;
 			var model = this.getModel(CONT_ORDER_MODEL);
 			var data = model.getData();
-			for (var i = 0; i < data.items.length; i++) {
+			for (var i = 1; i < data.items.length; i++) {
 				data.items[i].selected = isSelected;
 			}
 			model.setData(data);
@@ -689,6 +755,7 @@ sap.ui.define([
 				sap.ui.core.BusyIndicator.show(0);
 				//var newLineItems = model.getData().newline;
 				var items = model.getData().items;
+				//items.splice(0,1);
 				that.activateDraftOrder(model.getData(), function (rxData, hasError) {
 					sap.ui.core.BusyIndicator.hide();
 					that._showActivationResult(rxData, model.isSalesOrder, hasError);
@@ -734,6 +801,7 @@ sap.ui.define([
 			var lv_orderNumber = null;
 			var lv_aDraft = null;
 			var lv_tciOrderNumber = rData.tciOrderNumber;
+			var bError = false
 			if (!!rData && !!rData.associatedDrafts) {
 				for (var x = 0; x < rData.associatedDrafts.length; x++) {
 					lv_aDraft = rData.associatedDrafts[x];
@@ -747,6 +815,7 @@ sap.ui.define([
 								lv_messageArrary.push(lv_messages[y].code + " : " + lv_messages[y].message);
 							}
 						}
+						bError = true;
 					} else {
 						if (!!isSalesOrder) {
 							lv_messageArrary.push(resourceBundle.getText('Message.Success.Activate.Draft.Sales', [lv_draftUuid, lv_orderNumber,
@@ -757,6 +826,9 @@ sap.ui.define([
 						}
 
 					}
+				}
+				if (bError) {
+					rData.items.splice(0, 0, that._getNewItem());
 				}
 			}
 			var failedtext = resourceBundle.getText('Message.Failed.Activation.Draft');
@@ -823,74 +895,77 @@ sap.ui.define([
 			var model = this.getModel(CONT_ORDER_MODEL);
 			var path = oEvent.getSource().getBindingContext(CONT_ORDER_MODEL).getPath();
 			var obj = model.getProperty(path);
-			var newValue = oEvent.getParameter("newValue");
-			var isSalesOrder = model.getProperty('/isSalesOrder');
-			this.draftInd.showDraftSaving();
+			if (obj.addIcon !== true) {
+				var newValue = oEvent.getParameter("newValue");
+				var isSalesOrder = model.getProperty('/isSalesOrder');
+				this.draftInd.showDraftSaving();
 
-			if (!!isSalesOrder) {
-				//sales order 
-				this.updateSalesDraftItem([obj.uuid, obj.parentUuid], {
-					'TargetQty': newValue.toString()
-				}, function (data, messageList) {
-					obj.messages = messageList;
-					obj.colorCode = that.getMessageColor(messageList);
-					obj.iconUrl = 'sap-icon://e-care';
-					obj.messageLevel = that.getMessageLevel(messageList);
-					model.setProperty(path, obj);
-					that.draftInd.showDraftSaved();
-				});
+				if (!!isSalesOrder) {
+					//sales order 
+					this.updateSalesDraftItem([obj.uuid, obj.parentUuid], {
+						'TargetQty': newValue.toString()
+					}, function (data, messageList) {
+						obj.messages = messageList;
+						obj.colorCode = that.getMessageColor(messageList);
+						obj.iconUrl = 'sap-icon://e-care';
+						obj.messageLevel = that.getMessageLevel(messageList);
+						model.setProperty(path, obj);
+						that.draftInd.showDraftSaved();
+					});
 
-			} else {
-				// thr purchase order
-				this.updateOrderDraftItem([obj.uuid, obj.parentUuid, obj.line], {
-					'Quantity': newValue
-				}, function (data, messageList) {
-					obj.messages = messageList;
-					obj.colorCode = that.getMessageColor(messageList);
-					obj.iconUrl = 'sap-icon://e-care';
-					obj.messageLevel = that.getMessageLevel(messageList);
-					model.setProperty(path, obj);
-					that.draftInd.showDraftSaved();
-				});
+				} else {
+					// thr purchase order
+					this.updateOrderDraftItem([obj.uuid, obj.parentUuid, obj.line], {
+						'Quantity': newValue
+					}, function (data, messageList) {
+						obj.messages = messageList;
+						obj.colorCode = that.getMessageColor(messageList);
+						obj.iconUrl = 'sap-icon://e-care';
+						obj.messageLevel = that.getMessageLevel(messageList);
+						model.setProperty(path, obj);
+						that.draftInd.showDraftSaved();
+					});
+				}
 			}
-
 		},
 
 		onCommentChange: function (oEvent) {
 			var that = this;
 			var model = this.getModel(CONT_ORDER_MODEL);
 			var path = oEvent.getSource().getBindingContext(CONT_ORDER_MODEL).getPath();
-			var obj = model.getProperty(path);
-			var newValue = oEvent.getParameter("newValue");
-			var isSalesOrder = model.getProperty('/isSalesOrder');
-			this.draftInd.showDraftSaving();
-			if (!!isSalesOrder) {
-				//sales order 
-				this.updateSalesDraftItem([obj.uuid, obj.parentUuid], {
-					'Comments': newValue
-				}, function (data, messageList) {
-					obj.messages = messageList;
-					obj.colorCode = that.getMessageColor(messageList);
-					obj.iconUrl = 'sap-icon://e-care';
-					obj.messageLevel = that.getMessageLevel(messageList);
-					model.setProperty(path, obj);
-					that.draftInd.showDraftSaved();
-				});
+			if (obj.addIcon !== true) {
+				var obj = model.getProperty(path);
+				var newValue = oEvent.getParameter("newValue");
+				var isSalesOrder = model.getProperty('/isSalesOrder');
+				this.draftInd.showDraftSaving();
 
-			} else {
-				// thr purchase order
-				this.updateOrderDraftItem([obj.uuid, obj.parentUuid, obj.line], {
-					'Comments': newValue
-				}, function (data, messageList) {
-					obj.messages = messageList;
-					obj.colorCode = that.getMessageColor(messageList);
-					obj.iconUrl = 'sap-icon://e-care';
-					obj.messageLevel = that.getMessageLevel(messageList);
-					model.setProperty(path, obj);
-					that.draftInd.showDraftSaved();
-				});
+				if (!!isSalesOrder) {
+					//sales order 
+					this.updateSalesDraftItem([obj.uuid, obj.parentUuid], {
+						'Comments': newValue
+					}, function (data, messageList) {
+						obj.messages = messageList;
+						obj.colorCode = that.getMessageColor(messageList);
+						obj.iconUrl = 'sap-icon://e-care';
+						obj.messageLevel = that.getMessageLevel(messageList);
+						model.setProperty(path, obj);
+						that.draftInd.showDraftSaved();
+					});
+
+				} else {
+					// thr purchase order
+					this.updateOrderDraftItem([obj.uuid, obj.parentUuid, obj.line], {
+						'Comments': newValue
+					}, function (data, messageList) {
+						obj.messages = messageList;
+						obj.colorCode = that.getMessageColor(messageList);
+						obj.iconUrl = 'sap-icon://e-care';
+						obj.messageLevel = that.getMessageLevel(messageList);
+						model.setProperty(path, obj);
+						that.draftInd.showDraftSaved();
+					});
+				}
 			}
-
 		},
 
 		handleDeletePart: function (oEvent) {
@@ -920,7 +995,7 @@ sap.ui.define([
 							if (isOk) {
 								deletedList[keys[0]] = keys;
 								deletedList.count = deletedList.count + 1;
-
+								items.splice(i, 1);
 							} else {
 								failedList[keys[0]] = messages;
 								failedList.count = failedList.count + 1;
@@ -940,8 +1015,9 @@ sap.ui.define([
 										newItems[z].messages = newItems[z].messages.concat(newItems[z].messages);
 									}
 								}
+
 								rData.items = newItems;
-								rData.totalLines = rData.items.length;
+								rData.totalLines = rData.items.length - 1;
 								// ---to save some newwork traffic
 								rData.modifiedOn = new Date();
 								model.setData(rData);
@@ -1023,39 +1099,39 @@ sap.ui.define([
 				//var bError = false;
 				//for (var y1 = 0; y1 < cellsLen; y1++) {
 				// PartNo
-				if (!!rowCells[1].getProperty("required")) {
-					if (rowCells[1].getValue() && rowCells[1].getValue().trim() === "") {
+				if (!!rowCells[2].getProperty("required")) {
+					if (rowCells[2].getValue() && rowCells[2].getValue().trim() === "") {
 						bSubmitError = true;
-						rowCells[1].setValueStateText("Invalid Value");
-						rowCells[1].setValueState("Error");
+						rowCells[2].setValueStateText("Invalid Value");
+						rowCells[2].setValueState("Error");
 						items[x1].hasError = true;
 					} else {
 						//bSubmitError = false;
-						rowCells[1].setValueStateText("");
-						rowCells[1].setValueState("None");
+						rowCells[2].setValueStateText("");
+						rowCells[2].setValueState("None");
 						items[x1].hasError = false;
 					}
 				}
 				//Qty
-				if (!!rowCells[4].getProperty("required")) {
-					if (rowCells[4].getValue() === "" || rowCells[4].getValue() < 1) {
+				if (!!rowCells[5].getProperty("required")) {
+					if (rowCells[5].getValue() === "" || rowCells[5].getValue() < 1) {
 						bSubmitError = true;
 						//rowCells[1].setValueStateText("Invalid Value");
-						rowCells[4].setValueState("Error");
+						rowCells[5].setValueState("Error");
 						items[x1].hasError = true;
 					} else {
 						//bSubmitError = false;
 						//rowCells[1].setValueStateText("");
-						rowCells[4].setValueState("None");
+						rowCells[5].setValueState("None");
 						items[x1].hasError = false;
 					}
 				}
 				// Campaign No or Contract No 
-				if ((typeD || typeB) && !!rowCells[5].getProperty("required")) {
-					if (rowCells[5].getValue() === "" || rowCells[5].getValue().trim() === "") {
+				if ((typeD || typeB) && !!rowCells[6].getProperty("required")) {
+					if (rowCells[6].getValue() === "" || rowCells[6].getValue().trim() === "") {
 						bSubmitError = true;
-						rowCells[5].setValueStateText("Invalid Value");
-						rowCells[5].setValueState("Error");
+						rowCells[6].setValueStateText("Invalid Value");
+						rowCells[6].setValueState("Error");
 						items[x1].hasError = true;
 					} else {
 						//bSubmitError = false;
@@ -1065,20 +1141,6 @@ sap.ui.define([
 					}
 				}
 				// Operation Code 
-				if (typeD && !!rowCells[6].getProperty("required")) {
-					if (rowCells[6].getValue() === "") {
-						bSubmitError = true;
-						rowCells[6].setValueStateText("Invalid Value");
-						rowCells[6].setValueState("Error");
-						items[x1].hasError = true;
-					} else {
-						//bSubmitError = false;
-						//rowCells[1].setValueStateText("");
-						rowCells[6].setValueState("None");
-						items[x1].hasError = false;
-					}
-				}
-				// Vin 
 				if (typeD && !!rowCells[7].getProperty("required")) {
 					if (rowCells[7].getValue() === "") {
 						bSubmitError = true;
@@ -1089,6 +1151,20 @@ sap.ui.define([
 						//bSubmitError = false;
 						//rowCells[1].setValueStateText("");
 						rowCells[7].setValueState("None");
+						items[x1].hasError = false;
+					}
+				}
+				// Vin 
+				if (typeD && !!rowCells[8].getProperty("required")) {
+					if (rowCells[8].getValue() === "") {
+						bSubmitError = true;
+						rowCells[8].setValueStateText("Invalid Value");
+						rowCells[8].setValueState("Error");
+						items[x1].hasError = true;
+					} else {
+						//bSubmitError = false;
+						//rowCells[1].setValueStateText("");
+						rowCells[8].setValueState("None");
 						items[x1].hasError = false;
 					}
 				}
@@ -1164,8 +1240,9 @@ sap.ui.define([
 			if (oItemBinding) {
 				oItemBinding.aSorters = null;
 				oItemBinding.aFilters = null;
+				oItemBinding.oCombinedFilter = null;
 			}
-			this.itemTable.getBinding("rows").applyFilter();
+			this.itemTable.getBinding("rows").getModel().refresh(true);
 			//this.itemTable.getModel().refresh(true);
 			for (iColCounter = 0; iColCounter < iTotalCols; iColCounter++) {
 				this.itemTable.getColumns()[iColCounter].setSorted(false);
@@ -1197,26 +1274,41 @@ sap.ui.define([
 
 			var oSorter = new Sorter(oSortColumn.getSortProperty(), sOrder === "Descending");
 			//The date data in the JSON model is string based. For a proper sorting the compare function needs to be customized.
-			oSorter.fnCompare = function (a, b) {
-				if (b == null) {
-					return -1;
-				}
-				if (a == null) {
-					return 1;
-				}
+			if (oSortColumn !== this.byId("ErrorStatus")) {
+				oSorter.fnCompare = function (a, b) {
+					if (b == null) {
+						return -1;
+					}
+					if (a == null) {
+						return 1;
+					}
 
-				/*	var aa = oDateFormat.parse(a).getTime();
-					var bb = oDateFormat.parse(b).getTime();*/
+					/*	var aa = oDateFormat.parse(a).getTime();
+						var bb = oDateFormat.parse(b).getTime();*/
 
-				if (a < b) {
-					return -1;
-				}
-				if (a > b) {
-					return 1;
-				}
-				return 0;
-			};
+					if (a < b) {
+						return -1;
+					}
+					if (a > b) {
+						return 1;
+					}
+					return 0;
+				};
+			} else {
+				oSorter.fnCompare = function (a) {
+					if (a.hasError) {
+						return 1;
+					} else {
+						return -1;
+					}
 
+					/*	var aa = oDateFormat.parse(a).getTime();
+						var bb = oDateFormat.parse(b).getTime();*/
+
+					return 0;
+				};
+
+			}
 			this.itemTable.getBinding("rows").sort(oSorter);
 
 		},
@@ -1242,7 +1334,166 @@ sap.ui.define([
 					}
 				}
 			}
-		}
+		},
+
+		onImport: function (oEven) {
+			var that = this;
+			var resourceBundle = this.getResourceBundle();
+
+			var oDialog = this._get_oItemImportDialog();
+			jQuery.sap.syncStyleClass("sapUiSizeCompact", that.getView(), oDialog);
+			oDialog.setContentWidth("500px");
+
+			var model = new JSONModel();
+			var data = {};
+			data.title = resourceBundle.getText("Label.Header.Import.Part");
+			data.currentTab = 'Part';
+			data.isOk = false;
+			data.currentImportitems = [];
+			model.setData(data);
+			oDialog.setModel(model);
+			oDialog.open();
+		},
+
+		getPartImportitems: function (sheet) {
+			var exLines = [];
+			var exLine = {};
+			var lines = XLSX.utils.sheet_to_json(sheet, {
+				header: ["A", "B", "C", "D"],
+				skipHeader: false
+			});
+			// first line is title
+			if (!!lines && lines.length > 1) {
+				for (var i = 1; i < lines.length; i++) {
+					exLine = {};
+					exLine.part = lines[i].A;
+					exLine.vendorid = lines[i].B;
+					exLine.desc = lines[i].C;
+					exLine.category = lines[i].D;
+					exLine.status = 'PD';
+					exLines.push(exLine);
+				}
+			}
+			return exLines;
+		},
+
+		onItemImportDialogCancel: function (oEvent) {
+			if (!!this._oItemImportDialog) {
+				this._oItemImportDialog.close();
+			}
+		},
+
+		onItemImportDialogOk: function (oEvent) {
+			if (!!this._oItemImportDialog) {
+				this._oItemImportDialog.close();
+			}
+		},
+
+		handleUploadPress: function (oEvent) {
+			var that = this;
+			var resourceBundle = this.getResourceBundle();
+
+			var oFileUploader = this.getView().byId("fileUploader");
+			if (!oFileUploader.getValue()) {
+				MessageToast.show(resourceBundle.getText('Message.error.import.nofile'));
+				return;
+			}
+
+			var that = this;
+			var viewModel = this.getModel(CONST_VIEW_MODEL);
+			var currentProgram = viewModel.getProperty('/currentProgram');
+
+			var oDialog = this._get_oItemImportDialog();
+			var theModel = oDialog.getModel();
+			var currentImportitems = theModel.getProperty("/currentImportitems");
+			var currentTab = theModel.getProperty("/currentTab");
+
+			var domRef = oFileUploader.getFocusDomRef();
+			var file = domRef.files[0];
+			var oUploadB = that.getView().byId("startUpload");
+			// Create a File Reader object
+			var reader = new FileReader();
+
+			reader.onload = function (e) {
+				var data = e.target.result;
+
+				var workbook = XLSX.read(data, {
+					type: 'binary'
+				});
+
+				if (!!workbook && !!workbook.SheetNames && workbook.SheetNames.length > 0) {
+					var aSheet = workbook.Sheets[workbook.SheetNames[0]];
+					currentImportitems = that.getImportitems(currentTab, aSheet);
+					oUploadB.setEnabled(true);
+
+				} else {
+					MessageToast.show(resourceBundle.getText('Message.error.import.errorfile'));
+					oUploadB.setEnabled(false);
+					currentImportitems = [];
+				}
+				theModel.setProperty("/currentImportitems", currentImportitems);
+				// workbook.SheetNames.forEach(function (sheetName) {
+				// 	// Here is your object
+				// 	var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+				// 	var json_object = JSON.stringify(XL_row_object);
+				// });
+
+				// Bind the data to the Table
+				// var oModel = new sap.ui.model.json.JSONModel();
+				// oModel.setData(lines);
+				// var oTable = that.getView().byId("loadTable");
+				// oTable.setModel(oModel);
+			};
+			reader.onerror = function (ex) {
+				oUploadB.setEnabled(false);
+				MessageToast.show(resourceBundle.getText('Message.error.import.errorfile'));
+				theModel.setProperty("/currentImportitems", []);
+			};
+			reader.readAsBinaryString(file);
+		},
+
+		onItemImportDialogStartUpload: function (oEvent) {
+			var that = this;
+			var resourceBundle = this.getResourceBundle();
+
+			var oDialog = this._get_oItemImportDialog();
+			var theModel = oDialog.getModel();
+			var currentTab = theModel.getProperty("/currentTab");
+			var theButton = oEvent.getSource(); //.setEnabled(false);
+
+			MessageBox.confirm(resourceBundle.getText("Message.confirm.import.data"), {
+				onClose: function (sAction) {
+					if ('OK' === sAction) {
+						switch (currentTab) {
+						case 'Category':
+							return that.updateCategories();
+						case 'Vendor':
+							return that.updateVendors();
+						case 'DeliveryMethod':
+							return that.updateDeliveryMethod();
+						case 'DeliveryLocation':
+							return that.updateDeliveryLocation();
+						case 'PriorPurchase':
+							return that.updatePriorPurchase();
+						case 'Part':
+							return that.updatePart();
+						default:
+							return;
+							//return [];
+						}
+					}
+				}
+			});
+		},
+
+		_get_oItemImportDialog: function () {
+			if (!this._oItemImportDialog) {
+				this._oItemImportDialog = sap.ui.xmlfragment(this.getView().getId(),
+					"tci.wave2.ui.parts.ordering.view.fragments.PartsOrderImport", this);
+				this.getView().addDependent(this._oItemImportDialog);
+			}
+			return this._oItemImportDialog;
+		},
 
 	});
 
