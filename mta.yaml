@@ -28,7 +28,7 @@ modules:
    parameters:
       host: tci-dev-partsordering
       disk-quota: 512M
-      memory: 512M
+      memory: 256M
    build-parameters:
       builder: grunt
    requires:
