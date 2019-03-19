@@ -536,6 +536,7 @@ sap.ui.define([
 			}
 			if (hasError) {
 				sap.ui.getCore().getMessageManager().removeAllMessages();
+				//Commented for debugging
 				this.getRouter().navTo("StartOrdering", null, false);
 				return false;
 			} else {
@@ -715,7 +716,7 @@ sap.ui.define([
 			return this.getOwnerComponent().getModel("API_PURCHASEORDER_PROCESS_SRV");
 		},
 
-		getZCMATERIALSPQModel: function () {
+		getZCMATERIALModel: function () {
 			return this.getOwnerComponent().getModel("ZC_MATERIAL_SPQ_SRV");
 		},
 
@@ -863,7 +864,9 @@ sap.ui.define([
 		// Start of ZC_STOR_LOCN_CDS //Vendor here is BpCode.
 		getStorageInfo: function (vendor, callback) {
 			var oFilter = new Array();
+			//var aFilter = new Array();
 			oFilter[0] = new sap.ui.model.Filter("Vendor", sap.ui.model.FilterOperator.EQ, vendor);
+
 			//oFilter[0] = new sap.ui.model.Filter("DealerCode", sap.ui.model.FilterOperator.EQ, dealerCode);
 			var bModel = this.getZCStorLocationModel();
 			bModel.read("/ZC_STOR_LOCN", {
@@ -1019,6 +1022,42 @@ sap.ui.define([
 					callback(null);
 				}
 			});
+		},
+
+		getSupplierForPart: function (partNum, stoSupplyingPlant, callback) {
+			var that = this;
+
+			var oFilter = new Array();
+			oFilter[0] = new sap.ui.model.Filter("MaterialNumber", sap.ui.model.FilterOperator.EQ, partNum);
+			//oFilter[1] = new sap.ui.model.Filter("SalesOrganization", sap.ui.model.FilterOperator.EQ, sSalesOrganization);
+			//oFilter[2] = new sap.ui.model.Filter("DistributionChannel", sap.ui.model.FilterOperator.EQ, sDistributionChannel);
+			oFilter[1] = new sap.ui.model.Filter("Plant", sap.ui.model.FilterOperator.EQ, stoSupplyingPlant);
+			//oFilter[2] = new sap.ui.model.Filter("LanguageKey", sap.ui.model.FilterOperator.EQ, that.slang);
+			if (!this.oModel_SupplierForPart) {
+				this.oModel_SupplierForPart = this.getZCMATERIALModel();
+			}
+
+			this.oModel_SupplierForPart.read("/ZC_Purchasing_info", {
+				filters: new Array(new sap.ui.model.Filter({
+					filters: oFilter,
+					and: true
+				})),
+				success: function (oData, oResponse) {
+					if (!!oData && !!oData.results && oData.results.length > 0) {
+						callback(oData.results);
+					} else {
+						// error
+						callback(null);
+					}
+
+				},
+
+				error: function (err) {
+					// handle error?
+					callback(null);
+				}
+			});
+
 		},
 
 		getBusinessPartnersByDealerCode: function (dealerCode, callback) {
@@ -1479,8 +1518,6 @@ sap.ui.define([
 				}
 			});
 		},
-		
-
 
 		loadSalesDraft: function (uuid, orderData, callback) {
 			var that = this;
@@ -1542,7 +1579,7 @@ sap.ui.define([
 								aDraftItem.contractNum = lv_aResultItem.RefDoc;
 								aDraftItem.contractLine = lv_aResultItem.RefDocItemNo;
 								aDraftItem.partDesc = lv_aResultItem.MatDesc;
-								
+
 								//aDraftItem.spq = lv_aResultItem:'',
 
 								// messages - item level messages
@@ -1571,8 +1608,6 @@ sap.ui.define([
 				}
 			});
 		},
-		
-		
 
 		// [uuid, puuid] as key 
 		updateSalesDraftItem: function (keys, valueObj, callback) {
@@ -1592,6 +1627,28 @@ sap.ui.define([
 				},
 				error: function (oError) {
 					callback(null);
+				}
+			});
+		},
+
+		validateDataSet: function (campCode, opCode, vinNo, partNum, callback) {
+			var that = this;
+			var bModel = this.getProductModel();
+
+			var key = bModel.createKey('/validate_dataSet', {
+				'camp_no': campCode,
+				'op_code': opCode,
+				'VIN_no': vinNo,
+				'part_no': partNum
+			});
+			bModel.read(key, {
+				success: function (oData, oResponse) {
+					var messageList = that._extractSapItemMessages(oResponse);
+					callback(oData, true, messageList);
+				},
+				error: function (oError) {
+					var err = oError;
+					callback(null, false, []);
 				}
 			});
 		},
@@ -1626,7 +1683,7 @@ sap.ui.define([
 			// item level data
 			var obj = entry.getObject();
 			obj.HeaderDraftUUID = pUuid;
-			var len =  0;
+			var len = 0;
 			//obj.TargetQty = items[0].qty.toString();                //*
 			obj.TargetQty = data.items[len].qty.toString() || "0"; //*
 			obj.Material = data.items[len].partNumber; //*  
@@ -1926,7 +1983,7 @@ sap.ui.define([
 			}
 		},
 
-		getInfoForPart: function (oItem,iData, bpVendor, dealerCode, callbackFn) {
+		getInfoForPart: function (oItem, iData, bpVendor, dealerCode, stoSupplyingPlant, callbackFn) {
 			var that = this;
 			var lv_supplier = bpVendor;
 			var hasError = false;
@@ -1938,44 +1995,58 @@ sap.ui.define([
 				var lv_orderType = that.getRealOrderTypeByItemCategoryGroup(item1Data.ItemCategoryGroup, false, null);
 
 				if (lv_orderType === 'ZLOC') {
-					that.getMaterialById(partNum, function (data) {
+					that.getSupplierForPart(partNum, stoSupplyingPlant, function (data) {
 						if (!!data) {
-							var infoRecord = null;
-							if (!!data.to_PurchasingInfoRecord.results && data.to_PurchasingInfoRecord.results.length > 0) {
-								for (var i = 0; i < data.to_PurchasingInfoRecord.results.length; i++) {
-									infoRecord = data.to_PurchasingInfoRecord.results[i];
-									if (infoRecord.IsDeleted) {
-										infoRecord = null;
-									} else {
-										// only the none deleted infoRecord will survive
-										break;
+							oItem["supplier"] = data.VendorAccountNumber;
+
+							//oItem["sloc"] = data.SLoc;
+							oItem["revPlant"] = data.Plant;
+						}
+						callbackFn(oItem);
+					});
+					/*	that.getMaterialById(partNum, function (data) {
+							if (!!data) {
+								var infoRecord = null;
+								if (!!data.to_PurchasingInfoRecord.results && data.to_PurchasingInfoRecord.results.length > 0) {
+									for (var i = 0; i < data.to_PurchasingInfoRecord.results.length; i++) {
+										infoRecord = data.to_PurchasingInfoRecord.results[i];
+
+										if (infoRecord.IsDeleted) {
+											infoRecord = null;
+										} else {
+											// only the none deleted infoRecord will survive
+											break;
+										}
 									}
 								}
-							}
-							if (!!infoRecord && !infoRecord.IsDeleted) {
-								// get the first record only. 
-								lv_supplier = infoRecord.Supplier;
-								var lvPurchasingInfoRecord = infoRecord.PurchasingInfoRecord;
-								iData["Supplier"] = lv_supplier;
-								oItem.purInfoRecord = lvPurchasingInfoRecord;
-							}
+								if (!!infoRecord && !infoRecord.IsDeleted) {
+									// get the first record only. 
+									lv_supplier = infoRecord.Supplier;
+									var lvPurchasingInfoRecord = infoRecord.PurchasingInfoRecord;
+									iData["Supplier"] = lv_supplier;
+									oItem.purInfoRecord = lvPurchasingInfoRecord;
+								}
+							}*/
+					//Storage location & Plant set for item.
+					// oItem.sloc = data.SLoc;
+					// oItem.revPlant = data.Plant;
+
+					// callbackFn(oItem);
+					/*that.getStorageInfo(null, lv_supplier, function (data) {
+
+						// populate the rest of field
+						if (!!data && !!lv_supplier) {
+							oItem.sloc = data.SLoc;
+							oItem.revPlant = data.Plant;
 						}
+						callbackFn(oItem);
+					});*/
 
-						that.getStorageInfo(lv_supplier, function (data) {
-
-							// populate the rest of field
-							if (!!data && !!lv_supplier) {
-								oItem.sloc = data.SLoc;
-								oItem.revPlant = data.Plant;
-							}
-							callbackFn(lv_orderType);
-						});
-
-					});
+					//});
 
 				} else {
 
-					callbackFn(lv_orderType);
+					callbackFn(oItem);
 				}
 				//Common for UB & ZLOC 
 				/*	that.getStorageInfo(lv_supplier, function (data) {
@@ -2120,14 +2191,13 @@ sap.ui.define([
 													stepsContorl[4] = true;
 													if (!!cData && !!lvPurchasingInfoRecord) {
 														cacheDataItem.currency = cData.Currency;
-														cacheDataItem.netPriceAmount = cData.NetPriceAmount;
-														cacheDataItem.taxCode = cData.TaxCode;
-													}
-													// return is all finished 
-													if (isFinished()) {
 														if (hasError) {
 															callback(null);
-														} else {
+															cacheDataItem.netPriceAmount = cData.NetPriceAmount;
+															cacheDataItem.taxCode = cData.TaxCode;
+														}
+														// return is all finished 
+														if (isFinished()) {} else {
 															cacheData.push(cacheDataItem);
 															callback(cacheDataItem);
 														}
@@ -2554,7 +2624,7 @@ sap.ui.define([
 		// END -- SALES/PO related
 
 		// Start of new Purchase Order
-_createPurchaseOrderDraft: function (data, callback) {
+		_createPurchaseOrderDraft: function (data, callback) {
 			var that = this;
 			var aDraft = null;
 			var lv_orderType = this.getRealOrderTypeByItemCategoryGroup(data.items[0].itemCategoryGroup, data.isSalesOrder, data.orderTypeId);
@@ -2565,7 +2635,7 @@ _createPurchaseOrderDraft: function (data, callback) {
 				aDraft = data.associatedDrafts[x1];
 				if (lv_orderType === "UB" && lv_orderType === aDraft.OrderType) {
 					break;
-				}  else if (lv_orderType === "ZLOC" && data.purchaseOrg === aDraft.PurchasingOrganization &&
+				} else if (lv_orderType === "ZLOC" && data.purchaseOrg === aDraft.PurchasingOrganization &&
 					data.purchasingGroup === aDraft.PurchasingGroup &&
 					data.Supplier === aDraft.Supplier &&
 					lv_orderType === aDraft.OrderType
@@ -2674,7 +2744,6 @@ _createPurchaseOrderDraft: function (data, callback) {
 			}
 		},
 
-		
 		_addOrderDraftItem: function (pUuid, data, orderType, callback) {
 			var that = this;
 			var bModel = this.getPurchaseOrderModel();
@@ -2691,7 +2760,7 @@ _createPurchaseOrderDraft: function (data, callback) {
 			obj.Quantity = data.items[len].qty.toString();
 			obj.Material = data.items[len].partNumber;
 			obj.Comments = data.items[len].comment;
-			obj.MatDesc  = data.items[len].partDesc;
+			obj.MatDesc = data.items[len].partDesc;
 
 			// fake the data	
 			obj.Po_Unit = 'EA';

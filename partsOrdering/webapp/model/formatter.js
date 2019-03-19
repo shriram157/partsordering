@@ -17,12 +17,12 @@ sap.ui.define([], function () {
 			return parseFloat(sValue).toFixed(2);
 		},
 
-		linex1Format: function (typeD, typeB, line, campCode, contCode) {
+		linex1Format: function (typeD, typeB,  campCode, contCode) {
 			var lv_line;
-			if (!!line) {
+		/*	if (!!line) {
 				lv_line = line.replace(/^0+/, '');
 				lv_line = ''; // don't show the line number
-			}
+			}*/
 			if (!!typeD) {
 				if (!!lv_line) {
 					return lv_line + " / " + campCode;

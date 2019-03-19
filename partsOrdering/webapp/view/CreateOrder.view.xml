@@ -20,7 +20,7 @@
 				selectionMode="MultiToggle" ariaLabelledBy="title" class="sapUiNoMarginTop sapUiNoMarginEnd">-->
 			<HBox class="customStyleBox">
 				<ui:Table id="idProductsTable" alternateRowColors="false" showNoData="false" rows="{orderModel>/items}" visibleRowCount="12"
-					selectionMode="None" ariaLabelledBy="title" class="sapUiSizeCompact" rowHeight="25px" sort="handleSortColumn">
+					selectionMode="None" ariaLabelledBy="title" class="sapUiSizeCompact sapUiNoMarginTop sapUiNoMarginEnd" rowHeight="25px" sort="handleSortColumn">
 					<ui:extension>
 						<Toolbar class="customToolBar">
 							<content>
@@ -38,29 +38,36 @@
 						</Toolbar>
 					</ui:extension>
 					<ui:columns>
-							<ui:Column width="3rem">
+							<ui:Column width="2rem">
 							<Label text=""/>
 							<ui:template>
-								<CheckBox select='toggleSelect' wrapping="false" visible="{= ${orderModel>line} === 0 ? false : true }"/>
+								<CheckBox select='toggleSelect' wrapping="false" selected="{orderModel>selected}" visible="{= ${orderModel>line} > 0}" class="sapUiNoContentPadding"/>
 							</ui:template>
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remLine}">
 							<!--<Label text="{i18n>Lable.CreateOrder.Line} #"/>-->
 							<Label text="#"/>
 							<ui:template>
-								<Text text="{orderModel>line}" wrapping="false" visible="{= ${orderModel>line} === 0 ? false : true }"/>
+								<!--<Text text="{orderModel>line}" wrapping="false" visible="{= ${orderModel>line} === 0 ? false : true }"/>-->
+								<Text text="{orderModel>line}" wrapping="false" visible="{= ${orderModel>line} > 0}"/>
 							</ui:template>
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remPartNo}" id="Material" sortProperty="Material" >
 							<Label text="{i18n>Lable.CreateOrder.PartNumber}*"/>
 							<ui:template>
+								<VBox>
 								<Input value="{orderModel>partNumber}" type="Text" textFormatMode="Key" showSuggestion='true' suggest="handleSuggest"
 									change='handleProductChange' startSuggestion="3" suggestionItems="{path: 'infoRecordModel>/C_Product_Fs', templateShareable:true}"
-									maxSuggestionWidth='500px' width="115px" required="true" tooltip="{orderModel>partNumber}">
+									maxSuggestionWidth='500px' width="115px" required="true" tooltip="{orderModel>partNumber}" visible="{= ${orderModel>line} === 0 || ${orderModel>line} ===''}">
 									<suggestionItems >
 										<core:ListItem key="{infoRecordModel>Material}" text="{infoRecordModel>Material}" additionalText="{infoRecordModel>MaterialName}"/>
 									</suggestionItems>
 								</Input>
+									<ObjectIdentifier title="{ path : 'orderModel>partNumber', formatter : '.formatter.getItemNumber' }" 
+									titleActive = 'true' titlePress='showDraftItemInfo'
+									visible="{= ${orderModel>line} > 0}"/>
+								</VBox>
+							
 							</ui:template>
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remPartDesc}">
@@ -91,15 +98,15 @@
 							<ui:template >
 								<Input value="{ path : 'orderModel>contractNum', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:14}' }" type="Text"
 									valueStateText="{i18n>ValidationMessage.contractNum}" placeholder="{i18n>Placeholder.contractNum}" visible="{orderModel>/typeB}"
-									enabled="{orderModel>/typeB}" change='handleContractNumChange' required='true' valueState="None"/>
+									enabled="{orderModel>/typeB}"  required='false' valueState="None"/>
 							</ui:template>
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remCampaignNo}" visible="{orderModel>/typeD}" id="CampaigntNo" sortProperty="CampaignNo">
 							<Label text="{i18n>Lable.CreateOrder.CampaignNumber}*" visible="{orderModel>/typeD}"/>
 							<ui:template>
-								<Input value="{ path : 'orderModel>campainNum', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:14}' }" type="Text"
+								<Input value="{ path : 'orderModel>campaignNum', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:14}' }" type="Text"
 									valueStateText="{i18n>ValidationMessage.campainNum}" placeholder="{i18n>Placeholder.campainNum}" visible="{orderModel>/typeD}"
-									enabled="{orderModel>/typeD}" change='handleCampainNumChange' required='true' valueState="None"/>
+									enabled="{orderModel>/typeD}"  required='true' valueState="None"/>
 							</ui:template>
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remOpCode}" visible="{orderModel>/typeD}" id="OperationCode" sortProperty="OperationCode">
@@ -109,7 +116,7 @@
 							<ui:template>
 								<Input value="{ path : 'orderModel>opCode', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:10}' }" type="Text"
 									valueStateText="{i18n>ValidationMessage.opCode}" visible="{orderModel>/typeD}" placeholder="{i18n>Placeholder.opCode}"
-									enabled="{orderModel>/typeD}" change='handleOpCodeChange' required="true" valueState="None"/>
+									enabled="{orderModel>/typeD}"  required="true" valueState="None"/>
 							</ui:template>
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remVin}" visible="{orderModel>/typeD}" id="Vin" sortProperty="Vin">
@@ -118,7 +125,7 @@
 							<ui:template >
 								<Input type="Text" value="{ path: 'orderModel>vin', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:35}' }"
 									valueStateText="{i18n>ValidationMessage.vinNum}" placeholder="{i18n>Placeholder.vinNum}" visible="{orderModel>/typeD}"
-									enabled="{orderModel>/typeD}" change='handleVinChange' required='true' valueState="None"/>
+									enabled="{orderModel>/typeD}"  required='true' valueState="None"/>
 							</ui:template>
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remComments}">
@@ -128,7 +135,7 @@
 									width="{sizeModel>/remCommentsPx}"></TextArea>
 							</ui:template>
 						</ui:Column>
-						<ui:Column id="ErrorStatus" width="4rem">
+						<ui:Column id="ErrorStatus" width="3.5rem">
 							<ui:template>
 								<VBox width="3.5rem">
 									<Button type="Accept" tooltip="Add" class="size1" icon="sap-icon://add" press='handleAddPart' visible="{orderModel>addIcon}"></Button>
@@ -149,8 +156,8 @@
 				<ToolbarSpacer/>
 				<DraftIndicator id='draftInd'/>
 				<ToolbarSpacer/>
-		<!--		<Button type="Transparent" text="{i18n>Button.CreateOrder.ImportOrder}" class="size2" press='onImport'/>
-				<Button type="Transparent" text="{i18n>Button.CreateOrder.ExportOrder}" class="size2" press='onExport'/>-->
+				<Button type="Transparent" text="{i18n>Button.CreateOrder.ImportOrder}" class="size2" press='onImport'/>
+				<Button type="Transparent" text="{i18n>Button.CreateOrder.ExportOrder}" class="size2" press='onExport'/>
 				<Button type="Reject" text="{i18n>Button.CreateOrder.DeleteOrder}" class="size2" press='onDelete'/>
 				<Button type="Accept" text="{i18n>Button.CreateOrder.SubmitOrder}" class="size2" press='onActivate'/>
 			</OverflowToolbar>
