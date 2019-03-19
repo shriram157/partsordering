@@ -1808,7 +1808,7 @@ sap.ui.define([
 					// ---to save some newwork traffic
 					rData.modifiedOn = new Date();*/
 				that.getInfoForPart(oItem, iData, oModel.getProperty('/purBpCode'), iData.dealerCode, oModel.getProperty('/stoSupplyingPlant'),
-					function (documentType) {
+					function (iData) {
 						that.createOrderDraft(iData, function (rData, isOk) {
 							if (isOk) {
 								//rData.items[0].line = rData.totalLines + 1;
