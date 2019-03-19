@@ -642,7 +642,7 @@ sap.ui.define([
 				// ---to save some newwork traffic
 				rData.modifiedOn = new Date();*/
 			that.getInfoForPart(oItem, iData, model.getProperty('/purBpCode'), iData.dealerCode, model.getProperty('/stoSupplyingPlant'),
-				function (documentType) {
+				function (iData) {
 					that.createOrderDraft(iData, function (rData, isOk) {
 						if (isOk) {
 							rData.items[0].line = rData.totalLines + 1;
@@ -1121,7 +1121,6 @@ sap.ui.define([
 					if (rowCells[y1].getMetadata()._sClassName === "sap.m.Input") {
 						if (!!rowCells[y1].getProperty("required")) {
 							if (!(rowCells[y1].getValue().trim())) {
-							//if ((rowCells[y1].getValue()) && (rowCells[y1].getValue().trim() === "")) {
 								bSubmitError = true;
 								rowCells[y1].setValueStateText("Invalid Value");
 								rowCells[y1].setValueState("Error");
@@ -1590,7 +1589,7 @@ sap.ui.define([
 			// first line is title
 			if (!!lines && lines.length > 1) {
 
-				for (var i = 5; i < lines.length; i++) {
+				for (var i = 4; i < lines.length; i++) {
 					exLine = {};
 					var obj = lines[i];
 					for (var tabHeader in obj) {
@@ -1844,7 +1843,6 @@ sap.ui.define([
 			iData.items[0].line = 0;
 			//iData.items.splice(0, 0, that._getNewItem());
 			sap.ui.core.BusyIndicator.hide();
-			that._oItemImportDialog.close();
 			//oSource.setEnabled(true);
 			//});
 		}

@@ -1992,7 +1992,7 @@ sap.ui.define([
 
 			//'/A_Product'				
 			that.getPartsInfoById(partNum, function (item1Data) {
-				var lv_orderType = that.getRealOrderTypeByItemCategoryGroup(item1Data.ItemCategoryGroup, false, null);
+				var lv_orderType = that.getRealOrderTypeByItemCategoryGroup(item1Data.ItemCategoryGroup, iData.isSalesOrder, null);
 
 				if (lv_orderType === 'ZLOC') {
 					that.getSupplierForPart(partNum, stoSupplyingPlant, function (data) {
@@ -2002,7 +2002,8 @@ sap.ui.define([
 							//oItem["sloc"] = data.SLoc;
 							oItem["revPlant"] = data[0].Plant;
 						}
-						callbackFn(oItem);
+						iData.items[0] = oItem;
+						callbackFn(iData);
 					});
 					/*	that.getMaterialById(partNum, function (data) {
 							if (!!data) {
@@ -2046,7 +2047,7 @@ sap.ui.define([
 
 				} else {
 
-					callbackFn(oItem);
+					callbackFn(iData);
 				}
 				//Common for UB & ZLOC 
 				/*	that.getStorageInfo(lv_supplier, function (data) {
