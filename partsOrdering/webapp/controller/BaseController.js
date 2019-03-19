@@ -1996,11 +1996,11 @@ sap.ui.define([
 
 				if (lv_orderType === 'ZLOC') {
 					that.getSupplierForPart(partNum, stoSupplyingPlant, function (data) {
-						if (!!data) {
-							oItem["supplier"] = data.VendorAccountNumber;
+						if (!!data && !!data[0]) {
+							oItem["supplier"] = data[0].VendorAccountNumber;
 
 							//oItem["sloc"] = data.SLoc;
-							oItem["revPlant"] = data.Plant;
+							oItem["revPlant"] = data[0].Plant;
 						}
 						callbackFn(oItem);
 					});

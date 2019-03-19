@@ -1844,6 +1844,7 @@ sap.ui.define([
 			iData.items[0].line = 0;
 			//iData.items.splice(0, 0, that._getNewItem());
 			sap.ui.core.BusyIndicator.hide();
+			that._oItemImportDialog.close();
 			//oSource.setEnabled(true);
 			//});
 		}
