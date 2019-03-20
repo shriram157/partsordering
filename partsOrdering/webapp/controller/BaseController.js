@@ -1997,8 +1997,8 @@ sap.ui.define([
 				if (lv_orderType === 'ZLOC') {
 					that.getSupplierForPart(partNum, stoSupplyingPlant, function (data) {
 						if (!!data && !!data[0]) {
-							oItem["supplier"] = data[0].VendorAccountNumber;
-
+							//oItem["supplier"] = data[0].VendorAccountNumber;
+							iData["supplier"] = data[0].VendorAccountNumber;
 							//oItem["sloc"] = data.SLoc;
 							oItem["revPlant"] = data[0].Plant;
 						}
@@ -2638,7 +2638,7 @@ sap.ui.define([
 					break;
 				} else if (lv_orderType === "ZLOC" && data.purchaseOrg === aDraft.PurchasingOrganization &&
 					data.purchasingGroup === aDraft.PurchasingGroup &&
-					data.Supplier === aDraft.Supplier &&
+					data.supplier === aDraft.Supplier &&
 					lv_orderType === aDraft.OrderType
 				) {
 					break;
@@ -2711,7 +2711,7 @@ sap.ui.define([
 					//				obj.Pur_Group = "500";
 					//				lv_supplier = "T2030";
 					obj.Currency = data.items[0].currency || 'CAD';
-					obj.Vendor = data.Supplier;
+					obj.Vendor = data.supplier;
 					//obj.Supplier = data.Supplier;
 				}
 
