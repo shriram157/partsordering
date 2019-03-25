@@ -40,9 +40,9 @@
 						</content>
 					</Toolbar>
 				</ui:extension>
-				<!--<ui:rowSettingsTemplate>
+				<ui:rowSettingsTemplate>
 					<ui:RowSettings highlight="{importOrderModel>Status}" highlightText="{importOrderModel>StatusText}" />
-				</ui:rowSettingsTemplate>-->
+				</ui:rowSettingsTemplate>
 				<ui:columns>
 					<!--	<ui:Column width="2rem">
 							<Label text=""/>

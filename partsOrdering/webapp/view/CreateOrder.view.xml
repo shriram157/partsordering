@@ -63,7 +63,10 @@
 										<core:ListItem key="{infoRecordModel>Material}" text="{infoRecordModel>Material}" additionalText="{infoRecordModel>MaterialName}"/>
 									</suggestionItems>
 								</Input>
-									<ObjectIdentifier title="{ path : 'orderModel>partNumber', formatter : '.formatter.getItemNumber' }" 
+									<!--<ObjectIdentifier title="{ path : 'orderModel>partNumber', formatter : '.formatter.getItemNumber' }" -->
+									<!--titleActive = 'true' titlePress='showDraftItemInfo'-->
+									<!--visible="{= ${orderModel>line} > -1}"/>-->
+									<ObjectIdentifier title="{ path : 'orderModel>partNumber'}" 
 									titleActive = 'true' titlePress='showDraftItemInfo'
 									visible="{= ${orderModel>line} > 0}"/>
 								</VBox>

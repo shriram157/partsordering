@@ -63,7 +63,8 @@ sap.ui.define([
 			var orderListModel = this.getModel(CONT_OTLISTMODEL);
 			if (!!userProfile && !!userProfile.loaded) {
 				//debugging
-				//this.getBusinessPartnersByDealerCode("42120", function(sData){
+			//	this.getBusinessPartnersByDealerCode("46055", function(sData){
+		     //this.getBusinessPartnersByDealerCode("42120", function(sData){
 				this.getBusinessPartnersByDealerCode(userProfile.dealerCode, function (sData) {
 					bpCode = sData.BusinessPartner;
 					appStateModel.setProperty('/selectedBP/bpNumber', bpCode);
@@ -78,6 +79,8 @@ sap.ui.define([
 					appStateModel.setProperty('/selectedBP/bpGroup', zGroup);
 
 					// get the user type
+					//Debugging
+					//userProfile.userType = "Dealer";
 					userType = that.getInternalUserType(userProfile.userType, zGroup);
 					appStateModel.setProperty('/userInfo/userType', userType);
 					if ('Z001' === zGroup) {

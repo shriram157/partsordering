@@ -353,6 +353,8 @@ sap.ui.define([
 		isSalesOrderAssociated: function (bpType) {
 			if (!!bpType && 'Z001' === bpType) {
 				return true;
+			} else if (!!bpType && "Z005" == bpType) {
+				return true;
 			}
 			return false;
 		},
@@ -538,8 +540,8 @@ sap.ui.define([
 				sap.ui.getCore().getMessageManager().removeAllMessages();
 				//Commented for debugging
 				this.getRouter().navTo("StartOrdering", null, false);
-				return false;
-			} else {
+					return false;
+				} else {
 				return true;
 			}
 		},
@@ -681,7 +683,7 @@ sap.ui.define([
 		},
 
 		getZProductModel: function () {
-			return this.getOwnerComponent().getModel("ZMD_PRODUCT_FS_SRV");
+			return this.getOwnerComponent().getModel("ZMD_PRODUCT_FS_V2_SRV");
 		},
 
 		getApiProductModel: function () {
@@ -1024,11 +1026,11 @@ sap.ui.define([
 			});
 		},
 
-		getSupplierForPart: function (partNum, stoSupplyingPlant, callback) {
+		getSupplierForPart: function (oItem, stoSupplyingPlant, callback) {
 			var that = this;
-
+			//var oItemIndex = oltem[i];
 			var oFilter = new Array();
-			oFilter[0] = new sap.ui.model.Filter("MaterialNumber", sap.ui.model.FilterOperator.EQ, partNum);
+			oFilter[0] = new sap.ui.model.Filter("MaterialNumber", sap.ui.model.FilterOperator.EQ, oItem.partNumber);
 			//oFilter[1] = new sap.ui.model.Filter("SalesOrganization", sap.ui.model.FilterOperator.EQ, sSalesOrganization);
 			//oFilter[2] = new sap.ui.model.Filter("DistributionChannel", sap.ui.model.FilterOperator.EQ, sDistributionChannel);
 			oFilter[1] = new sap.ui.model.Filter("Plant", sap.ui.model.FilterOperator.EQ, stoSupplyingPlant);
@@ -1995,7 +1997,7 @@ sap.ui.define([
 				var lv_orderType = that.getRealOrderTypeByItemCategoryGroup(item1Data.ItemCategoryGroup, iData.isSalesOrder, null);
 
 				if (lv_orderType === 'ZLOC') {
-					that.getSupplierForPart(partNum, stoSupplyingPlant, function (data) {
+					that.getSupplierForPart(oItem, stoSupplyingPlant, function (data) {
 						if (!!data && !!data[0]) {
 							//oItem["supplier"] = data[0].VendorAccountNumber;
 							iData["supplier"] = data[0].VendorAccountNumber;
@@ -2758,7 +2760,7 @@ sap.ui.define([
 			// --- PYPASS -1
 			var len = 0;
 			obj.HeaderDraftUUID = pUuid;
-			obj.Quantity = data.items[len].qty.toString();
+			obj.Quantity = data.items[len].qty.toString() || "";
 			obj.Material = data.items[len].partNumber;
 			obj.Comments = data.items[len].comment;
 			obj.MatDesc = data.items[len].partDesc;
