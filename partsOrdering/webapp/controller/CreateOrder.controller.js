@@ -1853,11 +1853,12 @@ sap.ui.define([
 			for (var s = 0; s < aZLOCPurSuppliers.length; s++) {
 				var sSupplier = aZLOCPurSuppliers[s];
 				_createPODrafts(aZLOCPurSuppliers[sSupplier][0], aZLOCPurSuppliers[sSupplier]);
-				that._oItemImportDialog().close();
-			} else {
-				that._oItemImportDialog().close();
+				//that._oItemImportDialog().close();
+			} 
+			
+			that._oItemImportDialog().close();
 				
-			}
+			
 
 			//}
 
