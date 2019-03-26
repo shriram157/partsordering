@@ -1345,7 +1345,7 @@ sap.ui.define([
 			reader.onload = function (e) {
 				var data = e.target.result;
 				var binary = "";
-				var bytes = new Uint8Array(e.target.result);
+				var bytes = new  Uint8Array(e.target.result);
 				var length = bytes.byteLength;
 				for (var i = 0; i < length; i++) {
 					binary += String.fromCharCode(bytes[i]);
@@ -1396,7 +1396,8 @@ sap.ui.define([
 				MessageToast.show(resourceBundle.getText('Message.error.import.errorfile'));
 				theModel.setProperty("/currentImportitems", []);
 			};
-			reader.readAsBinaryString(file);
+			//reader.readAsBinaryString(file);
+			 reader.readAsArrayBuffer(file);
 		},
 
 		getPartImportitems: function (sheet) {
