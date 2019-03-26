@@ -1344,10 +1344,20 @@ sap.ui.define([
 
 			reader.onload = function (e) {
 				var data = e.target.result;
+				var binary = "";
+				var bytes = new Uint8Array(e.target.result);
+				var length = bytes.byteLength;
+				for (var i = 0; i < length; i++) {
+					binary += String.fromCharCode(bytes[i]);
+				}
 
-				var workbook = XLSX.read(data, {
+				var workbook = XLSX.read(binary, {
 					type: 'binary'
 				});
+
+				/*var workbook = XLSX.read(data, {
+					type: 'binary'
+				});*/
 
 				if (!!workbook && !!workbook.SheetNames && workbook.SheetNames.length > 0) {
 					var aSheet = workbook.Sheets[workbook.SheetNames[0]];
