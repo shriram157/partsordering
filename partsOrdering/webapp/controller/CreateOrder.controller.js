@@ -1783,7 +1783,7 @@ sap.ui.define([
 
 							}
 							that.itemTable.getBinding("rows").refresh(true);
-							
+
 						});
 					} else {
 
@@ -1829,7 +1829,7 @@ sap.ui.define([
 
 			if (aUBPurItems.length > 0) {
 				_createPODrafts(aUBPurItems[0], aUBPurItems);
-				
+
 			}
 
 			if (aZLOCPurItems.length > 0) {
@@ -1854,11 +1854,20 @@ sap.ui.define([
 				var sSupplier = aZLOCPurSuppliers[s];
 				_createPODrafts(aZLOCPurSuppliers[sSupplier][0], aZLOCPurSuppliers[sSupplier]);
 				//that._oItemImportDialog().close();
-			} 
-			
-			that._oItemImportDialog().close();
-				
-			
+			}
+			///that.itemTable.getBinding("rows").refresh(true);
+
+			var oBinding = that.itemTable.getBinding("rows");
+
+			var SORTKEY = "line";
+			var DESCENDING = false;
+			var GROUP = false;
+			var aSorter = [];
+
+			aSorter.push(new sap.ui.model.Sorter(SORTKEY, DESCENDING, GROUP));
+			oBinding.sort(aSorter);
+			that._oItemImportDialog.close();
+			that.itemTable.getBinding("rows").refresh(true);
 
 			//}
 
