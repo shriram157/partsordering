@@ -1,6 +1,6 @@
 ID: partsOrdering
-_schema-version: '2.1'
-description: The Dealer parts Ordering and Parts Status Inquiry application
+_schema-version: '3.1'
+description: Parts ordering consolidated app
 version: 0.3.1
 
 modules:
@@ -18,7 +18,7 @@ modules:
       properties:
          url: ${default-url}
    requires:
-    - name: cf-logging_partsOrdering
+    - name: application-logs_partsOrdering
     - name: uaa_partsOrdering
     - name: PARTS_ORDERING_APIM_CUPS
 
@@ -29,10 +29,12 @@ modules:
       host: tci-dev-partsordering
       disk-quota: 512M
       memory: 256M
+   properties:
+      XS_APP_LOG_LEVEL: info
    build-parameters:
       builder: grunt
    requires:
-    - name: cf-logging_partsOrdering
+    - name: application-logs_partsOrdering
     - name: uaa_partsOrdering
     - name: partsOrdering_node_api
       group: destinations
@@ -43,7 +45,7 @@ modules:
          timeout: 60000
 
 resources:
- - name: cf-logging_partsOrdering
+ - name: application-logs_partsOrdering
    type: org.cloudfoundry.managed-service
    parameters:
       service: application-logs

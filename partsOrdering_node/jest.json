@@ -24,7 +24,8 @@
     "collectCoverageFrom": [
         "**/*.js",
         "!**/tests/**",
-        "!**/appcontroller.[0-9]*/**",
+        "!**/appcontroller.[0-9|a-z|A-Z]*/**",
+        "!**/vendor/node*/**",
         "!runTest.js"
     ],
     "coverageDirectory": "reports/",
