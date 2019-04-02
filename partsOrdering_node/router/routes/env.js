@@ -25,10 +25,12 @@ module.exports = function() {
 	});
 
 	app.get('/configuration', (req, res) => {
+		// Get UPS name from env var UPS_NAME
+		var apimServiceName = process.env.UPS_NAME;
 		let options = {};
 		options = Object.assign(options, xsenv.getServices({
 			api: {
-				name: "PARTS_ORDERING_APIM_CUPS"
+				name: apimServiceName
 			}
 		}));
 		res.json(options);

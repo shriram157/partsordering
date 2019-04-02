@@ -12,6 +12,7 @@ modules:
       disk-quota: 512M
       memory: 256M
    properties:
+      UPS_NAME: PARTS_ORDERING_APIM_CUPS
       NODE_TLS_REJECT_UNAUTHORIZED: 0
    provides:
     - name: partsOrdering_node_api
