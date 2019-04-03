@@ -1,42 +1,39 @@
 {
-  "welcomeFile": "/webapp/index.html",
-  "routes": [
-    {
-      "path": "/resources",
-      "target": {
-        "type": "service",
-        "name": "sapui5",
-        "entryPath": "/resources"
-      },
-      "description": "SAPUI5 Resources"
-    },
-    {
-      "path": "/test-resources",
-      "target": {
-        "type": "service",
-        "name": "sapui5",
-        "entryPath": "/test-resources"
-      },
-      "description": "SAPUI5 Test Resources"
-    },
-    {
-      "path": "/sap/opu/odata",
-      "target": {
-        "type": "destination",
-        "name": "S4HANA_GW",
-        "entryPath": "/sap/opu/odata"
-      },
-      "description": "DG2 200"
-    },
-    {
-      "path": "/node",
-      "target": {
-        "type": "destination",
-        "name": "partsordering-node",
-        "entryPath": "/node"
-      },
-      "description": "partsordering-node"
-    }
-  ],
-  "sendWelcomeFileRedirect": true
+	"welcomeFile": "/webapp/index.html",
+	"routes": [{
+		"path": "/resources",
+		"target": {
+			"type": "service",
+			"name": "sapui5",
+			"entryPath": "/resources",
+			"version": "1.63.1"
+		},
+		"description": "SAPUI5 Resources"
+	}, {
+		"path": "/test-resources",
+		"target": {
+			"type": "service",
+			"name": "sapui5",
+			"entryPath": "/test-resources",
+			"version": "1.63.1"
+		},
+		"description": "SAPUI5 Test Resources"
+	}, {
+		"path": "/sap/opu/odata",
+		"target": {
+			"type": "destination",
+			"name": "S4HANA_GW",
+			"entryPath": "/sap/opu/odata"
+		},
+		"description": "DG2 200"
+	}, {
+		"path": "/node",
+		"target": {
+			"type": "destination",
+			"name": "partsordering-node",
+			"entryPath": "/node"
+		},
+		"description": "partsordering-node"
+	}],
+	"sendWelcomeFileRedirect": true
 }
