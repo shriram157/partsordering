@@ -1,28 +1,26 @@
 {
-  "welcomeFile": "/partsordering/index.html",
-  "authenticationMethod": "route",
-  "sessionTimeout": 15,
-  "logout": {
-    "logoutEndpoint": "/do/logout"
-  },
-  "routes": [
-    {
-      "source": "^/partsordering/(.*)$",
-      "target": "$1",
-      "localDir": "webapp",
-      "authenticationType": "xsuaa"
-    },
-    {
-      "source": "/node(.*)",
-      "destination": "core-node-backend",
-      "csrfProtection": false,
-      "authenticationType": "xsuaa"
-    },
-    {
+	"welcomeFile": "/partsordering/index.html",
+	"authenticationMethod": "route",
+	"sessionTimeout": 15,
+	"logout": {
+		"logoutEndpoint": "/do/logout"
+	},
+	"routes": [{
+		"source": "^/partsordering/index.html$",
+		"target": "index.html",
+		"localDir": "webapp",
+		"cacheControl": "no-cache, no-store, must-revalidate"
+	}, {
+		"source": "^/partsordering/(.*)$",
+		"target": "$1",
+		"localDir": "webapp"
+	}, {
+		"source": "/node(.*)",
+		"destination": "core-node-backend",
+		"csrfProtection": false
+	}, {
 		"source": "/sap/opu/odata/sap/(.*)",
 		"destination": "core-node-backend",
-		"csrfProtection" : false,
-		"authenticationType": "xsuaa"
-    }    
-  ]
-}  
+		"csrfProtection": false
+	}]
+}
