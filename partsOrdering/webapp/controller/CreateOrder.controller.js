@@ -630,9 +630,21 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						});
 					}
 					if (sOperation === "Create") {
-						that.aCreateItems.splice(Index - 1, 1);
+						for (var j = 0; j < that.aCreateItems.length; j++) {
+							if (that.aCreateItems[j].line === Index) {
+								that.aCreateItems.splice(j, 1);
+								break;
+							}
+						}
+
 					} else {
-						that.aUpdateItems.splice(Index - 1, 1);
+						for (var u = 0; u < that.aUpdateItems.length; u++) {
+							if (that.UpdateItems[j].line === Index) {
+								that.aUpdateItems.splice(j, 1);
+								break;
+							}
+						}
+
 					}
 					that.toggleSubmitDraftButton();
 				});
@@ -777,7 +789,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 												that.itemTable.getBinding("rows").getModel().refresh(true);
 											} else {
 												if (!aOrderErrorMessages.includes(messageList[j].message)) {
-												aOrderErrorMessages.push(messageList[j].message);
+													aOrderErrorMessages.push(messageList[j].message);
 												}
 											}
 
@@ -877,7 +889,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 												that.itemTable.getBinding("rows").getModel().refresh(true);
 											} else {
 												if (!lv_ErrorMessageArray.includes(lv_messages[j].message)) {
-												lv_ErrorMessageArray.push(lv_messages[j].message);
+													lv_ErrorMessageArray.push(lv_messages[j].message);
 												}
 											}
 
@@ -889,7 +901,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 							}
 							lv_ErrorMessageArray.push(resourceBundle.getText('Message.Failed.Activate.Draft', [lv_draftUuid]));
-						
+
 						}
 						bError = true;
 					} else { //hasError - false
@@ -908,7 +920,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				}
 			}
 			var failedtext = resourceBundle.getText('Message.Failed.Activation.Draft');
-				if (lv_ErrorMessageArray.length > 0) {
+			if (lv_ErrorMessageArray.length > 0) {
 				MessageBox.error(failedtext, {
 					details: lv_ErrorMessageArray.join("<br/>"),
 					styleClass: that.getOwnerComponent().getContentDensityClass(),
@@ -917,8 +929,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			} /*else {*/
 			if (lv_messageArray.length > 0) {
 				that._showActivationOk(lv_messageArray.join('<br/>'));
-			} 
-		
+			}
 
 		},
 
@@ -1066,6 +1077,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		onCampOpVINChange: function (oEvent) {
 			var that = this;
 			var model = this.oOrderModel;
+			var oSource = oEvent.getSource();
 			var path = oEvent.getSource().getBindingContext(CONT_ORDER_MODEL).getPath();
 			var obj = model.getProperty(path);
 			if (obj.addIcon !== true) {
@@ -1082,9 +1094,13 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							//bSubmit = true;
 							//Do Nothing
 							obj.hasError = false;
-							if (!!that.submitError[obj.partNumber]) {
+							if (that.submitError && (!!that.submitError[obj.partNumber])) {
 								that.submitError[obj.partNumber] = null;
 							}
+							if (!!oSource) {
+								oSource.setValueState("None");
+							}
+							that.itemTable.getBinding("rows").getModel().refresh(true);
 							//model.setProperty('/newline', newline);
 						} else {
 							obj.hasError = true;
@@ -1102,7 +1118,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				}
 			}
 		},
-
+		
 		onCommentChange: function (oEvent) {
 			var that = this;
 			var model = this.oOrderModel;
@@ -1361,7 +1377,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								that.itemTable.getBinding("rows").getModel().refresh(true);
 
 							}
-							if (IIndex === contractItems.length && (!bSubmitError)) {
+							if (IIndex === (contractItems.length - 1) && (!bSubmitError)) {
 								//return bSubmitError;
 								that._activateFinal(false);
 
@@ -1419,7 +1435,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						//oSource.setValueText("Invalid Contract No");
 					}
 					if (IIndex === items.length && (!bSubmitError)) {
-						this._activateFinal(false);
+						that._activateFinal(false);
 
 					}
 				});

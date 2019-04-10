@@ -225,13 +225,13 @@ sap.ui.define([], function () {
 					obj.Comments = salesItem.comment;
 					obj.MatDesc = salesItem.partDesc;
 					if (!!_orderData.typeD) { // Campiagn
-						obj.Zzcampaign = salesItem.campainNum;
-						obj.Zzopcode = salesItem.opCode;
-						obj.VIN_no = salesItem.vin;
+						obj.Zzcampaign = salesItem.campaignNum || "";
+						obj.Zzopcode = salesItem.opCode || "";
+						obj.VIN_no = salesItem.vin || "";
 					} else if (!!_orderData.typeB) {
 						if (salesItem.contractNum) {
 							obj.RefDoc = salesItem.contractNum.toString() || "";
-							obj.RefDocItemNo = salesItem.contractLine;
+							obj.RefDocItemNo = salesItem.contractLine || "";
 						} else {
 							obj.RefDoc = "";
 							obj.RefDocItemNo = "";
@@ -290,17 +290,17 @@ sap.ui.define([], function () {
 				updateObj["Material"] = salesItem.partNumber;
 				updateObj["SalesUnit"] = "EA";
 				//obj.TargetQty = items[0].qty.toString();                //*
-				updateObj["TargetQty"] = salesItem.qty.toString() || "0"; //*
+				updateObj["TargetQty"] = salesItem.qty.toString() || ""; //*
 				//obj.Material = salesItem.partNumber; //*  
 				updateObj["Comments"] = salesItem.comment;
 				//obj.MatDesc = salesItem.partDesc;
 				if (!!_orderData.typeD) { // Campiagn
-					updateObj["Zzcampaign"] = salesItem.campainNum;
-					updateObj["Zzopcode"] = salesItem.opCode;
-					updateObj["VIN_no"] = salesItem.vin;
+					updateObj["Zzcampaign"] = salesItem.campaignNum || "";
+					updateObj["Zzopcode"] = salesItem.opCode || "";
+					updateObj["VIN_no"] = salesItem.vin || "";
 				} else if (!!_orderData.typeB) {
 					updateObj["RefDoc"] = salesItem.contractNum.toString() || "";
-					updateObj["RefDocItemNo"] = salesItem.contractLine;
+					updateObj["RefDocItemNo"] = salesItem.contractLine || "";
 				}
 
 				_salesorderModel.update(key, updateObj, {
@@ -397,8 +397,8 @@ sap.ui.define([], function () {
 
 						var Index = getItemIndex();
 						var orderNumber = null;
-						orderNumber = oData.ebeln;
-						var addiMesssage = oData.message;
+						orderNumber = oData.results[0].ebeln;
+						//var addiMesssage = oData.message;
 						drafts[Index].pEnded = true;
 						drafts[Index].ActivationResults = oData.results; 
 						
@@ -852,7 +852,7 @@ sap.ui.define([], function () {
 			obj.Material = purchaseItem.partNumber; //*  				
 			obj.MatDesc = purchaseItem.partDesc || "";
 			obj.Po_Unit = "EA";
-			obj.Comments = purchaseItem.comment;
+			obj.Comments = purchaseItem.comment || "";
 			//obj.Po_Item = (oPurItem.Po_Item).toString();
 			//obj.Supplier = lv_supplier;
 
@@ -864,12 +864,12 @@ sap.ui.define([], function () {
 			//obj.PurchasingInfoRecord=items[0].purInfoRecord;
 
 			if (!!_orderData.typeD) { // Campiagn
-				obj.Zzcampaign = purchaseItem.campainNum;
-				obj.Zzopcode = purchaseItem.opCode;
-				obj.VIN_no = purchaseItem.vin;
+				obj.Zzcampaign = purchaseItem.campaignNum || "";
+				obj.Zzopcode = purchaseItem.opCode || "";
+				obj.VIN_no = purchaseItem.vin || "";
 			} else if (!!_orderData.typeB) {
-				obj.RefDoc = purchaseItem.contractNum;
-				obj.RefDocItemNo = purchaseItem.contractLine;
+				obj.RefDoc = purchaseItem.contractNum || "";
+				obj.RefDocItemNo = purchaseItem.contractLine || "";
 			}
 
 			_purchaseorderModel.create('/Draft_POItemSet', obj, {
@@ -928,7 +928,7 @@ sap.ui.define([], function () {
 					updateObj["Comments"] = purchaseItem.comment;
 					//obj.MatDesc = salesItem.partDesc;
 					if (!!_orderData.typeD) { // Campiagn
-						updateObj["Zzcampaign"] = purchaseItem.campainNum;
+						updateObj["Zzcampaign"] = purchaseItem.campaignNum;
 						updateObj["Zzopcode"] = purchaseItem.opCode;
 						updateObj["VIN_no"] = purchaseItem.vin;
 					} else if (!!_orderData.typeB) {
