@@ -9,8 +9,9 @@ sap.ui.define([
 	'sap/m/Link',
 	"sap/ui/core/message/Message",
 	"sap/ui/core/MessageType",
-	'sap/ui/model/json/JSONModel'
-], function (Controller, History, models, Device, MessagePopover, MessageItem, Link, Message, MessageType, JSONModel) {
+	"sap/ui/model/json/JSONModel",
+	"tci/wave2/ui/parts/ordering/utils/DataManager"
+], function (Controller, History, models, Device, MessagePopover, MessageItem, Link, Message, MessageType, JSONModel, DataManager) {
 	"use strict";
 
 	var CONST_APP_STATE = "APP_STATE";
@@ -18,6 +19,7 @@ sap.ui.define([
 	var CONST_PARTS_CACHE = "PARTS_CACHE";
 
 	return Controller.extend("tci.wave2.ui.parts.ordering.controller.BaseController", {
+		DataManager: DataManager,
 
 		/**
 		 * Convenience method for accessing the router in every controller of the application.
@@ -98,8 +100,11 @@ sap.ui.define([
 			return internalUT;
 		},
 
-		createUserTypeModel: function () {
+		createUserTypesModel: function () {
 			var resourceBundle = this.getResourceBundle();
+			var _stdOrder = resourceBundle.getText('order.type.standard');
+			var _rushOrder = resourceBundle.getText('order.type.rush');
+			var _campOrder = resourceBundle.getText('order.type.campaign');
 			var viewDatas = {
 				userTypes: [{
 					type: "001",
@@ -108,7 +113,7 @@ sap.ui.define([
 					init: false,
 					orderTypeList: [{
 						code: 1,
-						name: resourceBundle.getText('order.type.standard')
+						name: _stdOrder
 					}]
 				}, {
 					type: "002",
@@ -117,7 +122,7 @@ sap.ui.define([
 					init: false,
 					orderTypeList: [{
 						code: 1,
-						name: resourceBundle.getText('order.type.standard')
+						name: _stdOrder
 					}]
 				}, {
 					type: "003",
@@ -126,13 +131,13 @@ sap.ui.define([
 					init: false,
 					orderTypeList: [{
 						code: 1,
-						name: resourceBundle.getText('order.type.standard')
+						name: _stdOrder
 					}, {
 						code: 2,
-						name: resourceBundle.getText('order.type.rush')
+						name: _rushOrder
 					}, {
 						code: 3,
-						name: resourceBundle.getText('order.type.campaign')
+						name: _campOrder
 					}]
 				}, {
 					type: "004",
@@ -141,10 +146,10 @@ sap.ui.define([
 					init: false,
 					orderTypeList: [{
 						code: 1,
-						name: resourceBundle.getText('order.type.standard')
+						name: _stdOrder
 					}, {
 						code: 2,
-						name: resourceBundle.getText('order.type.rush')
+						name: _rushOrder
 					}]
 				}]
 			};
@@ -240,11 +245,11 @@ sap.ui.define([
 			return sap.ui.getCore().setModel(model, "CurrentOrderTypeList");
 		},
 
-		getUserTypeSelectionModel: function () {
-			var dataModel = sap.ui.getCore().getModel("UserTypeSelectionModel");
+		getUserTypesSelectionModel: function () {
+			var dataModel = sap.ui.getCore().getModel("UserTypesSelectionModel");
 			if (dataModel === null || dataModel === undefined) {
-				dataModel = this.createUserTypeModel();
-				sap.ui.getCore().setModel(dataModel, "UserTypeSelectionModel");
+				dataModel = this.createUserTypesModel();
+				sap.ui.getCore().setModel(dataModel, "UserTypesSelectionModel");
 			}
 			return dataModel;
 		},
@@ -277,8 +282,8 @@ sap.ui.define([
 			return appState;
 		},
 
-		setUserTypeSelectionModel: function (model) {
-			sap.ui.getCore().setModel(model, "UserTypeSelectionModel");
+		setUserTypesSelectionModel: function (model) {
+			sap.ui.getCore().setModel(model, "UserTypesSelectionModel");
 		},
 
 		// parts section 
@@ -540,8 +545,8 @@ sap.ui.define([
 				sap.ui.getCore().getMessageManager().removeAllMessages();
 				//Commented for debugging
 				this.getRouter().navTo("StartOrdering", null, false);
-					return false;
-				} else {
+				return false;
+			} else {
 				return true;
 			}
 		},
@@ -603,7 +608,7 @@ sap.ui.define([
 				}
 			}
 		},
-
+		/* Moved to DataManager */
 		_convertSeverty2Type: function (severty) {
 			switch (severty) {
 			case 'error':
@@ -618,6 +623,7 @@ sap.ui.define([
 			}
 		},
 
+		/* Moved to DataManager */
 		_extractSapMessage: function (oResponse) {
 			var that = this;
 			var sapMessage = null;
@@ -1521,6 +1527,109 @@ sap.ui.define([
 			});
 		},
 
+		loadSalesDraftByOrderNumber: function (dealer, orderData, callback) {
+			var that = this;
+			var lv_orderData = orderData;
+			var bModel = this.getSalesOrderModel();
+			//var key = bModel.createKey('/draft_soHeaderSet'	'HeaderDraftUUID': uuid,
+			//	'IsActiveEntity': 'false'
+			//});
+			var oFilter = new Array();
+			oFilter[0] = new sap.ui.model.Filter("PurchNoC", sap.ui.model.FilterOperator.EQ, orderData.tciOrderNumber);
+
+			//oFilter[1] = new sap.ui.model.Filter("PurchNoC", sap.ui.model.FilterOperator.EQ, orderData.tciOrderNumber);
+
+			oFilter[1] = new sap.ui.model.Filter("IsActiveEntity", sap.ui.model.FilterOperator.EQ, false);
+
+			bModel.read('/draft_soHeaderSet', {
+				filters: new Array(new sap.ui.model.Filter({
+					filters: oFilter,
+					and: true
+				})),
+				urlParameters: {
+					// "$select": "BusinessPartnerType,BusinessPartner,BusinessPartnerName"
+					"$expand": "headerToItemDraft"
+				},
+				success: function (oData, oResponse) {
+					var messageList = that._extractSapMessage(oResponse);
+
+					var lv_aResultItem = null;
+					var aDraftHeader = null;
+					var aDraftItem = null;
+
+					if (!!oData && (oData.results.length > 0)) {
+
+						lv_orderData.createDate = oData.results[0].CreationTimestamp; //oData.CreatedOn;
+						lv_orderData.modifiedOn = oData.results[0].CreationTimestamp;
+
+						lv_orderData.zOrderType = oData.results[0].DocType;
+						lv_orderData.isSalesOrder = true;
+						lv_orderData.orderTypeId = that.getInnerOrderTypeByZOrderType(lv_orderData.zOrderType);
+						lv_orderData.orderTypeName = that.getOrderTypeName(orderData.orderTypeId);
+						lv_orderData.tciOrderNumber = oData.results[0].PurchNoC;
+
+						//lv_draft.dealerCode = lv_aResult.ZZ1_DealerCode_PDH;
+						lv_orderData.bpCode = oData.results[0].SoldtoParty;
+
+						aDraftHeader = {};
+						aDraftHeader.DistributionChannel = oData.results[0].DistrChan;
+						aDraftHeader.SalesOrganization = oData.results[0].SalesOrg;
+						aDraftHeader.Division = oData.results[0].Division;
+						aDraftHeader.OrderType = oData.results[0].DocType;
+						aDraftHeader.DraftUUID = oData.results[0].HeaderDraftUUID;
+						aDraftHeader.Lines = 0;
+
+						lv_orderData.items = [];
+
+						if (!!oData.results[0].headerToItemDraft && !!oData.results[0].headerToItemDraft.results) {
+							for (var i = 0; i < oData.results[0].headerToItemDraft.results.length; i++) {
+								lv_aResultItem = oData.results[0].headerToItemDraft.results[i];
+								aDraftItem = {};
+								//aDraftItem.line = lv_aResultItem.ItmNumber;
+								aDraftItem.line = i + 1;
+								aDraftItem.partNumber = lv_aResultItem.Material;
+								aDraftItem.partDesc = ''; //lv_aResultItem.PurchaseOrderItemText;
+								aDraftItem.qty = lv_aResultItem.TargetQty;
+								aDraftItem.comment = lv_aResultItem.Comments;
+								aDraftItem.uuid = lv_aResultItem.ItemDraftUUID;
+								aDraftItem.parentUuid = lv_aResultItem.HeaderDraftUUID;
+								aDraftItem.campainNum = lv_aResultItem.Zzcampaign;
+								aDraftItem.opCode = lv_aResultItem.Zzopcode;
+								aDraftItem.vin = lv_aResultItem.VIN_no;
+								aDraftItem.contractNum = lv_aResultItem.RefDoc;
+								aDraftItem.contractLine = lv_aResultItem.RefDocItemNo;
+								aDraftItem.partDesc = lv_aResultItem.MatDesc;
+								aDraftItem.ItemStatus = "Draft";
+
+								//aDraftItem.spq = lv_aResultItem:'',
+								that.getSPQForDraftItem(aDraftItem, orderData);
+								// messages - item level messages
+								if (!!aDraftItem && !!aDraftItem.messages) {
+									aDraftItem.messages = aDraftItem.messages.concat(messageList[aDraftItem.uuid]);
+								} else {
+									aDraftItem.messages = [];
+									aDraftItem.messages = aDraftItem.messages.concat(messageList[aDraftItem.uuid]);
+								}
+								aDraftItem.messageLevel = that.getMessageLevel(aDraftItem.messages);
+								lv_orderData.items.push(aDraftItem);
+							}
+						}
+						aDraftHeader.Lines = lv_orderData.items.length;
+						lv_orderData.associatedDrafts = [];
+						lv_orderData.associatedDrafts.push(aDraftHeader);
+						callback(lv_orderData);
+					} else {
+						// error handleing 
+						callback(lv_orderData);
+					}
+				},
+				error: function (err) {
+					// error handling here
+					callback(lv_orderData);
+				}
+			});
+		},
+
 		loadSalesDraft: function (uuid, orderData, callback) {
 			var that = this;
 			var lv_orderData = orderData;
@@ -1568,7 +1677,8 @@ sap.ui.define([
 							for (var i = 0; i < oData.headerToItemDraft.results.length; i++) {
 								lv_aResultItem = oData.headerToItemDraft.results[i];
 								aDraftItem = {};
-								aDraftItem.line = lv_aResultItem.ItmNumber;
+								aDraftItem.line = i + 1;
+								//aDraftItem.line = lv_aResultItem.ItmNumber;
 								aDraftItem.partNumber = lv_aResultItem.Material;
 								aDraftItem.partDesc = ''; //lv_aResultItem.PurchaseOrderItemText;
 								aDraftItem.qty = lv_aResultItem.TargetQty;
@@ -1581,7 +1691,8 @@ sap.ui.define([
 								aDraftItem.contractNum = lv_aResultItem.RefDoc;
 								aDraftItem.contractLine = lv_aResultItem.RefDocItemNo;
 								aDraftItem.partDesc = lv_aResultItem.MatDesc;
-
+								aDraftItem.ItemStatus = "Draft";
+								that.getSPQForDraftItem(aDraftItem, orderData);
 								//aDraftItem.spq = lv_aResultItem:'',
 
 								// messages - item level messages
@@ -1633,12 +1744,12 @@ sap.ui.define([
 			});
 		},
 
-		validateDataSet: function (campCode, opCode, vinNo, partNum, callback) {
+		validateDataSet: function (campCode, opCode, vinNo, partNum, callbackFn) {
 			var that = this;
 			var bModel = this.getProductModel();
 
 			var key = bModel.createKey('/validate_dataSet', {
-				'camp_no': campCode,
+				'camp_code': campCode,
 				'op_code': opCode,
 				'VIN_no': vinNo,
 				'part_no': partNum
@@ -1646,36 +1757,38 @@ sap.ui.define([
 			bModel.read(key, {
 				success: function (oData, oResponse) {
 					var messageList = that._extractSapItemMessages(oResponse);
-					callback(oData, true, messageList);
+					callbackFn(oData, true, messageList);
 				},
 				error: function (oError) {
-					var err = oError;
-					callback(null, false, []);
+					var errorResponse = JSON.parse(oError.responseText);
+					var errMessage = errorResponse.error.message.value;
+					callbackFn(errMessage, false);
+					//callback(null, false, []);
 				}
 			});
 		},
 
-		// only for sale order 			
-		validateContractNumber: function (bpCode, contract, part, callback) {
-			var that = this;
-			var bModel = this.getSalesOrderModel();
+		/*	// only for sale order 		// Moved To DataManager	
+			validateContractNumber: function (bpCode, contract, part, callback) {
+				var that = this;
+				var bModel = this.getSalesOrderModel();
 
-			var key = bModel.createKey('/contractNo_validationSet', {
-				'camp_no': contract,
-				'dealer_code': bpCode,
-				'part_no': part
-			});
-			bModel.read(key, {
-				success: function (oData, oResponse) {
-					var messageList = that._extractSapItemMessages(oResponse);
-					callback(oData, true, messageList);
-				},
-				error: function (oError) {
-					var err = oError;
-					callback(null, false, []);
-				}
-			});
-		},
+				var key = bModel.createKey('/contractNo_validationSet', {
+					'camp_no': contract,
+					'dealer_code': bpCode,
+					'part_no': part
+				});
+				bModel.read(key, {
+					success: function (oData, oResponse) {
+						var messageList = that._extractSapItemMessages(oResponse);
+						callback(oData, true, messageList);
+					},
+					error: function (oError) {
+						var err = oError;
+						callback(null, false, []);
+					}
+				});
+			},*/
 
 		_addSalesDraftItem: function (pUuid, data, orderType, callback) {
 			var that = this;
@@ -1985,89 +2098,6 @@ sap.ui.define([
 			}
 		},
 
-		getInfoForPart: function (oItem, iData, bpVendor, dealerCode, stoSupplyingPlant, callbackFn) {
-			var that = this;
-			var lv_supplier = bpVendor;
-			var hasError = false;
-			var lv_orderType = null;
-			var partNum = oItem.partNumber;
-
-			//'/A_Product'				
-			that.getPartsInfoById(partNum, function (item1Data) {
-				var lv_orderType = that.getRealOrderTypeByItemCategoryGroup(item1Data.ItemCategoryGroup, iData.isSalesOrder, null);
-
-				if (lv_orderType === 'ZLOC') {
-					that.getSupplierForPart(oItem, stoSupplyingPlant, function (data) {
-						if (!!data && !!data[0]) {
-							//oItem["supplier"] = data[0].VendorAccountNumber;
-							iData["supplier"] = data[0].VendorAccountNumber;
-							//oItem["sloc"] = data.SLoc;
-							oItem["revPlant"] = data[0].Plant;
-						}
-						iData.items[0] = oItem;
-						callbackFn(iData);
-					});
-					/*	that.getMaterialById(partNum, function (data) {
-							if (!!data) {
-								var infoRecord = null;
-								if (!!data.to_PurchasingInfoRecord.results && data.to_PurchasingInfoRecord.results.length > 0) {
-									for (var i = 0; i < data.to_PurchasingInfoRecord.results.length; i++) {
-										infoRecord = data.to_PurchasingInfoRecord.results[i];
-
-										if (infoRecord.IsDeleted) {
-											infoRecord = null;
-										} else {
-											// only the none deleted infoRecord will survive
-											break;
-										}
-									}
-								}
-								if (!!infoRecord && !infoRecord.IsDeleted) {
-									// get the first record only. 
-									lv_supplier = infoRecord.Supplier;
-									var lvPurchasingInfoRecord = infoRecord.PurchasingInfoRecord;
-									iData["Supplier"] = lv_supplier;
-									oItem.purInfoRecord = lvPurchasingInfoRecord;
-								}
-							}*/
-					//Storage location & Plant set for item.
-					// oItem.sloc = data.SLoc;
-					// oItem.revPlant = data.Plant;
-
-					// callbackFn(oItem);
-					/*that.getStorageInfo(null, lv_supplier, function (data) {
-
-						// populate the rest of field
-						if (!!data && !!lv_supplier) {
-							oItem.sloc = data.SLoc;
-							oItem.revPlant = data.Plant;
-						}
-						callbackFn(oItem);
-					});*/
-
-					//});
-
-				} else {
-
-					callbackFn(iData);
-				}
-				//Common for UB & ZLOC 
-				/*	that.getStorageInfo(lv_supplier, function (data) {
-
-						// populate the rest of field
-						if (!!data && !!lv_supplier) {
-							oItem.sloc = data.SLoc;
-							oItem.revPlant = data.Plant;
-						}
-					});*/
-				//}
-				//Common for UB & ZLOC 
-
-				//}
-				//});
-
-			});
-		},
 		/// only for Z004/Z005 
 		getInfoFromPart_Old: function (partNum, bpVendor, callback) {
 			var that = this;
@@ -2618,7 +2648,8 @@ sap.ui.define([
 				if (!!orderData.DraftUUID) {
 					return that.loadSalesDraft(orderData.DraftUUID, orderData, callback);
 				} else {
-					callback(orderData);
+					return that.loadSalesDraftByOrderNumber(dealer, orderData, callback);
+					//callback(orderData);
 				}
 			} else {
 				return this.loadPurDealerDraft(dealer, orderData, callback);
@@ -3002,7 +3033,8 @@ sap.ui.define([
 									lv_aResultItem = lv_aResult.headerToItemDraft.results[i];
 
 									aDraftItem = {};
-									aDraftItem.line = lv_aResultItem.Po_Item;
+									aDraftItem.line = i + 1;
+									aDraftItem.Po_Item = lv_aResultItem.Po_Item;
 									aDraftItem.partNumber = lv_aResultItem.Material;
 
 									//aDraftItem.partDesc =lv_aResultItem.PurchaseOrderItemText;
@@ -3014,11 +3046,12 @@ sap.ui.define([
 									aDraftItem.uuid = lv_aResultItem.ItemDraftUUID;
 									aDraftItem.parentUuid = lv_aResultItem.HeaderDraftUUID;
 									aDraftItem.partDesc = lv_aResultItem.MatDesc;
-
+									aDraftItem.ItemStatus =  "Draft";
+									that.getSPQForDraftItem(aDraftItem, orderData);
 									// aDraftItem.supplier = lv_aResultItem.Supplier;
 									// aDraftItem.purInfoRecord = lv_aResultItem.PurchasingInfoRecord;
 									//aDraftItem.spq = lv_aResultItem:'',
-
+									
 									// messages - item level messages
 									if (!!aDraftItem && !!aDraftItem.messages) {
 										aDraftItem.messages = aDraftItem.messages.concat(messageList[aDraftItem.uuid]);
@@ -3042,6 +3075,54 @@ sap.ui.define([
 					callback(lv_orderData);
 				}
 			});
+		},
+		
+		getSPQForDraftItem : function(aDraftItem, oOrderModel) {
+		var that = this;
+		var orderTypeId = oOrderModel.orderTypeId;
+		DataManager.getPartDescSPQForPart(aDraftItem.partNumber, aDraftItem, function (item1Data, oItem) {        
+						if (!!item1Data) {
+						oItem["Status"] = "Success";
+						oItem["StatusText"] = "";
+						oItem["hasError"] = false;
+						oItem["itemCategoryGroup"] = item1Data[0].categoryGroup;
+						oItem["division"] = item1Data[0].Division;
+						//oItem["partDesc"] = item1Data[0].MaterialDescription;
+						//oItem["sloc"] = oOrderModel.getProperty("/sloc");
+						//Valid for UB Only-will be updated for ZLOC
+						//oItem["revPlant"] = oOrderModel.getProperty("/revPlant");
+						//Valid for UB Only-will be updated for ZLOC
+						oItem["companyCode"] = "2014";
+						oItem["spq"] = item1Data[0].SPQ;
+						oItem["selected"] = false;
+						oItem["OrderType"] = that.getRealOrderTypeByItemCategoryGroup(item1Data[0].categoryGroup, that.bIsSalesOrder, orderTypeId);
+						/*if (oItem["orderType"] === 'ZLOC') {
+ 							that.getSupplierForPart(oItem["partNum"], stoSupplyingPlant, function (data) {
+ 								if (!!data && !!data[0]) {*/
+						//oItem["supplier"] = data[0].VendorAccountNumber;
+						//oItem["supplier"] = item1Data[0].VendorAccountNumber;
+						//oItem["sloc"] = data.SLoc;
+						oItem["revPlant"] = item1Data[0].Plant;
+						//oModel.setProperty("/itemCategoryGroup", item1Data[0].categoryGroup);
+
+					
+					} else {
+						oItem["Status"] = "Error";
+						oItem["StatusText"] = "Incorrect Data";
+						oItem["hasError"] = true;
+						oItem["itemCategoryGroup"] = "";
+						//oItem["division"] = "";
+						//oItem["partDesc"] = "";
+						//oItem["supplier"] = "";
+						//oItem["purInfoRecord"] = "";
+						//oItem["companyCode"] = "";
+						//oItem["currency"] = 'CAD';
+						//oItem["netPriceAmount"] = "";
+						//oItem["taxCode"] = "";
+						oItem["spq"] = "";
+					}
+				  //return oItem;
+				});
 		},
 
 		// [uuid, line] as key 

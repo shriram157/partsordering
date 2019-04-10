@@ -8,7 +8,7 @@
 		<buttons>
 			<Button text="{i18n>Button.CreateOrder.Cancel}" press="onItemImportDialogCancel"/>
 			<Button text="Start Upload" press="handleAddPartForImport" id="startUpload" enabled="fasle"/>
-			<Button text="{i18n>Button.CreateOrder.Ok}" press="onItemImportDialogOk"/>
+			<!--<Button text="{i18n>Button.CreateOrder.Ok}" press="onItemImportDialogOk"/>-->
 		</buttons>
 		<!--</l:content>-->
 		<Toolbar>

@@ -1,16 +1,25 @@
 sap.ui.define([
 	"tci/wave2/ui/parts/ordering/controller/BaseController",
 	"tci/wave2/ui/parts/ordering/model/models",
-	"sap/ui/model/json/JSONModel"
-], function (BaseController, models, JSONModel) {
+	"tci/wave2/ui/parts/ordering/utils/UIHelper",
+	"sap/ui/model/json/JSONModel",
+	"tci/wave2/ui/parts/ordering/utils/DataManager",
+], function (BaseController, models, UIHelper, JSONModel, DataManager) {
 	"use strict";
 
 	var CONT_OTLISTMODEL = "orderTypeListModel";
 	var CONT_HEADERMODEL = "headerMenuModel";
+
 	return BaseController.extend("tci.wave2.ui.parts.ordering.controller.StartOrdering", {
+
+		UIHelper: UIHelper,
+		DataManager: DataManager,
 
 		onInit: function () {
 			// default mode
+			var _oComponentOwner = this.getOwnerComponent();
+			DataManager.init(BaseController, _oComponentOwner, this.getResourceBundle(), this.getSapLangugaeFromLocal());
+
 			var appStateModel = this.getStateModel();
 			this.setModel(appStateModel);
 
@@ -50,29 +59,36 @@ sap.ui.define([
 			var appStateModel = this.getModel();
 
 			var userProfile = appStateModel.getProperty('/userProfile');
-			var viewDataModel = this.getUserTypeSelectionModel();
+			var viewDataModel = this.getUserTypesSelectionModel();
 			var viewData = viewDataModel.getData();
-
+			/* UI Helper */
 			var bpCode = null;
 			var userType = null;
 			var dealerType = null;
 			var zGroup = null;
 			var customer = null;
+			/* UI Helper */
 
 			var currentOrderTypeList = [];
 			var orderListModel = this.getModel(CONT_OTLISTMODEL);
 			if (!!userProfile && !!userProfile.loaded) {
 				//debugging
-			//	this.getBusinessPartnersByDealerCode("46055", function(sData){
-		     //this.getBusinessPartnersByDealerCode("42120", function(sData){
+				//	this.getBusinessPartnersByDealerCode("46055", function(sData){
+				//userProfile.dealerCode = "42120"; // debugging - comment it 
+				//this.getBusinessPartnersByDealerCode("42120", function (sData) {
+					
 				this.getBusinessPartnersByDealerCode(userProfile.dealerCode, function (sData) {
 					bpCode = sData.BusinessPartner;
 					appStateModel.setProperty('/selectedBP/bpNumber', bpCode);
+					UIHelper.setBpCode(bpCode);
 					//appStateModel.setProperty('/selectedBP/bpName', sData.BusinessPartnerName);
 					appStateModel.setProperty('/selectedBP/bpName', sData.OrganizationBPName1);
 					appStateModel.setProperty('/selectedBP/dealerCode', userProfile.dealerCode);
+					UIHelper.setDealerCode(userProfile.dealerCode);
 					appStateModel.setProperty('/selectedBP/customer', sData.Customer);
-
+					UIHelper.setCustomer(sData.Customer);
+					UIHelper.setDealerType(sData.to_Customer.Attribute1);
+					UIHelper.setBpGroup(sData.BusinessPartnerType);
 					zGroup = sData.BusinessPartnerType;
 					dealerType = sData.to_Customer.Attribute1;
 					appStateModel.setProperty('/selectedBP/bpType', dealerType);
@@ -83,6 +99,7 @@ sap.ui.define([
 					//userProfile.userType = "Dealer";
 					userType = that.getInternalUserType(userProfile.userType, zGroup);
 					appStateModel.setProperty('/userInfo/userType', userType);
+					UIHelper.setUserType(userType);
 					if ('Z001' === zGroup) {
 						// redefine the order list 
 						that.getSalesDocTypeByBPCode(bpCode, dealerType, function (lData) {
@@ -106,7 +123,9 @@ sap.ui.define([
 				});
 
 			} else {
-				var userType = appStateModel.getProperty('/userInfo/userType');
+				//var userType = appStateModel.getProperty('/userInfo/userType');
+
+				var userType = UIHelper.getUserType();
 
 				for (var i = 0; i < viewData.userTypes.length; i++) {
 					if (userType === viewData.userTypes[i].type) {
@@ -115,7 +134,8 @@ sap.ui.define([
 				}
 
 				// default
-				bpCode = appStateModel.getProperty('/selectedBP/bpNumber');
+				//bpCode = appStateModel.getProperty('/selectedBP/bpNumber');
+				bpCode = UIHelper.getBpCode();
 				orderListModel.setProperty('/typeList', currentOrderTypeList);
 				that.setCurrentOrderTypeList(orderListModel);
 
@@ -123,6 +143,8 @@ sap.ui.define([
 					if (!!sData && !!sData.to_Customer) {
 						zGroup = sData.BusinessPartnerType;
 						dealerType = sData.to_Customer.Attribute1;
+						UIHelper.setBpGroup(sData.BusinessPartnerType);
+						UIHelper.setDealerType(sData.to_Customer.Attribute1);
 						appStateModel.setProperty('/selectedBP/bpType', dealerType);
 						appStateModel.setProperty('/selectedBP/bpGroup', zGroup);
 						if ('Z001' === zGroup) {
@@ -151,6 +173,9 @@ sap.ui.define([
 			if (!this.checkDealerInfo()) {
 				//commented for debugging
 				return false;
+			} else {
+			 var vModel = this.getView().getModel();
+			 vModel.setProperty('/selectedOrderMeta/order_id', "");
 			}
 
 			this.init();

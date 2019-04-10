@@ -1,0 +1,10 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<ResponsivePopover title="Line No {ErrorMessage>/line}" class="sapUiPopupWithPadding" placement="Bottom">
+		<endButton>
+			<Button text="Close" press="handleCloseButton"/>
+		</endButton>
+		<content>
+			<FormattedText htmlText="{/}"/>
+		</content>
+	</ResponsivePopover>
+</core:FragmentDefinition>
