@@ -810,7 +810,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						} else {
 							that.submitError = null;
 							that._showErrorSort(false);
-							that._showActivationResult(that.oOrderModel, that.bIsSalesOrder, oData.results[0].vbeln, false);
+							that._showActivationResult(that.oOrderModel, that.bIsSalesOrder, orderNumber, false);
 
 						}
 						//that._showActivationResult(rxData, this.bSalesOrder, hasError);
