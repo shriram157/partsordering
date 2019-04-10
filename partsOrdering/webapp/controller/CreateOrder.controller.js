@@ -1377,7 +1377,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								that.itemTable.getBinding("rows").getModel().refresh(true);
 
 							}
-							if (IIndex === (contractItems.length - 1) && (!bSubmitError)) {
+							if (IIndex === (contractItems.length) && (!bSubmitError)) {
 								//return bSubmitError;
 								that._activateFinal(false);
 
