@@ -320,11 +320,6 @@ sap.ui.define([
 			this._getMessagePopover().toggle(oEvent.getSource());
 		},
 
-		handleLogout: function (oEvent) {
-			//	this.getRouter().navTo("Login", null, false);
-
-		},
-
 		getSapLangugaeFromLocal: function () {
 			return sap.ui.getCore().getConfiguration().getLanguage().toUpperCase().substring(0, 2);
 		},
