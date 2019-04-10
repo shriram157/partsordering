@@ -767,7 +767,10 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				if (this.bIsSalesOrder) {
 					DataManager.activateSalesDraftOrder(this.oOrderModel.getData(), function (oData, orderNumber, messageList) {
 						sap.ui.core.BusyIndicator.hide();
-						if (!oData.results[0].vbeln) {
+						if ((!orderNumber) && (!!oData.results)) {
+							orderNumber = oData.results[0].vbeln;
+						}
+						if (!orderNumber) {
 							if (messageList.length > 0) {
 								that.submitError = {};
 								var items = that.oOrderModel.getData().items;

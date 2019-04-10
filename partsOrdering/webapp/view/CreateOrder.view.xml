@@ -19,10 +19,9 @@
 				rows="{ path: 'orderModel/items/', sorter: [{ path: 'partNumber', descending: false }, { path: 'line', descending: false }] }"
 				selectionMode="MultiToggle" ariaLabelledBy="title" class="sapUiNoMarginTop sapUiNoMarginEnd">-->
 			<HBox class="customStyleBox">
-				<ScrollContainer height="100%" width="100%" horizontal="false" vertical="true" focusable="true">
-					<ui:Table id="idProductsTable" alternateRowColors="false" showNoData="false" rows="{orderModel>/items}" visibleRowCount="25"
+					<ui:Table id="idProductsTable" alternateRowColors="false" showNoData="false" rows="{orderModel>/items}" visibleRowCount="11"
 						selectionMode="None" ariaLabelledBy="title" class="sapUiSizeCompact sapUiNoMarginTop sapUiNoMarginEnd" rowHeight="25px"
-						sort="handleSortColumn">
+						sort="handleSortColumn"  >
 						<ui:extension>
 							<Toolbar class="customToolBar">
 								<content>
@@ -111,7 +110,7 @@
 								<ui:template>
 									<Input value="{ path : 'orderModel>campaignNum', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:14}' }" type="Text"
 										valueStateText="{i18n>ValidationMessage.campainNum}" placeholder="{i18n>Placeholder.campainNum}" visible="{orderModel>/typeD}"
-										enabled="{orderModel>/typeD}" required='true' valueState="None" change='onCampOpVINChange'/>
+										enabled="{orderModel>/typeD}" required='true' valueState="None" change='onCampOpVINChange' />
 								</ui:template>
 							</ui:Column>
 							<ui:Column width="{sizeModel>/remOpCode}" visible="{orderModel>/typeD}" id="OperationCode" sortProperty="OperationCode">
@@ -156,7 +155,6 @@
 							</ui:Column>
 						</ui:columns>
 					</ui:Table>
-				</ScrollContainer>
 			</HBox>
 		</content>
 		<footer>
