@@ -112,11 +112,11 @@ sap.ui.define([
 			});
 			
 			this.loadConfiguration(function(configurationData){
-				var appLinkes = {};
-				appLinkes.loaded = true;
+				var appLinks = {};
+				appLinks.loaded = true;
 				if (!!configurationData && !!configurationData.api.APPLINKS ){
-					appLinkes.PARTS_AVAILIBILITY = configurationData.api.APPLINKS.PARTS_AVAILIBILITY;
-					appMode.setProperty("/appLinkes", appLinkes);
+					appLinks.PARTS_AVAILIBILITY = configurationData.api.APPLINKS.PARTS_AVAILIBILITY;
+					appMode.setProperty("/appLinks", appLinks);
 				}
 				if (that.isAppModelLoaded() ){
 					sap.ui.core.BusyIndicator.hide();
@@ -133,7 +133,7 @@ sap.ui.define([
 	    	var appMode = this.getModel('ApplicationMode');
 	    	if (!!appMode && !!appMode.getData()){
 	    		var appData = appMode.getData();
-	    		if( !!appData.userProfile && !!appData.userProfile.loaded && !!appData.appLinkes && !!appData.appLinkes.loaded  ){
+	    		if( !!appData.userProfile && !!appData.userProfile.loaded && !!appData.appLinks && !!appData.appLinks.loaded  ){
 	    			isLoaded = true;
 	    		}
 	    	}
@@ -158,7 +158,7 @@ sap.ui.define([
 		loadConfiguration : function(callbackFunc){
 			var that = this;
 			$.ajax({
-				url: "/node/env/configuration",
+				url: "/node/env/uiConfig",
 				type: "GET",
 				dataType: "json",
 				success: function (oData,a,b) {

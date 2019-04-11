@@ -5,26 +5,21 @@
 var xsenv = require('@sap/xsenv');
 var express = require('express');
 
-module.exports = function() {
+module.exports = function () {
 	var app = express.Router();
 
-	app.get('/whoAmI', (req, res) => {
-		var userContext = req.authInfo;
-		var result = JSON.stringify({
-			userContext: userContext
-		});
-		res.type('application/json').status(200).send(result);
+	router.get("/userProfile", (req, res) => {
+		var userContext = ;
+		res.type('application/json').status(200).send(JSON.stringify({
+			userContext: {
+				scopes: JSON.parse(JSON.stringify(req.authInfo.scopes)),
+				userAttributes: JSON.parse(JSON.stringify(req.authInfo.userAttributes)),
+				userInfo: JSON.parse(JSON.stringify(req.authInfo.userInfo))
+			}
+		}));
 	});
 
-	app.get('/userProfile', (req, res) => {
-		var userContext = req.authInfo;
-		var result = JSON.stringify({
-			userContext: userContext
-		});
-		res.type('application/json').status(200).send(result);
-	});
-
-	app.get('/configuration', (req, res) => {
+	app.get('/uiConfig', (req, res) => {
 		// Get UPS name from env var UPS_NAME
 		var apimServiceName = process.env.UPS_NAME;
 		let options = {};
@@ -33,8 +28,8 @@ module.exports = function() {
 				name: apimServiceName
 			}
 		}));
-		res.json(options);
+		res.json(options.UI_CONFIG);
 	});
-	
+
 	return app;
 };

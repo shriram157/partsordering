@@ -379,7 +379,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var vModel = this.getModel();
 			// get the view model
 
-			var root = vModel.getProperty('/appLinkes/PARTS_AVAILIBILITY');
+			var root = vModel.getProperty('/appLinks/PARTS_AVAILIBILITY');
 			var lang = vModel.getProperty('/userProfile/language');
 			var div = vModel.getProperty('/userProfile/division');
 

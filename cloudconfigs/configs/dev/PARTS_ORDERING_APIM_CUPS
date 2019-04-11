@@ -13,7 +13,9 @@
 			"password": "Odata@123"
 		}
 	},
-	"APPLINKS" : {
-		"PARTS_AVAILIBILITY" : "https://partsavailability.cfapps.us10.hana.ondemand.com/partsavailability/" 
+	"UI_CONFIG": {
+		"APPLINKS" : {
+			"PARTS_AVAILIBILITY" : "https://partsavailability.cfapps.us10.hana.ondemand.com/partsavailability/"
+		}
 	}
 }
