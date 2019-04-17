@@ -201,7 +201,8 @@
 					<items>
 						<ColumnListItem>
 							<cells>
-								<ObjectIdentifier title="{path : 'viewModel>part_no', formatter:'.formatter.getItemNumber' }"/>
+								<!--<ObjectIdentifier title="{path : 'viewModel>part_no', formatter:'.formatter.getItemNumber' }"/>-->
+								<ObjectIdentifier title="{viewModel>part_no}"/>
 								<Text text="{path : 'viewModel>ship_from' }" />
 								<core:Icon src="sap-icon://share" color='#FF5733' visible="{path : 'viewModel>sub_flag', formatter:'.formatter.sub2boolean'}" />
 								<ObjectNumber number="{path: 'viewModel>quant_ordered', formatter:'.formatter.round2dec'}" />
