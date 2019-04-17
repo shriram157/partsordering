@@ -7,7 +7,7 @@
 		</customHeader>
 		<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.ToolHeader" type="XML"/>
 		<content>
-			<fb:FilterBar reset="onReset" header="" showClearOnFB="false" showRestoreOnFB="false" advancedMode="true" filterBarExpanded="true"
+			<fb:FilterBar reset="onReset" header="" showClearOnFB="false" showRestoreOnFB="false" advancedMode="false" filterBarExpanded="true"
 				search="onSearch" showRestoreButton="false" showClearButton="true" useToolbar='false' showGoOnFB='true'
 				visible="{viewModel>/filterPanelEnable}" showFilterConfiguration='false'>
 				<fb:filterItems>
