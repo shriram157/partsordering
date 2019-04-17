@@ -7,8 +7,8 @@
 		</customHeader>
 		<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.ToolHeader" type="XML"/>
 		<content>
-			<fb:FilterBar reset="onReset" header="" showClearOnFB="false" showRestoreOnFB="true" advancedMode="true" filterBarExpanded="true"
-				search="onSearch" showRestoreButton="true" showClearButton="true" useToolbar='false' showGoOnFB='false'
+			<fb:FilterBar reset="onReset" header="" showClearOnFB="false" showRestoreOnFB="false" advancedMode="true" filterBarExpanded="true"
+				search="onSearch" showRestoreButton="false" showClearButton="true" useToolbar='false' showGoOnFB='true'
 				visible="{viewModel>/filterPanelEnable}" showFilterConfiguration='false'>
 				<fb:filterItems>
 					<fb:FilterItem name="dealer" label="{i18n>Label.CheckOrder.Dealer}" labelTooltip="{i18n>Label.CheckOrder.Dealer}">
@@ -86,7 +86,7 @@
 							<SearchField placeholder='{i18n>Placeholder.CheckOrder.QuickSearch}' showRefreshButton='true' showSearchButton='true'
 								liveChange='onLiveChange' search='onSearch' width='500px'/>
 							<Button id="settingButton" icon="sap-icon://sort" type="Transparent" press="onSetting"/>
-							<Button id="filterButton" icon="sap-icon://collapse" type="Transparent" press="onExpandFilter"/>
+							<Button id="filterButton" icon="sap-icon://collapse" tooltip='{i18n>ToolTip.Show.Search}' type="Transparent" press="onExpandFilter"/>
 						</content>
 					</Toolbar>
 				</headerToolbar>
