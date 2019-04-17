@@ -366,24 +366,27 @@ sap.ui.define([
 					var date = new Date();
 					var year = date.getFullYear();
 					var month = date.getMonth();
-
+					
 					if (month < 10) {
 						month = "0" + month;
 					};
 					var day = date.getDate();
+				
 					if (day < 10) {
 						day = "0" + day;
 					}
 					conditions.toOrderDate = year + month + day;
-					viewModel.setProperty("/filters/toOrderDate", conditions.toOrderDate);
+					viewModel.setProperty("/filters/toOrderDate", year + month + day);
 					date.setMonth(month - 3);
 					month = date.getMonth();
+
 					if (month < 10) {
 						month = "0" + month;
 					};
 					year = date.getFullYear();
 					conditions.fromOrderDate = year + month + day;
-					viewModel.setProperty("/filters/fromOrderDate", conditions.fromOrderDate);
+					viewModel.setProperty("/filters/fromOrderDate", year + month + day);
+				
 				}
 
 				// the ALL will not put new condition to the search query
@@ -407,6 +410,9 @@ sap.ui.define([
 				var list = that.byId("idProductsTable");
 				var binding = list.getBinding("items");
 				var afilters = [];
+				binding.afilters = null;
+				binding.oCombinedFilter = null;
+				binding.filter(null);
 				if (!!filters.partNumber && filters.partNumber.trim().length > 0) {
 					var filter = new sap.ui.model.Filter("part_no", sap.ui.model.FilterOperator.EQ, filters.partNumber);
 					//binding.filter(filter, true);
