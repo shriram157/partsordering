@@ -406,11 +406,11 @@ sap.ui.define([
 
 				var list = that.byId("idProductsTable");
 				var binding = list.getBinding("items");
-				var filters = [];
+				var afilters = [];
 				if (!!filters.partNumber && filters.partNumber.trim().length > 0) {
 					var filter = new sap.ui.model.Filter("part_no", sap.ui.model.FilterOperator.EQ, filters.partNumber);
 					//binding.filter(filter, true);
-					filters.push(filter);
+					afilters.push(filter);
 					//conditions.partNumber = filters.partNumber.trim();
 				}
 
@@ -419,16 +419,16 @@ sap.ui.define([
 					for (var x1 = 0; x1 < filters.partsStates.length; x1++) {
 						switch (filters.partsStates[x1]) {
 						case 'IP':
-							filters.push(new sap.ui.model.Filter("quant_in_process", sap.ui.model.FilterOperator.GT, 0.00));
+							afilters.push(new sap.ui.model.Filter("quant_in_process", sap.ui.model.FilterOperator.GT, 0.00));
 							break;
 						case 'PR':
-							filters.push(new sap.ui.model.Filter("quant_processed", sap.ui.model.FilterOperator.GT, 0.00));
+							afilters.push(new sap.ui.model.Filter("quant_processed", sap.ui.model.FilterOperator.GT, 0.00));
 							break;
 						case 'CL':
-							filters.push(new sap.ui.model.Filter("quant_cancelled", sap.ui.model.FilterOperator.GT, 0.00));
+							afilters.push(new sap.ui.model.Filter("quant_cancelled", sap.ui.model.FilterOperator.GT, 0.00));
 							break;
 						case 'BK':
-							filters.push(new sap.ui.model.Filter("quant_back_ordered", sap.ui.model.FilterOperator.GT, 0.00));
+							afilters.push(new sap.ui.model.Filter("quant_back_ordered", sap.ui.model.FilterOperator.GT, 0.00));
 							break;
 						}
 					}
@@ -436,8 +436,8 @@ sap.ui.define([
 					//oFilter.push(aFilter);
 					
 				}
-				if (filters.length > 0) {
-					binding.filter(filters, true);
+				if (afilters.length > 0) {
+					binding.filter(afilters, true);
 				}
 				viewModel.setProperty('/filteredItems', binding.getLength());
 
