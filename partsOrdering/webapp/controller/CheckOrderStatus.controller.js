@@ -374,15 +374,15 @@ sap.ui.define([
 					if (day < 10) {
 						day = "0" + day;
 					}
-					conditions.toOrderDate = year + month + day ;
-						viewModel.setProperty("/filters/toOrderDate", conditions.toOrderDate);
+					conditions.toOrderDate = year + month + day;
+					viewModel.setProperty("/filters/toOrderDate", conditions.toOrderDate);
 					date.setMonth(month - 3);
 					month = date.getMonth();
 					if (month < 10) {
 						month = "0" + month;
 					};
 					year = date.getFullYear();
-					conditions.fromOrderDate =  year + month + day ;
+					conditions.fromOrderDate = year + month + day;
 					viewModel.setProperty("/filters/fromOrderDate", conditions.fromOrderDate);
 				}
 
@@ -413,7 +413,7 @@ sap.ui.define([
 
 					//conditions.partNumber = filters.partNumber.trim();
 				}
-				
+
 				if (!!filters.partsStates && filters.partsStates.length > 0) {
 					var partsSts = [];
 					for (var x1 = 0; x1 < filters.partsStates.length; x1++) {
@@ -436,8 +436,6 @@ sap.ui.define([
 					//oFilter.push(aFilter);
 					binding.filter(partsSts);
 				}
-				
-				
 
 				viewModel.setProperty('/filteredItems', binding.getLength());
 
