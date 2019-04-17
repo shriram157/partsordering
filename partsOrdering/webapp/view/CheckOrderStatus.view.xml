@@ -79,14 +79,16 @@
 			</fb:FilterBar>
 			<Table id="idProductsTableHeader" showNoData="false">
 				<headerToolbar>
-					<content>
-						<Text text="{path : 'viewModel>/filteredItems', formatter:'.formatter.totalLine1' }"/>
-						<ToolbarSpacer/>
-						<SearchField placeholder='{i18n>Placeholder.CheckOrder.QuickSearch}' showRefreshButton='true' showSearchButton='true'
-							liveChange='onLiveChange' search='onSearch' width='500px'/>
-						<Button id="settingButton" icon="sap-icon://sort" type="Transparent" press="onSetting"/>
-						<Button id="filterButton" icon="sap-icon://collapse" type="Transparent" press="onExpandFilter"/>
-					</content>
+					<Toolbar>
+						<content>
+							<Text text="{path : 'viewModel>/filteredItems', formatter:'.formatter.totalLine1' }"/>
+							<ToolbarSpacer/>
+							<SearchField placeholder='{i18n>Placeholder.CheckOrder.QuickSearch}' showRefreshButton='true' showSearchButton='true'
+								liveChange='onLiveChange' search='onSearch' width='500px'/>
+							<Button id="settingButton" icon="sap-icon://sort" type="Transparent" press="onSetting"/>
+							<Button id="filterButton" icon="sap-icon://collapse" type="Transparent" press="onExpandFilter"/>
+						</content>
+					</Toolbar>
 				</headerToolbar>
 				<columns>
 					<Column width="11%">
