@@ -48,6 +48,8 @@ sap.ui.define([
 			this._oFilterTciOrderNumber = this.byId('tciOrderNumberFilter');
 			this._oFilterDeleveryNumber = this.byId('deleveryNumberFilter');
 			this._oFilterFiNumber = this.byId('fiNumberFilter');
+			this._fromDate = this.byId('dateFrom');
+			this._toDate = this.byId('dateTo');
 
 			this.checkDealerInfo();
 
@@ -356,9 +358,10 @@ sap.ui.define([
 
 				if (conditions.toOrderDate === "" && conditions.fromOrderDate !== "") {
 					conditions.toOrderDate = conditions.fromOrderDate;
-					conditions.fromOrderDate = "";
+					viewModel.setProperty("/filters/toOrderDate", conditions.fromOrderDate);
 				} else if (conditions.fromOrderDate === "" && conditions.toOrderDate !== "") {
 					conditions.fromOrderDate = conditions.toOrderDate;
+					viewModel.setProperty("/filters/fromOrderDate", conditions.toOrderDate);
 				} else if (conditions.fromOrderDate === "" && conditions.toOrderDate === "") {
 					var date = new Date();
 					var year = date.getFullYear();
@@ -371,14 +374,16 @@ sap.ui.define([
 					if (day < 10) {
 						day = "0" + day;
 					}
-					conditions.toOrderDate = "'" + year + month + day + "'";
+					conditions.toOrderDate = year + month + day ;
+						viewModel.setProperty("/filters/toOrderDate", conditions.toOrderDate);
 					date.setMonth(month - 3);
 					month = date.getMonth();
 					if (month < 10) {
 						month = "0" + month;
 					};
 					year = date.getFullYear();
-					conditions.fromOrderDate = "'" + year + month + day + "'";
+					conditions.fromOrderDate =  year + month + day ;
+					viewModel.setProperty("/filters/fromOrderDate", conditions.fromOrderDate);
 				}
 
 				// the ALL will not put new condition to the search query
@@ -408,6 +413,31 @@ sap.ui.define([
 
 					//conditions.partNumber = filters.partNumber.trim();
 				}
+				
+				if (!!filters.partsStates && filters.partsStates.length > 0) {
+					var partsSts = [];
+					for (var x1 = 0; x1 < filters.partsStates.length; x1++) {
+						switch (filters.partsStates[x1]) {
+						case 'IP':
+							partsSts.push(new sap.ui.model.Filter("quant_in_process", sap.ui.model.FilterOperator.GT, 0.00));
+							break;
+						case 'PR':
+							partsSts.push(new sap.ui.model.Filter("quant_processed", sap.ui.model.FilterOperator.GT, 0.00));
+							break;
+						case 'CL':
+							partsSts.push(new sap.ui.model.Filter("quant_cancelled", sap.ui.model.FilterOperator.GT, 0.00));
+							break;
+						case 'BK':
+							partsSts.push(new sap.ui.model.Filter("quant_back_ordered", sap.ui.model.FilterOperator.GT, 0.00));
+							break;
+						}
+					}
+					//var aFilter = new sap.ui.model.Filter(partsSts, false);
+					//oFilter.push(aFilter);
+					binding.filter(partsSts);
+				}
+				
+				
 
 				viewModel.setProperty('/filteredItems', binding.getLength());
 
