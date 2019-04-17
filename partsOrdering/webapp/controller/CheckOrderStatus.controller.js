@@ -354,6 +354,33 @@ sap.ui.define([
 				conditions.fromOrderDate = filters.fromOrderDate;
 				conditions.toOrderDate = filters.toOrderDate;
 
+				if (conditions.toOrderDate === "" && conditions.fromOrderDate !== "") {
+					conditions.toOrderDate = conditions.fromOrderDate;
+					conditions.fromOrderDate = "";
+				} else if (conditions.fromOrderDate === "" && conditions.toOrderDate !== "") {
+					conditions.fromOrderDate = conditions.toOrderDate;
+				} else if (conditions.fromOrderDate === "" && conditions.toOrderDate === "") {
+					var date = new Date();
+					var year = date.getFullYear();
+					var month = date.getMonth();
+
+					if (month < 10) {
+						month = "0" + month;
+					};
+					var day = date.getDate();
+					if (day < 10) {
+						day = "0" + day;
+					}
+					conditions.toOrderDate = "'" + year + month + day + "'";
+					date.setMonth(month - 3);
+					month = date.getMonth();
+					if (month < 10) {
+						month = "0" + month;
+					};
+					year = date.getFullYear();
+					conditions.fromOrderDate = "'" + year + month + day + "'";
+				}
+
 				// the ALL will not put new condition to the search query
 				if (!!filters.partsStates) {
 					lc_index = filters.partsStates.indexOf('ALL');
