@@ -124,7 +124,7 @@
 			<Table id="idProductsTableHeader" showNoData="false"  >
 				<headerToolbar>
 					<Text text="{path : 'viewModel>/filteredItems', formatter:'.formatter.totalLine1' }" />
-					<ToolbarSpacer />
+					<ToolbarSpacer/>
 					<SearchField placeholder='{i18n>Placeholder.CheckOrder.QuickSearch}' 
 						showRefreshButton = 'true'
 						showSearchButton = 'true'
