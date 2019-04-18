@@ -4,11 +4,12 @@
 		xmlns:mvc="sap.ui.core.mvc"
 		xmlns:semantic="sap.f.semantic">
 >
-	<Dialog contentWidth="620px" contentHeight="70%" 
+	<Dialog contentWidth="625px" contentHeight="70%" 
 		afterClose='cleanUpDialog'
 		afterOpen='afterDialogOpen'
 		title="{path : '/doc_type', formatter:'.formatter.orderTypeD'} : {/dealer_orderNo}" 
 		verticalScrolling='true'
+		resizable="true" draggable="true"
 	>
 		<beginButton>
 			<Button text="{i18n>Label.CheckOrder.Button.Close}" press='onDialogClose' />
@@ -92,13 +93,13 @@
 					<!--<Column  width='4rem'>
 						<Text text="{i18n>Label.CheckOrder.Being.Deliveried}" />
 					</Column> -->
-					<Column  width='8rem'  >
+					<Column  width='6rem'  >
 						<Text text="{i18n>Label.CheckOrder.Conf.Delivered.Quantity}" />						
 					</Column>								
-					<Column width='8rem' >
+					<Column width='7rem' >
 						<Text text="{i18n>Label.CheckOrder.Estimated.Delivery.Date}" />						
 					</Column>
-					<Column width='5rem' hAlign="End">
+					<Column width='7rem' hAlign="End">
 						<Text text="{i18n>Label.CheckOrder.Delivery.Number}" />						
 					</Column>
 					<Column width='44px' hAlign="End"  minScreenWidth="Tablet"
@@ -106,7 +107,7 @@
 						>
 						<Text text="{i18n>Label.CheckOrder.Line}"/>
 					</Column>	
-					<Column width='5rem' hAlign="End">
+					<Column width='7rem' hAlign="End">
 						<Text text="{i18n>Label.CheckOrder.Billing.Number}" />						
 					</Column>
 					<Column width='44px'  hAlign="End"
