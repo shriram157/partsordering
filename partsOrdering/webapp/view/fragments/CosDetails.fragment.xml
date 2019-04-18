@@ -4,7 +4,7 @@
 		xmlns:mvc="sap.ui.core.mvc"
 		xmlns:semantic="sap.f.semantic">
 >
-	<Dialog contentWidth="600px" contentHeight="70%" 
+	<Dialog contentWidth="620px" contentHeight="70%" 
 		afterClose='cleanUpDialog'
 		afterOpen='afterDialogOpen'
 		title="{path : '/doc_type', formatter:'.formatter.orderTypeD'} : {/dealer_orderNo}" 
@@ -51,15 +51,11 @@
 						state="Success" visible='{=!${/subs}}'/>
 				</statuses>
 				<headerContainer>
-				
 				</headerContainer>
-		
 			</ObjectHeader>
-	
 			<Table items="{ path: '/scheduleLines' }" showNoData='true' >
 				<headerToolbar>
 					<Toolbar>
-						<ToolbarSeparator/>
 						<VBox width='76px'>
 							<Label text="{i18n>Header.Quantity.Ordered}"></Label>
 							<ObjectNumber number="{path : '/quant_ordered', formatter:'.formatter.round2dec'}" state="None"/>
@@ -96,16 +92,16 @@
 					<!--<Column  width='4rem'>
 						<Text text="{i18n>Label.CheckOrder.Being.Deliveried}" />
 					</Column> -->
-					<Column  width='5rem'  >
+					<Column  width='8rem'  >
 						<Text text="{i18n>Label.CheckOrder.Conf.Delivered.Quantity}" />						
 					</Column>								
-					<Column  >
+					<Column width='8rem' >
 						<Text text="{i18n>Label.CheckOrder.Estimated.Delivery.Date}" />						
 					</Column>
 					<Column width='5rem' hAlign="End">
 						<Text text="{i18n>Label.CheckOrder.Delivery.Number}" />						
 					</Column>
-					<Column width='28px' hAlign="End"  minScreenWidth="Tablet"
+					<Column width='44px' hAlign="End"  minScreenWidth="Tablet"
 						demandPopin="true"
 						>
 						<Text text="{i18n>Label.CheckOrder.Line}"/>
@@ -113,7 +109,7 @@
 					<Column width='5rem' hAlign="End">
 						<Text text="{i18n>Label.CheckOrder.Billing.Number}" />						
 					</Column>
-					<Column width='28px'  hAlign="End"
+					<Column width='44px'  hAlign="End"
 						minScreenWidth="Tablet"
 						demandPopin="true"
 					>
