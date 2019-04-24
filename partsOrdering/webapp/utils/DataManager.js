@@ -91,6 +91,30 @@ sap.ui.define([], function () {
 		getCachedProductObj: function (productNumber) {
 			return _cachedProductObj[productNumber];
 		},
+		
+		
+		getMaterialById: function (id, callback) {
+			var bModel = this.getProductModel();
+			var key = bModel.createKey('/C_Product_Fs', {
+				'Material': id
+			});
+			bModel.read(key, {
+				urlParameters: {
+					"$expand": "to_Plant,to_PurchasingInfoRecord,to_Supplier"
+				},
+				success: function (oData, oResponse) {
+					if (!!oData) {
+						callback(oData);
+					} else {
+						callback(null);
+					}
+				},
+				error: function (err) {
+					// error handling here
+					callback(null);
+				}
+			});
+		},
 
 		getPartDescSPQForPart: function (sValue, oItem, callbackFn) {
 			var that = this;
@@ -125,9 +149,11 @@ sap.ui.define([], function () {
 						}
 
 					},
-
 					error: function (err) {
-						callbackFn(null, oItem);
+
+						var errorResponse = JSON.parse(oError.responseText);
+						var errMessage = errorResponse.error.message.value;
+						callbackFn(oError, "SalesHeaderCreate", -1, false, errMessage);
 
 					}
 				});
@@ -159,9 +185,7 @@ sap.ui.define([], function () {
 				aDraft = null;
 				if (!_salesorderModel) {
 					this.getSalesOrderModel();
-					//_salesorderModel.setUseBatch(false);
 				}
-
 				var entry = _salesorderModel.createEntry('/draft_soHeaderSet', {});
 				var obj = entry.getObject();
 
@@ -172,7 +196,7 @@ sap.ui.define([], function () {
 
 				obj.SoldtoParty = _orderData.purBpCode;
 				obj.PurchNoC = _orderData.tciOrderNumber;
-				obj.DocType = _orderData.items[1].OrderType;
+				obj.DocType = _orderData.items[0].OrderType;
 
 				_salesorderModel.create('/draft_soHeaderSet', obj, {
 					success: function (oData, response) {
@@ -189,8 +213,9 @@ sap.ui.define([], function () {
 						//Callback This function
 					},
 					error: function (oError) {
-						var err = oError;
-						callbackFn(oError, "SalesHeaderCreate", -1, false, oError);
+						var errorResponse = JSON.parse(oError.responseText);
+						var errMessage = errorResponse.error.message.value;
+						callbackFn(aCreateItems[0], "Create", -1, false, errMessage);
 					}
 				});
 			}
@@ -240,24 +265,16 @@ sap.ui.define([], function () {
 
 					_salesorderModel.create('/draft_soItemSet', obj, {
 						success: function (oData, oResponse) {
-							//TODO
-							//var messageList = that._extractSapItemMessages(oResponse);
-							//var i = getCreateItemIndex();
+
 							aCreateItems[0]["uuid"] = oData.ItemDraftUUID;
 							aCreateItems[0]["parentUuid"] = oData.HeaderDraftUUID;
 							aCreateItems[0]["ItmNumber"] = oData.ItmNumber;
-							//salesItem.line = oData.ItmNumber;
-							//Check This - 
-							//data.items[len].messageLevel = that.getMessageLevel(messageList);
-							//data.items[len].messages = messageList;
 							callbackFn(aCreateItems[0], "Create", 0, true);
-
 						},
 						error: function (oError) {
-							var err = oError;
-							//var i = getItemIndex();
-							//Add Error Messages Here.
-							callbackFn(aCreateItems[0], "Create", 0, false, oError);
+							var errorResponse = JSON.parse(oError.responseText);
+							var errMessage = errorResponse.error.message.value;
+							callbackFn(aCreateItems[0], "Create", 0, false, errMessage);
 						}
 					});
 
@@ -305,15 +322,13 @@ sap.ui.define([], function () {
 
 				_salesorderModel.update(key, updateObj, {
 					success: function (oData, oResponse) {
-						//var U = getUpdateItemIndex();
-						//var messageList = that._extractSapItemMessages(oResponse);
+
 						callbackFn(aUpdateItems[0], "Update", 0, true);
 					},
 					error: function (oError) {
-						//var U = getItemIndex();
-						//var messageList = that._extractSapItemMessages(oResponse);
-						// Check how error works ...
-						callbackFn(aUpdateItems[0], "Update", 0, false, oError);
+						var errorResponse = JSON.parse(oError.responseText);
+						var errMessage = errorResponse.error.message.value;
+						callbackFn(aUpdateItems[0], "Update", 0, false, errMessage);
 					}
 				});
 
@@ -348,10 +363,6 @@ sap.ui.define([], function () {
 					if (!!oData.results) {
 						messageList = oData.results;
 					}
-					//var messageList = that._baseController._extractSapItemMessages(oResponse);
-
-					//var hasError = that._hasError(messageList);
-					//orderDraft.draftUuid = oData.DraftUUID;                         
 					var orderNumber = null;
 
 					orderNumber = oData.vbeln;
@@ -374,11 +385,11 @@ sap.ui.define([], function () {
 			var getItemIndex = function () {
 				return IIndex++;
 			};
-			
+
 			if (!_purchaseorderModel) {
-					this.getPurchaseOrderModel();
-					//_salesorderModel.setUseBatch(false);
-				}
+				this.getPurchaseOrderModel();
+				//_salesorderModel.setUseBatch(false);
+			}
 
 			var drafts = _orderData.associatedDrafts;
 			for (var i0 = 0; i0 < drafts.length; i0++) {
@@ -400,8 +411,8 @@ sap.ui.define([], function () {
 						orderNumber = oData.results[0].ebeln;
 						//var addiMesssage = oData.message;
 						drafts[Index].pEnded = true;
-						drafts[Index].ActivationResults = oData.results; 
-						
+						drafts[Index].ActivationResults = oData.results;
+
 						if (!!orderNumber) {
 							drafts[Index].orderNumber = orderNumber;
 						} else {
@@ -409,7 +420,7 @@ sap.ui.define([], function () {
 							hasError = true;
 						}
 						if (Index === (drafts.length - 1)) {
-							callbackFn(oData, orderNumber, hasError ,drafts);
+							callbackFn(oData, orderNumber, hasError, drafts);
 						}
 					},
 					error: function (oError) {
@@ -681,7 +692,7 @@ sap.ui.define([], function () {
 				var purchaseItem = JSON.parse(JSON.stringify(aCreateItems[i]));
 				var lv_orderType = purchaseItem.OrderType;
 				var aDraft = null;
-				
+
 				if (lv_orderType === 'ZLOC') {
 					_aCreateZLOC.push(purchaseItem);
 					var Index = 0
@@ -702,37 +713,39 @@ sap.ui.define([], function () {
 							//error handing TODO 
 							// Error No Supplier found 
 							Index = getItemIndex();
-							var oPurchaseItem = _aCreateZLOC[Index]; 
+							var oPurchaseItem = _aCreateZLOC[Index];
 							oPurchaseItem.hasError = true;
-							
+							callbackFn(oPurchaseItem, "Invalid", 0, false);
+
 						}
-						if (Index === (_aCreateZLOC.length - 1) ) {
-					    for (var s = 0; s < _aSuppliers.length; s++) {
-						
-						//for (var i = 0; i < _aSuppliersZloc.length; i++) {
-							var supplier = "_" + _aSuppliers[s];
-							if (_aSuppliersZloc[supplier].length > 0) {
-								var aPOItems = _aSuppliersZloc[supplier];
-								that._createPurchaseOrderHeader(aPOItems, callbackFn);
+						if (Index === (_aCreateZLOC.length - 1)) {
+							for (var s = 0; s < _aSuppliers.length; s++) {
+
+								//for (var i = 0; i < _aSuppliersZloc.length; i++) {
+								var supplier = "_" + _aSuppliers[s];
+								if (_aSuppliersZloc[supplier].length > 0) {
+									var aPOItems = _aSuppliersZloc[supplier];
+									that._createPurchaseOrderHeader(aPOItems, callbackFn);
+								}
 							}
 						}
-						}						
 					});
-				} else { //  (UB)
-					
+				} else if (lv_orderType === "UB") { //  (UB)
 					_aCreateUB.push(purchaseItem);
+				} else {
+					callbackFn(purchaseItem, "Invalid", 0, false);
 				}
 			} // for end	
 			if (_aCreateUB.length > 0) {
 				this._createPurchaseOrderHeader(_aCreateUB, callbackFn)
 			}
-			
+
 		},
 
 		_createPurchaseOrderHeader: function (aPOItems, callbackFn) {
-				var purchaseItem = JSON.parse(JSON.stringify(aPOItems[0]));
-				var lv_orderType = purchaseItem.OrderType;
-				var that = this;
+			var purchaseItem = JSON.parse(JSON.stringify(aPOItems[0]));
+			var lv_orderType = purchaseItem.OrderType;
+			var that = this;
 			for (var x1 = 0; x1 < _orderData.associatedDrafts.length; x1++) {
 				aDraft = _orderData.associatedDrafts[x1];
 				if (lv_orderType === "UB" && lv_orderType === aDraft.OrderType) {
@@ -796,13 +809,12 @@ sap.ui.define([], function () {
 						aDraft.Lines = 0;
 						_orderData.associatedDrafts.push(aDraft);
 						if (oData.Doc_Type === "UB") {
-						var aPOItems = _aCreateUB;
+							var aPOItems = _aCreateUB;
 						} else {
-							var aPOItems = _aSuppliersZloc["_"+aDraft.Supplier];	
-							
+							var aPOItems = _aSuppliersZloc["_" + aDraft.Supplier];
+
 						}
-						
-						
+
 						//var Index = getCreateItemIndex();
 						that._addPurchaseDraftItem(aPOItems, aDraft, aPOItems[0], callbackFn);
 						//callbackfn(aDraft, true);
@@ -811,7 +823,9 @@ sap.ui.define([], function () {
 					error: function (oError) {
 						// Error - What to do if Header failse
 						var err = oError;
-						callbackfn(null, false);
+						var errorResponse = JSON.parse(oError.responseText);
+						var errMessage = errorResponse.error.message.value;
+						callbackFn(purchaseItem, "Create", 0, false, errMessage);
 					}
 				});
 			} else {
@@ -837,62 +851,56 @@ sap.ui.define([], function () {
 			if (!_purchaseorderModel) {
 				this.getPurchaseOrderModel();
 				//_salesorderModel.setUseBatch(false);
-			} 
-			for (var itemNo = 0; itemNo < aCreateItems.length; itemNo++) {
-			var purchaseItem = JSON.parse(JSON.stringify(aCreateItems[itemNo]));
-			var entry = _purchaseorderModel.createEntry('/Draft_POItemSet', {});
-			//var draftPromise = $.when(that.saveImportItemAsDraft(impData));
-
-			// item level data
-			var obj = entry.getObject();
-			obj.HeaderDraftUUID = aDraft.DraftUUID;
-
-			//obj.TargetQty = items[0].qty.toString();                //*
-			obj.Quantity = purchaseItem.qty.toString() || "0"; //*
-			obj.Material = purchaseItem.partNumber; //*  				
-			obj.MatDesc = purchaseItem.partDesc || "";
-			obj.Po_Unit = "EA";
-			obj.Comments = purchaseItem.comment || "";
-			//obj.Po_Item = (oPurItem.Po_Item).toString();
-			//obj.Supplier = lv_supplier;
-
-			obj.Plant = _orderData.revPlant;
-			obj.Stge_Loc = _orderData.sloc;
-
-			//					obj.Plant = "6000";          
-
-			//obj.PurchasingInfoRecord=items[0].purInfoRecord;
-
-			if (!!_orderData.typeD) { // Campiagn
-				obj.Zzcampaign = purchaseItem.campaignNum || "";
-				obj.Zzopcode = purchaseItem.opCode || "";
-				obj.VIN_no = purchaseItem.vin || "";
-			} else if (!!_orderData.typeB) {
-				obj.RefDoc = purchaseItem.contractNum || "";
-				obj.RefDocItemNo = purchaseItem.contractLine || "";
 			}
+			for (var itemNo = 0; itemNo < aCreateItems.length; itemNo++) {
+				var purchaseItem = JSON.parse(JSON.stringify(aCreateItems[itemNo]));
+				var entry = _purchaseorderModel.createEntry('/Draft_POItemSet', {});
+				//var draftPromise = $.when(that.saveImportItemAsDraft(impData));
 
-			_purchaseorderModel.create('/Draft_POItemSet', obj, {
-				success: function (oData, oResponse) {
-					//TODO
-					aDraft.Lines = aDraft.Lines + 1;
-					var I = getCreateItemIndex();
-					//messageList = _cntrlrInst._extractSapItemMessages(oResponse);
-					aCreateItems[I].uuid = oData.ItemDraftUUID;
-					aCreateItems[I].parentUuid = oData.HeaderDraftUUID;
-					//oItem[j].line = oData.ItmNumber;
-					//oItem[j].messageLevel = _cntrlrInst.getMessageLevel(messageList);
-					//oItem[j].messages = messageList;*/
-					
-					callbackFn(aCreateItems[I], "Create", 0, true);
-				},
-				error: function (oError) {
-					var err = oError;
-					var I = getCreateItemIndex() ;
+				// item level data
+				var obj = entry.getObject();
+				obj.HeaderDraftUUID = aDraft.DraftUUID;
 
-					callbackFn(aCreateItems[I], "Create", 0, false, oError);
+				//obj.TargetQty = items[0].qty.toString();                //*
+				obj.Quantity = purchaseItem.qty.toString() || "0"; //*
+				obj.Material = purchaseItem.partNumber; //*  				
+				obj.MatDesc = purchaseItem.partDesc || "";
+				obj.Po_Unit = "EA";
+				obj.Comments = purchaseItem.comment || "";
+		
+				obj.Plant = _orderData.revPlant;
+				obj.Stge_Loc = _orderData.sloc;
+
+
+				if (!!_orderData.typeD) { // Campiagn
+					obj.Zzcampaign = purchaseItem.campaignNum || "";
+					obj.Zzopcode = purchaseItem.opCode || "";
+					obj.VIN_no = purchaseItem.vin || "";
+				} else if (!!_orderData.typeB) {
+					obj.RefDoc = purchaseItem.contractNum || "";
+					obj.RefDocItemNo = purchaseItem.contractLine || "";
 				}
-			});
+
+				_purchaseorderModel.create('/Draft_POItemSet', obj, {
+					success: function (oData, oResponse) {
+						//TODO
+						aDraft.Lines = aDraft.Lines + 1;
+						var I = getCreateItemIndex();
+						//messageList = _cntrlrInst._extractSapItemMessages(oResponse);
+						aCreateItems[I].uuid = oData.ItemDraftUUID;
+						aCreateItems[I].parentUuid = oData.HeaderDraftUUID;
+						//oItem[j].line = oData.ItmNumber;
+						//oItem[j].messageLevel = _cntrlrInst.getMessageLevel(messageList);
+						//oItem[j].messages = messageList;*/
+						callbackFn(aCreateItems[I], "Create", 0, true);
+					},
+					error: function (oError) {
+						var I = getCreateItemIndex();
+						var errorResponse = JSON.parse(oError.responseText);
+						var errMessage = errorResponse.error.message.value;
+						callbackFn(aCreateItems[I], "Create", 0, false, errMessage);
+					}
+				});
 			}
 		},
 
@@ -943,7 +951,8 @@ sap.ui.define([], function () {
 							callbackFn(aUpdateItems[0], "Update", 0, true);
 						},
 						error: function (oError) {
-
+							var errorResponse = JSON.parse(oError.responseText);
+							var errMessage = errorResponse.error.message.value;
 							callbackFn(aUpdateItems[0], "Update", 0, false, oError);
 						}
 					}); // thr purchase order

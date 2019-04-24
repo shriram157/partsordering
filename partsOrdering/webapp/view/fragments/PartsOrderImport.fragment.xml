@@ -31,7 +31,7 @@
 							<!--<Button type='Reject' icon="sap-icon://delete" tooltip="{i18n>ToolTip.CreateOrder.Delete.LineItem}" class="size2" press='handleDeletePart'
 								visible="true"/>-->
 							<ToolbarSpacer/>
-						<!--	<Button type="Default" icon="sap-icon://sort" tooltip="{i18n>ToolTip.Sort.Error.Rows}" class="size2" press='handleSortError' visible="false"
+							<!--	<Button type="Default" icon="sap-icon://sort" tooltip="{i18n>ToolTip.Sort.Error.Rows}" class="size2" press='handleSortError' visible="false"
 								id="btnImportSortError"/>
 							<Button type="Transparent" icon="sap-icon://filter" tooltip="{i18n>ToolTip.Filter.Error.Rows}" class="size2" press='handleFilterError'
 								visible="false" id="btnImportFilterError"/>
@@ -41,7 +41,7 @@
 					</Toolbar>
 				</ui:extension>
 				<ui:rowSettingsTemplate>
-					<ui:RowSettings highlight="{importOrderModel>Status}" highlightText="{importOrderModel>StatusText}" />
+					<ui:RowSettings highlight="{importOrderModel>Status}" highlightText="{importOrderModel>StatusText}"/>
 				</ui:rowSettingsTemplate>
 				<ui:columns>
 					<!--	<ui:Column width="2rem">
@@ -81,8 +81,7 @@
 						<Label text="{i18n>Lable.CreateOrder.Order}*"/>
 						<ui:template>
 							<Input type="Number" valueStateText="{i18n>ValidationMessage.qty}" required='true'
-								value="{ path: 'importOrderModel>qty', type: 'sap.ui.model.type.Integer', contraints:'{minimum :1}' }" valueState="None"
-								/>
+								value="{ path: 'importOrderModel>qty', type: 'sap.ui.model.type.Integer', contraints:'{minimum :1}' }" valueState="None"/>
 						</ui:template>
 					</ui:Column>
 					<ui:Column width="{sizeModel>/remContractNo}" visible="{orderModel>/typeB}" id="ImportContractNo" sortProperty="ContractNo">
@@ -124,21 +123,13 @@
 									enabled="{orderModel>/typeD}" change='handleVinChange' required='true' valueState="None"/>-->
 						</ui:template>
 					</ui:Column>
-					<!--	<ui:Column width="{sizeModel>/remComments}" visible="false">
-							<Label text="{i18n>Lable.CreateOrder.Comment}"/>
-							<ui:template>
-								<TextArea value="{orderModel>comment}" rows="1" placeholder="{i18n>Placeholder.comment}" tooltip="{orderModel>comment}"
-									width="{sizeModel>/remCommentsPx}"></TextArea>
-							</ui:template>
-						</ui:Column>-->
-				<!--	<ui:Column id="ImportErrorStatus" width="2rem" visible="true">-->
-					<!--	<ui:template>
-							<VBox width="3.5rem">-->
-								<!--	<Button type='Reject' tooltip="Minus" class="size2" icon="sap-icon://less" press='handleDeletePart' visible="{orderModel>minusIcon}"></Button>-->
-							<!--	<core:Icon src="sap-icon://error" class="size1" color="#ff0000" visible='{importOrderModel>hasError}'/>
-							</VBox>
-						</ui:template>-->
-				<!--	</ui:Column>-->
+					<ui:Column width="{sizeModel>/remComments}" visible="true">
+						<Label text="{i18n>Lable.CreateOrder.Comment}"/>
+						<ui:template>
+							<TextArea value="{importOrderModel>comment}" rows="1" placeholder="{i18n>Placeholder.comment}" tooltip="{orderModel>comment}"
+								width="{sizeModel>/remCommentsPx}"></TextArea>
+						</ui:template>
+					</ui:Column>
 				</ui:columns>
 			</ui:Table>
 		</HBox>

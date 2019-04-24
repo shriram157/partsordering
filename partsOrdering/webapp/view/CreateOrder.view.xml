@@ -160,10 +160,10 @@
 		<footer>
 			<OverflowToolbar>
 				<Button type="Back" text="{i18n>Button.CreateOrder.Back}" press='onBack'/>
-				<Button icon="sap-icon://message-popup" text="{=${message>/}.length}" visible="{=${message>/}.length > 0}" type="Emphasized"
-					press="handleMessagePopoverPress"/>
+				<!--<Button icon="sap-icon://message-popup" text="{=${message>/}.length}" visible="{=${message>/}.length > 0}" type="Emphasized"
+					press="handleMessagePopoverPress"/>-->
 				<ToolbarSpacer/>
-				<DraftIndicator id='draftInd'/>
+			    <!--	<DraftIndicator id='draftInd'/>-->
 				<ToolbarSpacer/>
 				<Button type="Transparent" text="{i18n>Button.CreateOrder.ImportOrder}" class="size2" press='onImport'/>
 				<Button type="Transparent" text="{i18n>Button.CreateOrder.ExportOrder}" class="size2" press='onExport'/>

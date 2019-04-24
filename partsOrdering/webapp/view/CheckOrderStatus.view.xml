@@ -22,10 +22,10 @@
 								width="15%"></Input>
 						</fb:control>
 					</fb:FilterItem>
-					<fb:FilterItem name="partNumber" label="{i18n>Label.CheckOrder.PartsNumber}" labelTooltip="{i18n>Label.CheckOrder.PartsNumber}">
+					<fb:FilterItem name="partNumber" label="{i18n>Label.CheckOrder.PartNumber}" labelTooltip="{i18n>Label.CheckOrder.PartsNumber}">
 						<fb:control>
 							<Input type="Text" value="{viewModel>/filters/partNumber}" enabled="{viewModel>/filterAllx}"
-								placeholder="{i18n>Label.CheckOrder.PartsNumber}" width="15%"></Input>
+								placeholder="{i18n>Label.CheckOrder.PartNumber}" width="15%"></Input>
 						</fb:control>
 					</fb:FilterItem>
 					<fb:FilterItem name="orderType" label="{i18n>Label.CheckOrder.OrderType}" labelTooltip="{i18n>Label.CheckOrder.OrderType}" mandatory="false">
@@ -94,11 +94,10 @@
 					<Column width="11%">
 						<Text text="{i18n>Label.CheckOrder.PartsNumber} "/>
 					</Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" width="2%" hAlign="Center">
+					</Column>
 					<Column minScreenWidth="Tablet" demandPopin="true" width="6%" hAlign="End">
 						<Text text="{i18n>Label.CheckOrder.ShipFrom} "/>
-					</Column>
-					<Column minScreenWidth="Tablet" demandPopin="true" width="2%" hAlign="Center">
-						<core:Icon src="sap-icon://share" color='#FF5733' tooltip='{i18n>Label.CheckOrder.Substitution}'/>
 					</Column>
 					<Column width="8%">
 						<Text text="{i18n>Label.CheckOrder.Quantity.Ordered} "/>
@@ -148,8 +147,8 @@
 							<cells>
 								<!--<ObjectIdentifier title="{path : 'viewModel>part_no', formatter:'.formatter.getItemNumber' }"/>-->
 								<ObjectIdentifier title="{viewModel>part_no}"/>
-								<Text text="{path : 'viewModel>ship_from' }"/>
 								<core:Icon src="sap-icon://share" color='#FF5733' visible="{path : 'viewModel>sub_flag', formatter:'.formatter.sub2boolean'}"/>
+								<Text text="{path : 'viewModel>ship_from' }"/>
 								<ObjectNumber number="{path: 'viewModel>quant_ordered', formatter:'.formatter.round2dec'}"/>
 								<ObjectNumber number="{path: 'viewModel>quant_in_process', formatter:'.formatter.round2dec' }"/>
 								<ObjectNumber number="{path: 'viewModel>quant_processed', formatter:'.formatter.round2dec'}"/>
