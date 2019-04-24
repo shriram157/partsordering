@@ -19,22 +19,6 @@
 			<ViewSettingsItem text="{i18n>Label.CheckOrder.OrderType}" key="doc_type" />
 			<ViewSettingsItem text="{i18n>Label.CheckOrder.TciOrder}" key="TCI_order_no" selected ='true'/>
 		</sortItems>
-		<!--<filterItems>
-			<ViewSettingsFilterItem text="Order Type" key="1">
-				<items>
-					<ViewSettingsItem text="Standard Order " key="1b" />
-					<ViewSettingsItem text="Rush Order" key="1c" />
-					<ViewSettingsItem text="Campaign Order" key="1c" />
-				</items>
-			</ViewSettingsFilterItem>
-			<ViewSettingsFilterItem text="Parts Status" key="3">
-				<items>
-					<ViewSettingsItem text="In Process" key="3b" />
-					<ViewSettingsItem text="Processed" key="3c" />
-					<ViewSettingsItem text="Cancelled" key="3d" />
-					<ViewSettingsItem text="Back Ordered" key="3e" />
-				</items>
-			</ViewSettingsFilterItem>
-		</filterItems> -->
+
 	</ViewSettingsDialog>
 </core:FragmentDefinition>

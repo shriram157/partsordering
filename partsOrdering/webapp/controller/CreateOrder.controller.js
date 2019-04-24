@@ -78,7 +78,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		_typeACrem: function () {
 			return {
 				remLine: "2rem",
-				remPartNo: "8rem",
+				remPartNo: "22rem",
 				remPartDesc: "14rem",
 				remSPQ: "5rem",
 				remQty: "9rem",
@@ -416,6 +416,19 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					MessageBox.error(failedtext, {
 						onClose: function (sAction) {
 							that.itemTable.setBusy(false);
+							oitem.hasError = "";
+							oitem.itemCategoryGroup = "";
+							oitem.division = "";
+							oitem.partDesc = "";
+							oitem.supplier = "";
+							oitem.purInfoRecord = "";
+							oitem.companyCode = "";
+							oitem.currency = 'CAD';
+							oitem.netPriceAmount = "";
+							oitem.taxCode = "";
+							oitem.spq = "";
+							oitem.contractNum = "";
+							oitem.partNumber = "";
 						}
 					});
 				} else if (!!item1Data && that.bIsSalesOrder) {
@@ -426,8 +439,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					oitem.supplier = item1Data[0].VendorAccountNumber;
 					oitem.sloc = that.oOrderModel.getProperty("/sloc");
 					oitem.revPlant = that.oOrderModel.getProperty("/revPlant");
-					oitem.OrderType = that.getRealOrderTypeByItemCategoryGroup(oitem.itemCategoryGroup, that.bIsSalesOrder, that.oOrderModel.getProperty(
-						"/orderTypeId"));
+					oitem.OrderType = that.getRealOrderTypeByItemCategoryGroup(oitem.itemCategoryGroup, that.bIsSalesOrder, that.oOrderModel.getProperty("/orderTypeId"));
 					oitem.companyCode = "2014";
 					oitem.spq = item1Data[0].SPQ;
 					oitem.ItemStatus = "Unsaved";
@@ -439,7 +451,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					oitem.supplier = item1Data[0].VendorAccountNumber;
 					oitem.sloc = that.oOrderModel.getProperty("/sloc");
 					oitem.revPlant = that.oOrderModel.getProperty("/revPlant");
-					oitem.OrderType = that.getRealOrderTypeByItemCategoryGroup(oitem.itemCategoryGroup, that.bIsSalesOrder, that.oOrderModel.getProperty("/orderTypeId"));
+					oitem.OrderType = that.getRealOrderTypeByItemCategoryGroup(oitem.itemCategoryGroup, that.bIsSalesOrder, that.oOrderModel.getProperty(
+						"/orderTypeId"));
 					oitem.companyCode = "2014";
 					oitem.spq = item1Data[0].SPQ;
 					oitem.ItemStatus = "Unsaved";
@@ -525,7 +538,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var that = this;
 			that.itemTable.setBusy(true);
 			if (this.bIsSalesOrder) {
-				DataManager.saveDraftSalesOrder(this.aCreateItems, this.aUpdateItems, function (oSalesItem, sOperation, IIndex, isOK,errorMessages) {
+				DataManager.saveDraftSalesOrder(this.aCreateItems, this.aUpdateItems, function (oSalesItem, sOperation, IIndex, isOK,
+					errorMessages) {
 					var Index = oSalesItem.line;
 					var oItem = that.oOrderModel.getData().items[Index];
 					if (isOK) {
@@ -551,7 +565,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					that.toggleSubmitDraftButton();
 				});
 			} else {
-				DataManager.saveDraftPurchaseOrder(this.aCreateItems, this.aUpdateItems, function (oPurchaseItem, sOperation, IIndex, isOK,	errorMessages) {
+				DataManager.saveDraftPurchaseOrder(this.aCreateItems, this.aUpdateItems, function (oPurchaseItem, sOperation, IIndex, isOK,
+					errorMessages) {
 					var Index = oPurchaseItem.line;
 					var oItem = that.oOrderModel.getData().items[Index];
 					if (isOK) {
@@ -718,7 +733,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 						that.lineError[iline]["error"] = messageList[j].message + "<br>";
 						that.itemTable.getBinding("rows").getModel().refresh(true);
-						
+
 					} else {
 						otherError = messageList[j].message + "<br>";
 					}
@@ -1763,8 +1778,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			return this._oItemImportDialog;
 		},
 
-	
-
 		_oValidateImportedData: function () {
 			var that = this;
 			//var sValue = oEvent.getParameter("newValue");
@@ -2040,8 +2053,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			sap.m.MessageToast.show(+itemNo + " Valid Order Items Imported Successfully");
 
 		},
-
-	
 
 		onExport: function () {
 

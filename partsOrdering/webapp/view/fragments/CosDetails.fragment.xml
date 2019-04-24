@@ -3,7 +3,6 @@
 		xmlns:core="sap.ui.core"
 		xmlns:mvc="sap.ui.core.mvc"
 		xmlns:semantic="sap.f.semantic">
->
 	<Dialog contentWidth="625px" contentHeight="70%" 
 		afterClose='cleanUpDialog'
 		afterOpen='afterDialogOpen'
@@ -23,7 +22,7 @@
 				icon="images/car.png"
 				iconAlt="{i18n>Label.CheckOrder.Name}"
 				intro="{/partdesc}"
-				title="{path : '/part_no', formatter:'.formatter.removeLeadingZero'}"
+				title="{path : '/part_no'}"
 				titleActive="false"
 				number="{/scheduleLines/length}"
 				numberUnit="{i18n>Label.CheckOrder.deliveries}"
@@ -82,11 +81,6 @@
 							<ObjectNumber number="{path : '/quant_back_ordered', formatter:'.formatter.round2dec'}" state="Error"/>							
 						</VBox>						
 						<ToolbarSeparator/>
-					<!--	<VBox width='76px'>
-							<Label text="{i18n>Header.Quantity.Delivered}"></Label>
-							<ObjectNumber number="{path : '/quant_being_delivered', formatter:'.formatter.round2dec'}" state="Success"/>							
-						</VBox>	-->					
-						<!--<ToolbarSeparator/>-->
 					</Toolbar>
 				</headerToolbar>
 				<columns>

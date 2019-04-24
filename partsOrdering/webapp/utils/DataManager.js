@@ -196,7 +196,7 @@ sap.ui.define([], function () {
 
 				obj.SoldtoParty = _orderData.purBpCode;
 				obj.PurchNoC = _orderData.tciOrderNumber;
-				obj.DocType = _orderData.items[0].OrderType;
+				obj.DocType = _orderData.items[1].OrderType;
 
 				_salesorderModel.create('/draft_soHeaderSet', obj, {
 					success: function (oData, response) {
