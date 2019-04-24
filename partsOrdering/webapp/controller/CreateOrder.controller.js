@@ -198,32 +198,23 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					switch (data.Attribute1) {
 					case "01":
 						model.setProperty('/Attribute1', "10");
+						model.setProperty('/Attribute2', "00");
 						break;
 					case "02":
 						model.setProperty('/Attribute1', "20");
+						model.setProperty('/Attribute2', "00");
 						break;
 					case "03":
-						var division = model.getProperty("/Division");
-						if (division === "10") {
-							model.setProperty("/Attribute1", "10");
-						} else if (division === "20") {
-							model.setProperty("/Attribute1", "20");
-						} else {
-							model.setProperty("/Attribute1", "03");
-						}
+						model.setProperty('/Attribute1', "10");
+						model.setProperty('/Attribute2', "20");
 						break;
 					case "04":
-						var division = model.getProperty("/Division");
-						if (division === "00") {
-							model.setProperty("/Attribute1", "00");
-						} else if (division === "10") {
-							model.setProperty("/Attribute1", "10");
-						} else {
-							model.setProperty("/Attribute1", "04");
-						}
+						model.setProperty('/Attribute1', "00");
+						model.setProperty('/Attribute2', "10");
 						break;
 					default:
 						model.setProperty("/Attribute1", "");
+						model.setProperty("/Attribute2", "");
 						break;
 					}
 
@@ -408,26 +399,16 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var iRowIndex = oRow.getIndex();
 			var oItem = this.oOrderModel.getData().items[iRowIndex];
 			var sAttribute1 = this.oOrderModel.getProperty("/Attribute1");
+			var sAttribute2 = this.oOrderModel.getProperty("/Attribute2");
 			that.itemTable.setBusy(true);
 			DataManager.getPartDescSPQForPart(sValue, oItem, function (item1Data, oitem) {
 				//that.getInfoFromPart(sValue, model.getProperty('/purBpCode'), function (item1Data) {
-				if (!!item1Data && (item1Data[0].Division !== sAttribute1) && that.bIsSalesOrder) {
+				if (!!item1Data && (item1Data[0].Division !== "00" && item1Data[0].Division !== sAttribute1 &&  item1Data[0].Division !== sAttribute2) && that.bIsSalesOrder) {
 					var failedtext = that.oResourceBundle.getText('Message.Failed.Not.Valid.Dealer.Part', [sValue]);
 					MessageBox.error(failedtext, {
 						onClose: function (sAction) {
 							that.itemTable.setBusy(false);
-							oitem.hasError = "";
-							oitem.itemCategoryGroup = "";
-							oitem.division = "";
-							oitem.partDesc = "";
-							oitem.supplier = "";
-							oitem.purInfoRecord = "";
-							oitem.companyCode = "";
-							oitem.currency = 'CAD';
-							oitem.netPriceAmount = "";
-							oitem.taxCode = "";
-							oitem.spq = "";
-							oitem.contractNum = "";
+							sValue = "";
 							oitem.partNumber = "";
 						}
 					});
@@ -439,7 +420,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					oitem.supplier = item1Data[0].VendorAccountNumber;
 					oitem.sloc = that.oOrderModel.getProperty("/sloc");
 					oitem.revPlant = that.oOrderModel.getProperty("/revPlant");
-					oitem.OrderType = that.getRealOrderTypeByItemCategoryGroup(oitem.itemCategoryGroup, that.bIsSalesOrder, that.oOrderModel.getProperty("/orderTypeId"));
+					oitem.OrderType = that.getRealOrderTypeByItemCategoryGroup(oitem.itemCategoryGroup, that.bIsSalesOrder, that.oOrderModel.getProperty(
+						"/orderTypeId"));
 					oitem.companyCode = "2014";
 					oitem.spq = item1Data[0].SPQ;
 					oitem.ItemStatus = "Unsaved";
@@ -451,8 +433,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					oitem.supplier = item1Data[0].VendorAccountNumber;
 					oitem.sloc = that.oOrderModel.getProperty("/sloc");
 					oitem.revPlant = that.oOrderModel.getProperty("/revPlant");
-					oitem.OrderType = that.getRealOrderTypeByItemCategoryGroup(oitem.itemCategoryGroup, that.bIsSalesOrder, that.oOrderModel.getProperty(
-						"/orderTypeId"));
+					oitem.OrderType = that.getRealOrderTypeByItemCategoryGroup(oitem.itemCategoryGroup, that.bIsSalesOrder, that.oOrderModel.getProperty("/orderTypeId"));
 					oitem.companyCode = "2014";
 					oitem.spq = item1Data[0].SPQ;
 					oitem.ItemStatus = "Unsaved";
@@ -538,8 +519,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var that = this;
 			that.itemTable.setBusy(true);
 			if (this.bIsSalesOrder) {
-				DataManager.saveDraftSalesOrder(this.aCreateItems, this.aUpdateItems, function (oSalesItem, sOperation, IIndex, isOK,
-					errorMessages) {
+				DataManager.saveDraftSalesOrder(this.aCreateItems, this.aUpdateItems, function (oSalesItem, sOperation, IIndex, isOK,errorMessages) {
 					var Index = oSalesItem.line;
 					var oItem = that.oOrderModel.getData().items[Index];
 					if (isOK) {
@@ -565,8 +545,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					that.toggleSubmitDraftButton();
 				});
 			} else {
-				DataManager.saveDraftPurchaseOrder(this.aCreateItems, this.aUpdateItems, function (oPurchaseItem, sOperation, IIndex, isOK,
-					errorMessages) {
+				DataManager.saveDraftPurchaseOrder(this.aCreateItems, this.aUpdateItems, function (oPurchaseItem, sOperation, IIndex, isOK,	errorMessages) {
 					var Index = oPurchaseItem.line;
 					var oItem = that.oOrderModel.getData().items[Index];
 					if (isOK) {
@@ -733,7 +712,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 						that.lineError[iline]["error"] = messageList[j].message + "<br>";
 						that.itemTable.getBinding("rows").getModel().refresh(true);
-
+						
 					} else {
 						otherError = messageList[j].message + "<br>";
 					}
@@ -1409,8 +1388,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			for (var c1 = 1; c1 < items.length; c1++) {
 
 				//if (items[c1].contractNum && items[c1].contractNum.toString().trim() !== "") {
-				this.validateDataSet(items[c1].campaignNum, items[c1].opCode, items[c1].vin, items[c1].partNumber, function (data, isOK,
-					messageList) {
+				this.validateDataSet(items[c1].campaignNum, items[c1].opCode, items[c1].vin, items[c1].partNumber, function (data, isOK,messageList) {
 					if (!!isOK && !!data) {
 						var I = getItemIndex();
 
@@ -1758,18 +1736,17 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 		_get_oItemImportDialog: function () {
 			if (!this._oItemImportDialog) {
-				this._oItemImportDialog = sap.ui.xmlfragment(this.getView().getId() + "ItemsImportDialog",
-					"tci.wave2.ui.parts.ordering.view.fragments.PartsOrderImport", this);
+				this._oItemImportDialog = sap.ui.xmlfragment(this.getView().getId() + "ItemsImportDialog","tci.wave2.ui.parts.ordering.view.fragments.PartsOrderImport", this);
 				this._oImportTable = sap.ui.core.Fragment.byId(this.getView().getId() + "ItemsImportDialog", "ImportProductsTable");
 				this._oImportsDialog = sap.ui.core.Fragment.byId(this.getView().getId() + "ItemsImportDialog", "ImportDialog");
 				this.getView().addDependent(this._oItemImportDialog);
 			}
 			if (this.oOrderModel.getProperty("/typeB")) {
-				this._oImportsDialog.setContentWidth("700px");
+				this._oImportsDialog.setContentWidth("750px");
 			} else if (this.oOrderModel.getProperty("/typeD")) {
-				this._oImportsDialog.setContentWidth("970px");
+				this._oImportsDialog.setContentWidth("1020px");
 			} else {
-				this._oImportsDialog.setContentWidth("600px");
+				this._oImportsDialog.setContentWidth("650px");
 			}
 			if (this._oImportTable.getBinding("rows")) {
 				this._oImportTable.getBinding("rows").getModel().getData().items = [];
@@ -1777,6 +1754,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			}
 			return this._oItemImportDialog;
 		},
+
+	
 
 		_oValidateImportedData: function () {
 			var that = this;
@@ -1791,6 +1770,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var bTypeD = that.oOrderModel.getProperty("/TypeD");
 			var orderTypeId = that.oOrderModel.getProperty("/orderTypeId");
 			var sAttribute1 = this.oOrderModel.getProperty("/Attribute1");
+			var sAttribute2 = this.oOrderModel.getProperty("/Attribute2");
 			//var newItem = model.getData().items[0];
 			//var newline = model.getProperty('/newline');
 			var resourceBundle = this.getResourceBundle();
@@ -1799,7 +1779,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oItem["line"] = i + 1;
 				// Debugging
 				DataManager.getPartDescSPQForPart(oItem.partNumber, oItem, function (item1Data, oItem) {
-					if (!!item1Data && (item1Data[0].Division === sAttribute1) && that.bIsSalesOrder) {
+					if (!!item1Data && (item1Data[0].Division === sAttribute1 || item1Data[0].Division === sAttribute2 || item1Data[0].Division === "00") && that.bIsSalesOrder) {
 						oItem["Status"] = "Success";
 						oItem["StatusText"] = "";
 						oItem["hasError"] = false;
@@ -2053,6 +2033,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			sap.m.MessageToast.show(+itemNo + " Valid Order Items Imported Successfully");
 
 		},
+
+	
 
 		onExport: function () {
 
