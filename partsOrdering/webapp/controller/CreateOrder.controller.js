@@ -90,7 +90,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		_typeBrem: function () {
 			return {
 				remLine: "2rem",
-				remPartNo: "8rem",
+				remPartNo: "22rem",
 				remPartDesc: "14rem",
 				remSPQ: "4rem",
 				remQty: "7rem",
@@ -103,12 +103,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		_typeDrem: function () {
 			return {
 				remLine: "2rem",
-				remPartNo: "8rem",
+				remPartNo: "22rem",
 				remPartDesc: "14rem",
 				remSPQ: "4rem",
 				remQty: "7rem",
-				remCampaignNo: "12rem",
-				remOpCode: "14rem",
+				remCampaignNo: "6rem",
+				remOpCode: "7rem",
 				remVin: "11rem",
 				remComments: "18rem",
 				remCommentsPx: "275px"
@@ -1763,100 +1763,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			return this._oItemImportDialog;
 		},
 
-		_oValidateImportedPurchaseData: function () {
-			var that = this;
-			//var sValue = oEvent.getParameter("newValue");
-			var oModel = that.oOrderModel;
-			var bpCode = oModel.getProperty('/purBpCode');
-			var oImportModel = that._oImportTable.getModel(CONST_IMPORT_ORDER_MODEL);
-			var oItems = oImportModel.getData().items;
-			var bIsSalesOrder = oModel.getProperty('/isSalesOrder');
-			var stoSupplyingPlant = oModel.getProperty('/stoSupplyingPlant');
-			var bTypeB = oModel.getProperty("/TypeB");
-			var bTypeD = oModel.getProperty("/TypeD");
-			var orderTypeId = oModel.getProperty("/orderTypeId");
-			//var newItem = model.getData().items[0];
-			//var newline = model.getProperty('/newline');
-			var resourceBundle = this.getResourceBundle();
-			var IIndex = 0;
-			var getItemIndex = function () {
-				return function () {
-					if (!IIndex) {
-						var IIndex = 0;
-						return IIndex;
-					}
-					IIndex = IIndex + 1;
-					return IIndex;
-				};
-			};
-
-			for (var i = 0; i < oItems.length; i++) {
-				var oItem = oItems[i];
-				oItem["line"] = i + 1;
-				// Debugging
-				that.getSupplierForPart(oItem, stoSupplyingPlant, function (item1Data) {
-					//that.getPartDescSPQForPart(oItem, oModel.getProperty('/SalesOrganization'), oModel.getProperty('/DistributionChannel'), oModel.getProperty(
-					//	'/stoSupplingPlant'), function (item1Data) {}, oItem) {
-					//that.getPartDescSPQForPart(oItem, "7000", "10",  oModel.getProperty('/stoSupplyingPlant'), function (
-					//item1Data, oItem) {
-					//that.getInfoFromPart(sValue, model.getProperty('/purBpCode'), function (item1Data) {
-
-					var oItem = oItems[IIndex];
-					IIndex++;
-					if (!!item1Data) {
-
-						oItem["Status"] = "Success";
-						oItem["StatusText"] = "";
-						oItem["hasError"] = false;
-						oItem["itemCategoryGroup"] = item1Data[0].CategoryGroup;
-						oItem["division"] = item1Data[0].Division;
-						oItem["partDesc"] = item1Data[0].MaterialText;
-						oItem["sloc"] = oModel.getProperty("/sloc");
-						//Valid for UB Only-will be updated for ZLOC
-						oItem["revPlant"] = oModel.getProperty("/revPlant");
-						//Valid for UB Only-will be updated for ZLOC
-						oItem["companyCode"] = "2014";
-						oItem["spq"] = item1Data[0].SPQ;
-						oItem["selected"] = false;
-						oItem["purInfoRecord"] = item1Data[0].PurInfoRecord;
-						oItem["salesOrg"] = item1Data[0].SalesOrg;
-						oItem["distriChannel"] = item1Data[0].DistriChannel;
-
-						oItem["OrderType"] = that.getRealOrderTypeByItemCategoryGroup(item1Data[0].CategoryGroup, that.bIsSalesOrder, orderTypeId);
-						/*if (oItem["orderType"] === 'ZLOC') {
- 							that.getSupplierForPart(oItem["partNum"], stoSupplyingPlant, function (data) {
- 								if (!!data && !!data[0]) {*/
-						//oItem["supplier"] = data[0].VendorAccountNumber;
-						oItem["supplier"] = item1Data[0].VendorAccountNumber;
-						//oItem["sloc"] = data.SLoc;
-						oItem["plant"] = item1Data[0].Plant;
-						oItem["revPlant"] = item1Data[0].Plant;
-
-						oImportModel.getData().refresh(true);
-					} else {
-						oItem["Status"] = "Error";
-						oItem["StatusText"] = "Incorrect Data";
-						oItem["hasError"] = true;
-						oItem["itemCategoryGroup"] = "";
-						oItem["division"] = "";
-						oItem["partDesc"] = "";
-						oItem["supplier"] = "";
-						oItem["purInfoRecord"] = "";
-						oItem["companyCode"] = "";
-						oItem["currency"] = 'CAD';
-						oItem["netPriceAmount"] = "";
-						oItem["taxCode"] = "";
-						oItem["spq"] = "";
-					}
-
-				});
-			}; // //model.getData().items[0] = newItem;
-			oImportModel.refresh(true);
-
-			//that.getInfoFromPart(sValue, model.getProperty('/purBpCode'), oItem);
-			//model.setProperty('/newline', newline);
-
-		},
+	
 
 		_oValidateImportedData: function () {
 			var that = this;
@@ -2134,35 +2041,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 		},
 
-		saveImportItemAsDraft: function (oImportIData) {
-			var that = this;
-			var deferredImpItemAsDraft = $.Deferred();
-			var oModel = that.oOrderModel;
-			var oItem = JSON.parse(JSON.stringify(oImportIData.oItem[0]));
-			that.getInfoForPart(oItem, oImportIData, oModel.getProperty('/purBpCode'), oImportIData.dealerCode, oModel.getProperty(
-				'/stoSupplyingPlant'), function (oImportIData) {
-				that.createOrderDraft(oImportIData, function (rData, isOk) {
-					if (isOk) {
-						deferredImpItemAsDraft.resolve(rData);
-						that.draftInd.showDraftSaved();
-					} else {
-						rData.item[0].Status = "Error";
-						rData.item[0].StatusText = "Draft Failed";
-						deferredImpItemAsDraft.reject();
-						//iData.items[0].addIcon = true;
-
-					}
-				});
-			});
-			//}
-			//iData.items.splice(0, 0, that._getNewItem());
-			//iData.items[0].line = 0;
-			//iData.items.splice(0, 0, that._getNewItem());
-			sap.ui.core.BusyIndicator.hide();
-			//oSource.setEnabled(true);
-			//});
-
-		},
+	
 
 		onExport: function () {
 
