@@ -403,7 +403,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			that.itemTable.setBusy(true);
 			DataManager.getPartDescSPQForPart(sValue, oItem, function (item1Data, oitem) {
 				//that.getInfoFromPart(sValue, model.getProperty('/purBpCode'), function (item1Data) {
-				if (!!item1Data && (item1Data[0].Division !== "00" && item1Data[0].Division !== sAttribute1 &&  item1Data[0].Division !== sAttribute2) && that.bIsSalesOrder) {
+				if (!!item1Data && (item1Data[0].Division !== "00" && item1Data[0].Division !== sAttribute1 && item1Data[0].Division !==
+						sAttribute2) && that.bIsSalesOrder) {
 					var failedtext = that.oResourceBundle.getText('Message.Failed.Not.Valid.Dealer.Part', [sValue]);
 					MessageBox.error(failedtext, {
 						onClose: function (sAction) {
@@ -434,7 +435,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					oitem.supplier = item1Data[0].VendorAccountNumber;
 					oitem.sloc = that.oOrderModel.getProperty("/sloc");
 					oitem.revPlant = that.oOrderModel.getProperty("/revPlant");
-					oitem.OrderType = that.getRealOrderTypeByItemCategoryGroup(oitem.itemCategoryGroup, that.bIsSalesOrder, that.oOrderModel.getProperty("/orderTypeId"));
+					oitem.OrderType = that.getRealOrderTypeByItemCategoryGroup(oitem.itemCategoryGroup, that.bIsSalesOrder, that.oOrderModel.getProperty(
+						"/orderTypeId"));
 					oitem.companyCode = "2014";
 					oitem.spq = item1Data[0].SPQ;
 					oitem.ItemStatus = "Unsaved";
@@ -521,7 +523,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var that = this;
 			that.itemTable.setBusy(true);
 			if (this.bIsSalesOrder) {
-				DataManager.saveDraftSalesOrder(this.aCreateItems, this.aUpdateItems, function (oSalesItem, sOperation, IIndex, isOK,errorMessages) {
+				DataManager.saveDraftSalesOrder(this.aCreateItems, this.aUpdateItems, function (oSalesItem, sOperation, IIndex, isOK,
+					errorMessages) {
 					var Index = oSalesItem.line;
 					var oItem = that.oOrderModel.getData().items[Index];
 					if (isOK) {
@@ -547,7 +550,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					that.toggleSubmitDraftButton();
 				});
 			} else {
-				DataManager.saveDraftPurchaseOrder(this.aCreateItems, this.aUpdateItems, function (oPurchaseItem, sOperation, IIndex, isOK,	errorMessages) {
+				DataManager.saveDraftPurchaseOrder(this.aCreateItems, this.aUpdateItems, function (oPurchaseItem, sOperation, IIndex, isOK,
+					errorMessages) {
 					var Index = oPurchaseItem.line;
 					var oItem = that.oOrderModel.getData().items[Index];
 					if (isOK) {
@@ -714,7 +718,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 						that.lineError[iline]["error"] = messageList[j].message + "<br>";
 						that.itemTable.getBinding("rows").getModel().refresh(true);
-						
+
 					} else {
 						otherError = messageList[j].message + "<br>";
 					}
@@ -1252,8 +1256,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		},
 
 		_validateTableInput: function (oEvent) {
-
-			var columns = this.itemTable.getColumns();
 			var model = this.getModel("orderModel");
 			var items = model.getData().items;
 			if (items.length > 11) {
@@ -1263,11 +1265,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var typeB = model.getData().typeB;
 			var typeD = model.getData().typeD;
 			var bSubmitError = false;
+			var columns = this.itemTable.getColumns();
 			var rows = this.itemTable.getRows();
 			for (var x1 = 1; x1 < len; x1++) {
 				var rowCells = rows[x1].getCells();
 				var cellsLen = rowCells.length;
-			
+
 				for (var y1 = 5; y1 < cellsLen; y1++) {
 					if (rowCells[y1].getMetadata()._sClassName === "sap.m.Input") {
 						if (!!rowCells[y1].getProperty("required")) {
@@ -1305,13 +1308,13 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			if (bSubmitError) {
 				var bCompact = !!this.getView().$().closest(".sapUiSizeCompact").length;
 				MessageBox.error("Please fill all the required values", {
-					styleClass: bCompact ? "sapUiSizeCompact" : "";
+					styleClass: bCompact ? "sapUiSizeCompact" : "",
 					onClose: function (sAction) {
 						this.itemTable.setVisibleRowCount(11);
 					}
 				});
 			}
-			
+
 			//var oTable = this.itemTable.
 		},
 
@@ -1390,7 +1393,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			for (var c1 = 1; c1 < items.length; c1++) {
 
 				//if (items[c1].contractNum && items[c1].contractNum.toString().trim() !== "") {
-				this.validateDataSet(items[c1].campaignNum, items[c1].opCode, items[c1].vin, items[c1].partNumber, function (data, isOK,messageList) {
+				this.validateDataSet(items[c1].campaignNum, items[c1].opCode, items[c1].vin, items[c1].partNumber, function (data, isOK,
+					messageList) {
 					if (!!isOK && !!data) {
 						var I = getItemIndex();
 
@@ -1738,7 +1742,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 		_get_oItemImportDialog: function () {
 			if (!this._oItemImportDialog) {
-				this._oItemImportDialog = sap.ui.xmlfragment(this.getView().getId() + "ItemsImportDialog","tci.wave2.ui.parts.ordering.view.fragments.PartsOrderImport", this);
+				this._oItemImportDialog = sap.ui.xmlfragment(this.getView().getId() + "ItemsImportDialog",
+					"tci.wave2.ui.parts.ordering.view.fragments.PartsOrderImport", this);
 				this._oImportTable = sap.ui.core.Fragment.byId(this.getView().getId() + "ItemsImportDialog", "ImportProductsTable");
 				this._oImportsDialog = sap.ui.core.Fragment.byId(this.getView().getId() + "ItemsImportDialog", "ImportDialog");
 				this.getView().addDependent(this._oItemImportDialog);
@@ -1756,8 +1761,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			}
 			return this._oItemImportDialog;
 		},
-
-	
 
 		_oValidateImportedData: function () {
 			var that = this;
@@ -1781,7 +1784,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oItem["line"] = i + 1;
 				// Debugging
 				DataManager.getPartDescSPQForPart(oItem.partNumber, oItem, function (item1Data, oItem) {
-					if (!!item1Data && (item1Data[0].Division === sAttribute1 || item1Data[0].Division === sAttribute2 || item1Data[0].Division === "00") && that.bIsSalesOrder) {
+					if (!!item1Data && (item1Data[0].Division === sAttribute1 || item1Data[0].Division === sAttribute2 || item1Data[0].Division ===
+							"00") && that.bIsSalesOrder) {
 						oItem["Status"] = "Success";
 						oItem["StatusText"] = "";
 						oItem["hasError"] = false;
@@ -2034,8 +2038,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			sap.m.MessageToast.show(+itemNo + " Valid Order Items Imported Successfully");
 
 		},
-
-	
 
 		onExport: function () {
 			var aCols, aFileName, oRowBinding, aData, oSheet, oHeader, stitle, aItems;
