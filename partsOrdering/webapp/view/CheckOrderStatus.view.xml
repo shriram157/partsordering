@@ -127,11 +127,11 @@
 						<Column width="11%"/>
 						<Column minScreenWidth="Tablet" demandPopin="true" width="2%" hAlign="Center"/>
 						<Column minScreenWidth="Tablet" demandPopin="true" width="6%" hAlign="Center"/>
-						<Column width="8%" id="quant_ordered" hAlign="Center"><core:Icon src="sap-icon://sort" press="sortOrdered"></core:Icon></Column>
-						<Column width="8%" id="quant_in_process" hAlign="Center"><core:Icon src="sap-icon://sort" press="sortInProcess"></core:Icon></Column>
-						<Column width="8%" id="quant_processed" hAlign="Center"><core:Icon src="sap-icon://sort" press="sortProcessed"></core:Icon></Column>
-						<Column width="8%" id="quant_cancelled" hAlign="Center"><core:Icon src="sap-icon://sort" press="sortCancelled"></core:Icon></Column>
-						<Column width="9%" id="quant_back_ordered" hAlign="Center"><core:Icon src="sap-icon://sort" press="sortBack"></core:Icon></Column>
+						<Column width="8%" id="quant_ordered" hAlign="Center"></Column>
+						<Column width="8%" id="quant_in_process" hAlign="Center"></Column>
+						<Column width="8%" id="quant_processed" hAlign="Center"></Column>
+						<Column width="8%" id="quant_cancelled" hAlign="Center"></Column>
+						<Column width="9%" id="quant_back_ordered" hAlign="Center"></Column>
 						<Column width="10%" minScreenWidth="Tablet" demandPopin="true"/>
 						<Column width="10%" minScreenWidth="Tablet" demandPopin="true"/>
 						<Column width="10%" minScreenWidth="Tablet" demandPopin="true" hAlign="End"/>
