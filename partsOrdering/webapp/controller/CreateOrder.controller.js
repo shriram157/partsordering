@@ -425,6 +425,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					oitem.companyCode = "2014";
 					oitem.spq = item1Data[0].SPQ;
 					oitem.ItemStatus = "Unsaved";
+					that.itemTable.getBinding("rows").getModel().refresh(true);
 				} else if (!!item1Data && (!that.bIsSalesOrder) && (oitem.itemCategoryGroup !== "")) {
 					oitem.hasError = false;
 					oitem.itemCategoryGroup = item1Data[0].categoryGroup;
@@ -437,6 +438,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					oitem.companyCode = "2014";
 					oitem.spq = item1Data[0].SPQ;
 					oitem.ItemStatus = "Unsaved";
+					this.itemTable.getBinding("rows").getModel().refresh(true);
 				} else {
 					oitem.hasError = "";
 					oitem.itemCategoryGroup = "";
@@ -1265,9 +1267,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			for (var x1 = 1; x1 < len; x1++) {
 				var rowCells = rows[x1].getCells();
 				var cellsLen = rowCells.length;
-				//var bError = false;
-				//for (var y1 = 0; y1 < cellsLen; y1++) {
-				// PartNo
+			
 				for (var y1 = 5; y1 < cellsLen; y1++) {
 					if (rowCells[y1].getMetadata()._sClassName === "sap.m.Input") {
 						if (!!rowCells[y1].getProperty("required")) {
@@ -1305,11 +1305,13 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			if (bSubmitError) {
 				var bCompact = !!this.getView().$().closest(".sapUiSizeCompact").length;
 				MessageBox.error("Please fill all the required values", {
-					styleClass: bCompact ? "sapUiSizeCompact" : ""
+					styleClass: bCompact ? "sapUiSizeCompact" : "";
+					onClose: function (sAction) {
+						this.itemTable.setVisibleRowCount(11);
+					}
 				});
-
 			}
-			this.itemTable.setVisibleRowCount(11);
+			
 			//var oTable = this.itemTable.
 		},
 
@@ -1875,7 +1877,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var newItems = [];
 			var isSalesOrder = model.getProperty('/isSalesOrder');
 			var Deletelines = [];
-
 			if (!!items && items.length > 0) {
 
 				sap.ui.core.BusyIndicator.show(0);
@@ -2037,7 +2038,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 	
 
 		onExport: function () {
-
 			var aCols, aFileName, oRowBinding, aData, oSheet, oHeader, stitle, aItems;
 			var that = this;
 			var oModel = that.oOrderModel;

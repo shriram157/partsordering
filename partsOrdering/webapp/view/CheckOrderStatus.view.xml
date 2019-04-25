@@ -8,7 +8,7 @@
 		<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.ToolHeader" type="XML"/>
 		<content>
 			<fb:FilterBar reset="onReset" header="" showClearOnFB="false" showRestoreOnFB="false" advancedMode="true" filterBarExpanded="true"
-				search="onSearch" showRestoreButton="false" showClearButton="true" useToolbar='false' showGoOnFB='true' 
+				search="onSearch" showRestoreButton="false" showClearButton="true" useToolbar='false' showGoOnFB='true'
 				visible="{viewModel>/filterPanelEnable}" showFilterConfiguration='false'>
 				<fb:filterItems>
 					<fb:FilterItem name="orderNumber" label="{i18n>Label.CheckOrder.DealerOrder}" labelTooltip="{i18n>Label.CheckOrder.DealerOrder}">
@@ -87,27 +87,26 @@
 				</headerToolbar>
 				<columns>
 					<Column width="11%">
-						<Text text="{i18n>Label.CheckOrder.PartsNumber} "/>
+						<Text text="{i18n>Label.CheckOrder.PartNumber} "/>
 					</Column>
-					<Column minScreenWidth="Tablet" demandPopin="true" width="4%" hAlign="Center">
-					</Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" width="4%" hAlign="Center"></Column>
 					<Column minScreenWidth="Tablet" demandPopin="true" width="6%" hAlign="End">
 						<Text text="{i18n>Label.CheckOrder.ShipFrom} "/>
 					</Column>
 					<Column width="8%">
-						<Text text="{i18n>Label.CheckOrder.Quantity.Ordered} "/>
+						<Text text="{i18n>Label.CheckOrder.Quantity.Ordered}"/>
 					</Column>
 					<Column width="8%">
-						<Text text="{i18n>Label.CheckOrder.Quantity.InProcess} "/>
+						<Text text="{i18n>Label.CheckOrder.Quantity.InProcess}"/>
 					</Column>
 					<Column width="8%">
-						<Text text="{i18n>Label.CheckOrder.Quantity.Processed} "/>
+						<Text text="{i18n>Label.CheckOrder.Quantity.Processed}"/>
 					</Column>
 					<Column width="8%">
-						<Text text="{i18n>Label.CheckOrder.Quantity.Cancelled} "/>
+						<Text text="{i18n>Label.CheckOrder.Quantity.Cancelled}"/>
 					</Column>
 					<Column width="9%">
-						<Text text="{i18n>Label.CheckOrder.Quantity.BackOrdered} "/>
+						<Text text="{i18n>Label.CheckOrder.Quantity.BackOrdered}"/>
 					</Column>
 					<Column width="10%" minScreenWidth="Tablet" demandPopin="true">
 						<Text text="{i18n>Label.CheckOrder.DealerOrder}"/>
@@ -127,12 +126,12 @@
 					<columns>
 						<Column width="11%"/>
 						<Column minScreenWidth="Tablet" demandPopin="true" width="2%" hAlign="Center"/>
-						<Column minScreenWidth="Tablet" demandPopin="true" width="6%" hAlign="End"/>
-						<Column width="8%"/>
-						<Column width="8%"/>
-						<Column width="8%"/>
-						<Column width="8%"/>
-						<Column width="9%"/>
+						<Column minScreenWidth="Tablet" demandPopin="true" width="6%" hAlign="Center"/>
+						<Column width="8%" id="quant_ordered" hAlign="Center"><core:Icon src="sap-icon://sort" press="sortOrdered"></core:Icon></Column>
+						<Column width="8%" id="quant_in_process" hAlign="Center"><core:Icon src="sap-icon://sort" press="sortInProcess"></core:Icon></Column>
+						<Column width="8%" id="quant_processed" hAlign="Center"><core:Icon src="sap-icon://sort" press="sortProcessed"></core:Icon></Column>
+						<Column width="8%" id="quant_cancelled" hAlign="Center"><core:Icon src="sap-icon://sort" press="sortCancelled"></core:Icon></Column>
+						<Column width="9%" id="quant_back_ordered" hAlign="Center"><core:Icon src="sap-icon://sort" press="sortBack"></core:Icon></Column>
 						<Column width="10%" minScreenWidth="Tablet" demandPopin="true"/>
 						<Column width="10%" minScreenWidth="Tablet" demandPopin="true"/>
 						<Column width="10%" minScreenWidth="Tablet" demandPopin="true" hAlign="End"/>
@@ -143,12 +142,12 @@
 								<!--<ObjectIdentifier title="{path : 'viewModel>part_no', formatter:'.formatter.getItemNumber' }"/>-->
 								<ObjectIdentifier title="{viewModel>part_no}"/>
 								<core:Icon src="sap-icon://share" color='#FF5733' visible="{path : 'viewModel>sub_flag', formatter:'.formatter.sub2boolean'}"/>
-								<Text text="{path : 'viewModel>ship_from' }"/>
-								<ObjectNumber number="{path: 'viewModel>quant_ordered', formatter:'.formatter.round2dec'}"/>
-								<ObjectNumber number="{path: 'viewModel>quant_in_process', formatter:'.formatter.round2dec' }"/>
-								<ObjectNumber number="{path: 'viewModel>quant_processed', formatter:'.formatter.round2dec'}"/>
-								<ObjectNumber number="{path: 'viewModel>quant_cancelled', formatter:'.formatter.round2dec'}"/>
-								<ObjectNumber number="{path: 'viewModel>quant_back_ordered', formatter:'.formatter.round2dec'}"/>
+								<Text text="{path : 'viewModel>ship_from' }" hAlign="Center"/>
+								<ObjectNumber number="{path: 'viewModel>quant_ordered', formatter:'.formatter.round2dec'}" hAlign="Center"/>
+								<ObjectNumber number="{path: 'viewModel>quant_in_process', formatter:'.formatter.round2dec' }" hAlign="Center"/>
+								<ObjectNumber number="{path: 'viewModel>quant_processed', formatter:'.formatter.round2dec'}" hAlign="Center"/>
+								<ObjectNumber number="{path: 'viewModel>quant_cancelled', formatter:'.formatter.round2dec'}" hAlign="Center"/>
+								<ObjectNumber number="{path: 'viewModel>quant_back_ordered', formatter:'.formatter.round2dec'}" hAlign="Center"/>
 								<ObjectIdentifier title="{viewModel>dealer_orderNo}"/>
 								<Text text="{path : 'viewModel>doc_type', formatter:'.formatter.orderTypeD' }"/>
 								<Text text="{path :'viewModel>TCI_order_no', formatter:'.formatter.getItemNumber'}"/>

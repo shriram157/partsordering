@@ -1,85 +1,54 @@
-<core:FragmentDefinition
-		xmlns="sap.m"
-		xmlns:core="sap.ui.core"
-		xmlns:mvc="sap.ui.core.mvc"
-		xmlns:semantic="sap.f.semantic">
-	<Dialog contentWidth="625px" contentHeight="70%" 
-		afterClose='cleanUpDialog'
-		afterOpen='afterDialogOpen'
-		title="{path : '/doc_type', formatter:'.formatter.orderTypeD'} : {/dealer_orderNo}" 
-		verticalScrolling='true'
-		resizable="true" draggable="true"
-	>
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic">
+	<Dialog contentWidth="625px" contentHeight="70%" afterClose='cleanUpDialog' afterOpen='afterDialogOpen'
+		title="{path : '/doc_type', formatter:'.formatter.orderTypeD'} : {/dealer_orderNo}" verticalScrolling='true' resizable="true"
+		draggable="true">
 		<beginButton>
-			<Button text="{i18n>Label.CheckOrder.Button.Close}" press='onDialogClose' />
-		</beginButton>	
+			<Button text="{i18n>Label.CheckOrder.Button.Close}" press='onDialogClose'/>
+		</beginButton>
 		<content>
-			<ObjectHeader
-				id="topPageHeader"
-				responsive="true"
-				fullScreenOptimized="false"
-				iconDensityAware = "false"
-				icon="images/car.png"
-				iconAlt="{i18n>Label.CheckOrder.Name}"
-				intro="{/partdesc}"
-				title="{path : '/part_no'}"
-				titleActive="false"
-				number="{/scheduleLines/length}"
-				numberUnit="{i18n>Label.CheckOrder.deliveries}"
-				showTitleSelector="false"
-				showMarkers="false"
-				markFlagged="false"
-				markFavorite="false"
-				numberState="Success"
-				backgroundDesign="Transparent">
+			<ObjectHeader id="topPageHeader" responsive="true" fullScreenOptimized="false" iconDensityAware="false" icon="images/car.png"
+				iconAlt="{i18n>Label.CheckOrder.Name}" intro="{/partdesc}" title="{path : '/part_no'}" titleActive="false" number="{/scheduleLines/length}"
+				numberUnit="{i18n>Label.CheckOrder.deliveries}" showTitleSelector="false" showMarkers="false" markFlagged="false" markFavorite="false"
+				numberState="Success" backgroundDesign="Transparent">
 				<attributes>
-					<ObjectAttribute
-						title="{i18n>Label.CheckOrder.Tci.Order.Number}"
+					<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Number}"
 						text="{ path : '/TCI_order_no', formatter:'.formatter.removeLeadingZero' }"/>
-					<ObjectAttribute
-						title="{i18n>Label.CheckOrder.Tci.Order.Line}"
-						text="{ path : '/TCI_itemNo', formatter:'.formatter.removeLeadingZero'}"/>
-					<ObjectAttribute
-						title="{i18n>Label.CheckOrder.Ship.From}"
-						text="{/ship_from}"/>
+					<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Line}" text="{ path : '/TCI_itemNo', formatter:'.formatter.removeLeadingZero'}"/>
+					<ObjectAttribute title="{i18n>Label.CheckOrder.Ship.From}" text="{/ship_from}"/>
 				</attributes>
 				<statuses>
-	 				<ObjectStatus
-						text="{i18n>Label.CheckOrder.Substituted}" state="Warning" visible='{/subs}'/>
-	 				<ObjectStatus
-						text="{i18n>Label.CheckOrder.Substituted.Not}"
-						state="Success" visible='{=!${/subs}}'/>
+					<ObjectStatus text="{i18n>Label.CheckOrder.Substituted}" state="Warning" visible='{/subs}'/>
+					<ObjectStatus text="{i18n>Label.CheckOrder.Substituted.Not}" state="Success" visible='{=!${/subs}}'/>
 				</statuses>
-				<headerContainer>
-				</headerContainer>
+				<headerContainer></headerContainer>
 			</ObjectHeader>
-			<Table items="{ path: '/scheduleLines' }" showNoData='true' >
+			<Table items="{ path: '/scheduleLines' }" showNoData='true'>
 				<headerToolbar>
 					<Toolbar>
 						<VBox width='76px'>
 							<Label text="{i18n>Header.Quantity.Ordered}"></Label>
 							<ObjectNumber number="{path : '/quant_ordered', formatter:'.formatter.round2dec'}" state="None"/>
-						</VBox>						
+						</VBox>
 						<ToolbarSeparator/>
-						<VBox width='76px' >
+						<VBox width='76px'>
 							<Label text="{i18n>Header.Quantity.In.Process}"></Label>
-							<ObjectNumber number="{path : '/quant_in_process', formatter:'.formatter.round2dec'}" state="Warning"/>							
-						</VBox>						
+							<ObjectNumber number="{path : '/quant_in_process', formatter:'.formatter.round2dec'}" state="Warning"/>
+						</VBox>
 						<ToolbarSeparator/>
 						<VBox width='76px'>
 							<Label text="{i18n>Header.Quantity.Processed}"></Label>
-							<ObjectNumber number="{path : '/quant_processed', formatter:'.formatter.round2dec'}" state="None"/>							
-						</VBox>						
+							<ObjectNumber number="{path : '/quant_processed', formatter:'.formatter.round2dec'}" state="None"/>
+						</VBox>
 						<ToolbarSeparator/>
 						<VBox width='76px'>
 							<Label text="{i18n>Header.Quantity.Cancelled}"></Label>
-							<ObjectNumber number="{path : '/quant_cancelled', formatter:'.formatter.round2dec'}" state="Error"/>							
-						</VBox>						
+							<ObjectNumber number="{path : '/quant_cancelled', formatter:'.formatter.round2dec'}" state="Error"/>
+						</VBox>
 						<ToolbarSeparator/>
 						<VBox width='88px'>
 							<Label text="{i18n>Header.Quantity.Back.Ordered}"></Label>
-							<ObjectNumber number="{path : '/quant_back_ordered', formatter:'.formatter.round2dec'}" state="Error"/>							
-						</VBox>						
+							<ObjectNumber number="{path : '/quant_back_ordered', formatter:'.formatter.round2dec'}" state="Error"/>
+						</VBox>
 						<ToolbarSeparator/>
 					</Toolbar>
 				</headerToolbar>
@@ -87,27 +56,22 @@
 					<!--<Column  width='4rem'>
 						<Text text="{i18n>Label.CheckOrder.Being.Deliveried}" />
 					</Column> -->
-					<Column  width='6rem'  >
-						<Text text="{i18n>Label.CheckOrder.Conf.Delivered.Quantity}" />						
-					</Column>								
-					<Column width='7rem' >
-						<Text text="{i18n>Label.CheckOrder.Estimated.Delivery.Date}" />						
+					<Column width='6rem'>
+						<Text text="{i18n>Label.CheckOrder.Conf.Delivered.Quantity}"/>
+					</Column>
+					<Column width='7rem'>
+						<Text text="{i18n>Label.CheckOrder.Estimated.Delivery.Date}"/>
 					</Column>
 					<Column width='7rem' hAlign="End">
-						<Text text="{i18n>Label.CheckOrder.Delivery.Number}" />						
+						<Text text="{i18n>Label.CheckOrder.Delivery.Number}"/>
 					</Column>
-					<Column width='44px' hAlign="End"  minScreenWidth="Tablet"
-						demandPopin="true"
-						>
+					<Column width='44px' hAlign="End" minScreenWidth="Tablet" demandPopin="true">
 						<Text text="{i18n>Label.CheckOrder.Line}"/>
-					</Column>	
-					<Column width='7rem' hAlign="End">
-						<Text text="{i18n>Label.CheckOrder.Billing.Number}" />						
 					</Column>
-					<Column width='44px'  hAlign="End"
-						minScreenWidth="Tablet"
-						demandPopin="true"
-					>
+					<Column width='7rem' hAlign="End">
+						<Text text="{i18n>Label.CheckOrder.Billing.Number}"/>
+					</Column>
+					<Column width='44px' hAlign="End" minScreenWidth="Tablet" demandPopin="true">
 						<Text text="{i18n>Label.CheckOrder.Line}"/>
 					</Column>
 				</columns>
@@ -115,25 +79,16 @@
 					<ColumnListItem>
 						<cells>
 							<!--<Text text="{path: 'deliv_qty', formatter:'.formatter.round2dec'}"/>-->
-							<Text text="{parts :  [{path: 'cnf_qty'}, {path : '/deliv_qty'}], formatter:'.formatter.confDelFormat'}" />
-							<Text text="{path: 'estm_deliv_date', type : 'sap.ui.model.type.Date', formatOptions: { style : 'medium'}}" />
-							<ObjectIdentifier
-								title="{path: 'deliv_no' ,  formatter:'.formatter.removeLeadingZero'}"
-								/>
-							<ObjectIdentifier
-								title="{path: 'deliv_itemNo',  formatter:'.formatter.removeLeadingZero'}"
-								/>
-							<ObjectIdentifier
-								title="{path : 'bill_no',  formatter:'.formatter.removeLeadingZero'}"
-							/>
-							<ObjectIdentifier
-								title="{path : 'bill_itemNo',  formatter:'.formatter.removeLeadingZero'}"
-								/>			
+							<Text text="{parts : [{path: 'cnf_qty'}, {path : '/deliv_qty'}], formatter:'.formatter.confDelFormat'}"/>
+							<Text text="{path: 'estm_deliv_date', type : 'sap.ui.model.type.Date', formatOptions: { style : 'medium'}}"/>
+							<ObjectIdentifier title="{path: 'deliv_no' , formatter:'.formatter.removeLeadingZero'}"/>
+							<ObjectIdentifier title="{path: 'deliv_itemNo', formatter:'.formatter.removeLeadingZero'}"/>
+							<ObjectIdentifier title="{path : 'bill_no', formatter:'.formatter.removeLeadingZero'}"/>
+							<ObjectIdentifier title="{path : 'bill_itemNo', formatter:'.formatter.removeLeadingZero'}"/>
 						</cells>
 					</ColumnListItem>
 				</items>
 			</Table>
 		</content>
 	</Dialog>
-
 </core:FragmentDefinition>
