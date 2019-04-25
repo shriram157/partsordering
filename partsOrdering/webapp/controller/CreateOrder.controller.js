@@ -273,7 +273,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 			//Initialize Create & Update Items
 			this.itemTable.getBinding("rows").getModel().refresh(true);
-
+			this.itemTable.setVisibleRowCount(11);
 			this.aUpdateItems = [];
 			this.aCreateItems = [];
 			that.toggleSubmitDraftButton();
@@ -740,10 +740,17 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		},
 
 		_resetLineError: function (iline) {
-
+			var that = this;
+			if (!!that.lineError && !!that.lineError[iline]) {
+				that.lineError[iline] = null;
+			}
 		},
 
 		onActivate: function (oEvent) {
+			var items = this.oOrderModel.getData().items;
+			if (items.length > 11) {
+				this.itemTable.setVisibleRowCount(items.length);
+			}
 			this._validateTableInput();
 		},
 
@@ -1260,7 +1267,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var model = this.getModel("orderModel");
 			var items = model.getData().items;
 			if (items.length > 11) {
-				this.itemTable.setVisibleRowCount(items.length); 
+				this.itemTable.setVisibleRowCount(items.length);
 			}
 			var len = items.length;
 			var typeB = model.getData().typeB;
