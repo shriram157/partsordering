@@ -567,7 +567,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							}
 						} else {
 							for (var u = 0; u < that.aUpdateItems.length; u++) {
-								if (that.UpdateItems[j].line === Index) {
+								if (that.aUpdateItems[j].line === Index) {
 									that.aUpdateItems.splice(j, 1);
 									break;
 								}
@@ -1140,7 +1140,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					if (items[i].selected) {
 						Deletelines.push(items[i].line);
 						if (items[i].uuid) {
-							this.draftInd.showDraftSaving();
+							//this.draftInd.showDraftSaving();
 							todoList.push(items[i].uuid);
 							this.deleteOrderDraftItem([items[i].uuid, items[i].line, items[i].parentUuid], isSalesOrder, function (keys, isOk, messages) {
 								// only failed record will be returning message. message of good one will be ignored
@@ -1193,7 +1193,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 									// ---to save some newwork traffic
 									rData.modifiedOn = new Date();
 									model.setData(rData);
-									that.draftInd.showDraftSaved();
+									//that.draftInd.showDraftSaved();
 								}
 							});
 						}
@@ -1229,6 +1229,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				}
 				sap.ui.core.BusyIndicator.hide();
 			}
+			that.toggleSubmitDraftButton();
 
 		},
 
@@ -1259,13 +1260,13 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var model = this.getModel("orderModel");
 			var items = model.getData().items;
 			if (items.length > 11) {
-				this.itemTable.setVisibleRowCount(items.length);
+				this.itemTable.setVisibleRowCount(items.length); 
 			}
 			var len = items.length;
 			var typeB = model.getData().typeB;
 			var typeD = model.getData().typeD;
 			var bSubmitError = false;
-			var columns = this.itemTable.getColumns();
+			//var columns = this.itemTable.getColumns();
 			var rows = this.itemTable.getRows();
 			for (var x1 = 1; x1 < len; x1++) {
 				var rowCells = rows[x1].getCells();

@@ -5,8 +5,9 @@ sap.ui.define([
 	'sap/m/MessageToast',
 	'sap/m/Link',
 	'sap/ui/model/json/JSONModel',
-	"tci/wave2/ui/parts/ordering/model/formatter"
-], function (BaseController, MessagePopover, MessageItem, MessageToast, Link, JSONModel, formatter) {
+	"tci/wave2/ui/parts/ordering/model/formatter",
+	'sap/ui/model/Sorter'
+], function (BaseController, MessagePopover, MessageItem, MessageToast, Link, JSONModel, formatter, Sorter) {
 	"use strict";
 
 	var CONT_OTLISTMODEL = "orderTypeListModel";
@@ -16,6 +17,7 @@ sap.ui.define([
 		formatter: formatter,
 
 		onInit: function () {
+			var that = this;
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			oRouter.getRoute("CheckOrderStatus").attachPatternMatched(this._onObjectMatched, this);
 
@@ -28,6 +30,11 @@ sap.ui.define([
 			this.setModel(oMessageManager.getMessageModel(), "message");
 			// or just do it for the whole view
 			oMessageManager.registerObject(this.getView(), true);
+
+			if (!this._oResponsivePopover) {
+				this._oResponsivePopover = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.OrderStatusQtySort", this);
+				//this._oResponsivePopover.setModel(this.getView().getModel());
+			};
 
 			var viewState = {
 				filteredItems: 0,
@@ -52,6 +59,27 @@ sap.ui.define([
 			this._toDate = this.byId('dateTo');
 
 			this.checkDealerInfo();
+
+			var oTable = this.getView().byId("idProductsTable");
+			oTable.addEventDelegate({
+				onAfterRendering: function () {
+					var oHeader = this.$().find('.sapMColumnHeaderContent'); //Get hold of table header elements
+					for (var i = 0; i < oHeader.length; i++) {
+						var oID = oHeader[i].id;
+						that.onClick(oID);
+					}
+				}
+			}, oTable);
+
+			this._oList.addEventDelegate({
+				onAfterRendering: function () {
+					var oHeader = this.$().find('.sapMListTblHeaderCell'); //Get hold of table header elements
+					for (var i = 0; i < oHeader.length; i++) {
+						var oID = oHeader[i].id;
+						that.onClick(oID);
+					}
+				}
+			}, this._oList);
 
 		},
 
@@ -229,6 +257,48 @@ sap.ui.define([
 			this.refresh();
 		},
 
+		onClick: function (oID) {
+			var that = this;
+			$('#' + oID).click(function (oEvent) { //Attach Table Header Element Event
+				var oTarget = oEvent.currentTarget; //Get hold of Header Element
+				var oLabelText = oTarget.childNodes[0].textContent; //Get Column Header text
+				var oIndex = oTarget.id.slice(-1); //Get the column Index
+				var oView = that.getView();
+				var oModel = that._oList.getModel().getProperty("/orders"); //Get Hold of Table Model Values
+				var oKeys = Object.keys(oModel[0]); //Get Hold of Model Keys to filter the value
+				oView.getModel().setProperty("/bindingValue", oKeys[oIndex]); //Save the key value to property
+				that._oResponsivePopover.openBy(oTarget);
+			});
+		},
+
+		onAscending: function () {
+			//var oTable = this.getView().byId("idProductsTable");
+			var oItems = this._oList.getBinding("items");
+			var oBindingPath = this.getView().getModel().getProperty("/bindingValue");
+			var oSorter = new Sorter(oBindingPath);
+			oItems.sort(oSorter);
+			this._oResponsivePopover.close();
+		},
+
+		onDescending: function () {
+			var oItems = this._oList.getBinding("items");
+			var oBindingPath = this.getView().getModel().getProperty("/bindingValue");
+			var oSorter = new Sorter(oBindingPath, true);
+			oItems.sort(oSorter);
+			this._oResponsivePopover.close();
+		},
+
+		onOpen: function (oEvent) {
+			//On Popover open focus on Input control
+			var oPopover = sap.ui.getCore().byId(oEvent.getParameter("id"));
+			var oPopoverContent = oPopover.getContent()[0];
+			var oCustomListItem = oPopoverContent.getItems()[2];
+			var oCustomContent = oCustomListItem.getContent()[0];
+			var oInput = oCustomContent.getItems()[1];
+			oInput.focus();
+			oInput.$().find('.sapMInputBaseInner')[0].select();
+		},
+
 		onMasterSelected: function (oEvent) {
 			var that = this;
 			var sPath = null;
@@ -366,12 +436,12 @@ sap.ui.define([
 					var date = new Date();
 					var year = date.getFullYear();
 					var month = date.getMonth();
-					
+
 					if (month < 10) {
 						month = "0" + month;
 					};
 					var day = date.getDate();
-				
+
 					if (day < 10) {
 						day = "0" + day;
 					}
@@ -386,7 +456,7 @@ sap.ui.define([
 					year = date.getFullYear();
 					conditions.fromOrderDate = year + month + day;
 					viewModel.setProperty("/filters/fromOrderDate", year + month + day);
-				
+
 				}
 
 				// the ALL will not put new condition to the search query
@@ -421,7 +491,7 @@ sap.ui.define([
 				}
 
 				if (!!filters.partsStates && filters.partsStates.length > 0) {
-					
+
 					for (var x1 = 0; x1 < filters.partsStates.length; x1++) {
 						switch (filters.partsStates[x1]) {
 						case 'IP':
@@ -440,7 +510,7 @@ sap.ui.define([
 					}
 					//var aFilter = new sap.ui.model.Filter(partsSts, false);
 					//oFilter.push(aFilter);
-					
+
 				}
 				if (afilters.length > 0) {
 					binding.filter(afilters, true);
