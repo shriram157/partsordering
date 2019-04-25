@@ -1790,7 +1790,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			for (var i = 0; i < oItems.length; i++) {
 				var oItem = oItems[i];
 				oItem["line"] = i + 1;
-				oItem.partNumber.replace(/-/g,"");
+				oItem.partNumber = oItem.partNumber.replace(/-/g,"");
 				// Debugging
 				DataManager.getPartDescSPQForPart(oItem.partNumber, oItem, function (item1Data, oItem) {
 					if (!!item1Data && (item1Data[0].Division === sAttribute1 || item1Data[0].Division === sAttribute2 || item1Data[0].Division ===
