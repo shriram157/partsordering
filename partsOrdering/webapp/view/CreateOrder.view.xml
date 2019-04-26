@@ -19,7 +19,7 @@
 				rows="{ path: 'orderModel/items/', sorter: [{ path: 'partNumber', descending: false }, { path: 'line', descending: false }] }"
 				selectionMode="MultiToggle" ariaLabelledBy="title" class="sapUiNoMarginTop sapUiNoMarginEnd">-->
 		<!--	<HBox class="customStyleBox">-->
-					<ScrollContainer id='flexContainer' height="60%" width="100%" horizontal="true" vertical="true" focusable="true">
+					<ScrollContainer id='flexContainer' height="80%" width="100%" horizontal="true" vertical="true" focusable="true">
 					<ui:Table id="idProductsTable" alternateRowColors="false" showNoData="false" rows="{orderModel>/items}" visibleRowCount="16"
 						selectionMode="None" ariaLabelledBy="title" class="sapUiSizeCompact sapUiNoMarginTop sapUiNoMarginEnd" rowHeight="25px"
 						sort="handleSortColumn"  >

@@ -77,7 +77,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 		_typeACrem: function () {
 			return {
-				remLine: "2rem",
+				remLine: "3rem",
 				remPartNo: "22rem",
 				remPartDesc: "14rem",
 				remSPQ: "5rem",
@@ -89,7 +89,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 		_typeBrem: function () {
 			return {
-				remLine: "2rem",
+				remLine: "3rem",
 				remPartNo: "22rem",
 				remPartDesc: "14rem",
 				remSPQ: "4rem",
@@ -102,7 +102,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 		_typeDrem: function () {
 			return {
-				remLine: "2rem",
+				remLine: "3rem",
 				remPartNo: "22rem",
 				remPartDesc: "14rem",
 				remSPQ: "4rem",
@@ -513,7 +513,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			oOrderData.items.splice(0, 0, that._getNewItem());
 			//rData.newline = [that._getNewLine()];
 			oOrderData.totalLines = oOrderData.items.length - 1;
-			if (oOrderData.totalLines < 16) {
+			if (oOrderData.totalLines > 16) {
 				this.itemTable.setVisibleRowCount(oOrderData.items.length);
 			}
 			// ---to save some newwork traffic
@@ -1235,7 +1235,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					}
 					rData.items = newItems;
 					rData.totalLines = rData.items.length - 1;
-					if (rData.totalLines < 16) {
+					if (rData.totalLines > 16) {
 						this.itemTable.setVisibleRowCount(rData.totalLines);
 					}
 					// ---to save some newwork traffic
@@ -1803,8 +1803,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oItem.partNumber = oItem.partNumber.replace(/-/g,"");
 				// Debugging
 				DataManager.getPartDescSPQForPart(oItem.partNumber, oItem, function (item1Data, oItem) {
-					if (!!item1Data && (item1Data[0].Division === sAttribute1 || item1Data[0].Division === sAttribute2 || item1Data[0].Division ===
-							"00") && that.bIsSalesOrder) {
+					if (!!item1Data && (item1Data[0].Division === sAttribute1 || item1Data[0].Division === sAttribute2 || item1Data[0].Division === "00") && that.bIsSalesOrder) {
 						oItem["Status"] = "Success";
 						oItem["StatusText"] = "";
 						oItem["hasError"] = false;
@@ -2043,6 +2042,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 				}
 			}
+		
 			that.itemTable.getBinding("rows").getModel().refresh(true);
 
 			//iData.items.splice(0, 1);
