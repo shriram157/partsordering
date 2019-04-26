@@ -248,8 +248,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						rData.items[i].hasError = false;
 					}
 					rData.totalLines = rData.items.length;
-					if (rData.totalLines < 16) {
-						that.itemTable.setVisibleRowCount(rData.totalLines);
+					if (rData.totalLines > 15) {
+						that.itemTable.setVisibleRowCount(rData.totalLines + 1);
 					} 
 				} else {
 					rData.totalLines = 0;
@@ -514,7 +514,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			//rData.newline = [that._getNewLine()];
 			oOrderData.totalLines = oOrderData.items.length - 1;
 			if (oOrderData.totalLines > 16) {
-				this.itemTable.setVisibleRowCount(oOrderData.items.length);
+				this.itemTable.setVisibleRowCount(oOrderData.items.length + 1);
 			}
 			// ---to save some newwork traffic
 			oOrderData.modifiedOn = new Date();
@@ -1236,7 +1236,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					rData.items = newItems;
 					rData.totalLines = rData.items.length - 1;
 					if (rData.totalLines > 16) {
-						this.itemTable.setVisibleRowCount(rData.totalLines);
+						this.itemTable.setVisibleRowCount(rData.totalLines + 1);
 					}
 					// ---to save some newwork traffic
 					rData.modifiedOn = new Date();
@@ -1328,7 +1328,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				MessageBox.error("Please fill all the required values", {
 					styleClass: bCompact ? "sapUiSizeCompact" : "",
 					onClose: function (sAction) {
-						this.itemTable.setVisibleRowCount(16);
+						//this.itemTable.setVisibleRowCount(16);
 					}
 				});
 			}
