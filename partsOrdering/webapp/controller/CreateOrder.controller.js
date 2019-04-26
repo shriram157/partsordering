@@ -273,7 +273,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 			//Initialize Create & Update Items
 			this.itemTable.getBinding("rows").getModel().refresh(true);
-			this.itemTable.setVisibleRowCount(11);
+			this.itemTable.setVisibleRowCount(16);
 			this.aUpdateItems = [];
 			this.aCreateItems = [];
 			that.toggleSubmitDraftButton();
@@ -509,6 +509,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			oOrderData.items.splice(0, 0, that._getNewItem());
 			//rData.newline = [that._getNewLine()];
 			oOrderData.totalLines = oOrderData.items.length - 1;
+			if (totalLines < 16) {
+				this.itemTable.setVisibleRowCount(oOrderData.items.length);
+			}
 			// ---to save some newwork traffic
 			oOrderData.modifiedOn = new Date();
 			that.oOrderModel.setData(oOrderData);
@@ -567,8 +570,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							}
 						} else {
 							for (var u = 0; u < that.aUpdateItems.length; u++) {
-								if (that.aUpdateItems[j].line === Index) {
-									that.aUpdateItems.splice(j, 1);
+								if (that.aUpdateItems[u].line === Index) {
+									that.aUpdateItems.splice(u, 1);
 									break;
 								}
 							}
@@ -748,9 +751,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 		onActivate: function (oEvent) {
 			var items = this.oOrderModel.getData().items;
-			if (items.length > 11) {
+			/*if (items.length > 11) {
 				this.itemTable.setVisibleRowCount(items.length);
-			}
+			}*/
 			this._validateTableInput();
 		},
 
@@ -1266,9 +1269,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		_validateTableInput: function (oEvent) {
 			var model = this.getModel("orderModel");
 			var items = model.getData().items;
-			if (items.length > 11) {
+			/*if (items.length > 11) {
 				this.itemTable.setVisibleRowCount(items.length);
-			}
+			}*/
 			var len = items.length;
 			var typeB = model.getData().typeB;
 			var typeD = model.getData().typeD;
