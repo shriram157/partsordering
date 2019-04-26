@@ -225,7 +225,7 @@ sap.ui.define([], function () {
 		},
 
 		confDelFormat: function (cnfQty, delQty) {
-			if (typeof cnfQty !== 'undefined' && cnfQty.trim() > 0) {
+			if (typeof cnfQty !== 'undefined' && cnfQty !== null && cnfQty.trim() > 0) {
 				return Math.round(cnfQty);
 			} else if (typeof delQty !== 'undefined' && delQty.trim() > 0) {
 				return Math.round(delQty);
