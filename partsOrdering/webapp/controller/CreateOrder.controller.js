@@ -248,10 +248,14 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						rData.items[i].hasError = false;
 					}
 					rData.totalLines = rData.items.length;
+					if (rData.totalLines < 16) {
+						that.itemTable.setVisibleRowCount(rData.totalLines);
+					} 
 				} else {
 					rData.totalLines = 0;
 					that.btnDraft.setVisible(true);
 					that.btnSubmit.setVisible(false);
+					that.itemTable.setVisibleRowCount(16);
 				}
 				if (rData.dealerType === '04') {
 					// campaign 
@@ -273,7 +277,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 			//Initialize Create & Update Items
 			this.itemTable.getBinding("rows").getModel().refresh(true);
-			this.itemTable.setVisibleRowCount(16);
+			//this.itemTable.setVisibleRowCount(16);
 			this.aUpdateItems = [];
 			this.aCreateItems = [];
 			that.toggleSubmitDraftButton();
@@ -509,7 +513,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			oOrderData.items.splice(0, 0, that._getNewItem());
 			//rData.newline = [that._getNewLine()];
 			oOrderData.totalLines = oOrderData.items.length - 1;
-			if (totalLines < 16) {
+			if (oOrderData.totalLines < 16) {
 				this.itemTable.setVisibleRowCount(oOrderData.items.length);
 			}
 			// ---to save some newwork traffic
@@ -1231,6 +1235,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					}
 					rData.items = newItems;
 					rData.totalLines = rData.items.length - 1;
+					if (rData.totalLines < 16) {
+						this.itemTable.setVisibleRowCount(rData.totalLines);
+					}
 					// ---to save some newwork traffic
 					rData.modifiedOn = new Date();
 					model.setData(rData);
@@ -1321,7 +1328,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				MessageBox.error("Please fill all the required values", {
 					styleClass: bCompact ? "sapUiSizeCompact" : "",
 					onClose: function (sAction) {
-						this.itemTable.setVisibleRowCount(11);
+						this.itemTable.setVisibleRowCount(16);
 					}
 				});
 			}
