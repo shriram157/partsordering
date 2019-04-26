@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic">
-	<Dialog contentWidth="680px" contentHeight="70%" afterClose='cleanUpDialog' afterOpen='afterDialogOpen'
+	<Dialog contentWidth="707px" contentHeight="70%" afterClose='cleanUpDialog' afterOpen='afterDialogOpen'
 		title="{path : '/doc_type', formatter:'.formatter.orderTypeD'} : {/dealer_orderNo}" verticalScrolling='true' resizable="true"
 		draggable="true">
 		<beginButton>
@@ -43,11 +43,6 @@
 						</VBox>
 						<ToolbarSeparator/>
 						<VBox width='76px'>
-							<Label text="{i18n>Header.Quantity.Tracking}"></Label>
-							<ObjectNumber number="{path : '/tracking_no', formatter:'.formatter.round2dec'}" state="None"/>
-						</VBox>
-						<ToolbarSeparator/>
-						<VBox width='76px'>
 							<Label text="{i18n>Header.Quantity.Cancelled}"></Label>
 							<ObjectNumber number="{path : '/quant_cancelled', formatter:'.formatter.round2dec'}" state="Error"/>
 						</VBox>
@@ -68,6 +63,11 @@
 					</Column>
 					<Column width='7rem'>
 						<Text text="{i18n>Label.CheckOrder.Estimated.Delivery.Date}"/>
+					</Column>
+				   <Column width='5rem'>
+							<Text text="{i18n>Header.Quantity.Tracking}"/>
+							<ObjectNumber number="{path : '/tracking_no', formatter:'.formatter.round2dec'}" state="None"/>
+						
 					</Column>
 					<Column width='7rem' hAlign="End">
 						<Text text="{i18n>Label.CheckOrder.Delivery.Number}"/>
