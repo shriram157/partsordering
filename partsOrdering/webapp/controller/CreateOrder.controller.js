@@ -69,7 +69,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			DataManager.init(BaseController, this.OwnerComponent, this.oResourceBundle, this.sLang);
 			this.submitError = null;
 			this.lineError = null;
-			this._oBusyfragment = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.BusyDialog", this);
+			this._oBusyfragment = sap.ui.xmlfragment(this.getView().getId() + "oBusyfragment","tci.wave2.ui.parts.ordering.view.fragments.BusyDialog", this);
 			this._oBusyDialog = sap.ui.core.Fragment.byId(this.getView().getId() + "oBusyfragment", "BusyDialog");
 			jQuery.sap.syncStyleClass("sapUiSizeCompact", this.getView(), this._oBusyfragment);
 
