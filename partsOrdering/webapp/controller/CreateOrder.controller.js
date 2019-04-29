@@ -1846,11 +1846,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			//var newline = model.getProperty('/newline');
 			var resourceBundle = this.getResourceBundle;
 			if (oItems.length > 12) {
-<<<<<<< Upstream, based on origin/dev
-				that._oImportTable.setVisibleRowCount(oItems.length);
-=======
 			that._oImportTable.setVisibleRowCount(oItems.length);
->>>>>>> 0b5a2a1 ValidateImportItems table length 
 			}
 			for (var i = 0; i < oItems.length; i++) {
 				var oItem = oItems[i];
