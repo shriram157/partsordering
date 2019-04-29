@@ -785,14 +785,15 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 		onActivate: function (oEvent) {
 			var items = this.oOrderModel.getData().items;
+
 			/*if (items.length > 11) {
 				this.itemTable.setVisibleRowCount(items.length);
 			}*/
 			//oEvent.getSource().setEnabled(false);
-			that.itemTable.setBusy(true);
-			that._oBusyDialog.setTitle("Submit Order");
-			that._oBusyDialog.setText("Order Activation In Progress...");
-			that._oBusyfragment.open();
+			this.itemTable.setBusy(true);
+			this._oBusyDialog.setTitle("Submit Order");
+			this._oBusyDialog.setText("Order Activation In Progress...");
+			this._oBusyfragment.open();
 			this._validateTableInput();
 		},
 
@@ -844,7 +845,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							if (aOrderErrorMessages.length > 0) {
 								that._showValidationFailed(aOrderErrorMessages);
 							}
-							
+
 							that._showErrorSort(true);
 						} else {
 							that.submitError = null;
@@ -1365,8 +1366,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				//return bSubmitError;
 			}
 			if (bSubmitError) {
-					that.itemTable.setBusy(false);
-					that._oBusyfragment.close();
+				that.itemTable.setBusy(false);
+				that._oBusyfragment.close();
 				var bCompact = !!this.getView().$().closest(".sapUiSizeCompact").length;
 				MessageBox.error("Please fill all the required values", {
 					styleClass: bCompact ? "sapUiSizeCompact" : "",
@@ -1426,13 +1427,13 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								//return bSubmitError;
 								that._activateFinal(false);
 
-							} 
+							}
 							that.itemTable.setBusy(false);
 							that._oBusyfragment.close();
 						});
 					} else {
 						//var J = getItemIndex();
-					
+
 						if (contractItems.length === 0 && (!bSubmitError)) {
 							that._activateFinal(false);
 
