@@ -69,7 +69,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			DataManager.init(BaseController, this.OwnerComponent, this.oResourceBundle, this.sLang);
 			this.submitError = null;
 			this.lineError = null;
-			this._oBusyfragment = sap.ui.xmlfragment(this.getView().getId() + "oBusyfragment","tci.wave2.ui.parts.ordering.view.fragments.BusyDialog", this);
+			this._oBusyfragment = sap.ui.xmlfragment(this.getView().getId() + "oBusyfragment",
+				"tci.wave2.ui.parts.ordering.view.fragments.BusyDialog", this);
 			this._oBusyDialog = sap.ui.core.Fragment.byId(this.getView().getId() + "oBusyfragment", "BusyDialog");
 			jQuery.sap.syncStyleClass("sapUiSizeCompact", this.getView(), this._oBusyfragment);
 
@@ -253,7 +254,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					rData.totalLines = rData.items.length;
 					if (rData.totalLines > 15) {
 						that.itemTable.setVisibleRowCount(rData.totalLines + 1);
-					} 
+					}
 				} else {
 					rData.totalLines = 0;
 					that.btnDraft.setVisible(true);
@@ -536,8 +537,19 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			that._oBusyDialog.setTitle("Save Draft");
 			that._oBusyDialog.setText("Saving Order Items As Draft...");
 			that._oBusyfragment.open();
+			var iCreateLen = this.aCreateItems.length;
+			var iUpdateLen = this.aUpdateItems.length;
+			var itemsLen = 0;
+			if (iCreateLen > iUpdateLen) {
+				itemsLen = iCreateLen;
+			} else {
+				itemsLen = iUpdateLen;
+			}
+			var iItems = 0;
+
 			if (this.bIsSalesOrder) {
-				DataManager.saveDraftSalesOrder(this.aCreateItems, this.aUpdateItems, function (oSalesItem, sOperation, IIndex, isOK,errorMessages) {
+				DataManager.saveDraftSalesOrder(this.aCreateItems, this.aUpdateItems, function (oSalesItem, sOperation, IIndex, isOK,
+					errorMessages) {
 					var Index = oSalesItem.line;
 					var oItem = that.oOrderModel.getData().items[Index];
 					if (isOK) {
@@ -560,9 +572,11 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						oSalesItem.hasError = true;
 						that._setLineError(oSalesItem.line, sOperation, errorMessages);
 					}
-					that.toggleSubmitDraftButton();
-					that._oBusyfragment.close();
-					oEvent.getSource().setEnabled(true);
+					iItems++;
+					if (iItems === itemsLen) {
+						that.toggleSubmitDraftButton();
+						that._oBusyfragment.close();
+					}
 				});
 			} else {
 				DataManager.saveDraftPurchaseOrder(this.aCreateItems, this.aUpdateItems, function (oPurchaseItem, sOperation, IIndex, isOK,
@@ -615,9 +629,15 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					that._oBusyfragment.close();
 					oEvent.getSource().setEnabled(true);
 				});
-				this.toggleSubmitDraftButton();
+				iItems++;
+				if (iItems === itemsLen) {
+					that.toggleSubmitDraftButton();
+					that._oBusyfragment.close();
+				}
+				//this.toggleSubmitDraftButton();
 			}
 			that.itemTable.setBusy(false);
+			oEvent.getSource().setEnabled(true);
 		},
 
 		toggleSubmitDraftButton: function () {
@@ -1808,15 +1828,16 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			//var newline = model.getProperty('/newline');
 			var resourceBundle = this.getResourceBundle;
 			if (oItems.length > 12) {
-			that._oImportTable.setVisibleRowCount(oItems.length);
+				that._oImportTable.setVisibleRowCount(oItems.length);
 			}
 			for (var i = 0; i < oItems.length; i++) {
 				var oItem = oItems[i];
 				oItem["line"] = i + 1;
-				oItem.partNumber = oItem.partNumber.toString().replace(/-/g,"");
+				oItem.partNumber = oItem.partNumber.toString().replace(/-/g, "");
 				// Debugging
 				DataManager.getPartDescSPQForPart(oItem.partNumber, oItem, function (item1Data, oItem) {
-					if (!!item1Data && (item1Data[0].Division === sAttribute1 || item1Data[0].Division === sAttribute2 || item1Data[0].Division === "00") && that.bIsSalesOrder) {
+					if (!!item1Data && (item1Data[0].Division === sAttribute1 || item1Data[0].Division === sAttribute2 || item1Data[0].Division ===
+							"00") && that.bIsSalesOrder) {
 						oItem["Status"] = "Success";
 						oItem["StatusText"] = "";
 						oItem["hasError"] = false;
@@ -2055,7 +2076,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 				}
 			}
-		
+
 			that.itemTable.getBinding("rows").getModel().refresh(true);
 
 			//iData.items.splice(0, 1);
