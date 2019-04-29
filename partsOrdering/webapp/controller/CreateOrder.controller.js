@@ -530,7 +530,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		},
 
 		onSaveDraft: function (oEvent) {
-			oEvent.getSource.setEnabled(false);
+			oEvent.getSource().setEnabled(false);
 			var that = this;
 			that.itemTable.setBusy(true);
 			that._oBusyDialog.setTitle("Save Draft");
@@ -562,7 +562,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					}
 					that.toggleSubmitDraftButton();
 					that._oBusyfragment.close();
-					oEvent.getSource.setEnabled(true);
+					oEvent.getSource().setEnabled(true);
 				});
 			} else {
 				DataManager.saveDraftPurchaseOrder(this.aCreateItems, this.aUpdateItems, function (oPurchaseItem, sOperation, IIndex, isOK,
@@ -613,7 +613,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					}
 					that.toggleSubmitDraftButton();
 					that._oBusyfragment.close();
-					oEvent.getSource.setEnabled(true);
+					oEvent.getSource().setEnabled(true);
 				});
 				this.toggleSubmitDraftButton();
 			}
