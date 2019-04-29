@@ -19,7 +19,8 @@
 				<Button text="Upload File" press="handleUploadPress" type="Accept" icon="sap-icon://upload"/>
 			</content>
 		</Toolbar>
-		<HBox class="customStyleBox">
+	<!--	<HBox class="customStyleBox">-->
+		<ScrollContainer id='ImportFlexContainer' height="80%" width="100%" horizontal="true" vertical="true" focusable="true">
 			<ui:Table id="ImportProductsTable" alternateRowColors="false" showNoData="false" rows="{importOrderModel>/items}" visibleRowCount="12"
 				selectionMode="None" ariaLabelledBy="title" class="sapUiSizeCompact sapUiNoMarginTop sapUiNoMarginEnd" rowHeight="25px"
 				sort="handleSortColumn" width="100%">
@@ -132,7 +133,7 @@
 					</ui:Column>
 				</ui:columns>
 			</ui:Table>
-		</HBox>
+	</ScrollContainer>
 		<!--</l:VerticalLayout>-->
 	</Dialog>
 </core:FragmentDefinition>

@@ -1797,6 +1797,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			//var newItem = model.getData().items[0];
 			//var newline = model.getProperty('/newline');
 			var resourceBundle = this.getResourceBundle();
+			that._oImportTable.setVisibleRowCount(oItems.length);
 			for (var i = 0; i < oItems.length; i++) {
 				var oItem = oItems[i];
 				oItem["line"] = i + 1;

@@ -67,7 +67,7 @@
 												<core:ListItem key="{infoRecordModel>Material}" text="{infoRecordModel>Material}" additionalText="{infoRecordModel>MaterialName}"/>
 											</suggestionItems>
 										</Input>
-										<ObjectIdentifier title="{ path : 'orderModel>partNumber'}" titleActive='true' titlePress='showDraftItemInfo'
+										<ObjectIdentifier title="{ path : 'orderModel>partNumber'}" titleActive='true' titlePress='showPartAvailabilityInfo'
 											visible="{= ${orderModel>line} > 0}"/>
 									</VBox>
 								</ui:template>
