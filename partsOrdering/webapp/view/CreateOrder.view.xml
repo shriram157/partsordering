@@ -144,8 +144,6 @@
 										<!--	<Button type='Reject' tooltip="Minus" class="size2" icon="sap-icon://less" press='handleDeletePart' visible="{orderModel>minusIcon}"></Button>-->
 										<core:Icon src="sap-icon://error" class="size1" color="#ff0000" visible='{= ${orderModel>line} === 0 ? false : ${orderModel>hasError}}'
 											activeColor="Negative" alt="Error" press="onError" />
-										<!--										<core:Icon src="sap-icon://error" class="size1" color="#ff0000" visible="true"
-										activeColor="Negative" alt="Error" tooltip="ABC, CDF"/>-->
 										<ObjectMarker type="{orderModel>ItemStatus}" visible='{= ${orderModel>line} !== 0 &amp;&amp; ${orderModel>hasError} === false}'/>
 										<!--	<ObjectMarker type="Unsaved" visibility="IconOnly" visible='{= ${orderModel>line} !== 0 &amp;&amp; ${orderModel>hasError} === false}'/>-->
 									</VBox>

@@ -69,6 +69,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			DataManager.init(BaseController, this.OwnerComponent, this.oResourceBundle, this.sLang);
 			this.submitError = null;
 			this.lineError = null;
+			this._oBusyfragment = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.BusyDialog", this);
+			this._oBusyDialog = sap.ui.core.Fragment.byId(this.getView().getId() + "oBusyfragment", "BusyDialog");
+			jQuery.sap.syncStyleClass("sapUiSizeCompact", this.getView(), this._oBusyfragment);
 
 			// make sure the dealer information is there
 			//Commented For Debugging
@@ -527,11 +530,14 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		},
 
 		onSaveDraft: function (oEvent) {
+			oEvent.getSource.setEnabled(false);
 			var that = this;
 			that.itemTable.setBusy(true);
+			that._oBusyDialog.setTitle("Save Draft");
+			that._oBusyDialog.setText("Saving Order Items As Draft...");
+			that._oBusyfragment.open();
 			if (this.bIsSalesOrder) {
-				DataManager.saveDraftSalesOrder(this.aCreateItems, this.aUpdateItems, function (oSalesItem, sOperation, IIndex, isOK,
-					errorMessages) {
+				DataManager.saveDraftSalesOrder(this.aCreateItems, this.aUpdateItems, function (oSalesItem, sOperation, IIndex, isOK,errorMessages) {
 					var Index = oSalesItem.line;
 					var oItem = that.oOrderModel.getData().items[Index];
 					if (isOK) {
@@ -555,6 +561,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						that._setLineError(oSalesItem.line, sOperation, errorMessages);
 					}
 					that.toggleSubmitDraftButton();
+					that._oBusyfragment.close();
+					oEvent.getSource.setEnabled(true);
 				});
 			} else {
 				DataManager.saveDraftPurchaseOrder(this.aCreateItems, this.aUpdateItems, function (oPurchaseItem, sOperation, IIndex, isOK,
@@ -604,6 +612,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						}
 					}
 					that.toggleSubmitDraftButton();
+					that._oBusyfragment.close();
+					oEvent.getSource.setEnabled(true);
 				});
 				this.toggleSubmitDraftButton();
 			}

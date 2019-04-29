@@ -19,6 +19,7 @@ sap.ui.define([], function () {
 	var _salesorderModel = null;
 	var _aSuppliersZloc = [];
 	var _aCreateUB = [];
+	//var _oBusyDialog = null;
 	//var _bDraftUB = false;
 	//_cachedMObj.exist = true;
 
@@ -178,7 +179,8 @@ sap.ui.define([], function () {
 			var aDraft = null;
 			//first of all, let us find the existing order header, 
 			//Sales Order will have only one associated Draft
-
+			jQuery.sap.syncStyleClass("sapUiSizeCompact", this.getView(), this._dialog);
+			this._dialog.open();
 			if (_orderData.associatedDrafts && _orderData.associatedDrafts.length === 1) {
 				aDraft = _orderData.associatedDrafts[0];
 			} else {
