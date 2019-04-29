@@ -788,6 +788,11 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			/*if (items.length > 11) {
 				this.itemTable.setVisibleRowCount(items.length);
 			}*/
+			//oEvent.getSource().setEnabled(false);
+			that.itemTable.setBusy(true);
+			that._oBusyDialog.setTitle("Submit Order");
+			that._oBusyDialog.setText("Order Activation In Progress...");
+			that._oBusyfragment.open();
 			this._validateTableInput();
 		},
 
@@ -839,6 +844,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							if (aOrderErrorMessages.length > 0) {
 								that._showValidationFailed(aOrderErrorMessages);
 							}
+							
 							that._showErrorSort(true);
 						} else {
 							that.submitError = null;
@@ -846,11 +852,15 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							that._showActivationResult(that.oOrderModel, that.bIsSalesOrder, orderNumber, false);
 
 						}
+						that.itemTable.setBusy(false);
+						that._oBusyfragment.close();
 						//that._showActivationResult(rxData, this.bSalesOrder, hasError);
 					});
 				} else {
 					DataManager.activatePurchaseDraftOrder(function (oData, orderNumber, hasError, drafts) {
 						that._showActivationResult(that.oOrderModel, false, orderNumber, hasError, drafts);
+						that.itemTable.setBusy(false);
+						that._oBusyfragment.close();
 					});
 				}
 			}
@@ -1304,6 +1314,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		},
 
 		_validateTableInput: function (oEvent) {
+			var that = this;
 			var model = this.getModel("orderModel");
 			var items = model.getData().items;
 			/*if (items.length > 11) {
@@ -1354,6 +1365,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				//return bSubmitError;
 			}
 			if (bSubmitError) {
+					that.itemTable.setBusy(false);
+					that._oBusyfragment.close();
 				var bCompact = !!this.getView().$().closest(".sapUiSizeCompact").length;
 				MessageBox.error("Please fill all the required values", {
 					styleClass: bCompact ? "sapUiSizeCompact" : "",
@@ -1411,10 +1424,13 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								//return bSubmitError;
 								that._activateFinal(false);
 
-							}
+							} 
+							that.itemTable.setBusy(false);
+							that._oBusyfragment.close();
 						});
 					} else {
 						//var J = getItemIndex();
+					
 						if (contractItems.length === 0 && (!bSubmitError)) {
 							that._activateFinal(false);
 
@@ -1468,6 +1484,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						that._activateFinal(false);
 
 					}
+					that.itemTable.setBusy(false);
+					that._oBusyfragment.close();
 				});
 			}
 
