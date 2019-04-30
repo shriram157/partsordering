@@ -1846,11 +1846,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			//var newline = model.getProperty('/newline');
 			var resourceBundle = this.getResourceBundle;
 			if (oItems.length > 12) {
-<<<<<<< HEAD
 			that._oImportTable.setVisibleRowCount(oItems.length);
-=======
-				that._oImportTable.setVisibleRowCount(oItems.length);
->>>>>>> refs/remotes/origin/master
 			}
 			for (var i = 0; i < oItems.length; i++) {
 				var oItem = oItems[i];
