@@ -1404,10 +1404,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 								items[I].hasError = false;
 								that._resetLineError(items[I].line);
-								//if (!!that.submitError[items[I].partNumber]) {
-								//that.submitError[items[I].partNumber] = null;
-								//}
-								//model.setProperty('/newline', newline); 
+							
 							} else {
 								var C1 = getItemIndex();
 								var item = contractItems[C1];
