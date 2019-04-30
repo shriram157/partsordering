@@ -85,7 +85,8 @@
 							<ui:Column width="{sizeModel>/remSPQ}">
 								<Label text="{i18n>Lable.CreateOrder.SPQ}"/>
 								<ui:template >
-									<Text text="{ path: 'orderModel>spq', formatter:'.formatter.spqFormat'}"/>
+								<!--	<Text text="{ path: 'orderModel>spq', formatter:'.formatter.spqFormat'}"/>-->
+								<Text text="{orderModel>spq}"/>
 								</ui:template>
 							</ui:Column>
 							<ui:Column width="{sizeModel>/remQty}">
