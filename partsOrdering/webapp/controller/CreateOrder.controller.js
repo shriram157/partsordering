@@ -518,7 +518,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			//rData.newline = [that._getNewLine()];
 			oOrderData.totalLines = oOrderData.items.length - 1;
 			if (oOrderData.totalLines > 16) {
-				this.itemTable.setVisibleRowCount(oOrderData.items.length + 1);
+				this.itemTable.setVisibleRowCount(oOrderData.items.length + 2);
 			}
 			// ---to save some newwork traffic
 			oOrderData.modifiedOn = new Date();
@@ -539,17 +539,11 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			that._oBusyfragment.open();
 			var iCreateLen = this.aCreateItems.length;
 			var iUpdateLen = this.aUpdateItems.length;
-			var itemsLen = 0;
-			if (iCreateLen > iUpdateLen) {
-				itemsLen = iCreateLen;
-			} else {
-				itemsLen = iUpdateLen;
-			}
+			var itemsLen = iCreateLen + iUpdateLen;
 			var iItems = 0;
 
 			if (this.bIsSalesOrder) {
-				DataManager.saveDraftSalesOrder(this.aCreateItems, this.aUpdateItems, function (oSalesItem, sOperation, IIndex, isOK,
-					errorMessages) {
+				DataManager.saveDraftSalesOrder(this.aCreateItems, this.aUpdateItems, function (oSalesItem, sOperation, IIndex, isOK, errorMessages) {
 					var Index = oSalesItem.line;
 					var oItem = that.oOrderModel.getData().items[Index];
 					if (isOK) {
@@ -579,8 +573,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					}
 				});
 			} else {
-				DataManager.saveDraftPurchaseOrder(this.aCreateItems, this.aUpdateItems, function (oPurchaseItem, sOperation, IIndex, isOK,
-					errorMessages) {
+				DataManager.saveDraftPurchaseOrder(this.aCreateItems, this.aUpdateItems, function (oPurchaseItem, sOperation, IIndex, isOK,	errorMessages) {
 					var Index = oPurchaseItem.line;
 					var oItem = that.oOrderModel.getData().items[Index];
 					if (isOK) {
@@ -851,7 +844,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							that.submitError = null;
 							that._showErrorSort(false);
 							that._showActivationResult(that.oOrderModel, that.bIsSalesOrder, orderNumber, false);
-
+							that._oBusyfragment.close();
 						}
 						that.itemTable.setBusy(false);
 						that._oBusyfragment.close();
@@ -1277,7 +1270,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					rData.items = newItems;
 					rData.totalLines = rData.items.length - 1;
 					if (rData.totalLines > 16) {
-						this.itemTable.setVisibleRowCount(rData.totalLines + 1);
+						this.itemTable.setVisibleRowCount(rData.totalLines + 2);
 					}
 					// ---to save some newwork traffic
 					rData.modifiedOn = new Date();
@@ -1409,7 +1402,10 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								var C1 = getItemIndex();
 								var item = contractItems[C1];
 								var iline = item.line;
-
+							   if (!that.lineError) {
+							   	   that.lineError = {};
+							   }
+							   
 								if (!that.lineError[iline]) {
 									that.lineError[iline] = [];
 								}
