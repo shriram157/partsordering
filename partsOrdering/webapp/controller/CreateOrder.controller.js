@@ -543,7 +543,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var iItems = 0;
 
 			if (this.bIsSalesOrder) {
-				DataManager.saveDraftSalesOrder(this.aCreateItems, this.aUpdateItems, function (oSalesItem, sOperation, IIndex, isOK, errorMessages) {
+				DataManager.saveDraftSalesOrder(this.aCreateItems, this.aUpdateItems, function (oSalesItem, sOperation, IIndex, isOK,
+					errorMessages) {
 					var Index = oSalesItem.line;
 					var oItem = that.oOrderModel.getData().items[Index];
 					if (isOK) {
@@ -573,7 +574,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					}
 				});
 			} else {
-				DataManager.saveDraftPurchaseOrder(this.aCreateItems, this.aUpdateItems, function (oPurchaseItem, sOperation, IIndex, isOK,	errorMessages) {
+				DataManager.saveDraftPurchaseOrder(this.aCreateItems, this.aUpdateItems, function (oPurchaseItem, sOperation, IIndex, isOK,
+					errorMessages) {
 					var Index = oPurchaseItem.line;
 					var oItem = that.oOrderModel.getData().items[Index];
 					if (isOK) {
@@ -1397,19 +1399,20 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 								items[I].hasError = false;
 								that._resetLineError(items[I].line);
-							
+
 							} else {
 								var C1 = getItemIndex();
-								var item = contractItems[C1];
-								var iline = item.line;
-							   if (!that.lineError) {
-							   	   that.lineError = {};
-							   }
-							   
+								var iCItem = contractItems[C1];
+								var oCItem = items[iCItem];
+								var iline = oCItem.line;
+								if (!that.lineError) {
+									that.lineError = {};
+								}
+
 								if (!that.lineError[iline]) {
 									that.lineError[iline] = [];
 								}
-								item.hasError = true;
+								oCItem.hasError = true;
 								that.lineError[iline]["error"] = data;
 								bSubmitError = true;
 
@@ -1842,7 +1845,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			//var newline = model.getProperty('/newline');
 			var resourceBundle = this.getResourceBundle;
 			if (oItems.length > 12) {
-			that._oImportTable.setVisibleRowCount(oItems.length);
+				that._oImportTable.setVisibleRowCount(oItems.length);
 			}
 			for (var i = 0; i < oItems.length; i++) {
 				var oItem = oItems[i];
