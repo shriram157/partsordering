@@ -24,7 +24,7 @@
 				</statuses>
 				<headerContainer></headerContainer>
 			</ObjectHeader>
-			<Table items="{ path: '/SOtoDeliv/results' }" showNoData='true'>
+			<Table items="{ path: '/SOtoDeliv' }" showNoData='true'>
 				<headerToolbar>
 					<Toolbar>
 						<VBox width='76px'>
