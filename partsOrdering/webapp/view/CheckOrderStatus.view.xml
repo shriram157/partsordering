@@ -90,7 +90,7 @@
 						<Text text="{i18n>Label.CheckOrder.PartNumber} "/>
 					</Column>
 					<Column minScreenWidth="Tablet" demandPopin="true" width="4%" hAlign="Center"></Column>
-					<Column minScreenWidth="Tablet" demandPopin="true" width="6%" hAlign="End">
+					<Column minScreenWidth="Tablet" demandPopin="true" width="6%" hAlign="Begin">
 						<Text text="{i18n>Label.CheckOrder.ShipFrom} "/>
 					</Column>
 					<Column width="8%">
