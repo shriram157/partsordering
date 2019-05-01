@@ -1439,6 +1439,8 @@ sap.ui.define([
 				if (!!conditions.fiNumber) {
 					oFilter.push(new sap.ui.model.Filter("bill_no", sap.ui.model.FilterOperator.EQ, conditions.fiNumber.padStart(10, '0')));
 				}
+				
+				oFilter.push(new sap.ui.model.Filter("erdat", sap.ui.model.FilterOperator.BT, conditions.fromOrderDate, conditions.toOrderDate));
 
 			} else {
 				oFilter[1] = new sap.ui.model.Filter("erdat", sap.ui.model.FilterOperator.BT, conditions.fromOrderDate, conditions.toOrderDate);
