@@ -842,7 +842,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							if (aOrderErrorMessages.length > 0) {
 								that._showValidationFailed(aOrderErrorMessages);
 							}
-
+							that._oBusyfragment.close();
 							that._showErrorSort(true);
 						} else {
 							that.submitError = null;
