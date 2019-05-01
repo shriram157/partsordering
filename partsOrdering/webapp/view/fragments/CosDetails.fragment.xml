@@ -88,6 +88,7 @@
 							<Text text="{path: 'estm_deliv_date', type : 'sap.ui.model.type.Date', formatOptions: { style : 'medium'}}"/>
 							<!--<ObjectNumber number="{path: 'tracking_no'}" />-->
 							<Text text='{tracking_no}' />
+							<Text text="{path: 'tracking_no'}"/>
 							<ObjectIdentifier title="{path: 'deliv_no' , formatter:'.formatter.removeLeadingZero'}"/>
 							<ObjectIdentifier title="{path: 'deliv_itemNo', formatter:'.formatter.removeLeadingZero'}"/>
 							<ObjectIdentifier title="{path : 'bill_no', formatter:'.formatter.removeLeadingZero'}"/>
