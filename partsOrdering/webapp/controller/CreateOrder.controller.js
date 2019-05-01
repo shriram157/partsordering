@@ -531,15 +531,17 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		},
 
 		onSaveDraft: function (oEvent) {
-			oEvent.getSource().setEnabled(false);
 			var that = this;
-			that.itemTable.setBusy(true);
-			that._oBusyDialog.setTitle("Save Draft");
-			that._oBusyDialog.setText("Saving Order Items As Draft...");
-			that._oBusyfragment.open();
 			var iCreateLen = this.aCreateItems.length;
 			var iUpdateLen = this.aUpdateItems.length;
 			var itemsLen = iCreateLen + iUpdateLen;
+			if (itemsLen > 0) {
+				oEvent.getSource().setEnabled(false);
+				that.itemTable.setBusy(true);
+				that._oBusyDialog.setTitle("Save Draft");
+				that._oBusyDialog.setText("Saving Order Items As Draft...");
+				that._oBusyfragment.open();
+			}
 			var iItems = 0;
 
 			if (this.bIsSalesOrder) {
@@ -849,7 +851,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							that._oBusyfragment.close();
 						}
 						that.itemTable.setBusy(false);
-						that._oBusyfragment.close();
+						//that._oBusyfragment.close();
 						//that._showActivationResult(rxData, this.bSalesOrder, hasError);
 					});
 				} else {
