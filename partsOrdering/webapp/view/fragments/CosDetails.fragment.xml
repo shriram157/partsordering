@@ -86,7 +86,8 @@
 							<!--<Text text="{path: 'deliv_qty', formatter:'.formatter.round2dec'}"/>-->
 							<Text text="{parts : [{path: 'cnf_qty'}, {path : '/deliv_qty'}], formatter:'.formatter.confDelFormat'}"/>
 							<Text text="{path: 'estm_deliv_date', type : 'sap.ui.model.type.Date', formatOptions: { style : 'medium'}}"/>
-							<ObjectNumber number="{path: 'tracking_no'}" />
+							<!--<ObjectNumber number="{path: 'tracking_no'}" />-->
+							<Text text='{tracking_no}' />
 							<ObjectIdentifier title="{path: 'deliv_no' , formatter:'.formatter.removeLeadingZero'}"/>
 							<ObjectIdentifier title="{path: 'deliv_itemNo', formatter:'.formatter.removeLeadingZero'}"/>
 							<ObjectIdentifier title="{path : 'bill_no', formatter:'.formatter.removeLeadingZero'}"/>
