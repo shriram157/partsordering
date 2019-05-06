@@ -9,18 +9,34 @@
 		"source": "^/partsordering/index.html$",
 		"target": "index.html",
 		"localDir": "webapp",
-		"cacheControl": "no-cache, no-store, must-revalidate"
+		"cacheControl": "no-cache, no-store, must-revalidate",
+		"scope": [
+			"$XSAPPNAME.Manage_Parts_Order",
+			"$XSAPPNAME.View_Parts_Order"
+		]
 	}, {
 		"source": "^/partsordering/(.*)$",
 		"target": "$1",
-		"localDir": "webapp"
+		"localDir": "webapp",
+		"scope": [
+			"$XSAPPNAME.Manage_Parts_Order",
+			"$XSAPPNAME.View_Parts_Order"
+		]
 	}, {
 		"source": "/node(.*)",
 		"destination": "core-node-backend",
-		"csrfProtection": false
+		"csrfProtection": false,
+		"scope": [
+			"$XSAPPNAME.Manage_Parts_Order",
+			"$XSAPPNAME.View_Parts_Order"
+		]
 	}, {
 		"source": "/sap/opu/odata/sap/(.*)",
 		"destination": "core-node-backend",
-		"csrfProtection": false
+		"csrfProtection": false,
+		"scope": [
+			"$XSAPPNAME.Manage_Parts_Order",
+			"$XSAPPNAME.View_Parts_Order"
+		]
 	}]
 }

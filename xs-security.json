@@ -1,64 +1,58 @@
 {
-  "xsappname": "XSA_DealerPartsOrderingPartsOrderStatusInq",
-  "tenant-mode": "dedicated",
-  "description": "Security profile of called application - Dealer Parts Ordering",
-  "scopes": [
-  	{
-        "name": "$XSAPPNAME.ManagePartsOrder",
-        "description": "Manage Parts Order"
-    }, {
-        "name": "$XSAPPNAME.ViewPartsOrder",
-        "description": "Display Parts Order"
-    }
-  ],
-  "attributes": [
-  	{
-        "name": "DealerCode",
-        "description": "Dealer Code",
-        "valueType": "string"
-    }, {
-        "name": "Language",
-        "description": "Language",
-        "valueType": "string"
-    }, {
-        "name": "UserType",
-        "description": "UserType, identifies dealer or not",
-        "valueType": "string"
-    }
-  ],
-  "role-templates": [
-    {
-      "name": "Internal_TCI_User",
-      "description": "View any parts order status",
-      "scope-references": [
-        "$XSAPPNAME.ViewPartsOrder"
-      ],
-      "attribute-references": [
-        "Language",
-        "UserType"
-      ]
-    },{
-      "name": "Dealer_User",
-      "description": "Dealer User, Sales Order",
-      "scope-references": [
-        "$XSAPPNAME.ManagePartsOrder"
-      ],
-      "attribute-references": [
-       	"DealerCode",
-        "Language",
-        "UserType"
-      ]
-    }, {
-      "name": "Port_VPC_User",
-      "description": "Port and VPC User, Purchase Order",
-      "scope-references": [
-        "$XSAPPNAME.ManagePartsOrder"
-      ],
-      "attribute-references": [
-       	"DealerCode",
-        "Language",
-        "UserType"
-      ]
-    }
-  ]
+	"xsappname": "XSA_DealerPartsOrderingPartsOrderStatusInq",
+	"tenant-mode": "dedicated",
+	"description": "Security profile of called application - Dealer Parts Ordering",
+	"scopes": [{
+		"name": "$XSAPPNAME.Manage_Parts_Order",
+		"description": "Manage Parts Order"
+	}, {
+		"name": "$XSAPPNAME.View_Parts_Order",
+		"description": "Display Parts Order"
+	}],
+	"attributes": [{
+		"name": "DealerCode",
+		"description": "Dealer Code",
+		"valueType": "string"
+	}, {
+		"name": "Language",
+		"description": "Language",
+		"valueType": "string"
+	}, {
+		"name": "UserType",
+		"description": "UserType, identifies dealer or not",
+		"valueType": "string"
+	}],
+	"role-templates": [{
+		"name": "Dealer_User",
+		"description": "Dealer User, Sales Order",
+		"scope-references": [
+			"$XSAPPNAME.Manage_Parts_Order"
+		],
+		"attribute-references": [
+			"DealerCode",
+			"Language",
+			"UserType"
+		]
+	}, {
+		"name": "Port_VPC_User",
+		"description": "Port and VPC User, Purchase Order",
+		"scope-references": [
+			"$XSAPPNAME.Manage_Parts_Order"
+		],
+		"attribute-references": [
+			"DealerCode",
+			"Language",
+			"UserType"
+		]
+	}, {
+		"name": "Internal_TCI_User",
+		"description": "View any parts order status",
+		"scope-references": [
+			"$XSAPPNAME.View_Parts_Order"
+		],
+		"attribute-references": [
+			"Language",
+			"UserType"
+		]
+	}]
 }
