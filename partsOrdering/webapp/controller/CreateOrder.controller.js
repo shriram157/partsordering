@@ -623,13 +623,14 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							that.btnFilterError.setVisible(true);
 						}
 					}
-					
+					iItems++;
+					if (iItems === itemsLen) {
+						that.toggleSubmitDraftButton();
+						that._oBusyfragment.close();
+					}
+
 				});
-				iItems++;
-				if (iItems === itemsLen) {
-					that.toggleSubmitDraftButton();
-					that._oBusyfragment.close();
-				}
+
 				//this.toggleSubmitDraftButton();
 			}
 			that.itemTable.setBusy(false);
