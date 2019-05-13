@@ -535,6 +535,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var iCreateLen = this.aCreateItems.length;
 			var iUpdateLen = this.aUpdateItems.length;
 			var itemsLen = iCreateLen + iUpdateLen;
+			var oSource = oEvent.getSource();
 			if (itemsLen > 0) {
 				oEvent.getSource().setEnabled(false);
 				that.itemTable.setBusy(true);
@@ -624,7 +625,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					}
 					that.toggleSubmitDraftButton();
 					that._oBusyfragment.close();
-					oEvent.getSource().setEnabled(true);
+					oSource.setEnabled(true);
 				});
 				iItems++;
 				if (iItems === itemsLen) {
@@ -634,7 +635,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				//this.toggleSubmitDraftButton();
 			}
 			that.itemTable.setBusy(false);
-			oEvent.getSource().setEnabled(true);
+			oSource.setEnabled(true);
 		},
 
 		toggleSubmitDraftButton: function () {
