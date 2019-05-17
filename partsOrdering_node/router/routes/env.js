@@ -6,7 +6,7 @@ var xsenv = require('@sap/xsenv');
 var express = require('express');
 
 module.exports = function () {
-	var app = express.Router();
+	var router = express.Router();
 
 	router.get("/userProfile", (req, res) => {
 		res.type('application/json').status(200).send(JSON.stringify({
@@ -18,7 +18,7 @@ module.exports = function () {
 		}));
 	});
 
-	app.get('/uiConfig', (req, res) => {
+	router.get('/uiConfig', (req, res) => {
 		// Get UPS name from env var UPS_NAME
 		var apimServiceName = process.env.UPS_NAME;
 		let options = {};
@@ -30,5 +30,5 @@ module.exports = function () {
 		res.json(options.UI_CONFIG);
 	});
 
-	return app;
+	return router;
 };
