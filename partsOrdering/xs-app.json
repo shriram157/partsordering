@@ -6,7 +6,7 @@
 		"logoutEndpoint": "/do/logout"
 	},
 	"routes": [{
-		"source": "^/partsordering/index.html$",
+		"source": "^/partsordering/index.html",
 		"target": "index.html",
 		"localDir": "webapp",
 		"cacheControl": "no-cache, no-store, must-revalidate",
