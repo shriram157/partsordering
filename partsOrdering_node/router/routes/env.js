@@ -9,7 +9,6 @@ module.exports = function () {
 	var app = express.Router();
 
 	router.get("/userProfile", (req, res) => {
-		var userContext = ;
 		res.type('application/json').status(200).send(JSON.stringify({
 			userContext: {
 				scopes: JSON.parse(JSON.stringify(req.authInfo.scopes)),
