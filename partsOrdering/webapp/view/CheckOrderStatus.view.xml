@@ -140,7 +140,7 @@
 						<ColumnListItem>
 							<cells>
 								<!--<ObjectIdentifier title="{path : 'viewModel>part_no', formatter:'.formatter.getItemNumber' }"/>-->
-								<ObjectIdentifier title="{viewModel>part_no}"/>
+								<ObjectIdentifier title="{viewModel>part_no}" tooltip="{rejectionReason} {rejectionDescription}"/>
 								<core:Icon src="sap-icon://share" color='#FF5733' visible="{path : 'viewModel>sub_flag', formatter:'.formatter.sub2boolean'}"/>
 								<Text text="{path : 'viewModel>ship_from' }"/>
 								<ObjectNumber number="{path: 'viewModel>quant_ordered', formatter:'.formatter.round2dec'}"/>
@@ -149,7 +149,9 @@
 								<ObjectNumber number="{path: 'viewModel>quant_cancelled', formatter:'.formatter.round2dec'}"/>
 								<ObjectNumber number="{path: 'viewModel>quant_back_ordered', formatter:'.formatter.round2dec'}"/>
 								<ObjectIdentifier title="{viewModel>dealer_orderNo}"/>
-								<Text text="{path : 'viewModel>doc_type', formatter:'.formatter.orderTypeD' }"/>
+								<Text text="{path : 'viewModel>doc_type', formatter:'.formatter.orderTypeD' }" visible="{=${viewModel>campCode} !==''}"
+									tooltip="{i18n>Lable.CreateOrder.CampaignNumber} : {/campCode} {i18n>Lable.CreateOrder.OpCode} : {/OpCode} {i18n>Lable.CreateOrder.vin} : {/VIN}"/>
+								<Text text="{path : 'viewModel>doc_type', formatter:'.formatter.orderTypeD' }" visible="{=${viewModel>campCode} ===''}"/>
 								<Text text="{path :'viewModel>TCI_order_no', formatter:'.formatter.getItemNumber'}"/>
 							</cells>
 						</ColumnListItem>
