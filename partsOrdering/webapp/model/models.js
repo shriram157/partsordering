@@ -46,7 +46,7 @@ sap.ui.define([
 						order_name : "",
 						order_id :""
 					},
-					appLinks : {
+					appLinkes : {
 						loaded : false,
 						PARTS_AVAILIBILITY : ''
 					}

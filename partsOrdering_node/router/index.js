@@ -1,10 +1,7 @@
-/*eslint new-cap: 0, no-console: 0, no-shadow: 0, no-unused-vars: 0*/
-/*eslint-env es6, node*/
-
+/*eslint-env node, es6 */
 "use strict";
 
-var env = require("./routes/env");
-
-module.exports = (app, appContext) => {
-	app.use("/node/env", env());
+module.exports = (app, server) => {
+	app.use("/node/os", require("./routes/os")());
+	app.use('/node/env', require('./routes/env')());
 };
