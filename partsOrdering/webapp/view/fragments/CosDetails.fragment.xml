@@ -21,7 +21,7 @@
 				<statuses>
 					<ObjectStatus text="{i18n>Label.CheckOrder.Substituted} : {/matnr}" state="Warning" visible='{/subs}'/>
 					<ObjectStatus text="{i18n>Label.CheckOrder.Substituted.Not}" state="Success" visible='{=!${/subs}}'/>
-				</statuses>
+					</statuses>
 				<headerContainer></headerContainer>
 			</ObjectHeader>
 			<Table items="{ path: '/SOtoDeliv/results' }" showNoData='true'>
@@ -44,7 +44,10 @@
 						<ToolbarSeparator/>
 						<VBox width='76px'>
 							<Label text="{i18n>Header.Quantity.Cancelled}"></Label>
-							<ObjectNumber number="{path : '/quant_cancelled', formatter:'.formatter.round2dec'}" state="Error"/>
+							<ObjectNumber number="{path : '/quant_cancelled', formatter:'.formatter.round2dec'}" state="Error"
+							tooltip=""
+							
+							/>
 						</VBox>
 						<ToolbarSeparator/>
 						<VBox width='88px'>
@@ -79,12 +82,14 @@
 					<Column width='44px' hAlign="End" minScreenWidth="Tablet" demandPopin="true">
 						<Text text="{i18n>Label.CheckOrder.Line}"/>
 					</Column>
+					<Column width='11px' hAlign="End" minScreenWidth="Tablet" demandPopin="true">
+					</Column>
 				</columns>
 				<items>
 					<ColumnListItem>
 						<cells>
 							<!--<Text text="{path: 'deliv_qty', formatter:'.formatter.round2dec'}"/>-->
-							<Text text="{parts : [{path: 'cnf_qty'}, {path : 'deliv_qty'}], formatter:'.formatter.confDelFormat'}"/>
+							<Text text="{parts : [{path: 'cnf_qty'}, {path : 'deliv_qty'}], formatter:'.formatter.confDelFormat'}"  tooltip="{rejectionReason} {rejectionDescription}"/>
 							<Text text="{path: 'estm_deliv_dt', type : 'sap.ui.model.type.Date', formatOptions: { style: 'medium', source: { pattern: 'yyyyMMdd' }}}"/>
 							<!--<ObjectNumber number="{path: 'tracking_no'}" />-->
 							<Text text='{tracking_no}'/>
@@ -92,6 +97,8 @@
 							<ObjectIdentifier title="{path: 'deliv_itemNo', formatter:'.formatter.removeLeadingZero'}"/>
 							<ObjectIdentifier title="{path : 'bill_no', formatter:'.formatter.removeLeadingZero'}"/>
 							<ObjectIdentifier title="{path : 'bill_itemNo', formatter:'.formatter.removeLeadingZero'}"/>
+							<core:Icon src="sap-icon://marketing-campaign" visible='{/campCode}' tooltip="{i18n>Lable.CreateOrder.CampaignNumber} : {/campCode}  {i18n>Lable.CreateOrder.OpCode} : {/OpCode}  {i18n>Lable.CreateOrder.vin} : {/VIN}" />
+							
 						</cells>
 					</ColumnListItem>
 				</items>
