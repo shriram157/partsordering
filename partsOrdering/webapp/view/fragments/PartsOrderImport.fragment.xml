@@ -7,7 +7,7 @@
 			<l:content>-->
 		<buttons>
 			<Button text="{i18n>Button.CreateOrder.Cancel}" press="onItemImportDialogCancel"/>
-			<Button text="Start Upload" press="handleAddPartForImport" id="startUpload" enabled="fasle"/>
+			<Button text="{i18n>Button.Start.Upload}" press="handleAddPartForImport" id="startUpload" enabled="fasle"/>
 			<!--<Button text="{i18n>Button.CreateOrder.Ok}" press="onItemImportDialogOk"/>-->
 		</buttons>
 		<!--</l:content>-->
@@ -16,7 +16,7 @@
 				<ToolbarSpacer/>
 				<u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="upload/" tooltip="{i18n>ToolTip.Upload.Button}" width="100%"
 					style="Emphasized"/>
-				<Button text="Upload File" press="handleUploadPress" type="Accept" icon="sap-icon://upload"/>
+				<Button text="{i18n>Button.Upload.file}" press="handleUploadPress" type="Accept" icon="sap-icon://upload"/>
 			</content>
 		</Toolbar>
 	<!--	<HBox class="customStyleBox">-->
