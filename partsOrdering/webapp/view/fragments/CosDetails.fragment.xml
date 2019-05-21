@@ -22,7 +22,7 @@
 				<statuses>
 					<ObjectStatus text="{i18n>Label.CheckOrder.Substituted} : {/matnr}" state="Warning" visible='{/subs}'/>
 					<ObjectStatus text="{i18n>Label.CheckOrder.Substituted.Not}" state="Success" visible='{=!${/subs}}'/>
-					<ObjectStatus text="{i18n>Lable.CreateOrder.CampaignNumber} : {/campCode}" visible="{=${/campCode} !=='' ||  ${/OpCode} !==''}"
+					<ObjectStatus text="{i18n>Lable.CreateOrder.CampaignNumber} : {/campCode}" visible="{=${/campCode} !=='' || ${/OpCode} !==''}"
 									tooltip="{i18n>Lable.CreateOrder.OpCode} : {/OpCode} {i18n>Lable.CreateOrder.vin} : {/VIN}"/>
 					</statuses>
 				<headerContainer></headerContainer>
