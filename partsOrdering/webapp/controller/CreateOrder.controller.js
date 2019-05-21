@@ -393,8 +393,10 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		handleSuggest: function (oEvent) {
 			var sTerm = oEvent.getParameter("suggestValue");
 			var aFilters = [];
+			var 
 			if (sTerm) {
 				aFilters.push(new sap.ui.model.Filter("Material", sap.ui.model.FilterOperator.Contains, sTerm));
+				aFilters.push(new sap.ui.model.Filter("LanguageKey", sap.ui.model.FilterOperator.EQ, this.sLang));
 			}
 			oEvent.getSource().getBinding("suggestionItems").filter(aFilters);
 		},
