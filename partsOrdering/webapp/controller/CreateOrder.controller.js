@@ -1924,7 +1924,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var oModel = that.oOrderModel;
 			var bIsSalesOrder = oModel.getProperty('/isSalesOrder');
 			var bCompact = !!this.getView().$().closest(".sapUiSizeCompact").length;
-			MessageBox.warning("This will delete the existing items in the order and only Valid Parts will be imported", {
+			var sDelMsg = that.getResourceBundle().getText('Message.Delete.Import');
+			MessageBox.warning(sDelMsg, {
 				actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
 				styleClass: bCompact ? "sapUiSizeCompact" : "",
 				onClose: function (sAction) {
