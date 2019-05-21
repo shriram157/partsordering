@@ -45,7 +45,6 @@ modules:
       XS_APP_LOG_LEVEL: info
    build-parameters:
       builder: grunt
-      build-result: dist
    requires:
     - name: application-logs_partsOrdering
     - name: uaa_partsOrdering
