@@ -14,7 +14,7 @@
 		<Toolbar>
 			<content>
 				<ToolbarSpacer/>
-				<u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="upload/" tooltip="{i18n>ToolTip.Upload.Button}" width="100%"
+				<u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="upload/"  width="100%"
 					style="Emphasized"/>
 				<Button text="{i18n>Button.Upload.file}" press="handleUploadPress" type="Accept" icon="sap-icon://upload"/>
 			</content>
