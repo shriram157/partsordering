@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic"
 	xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout" xmlns:ui="sap.ui.table">
-	<Dialog id="ImportDialog" contentWidth="1000px" contentHeight="80%" afterClose="cleanUpItemImportDialog"
+	<Dialog id="ImportDialog" contentWidth="1100px" contentHeight="80%" afterClose="cleanUpItemImportDialog"
 		afterOpen="afterItemImportDialogOpen"
 		title="{i18n>Button.CreateOrder.ImportOrder} {orderModel>orderTypeName} -- {orderModel>/tciOrderNumber}" resizable="true" draggable="true">
 		<!--	<l:VerticalLayout class="sapUiContentPadding" width="100%">

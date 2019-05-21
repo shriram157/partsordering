@@ -1816,11 +1816,11 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				this.getView().addDependent(this._oItemImportDialog);
 			}
 			if (this.oOrderModel.getProperty("/typeB")) {
-				this._oImportsDialog.setContentWidth("750px");
+				this._oImportsDialog.setContentWidth("800px");
 			} else if (this.oOrderModel.getProperty("/typeD")) {
-				this._oImportsDialog.setContentWidth("1020px");
+				this._oImportsDialog.setContentWidth("1100px");
 			} else {
-				this._oImportsDialog.setContentWidth("650px");
+				this._oImportsDialog.setContentWidth("700px");
 			}
 			if (this._oImportTable.getBinding("rows")) {
 				this._oImportTable.getBinding("rows").getModel().getData().items = [];
