@@ -1,5 +1,6 @@
-/.mta/
 /*.mtar
+/.mta/
+/mta_archives/
 
 fioriHtmlRunner.html
 .*/fioriHtmlRunner.html

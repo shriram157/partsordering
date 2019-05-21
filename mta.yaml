@@ -8,7 +8,6 @@ modules:
    type: nodejs
    path: partsOrdering_node
    parameters:
-      host: tci-dev-partsordering-node
       disk-quota: 512M
       memory: 256M
    properties:
@@ -27,7 +26,6 @@ modules:
    type: html5
    path: partsOrdering
    parameters:
-      host: tci-dev-partsordering
       disk-quota: 512M
       memory: 256M
    properties:
@@ -35,6 +33,7 @@ modules:
       XS_APP_LOG_LEVEL: info
    build-parameters:
       builder: grunt
+      build-result: dist
    requires:
     - name: application-logs_partsOrdering
     - name: uaa_partsOrdering

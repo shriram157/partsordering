@@ -1,0 +1,11 @@
+_schema-version: "3.1"
+ID: partsOrdering.dev
+extends: partsOrdering
+
+modules:
+ - name: partsOrdering_node
+   parameters:
+      host: tci-dev-partsordering-node
+ - name: partsOrdering
+   parameters:
+      host: tci-dev-partsordering
