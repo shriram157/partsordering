@@ -15,7 +15,7 @@
 						text="{ path : '/TCI_order_no', formatter:'.formatter.removeLeadingZero' }"/>
 					<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Line}" text="{ path : '/TCI_itemNo', formatter:'.formatter.removeLeadingZero'}"
 						visible="{=${/rejectionReason} ===''}"/>
-					<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Line}*" text="{ path : '/TCI_itemNo', formatter:'.formatter.removeLeadingZero'}"
+					<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Line}"  text="{ path : '/TCI_itemNo', formatter:'.formatter.removeLeadingZero'} &lt;font  color='red'&lt;*&lt;/font &lt;"
 						tooltip="{/rejectionReason} {/rejectionDescription}" visible="{=${/rejectionReason} !==''}"/> 
 					<ObjectAttribute title="{i18n>Label.CheckOrder.Creation.Date}"
 						text="{ path: '/erdat', type: 'sap.ui.model.type.Date', formatOptions: { style: 'long', source: { pattern: 'yyyy/MM/dd' } } }"/>
@@ -24,7 +24,7 @@
 				<statuses>
 					<ObjectStatus text="{i18n>Label.CheckOrder.Substituted} : {/matnr}" state="Warning" visible='{/subs}'/>
 					<ObjectStatus text="{i18n>Label.CheckOrder.Substituted.Not}" state="Success" visible='{=!${/subs}}'/>
-					<ObjectStatus text="{i18n>order.type.campaign}" visible="{=${/campCode} !=='' || ${/OpCode} !==''}"
+					<ObjectStatus text="{i18n>order.type.campaign.detail}" visible="{=${/campCode} !=='' || ${/OpCode} !==''}"
 						tooltip="{i18n>Lable.CreateOrder.CampaignNumber} : {/campCode} {i18n>Lable.CreateOrder.OpCode} : {/OpCode} {i18n>Lable.CreateOrder.vin} : {/VIN}"/>
 				</statuses>
 				<headerContainer></headerContainer>
