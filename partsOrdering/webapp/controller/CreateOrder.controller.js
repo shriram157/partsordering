@@ -436,7 +436,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					oitem.spq = item1Data[0].SPQ;
 					oitem.ItemStatus = "Unsaved";
 					that.itemTable.getBinding("rows").getModel().refresh(true);
-				} else if (!!item1Data && (!that.bIsSalesOrder) && (oitem.itemCategoryGroup !== "")) {
+				} else if (!!item1Data && (!that.bIsSalesOrder) && (item1Data[0].categoryGroup !== "")) {
 					oitem.hasError = false;
 					oitem.itemCategoryGroup = item1Data[0].categoryGroup;
 					oitem.division = item1Data[0].Division;
@@ -444,7 +444,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					oitem.supplier = item1Data[0].VendorAccountNumber;
 					oitem.sloc = that.oOrderModel.getProperty("/sloc");
 					oitem.revPlant = that.oOrderModel.getProperty("/revPlant");
-					oitem.OrderType = that.getRealOrderTypeByItemCategoryGroup(oitem.itemCategoryGroup, that.bIsSalesOrder, that.oOrderModel.getProperty(
+					oitem.OrderType = that.getRealOrderTypeByItemCategoryGroup(item1Data[0].categoryGroup, that.bIsSalesOrder, that.oOrderModel.getProperty(
 						"/orderTypeId"));
 					oitem.companyCode = "2014";
 					oitem.spq = item1Data[0].SPQ;
