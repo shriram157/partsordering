@@ -393,11 +393,46 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		handleSuggest: function (oEvent) {
 			var sTerm = oEvent.getParameter("suggestValue");
 			var aFilters = [];
+			var that = this;
 			if (sTerm) {
 				aFilters.push(new sap.ui.model.Filter("Material", sap.ui.model.FilterOperator.Contains, sTerm));
 				//aFilters.push(new sap.ui.model.Filter("LanguageKey", sap.ui.model.FilterOperator.EQ, this.sLang));
 			}
-			oEvent.getSource().getBinding("suggestionItems").filter(aFilters);
+
+			var bModel = this.getProductModel();
+
+			bModel.read("/I_MaterialText", {
+				urlParameters: {
+					"$filter": "startswith(Material," + "'" + (sTerm) + "')"
+				},
+				success: $.proxy(function (oData) {
+
+					sap.ui.core.BusyIndicator.hide();
+
+					var Matsuggestions = [];
+					//set the model materialSuggestionModel
+
+					$.each(oData.results, function (i, item) {
+						if (item.Language == that.sLang) {
+							Matsuggestions.push({
+								"Material": item.Material,
+								"MaterialName": item.MaterialName
+							});
+						}
+					});
+
+					this._materialSuggestionModel.setProperty("/Matsuggestions", Matsuggestions);
+					this.getView().setModel(this._materialSuggestionModel, "materialSuggestionModel");
+					var oModelSuggestion = this.getView().getModel("materialSuggestionModel");
+					oModelSuggestion.refresh();
+				}, this),
+				error: function () {
+					sap.ui.core.BusyIndicator.hide();
+
+				}.bind(this),
+			});
+
+			//oEvent.getSource().getBinding("suggestionItems").filter(aFilters);
 		},
 
 		handleProductChange: function (oEvent) {
