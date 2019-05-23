@@ -449,7 +449,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					oitem.companyCode = "2014";
 					oitem.spq = item1Data[0].SPQ;
 					oitem.ItemStatus = "Unsaved";
-					this.itemTable.getBinding("rows").getModel().refresh(true);
+					that.itemTable.getBinding("rows").getModel().refresh(true);
 				} else {
 					oitem.hasError = "";
 					oitem.itemCategoryGroup = "";

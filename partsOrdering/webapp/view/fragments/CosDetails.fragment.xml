@@ -17,8 +17,8 @@
 						visible="{=${/quant_cancelled} === '0'}"/>
 					<!--<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Line}"  text="{ path : '/TCI_itemNo', formatter:'.formatter.removeLeadingZero'} &lt;font  color='red'&lt;*&lt;/font &lt;"
 						tooltip="{/rejectionReason} {/rejectionDescription}" visible="{=${/rejectionReason} !==''}"/> -->
-						<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Line}"  text="{ path : '/TCI_itemNo', formatter:'.formatter.removeLeadingZero'}**"
-						tooltip="{/rejectionReason} {/rejectionDescription}" visible="{=${/rejectionReason !== undefined} &amp;&amp; ${/rejectionReason} !=='' &amp;&amp; ${/quant_cancelled} !== '0'}" />
+					<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Line}"  text="{ path : '/TCI_itemNo', formatter:'.formatter.removeLeadingZero'}**"
+						tooltip="{/rejectionReason} {/rejectionDescription}" visible="{=${/quant_cancelled} !== '0'}" />
 					<ObjectAttribute title="{i18n>Label.CheckOrder.Creation.Date}"
 						text="{ path: '/erdat', type: 'sap.ui.model.type.Date', formatOptions: { style: 'long', source: { pattern: 'yyyy/MM/dd' } } }"/>
 					<ObjectAttribute title="{i18n>Label.CheckOrder.Ship.From}" text="{/ship_from}"/>
