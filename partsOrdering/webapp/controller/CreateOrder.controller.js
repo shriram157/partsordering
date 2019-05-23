@@ -141,6 +141,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			//				var orderData = { typeB: false, typeD:false };
 			var orderData = this.initLocalModels(orderType, orderNum.trim());
 			var model = new sap.ui.model.json.JSONModel();
+			
+			this.setModel(new JSONModel(),"materialSuggestionModel");
+			this._materialSuggestionModel = this.getModel("materialSuggestionModel");
 
 			this._resetValueStateOfRows();
 
@@ -393,7 +396,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		handleSuggest: function (oEvent) {
 			var sTerm = oEvent.getParameter("suggestValue");
 			var aFilters = [];
-			var that = this;
+			var language = this.sLang;
 			if (sTerm) {
 				aFilters.push(new sap.ui.model.Filter("Material", sap.ui.model.FilterOperator.Contains, sTerm));
 				//aFilters.push(new sap.ui.model.Filter("LanguageKey", sap.ui.model.FilterOperator.EQ, this.sLang));
@@ -413,14 +416,14 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					//set the model materialSuggestionModel
 
 					$.each(oData.results, function (i, item) {
-						if (item.Language == that.sLang) {
+						if (item.Language == language) {
 							Matsuggestions.push({
 								"Material": item.Material,
 								"MaterialName": item.MaterialName
 							});
 						}
 					});
-
+					
 					this._materialSuggestionModel.setProperty("/Matsuggestions", Matsuggestions);
 					this.getView().setModel(this._materialSuggestionModel, "materialSuggestionModel");
 					var oModelSuggestion = this.getView().getModel("materialSuggestionModel");
