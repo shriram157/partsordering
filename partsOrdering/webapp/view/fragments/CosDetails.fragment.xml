@@ -13,12 +13,10 @@
 				<attributes>
 					<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Number}"
 						text="{ path : '/TCI_order_no', formatter:'.formatter.removeLeadingZero' }"/>
-					<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Line}" text="{ path : '/TCI_itemNo', formatter:'.formatter.removeLeadingZero'}"
-						visible="{=${/quant_cancelled} === '0'}"/>
-					<!--<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Line}"  text="{ path : '/TCI_itemNo', formatter:'.formatter.removeLeadingZero'} &lt;font  color='red'&lt;*&lt;/font &lt;"
-						tooltip="{/rejectionReason} {/rejectionDescription}" visible="{=${/rejectionReason} !==''}"/> -->
-					<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Line}"  text="{ path : '/TCI_itemNo', formatter:'.formatter.removeLeadingZero'}**"
-						tooltip="{/rejectionReason} {/rejectionDescription}" visible="{=${/quant_cancelled} !== '0'}" />
+					<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Line}" text="{ path : '/TCI_itemNo', formatter:'.formatter.removeLeadingZero'}" />
+					
+					<!--<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Line}"  text="{ path : '/TCI_itemNo', formatter:'.formatter.removeLeadingZero'}**"-->
+					<!--	tooltip="{/rejectionReason} {/rejectionDescription}" visible="{=${/quant_cancelled} !== '0'}" />-->
 					<ObjectAttribute title="{i18n>Label.CheckOrder.Creation.Date}"
 						text="{ path: '/erdat', type: 'sap.ui.model.type.Date', formatOptions: { style: 'long', source: { pattern: 'yyyy/MM/dd' } } }"/>
 					<ObjectAttribute title="{i18n>Label.CheckOrder.Ship.From}" text="{/ship_from}"/>
@@ -51,7 +49,7 @@
 						<ToolbarSeparator/>
 						<VBox width='76px'>
 							<Label text="{i18n>Header.Quantity.Cancelled}"></Label>
-							<ObjectNumber number="{path : '/quant_cancelled', formatter:'.formatter.round2dec'}" state="Error" tooltip=""/>
+							<ObjectNumber number="{path : '/quant_cancelled', formatter:'.formatter.round2dec'}" state="Error" tooltip="{/rejectionReason} {/rejectionDescription}"/>
 						</VBox>
 						<ToolbarSeparator/>
 						<VBox width='88px'>

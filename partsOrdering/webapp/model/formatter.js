@@ -46,6 +46,9 @@ sap.ui.define([], function () {
 		round2dec: function (sValue) {
 			try {
 				if (!!sValue) {
+					if (sValue === "0") {
+						return  "--";
+					}
 					return parseFloat(sValue).toFixed(2);
 				}
 
