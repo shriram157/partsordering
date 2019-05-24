@@ -1,9 +1,11 @@
 sap.ui.define([
+	"sap/m/Dialog",
+	"sap/m/Text",
 	"sap/ui/core/UIComponent",
 	"sap/ui/Device",
 	"tci/wave2/ui/parts/ordering/model/models",
 	"tci/wave2/ui/parts/ordering/controller/ErrorHandler"	
-], function(UIComponent, Device, models, ErrorHandler) {
+], function(Dialog, Text, UIComponent, Device, models, ErrorHandler) {
 	"use strict";
 
 	return UIComponent.extend("tci.wave2.ui.parts.ordering.Component", {
@@ -28,6 +30,31 @@ sap.ui.define([
 			
 			// set the device model
 			this.setModel(models.createDeviceModel(), "device");
+
+			// Get resource bundle
+			var bundle = this.getModel('i18n').getResourceBundle();
+
+			// Attach XHR event handler to detect 401 error responses for handling as timeout
+			var sessionExpDialog = new Dialog({
+				title: bundle.getText('SESSION_EXP_TITLE'),
+				type: 'Message',
+				state: 'Warning',
+				content: new Text({
+					text: bundle.getText('SESSION_EXP_TEXT')
+				})
+			});
+			var origOpen = XMLHttpRequest.prototype.open;
+			XMLHttpRequest.prototype.open = function () {
+				this.addEventListener('load', function (event) {
+					// TODO Compare host name in URLs to ensure only app resources are checked
+					if (event.target.status === 401) {
+						if (!sessionExpDialog.isOpen()) {
+							sessionExpDialog.open();
+						}
+					}
+				});
+				origOpen.apply(this, arguments);
+			};
 
 			sap.ui.core.BusyIndicator.show(0);			
 			var division = jQuery.sap.getUriParameters().get('Division');
