@@ -47,7 +47,7 @@ sap.ui.define([], function () {
 			try {
 				if (!!sValue) {
 					if (sValue === "0") {
-						return  "--";
+						return  "0";
 					}
 					return parseFloat(sValue).toFixed(2);
 				}
