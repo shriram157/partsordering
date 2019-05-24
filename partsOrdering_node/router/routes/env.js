@@ -18,7 +18,7 @@ module.exports = function () {
 		}));
 	});
 
-	router.get("/configuration", (req, res) => {
+	router.get("/uiConfig", (req, res) => {
 		// Get UPS name from env var UPS_NAME
 		var apimServiceName = process.env.UPS_NAME;
 		let options = {};
@@ -27,7 +27,7 @@ module.exports = function () {
 				name: apimServiceName
 			}
 		}));
-		res.json(options);
+		res.json(options.api.UI_CONFIG);
 	});
 
 	return router;

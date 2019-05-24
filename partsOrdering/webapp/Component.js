@@ -141,8 +141,8 @@ sap.ui.define([
 			this.loadConfiguration(function(configurationData){
 				var appLinks = {};
 				appLinks.loaded = true;
-				if (!!configurationData && !!configurationData.api.APPLINKS ){
-					appLinks.PARTS_AVAILIBILITY = configurationData.api.APPLINKS.PARTS_AVAILIBILITY;
+				if (!!configurationData && !!configurationData.APPLINKS ){
+					appLinks.PARTS_AVAILIBILITY = configurationData.APPLINKS.PARTS_AVAILIBILITY;
 					appMode.setProperty("/appLinks", appLinks);
 				}
 				if (that.isAppModelLoaded() ){
@@ -185,7 +185,7 @@ sap.ui.define([
 		loadConfiguration : function(callbackFunc){
 			var that = this;
 			$.ajax({
-				url: "/node/env/configuration",
+				url: "/node/env/uiConfig",
 				type: "GET",
 				dataType: "json",
 				success: function (oData,a,b) {
