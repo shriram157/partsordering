@@ -720,7 +720,7 @@ sap.ui.define([
 		},
 
 		getZCMATERIALModel: function () {
-			return this.getOwnerComponent().getModel("ZC_MATERIAL_SPQ_SRV");
+			return this.getOwnerComponent().getModel("Z_SEARCH_HELPS_SRV");
 		},
 
 		// Start -- MD_PRODUCT_FS_SRV model related

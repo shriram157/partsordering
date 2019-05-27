@@ -82,7 +82,7 @@ sap.ui.define([], function () {
 		},
 
 		getZCMATERIALModel: function () {
-			_partdescModel = _ownerComponent.getModel("ZC_MATERIAL_SPQ_SRV");
+			_partdescModel = _ownerComponent.getModel("Z_SEARCH_HELPS_SRV");
 		},
 
 		setCachedProductObj: function (productNumber, productObj) {

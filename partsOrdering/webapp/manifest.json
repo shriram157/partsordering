@@ -82,7 +82,7 @@
 					"localUri": "model/ZC_STOR_LOCN_CDS/metadata.xml"
 				}
 			},
-			"ZC_MATERIAL_SPQ_SRV": {
+			"Z_SEARCH_HELPS_SRV": {
 				"uri": "/sap/opu/odata/sap/Z_SEARCH_HELPS_SRV/",
 				"type": "OData",
 				"settings": {
@@ -284,7 +284,7 @@
 				"dataSource": "ZC_STOR_LOCN_CDS",
 				"preload": false
 			},
-			"ZC_MATERIAL_SPQ_SRV": {
+			"Z_SEARCH_HELPS_SRV": {
 				"type": "sap.ui.model.odata.v2.ODataModel",
 				"settings": {
 					"defaultOperationMode": "Server",
@@ -296,7 +296,7 @@
 						"X-Requested-With": "XMLHttpRequest"
 					}
 				},
-				"dataSource": "ZC_MATERIAL_SPQ_SRV",
+				"dataSource": "Z_SEARCH_HELPS_SRV",
 				"preload": false
 			}
 		},
