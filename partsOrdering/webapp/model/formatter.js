@@ -50,13 +50,15 @@ sap.ui.define([], function () {
 						return  "";
 						// changed to return blank  if 0 - May 27.
 					}
-					return parseFloat(sValue).toFixed(2);
+					//return parseFloat(sValue).toFixed(2);
+					return parseFloat(sValue).toFixed(0);
+					//changed to return blank  if 0 - May 27
 				}
 
 			} catch (err) {
 
 			}
-			return 0.00;
+			return "";
 		},
 
 		linex2Format: function (typeD, typeB, opCode, vin) {
