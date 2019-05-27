@@ -47,7 +47,8 @@ sap.ui.define([], function () {
 			try {
 				if (!!sValue) {
 					if (sValue === "0") {
-						return  "0";
+						return  "";
+						// changed to return blank  if 0 - May 27.
 					}
 					return parseFloat(sValue).toFixed(2);
 				}
