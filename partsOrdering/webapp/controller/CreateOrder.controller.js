@@ -1089,7 +1089,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			this.toggleSubmitDraftButton();
 		},
 		checkQtyZero : function (oEvent) {
-			if (oEvent.getParameter("newValue") === 0  || oEvent.getParameter("oldValue") === 0) {
+			var iQty = parseInt(oEvent.getParameter("newValue"));
+			if ( iQty === 0  || isNaN(iQty) ) {
 				return "";
 			}
 				
