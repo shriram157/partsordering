@@ -141,8 +141,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			//				var orderData = { typeB: false, typeD:false };
 			var orderData = this.initLocalModels(orderType, orderNum.trim());
 			var model = new sap.ui.model.json.JSONModel();
-			
-			this.setModel(new JSONModel(),"materialSuggestionModel");
+
+			this.setModel(new JSONModel(), "materialSuggestionModel");
 			this._materialSuggestionModel = this.getModel("materialSuggestionModel");
 
 			this._resetValueStateOfRows();
@@ -423,7 +423,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							});
 						}
 					});
-					
+
 					this._materialSuggestionModel.setProperty("/Matsuggestions", Matsuggestions);
 					this.getView().setModel(this._materialSuggestionModel, "materialSuggestionModel");
 					var oModelSuggestion = this.getView().getModel("materialSuggestionModel");
@@ -1361,6 +1361,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var typeB = model.getData().typeB;
 			var typeD = model.getData().typeD;
 			var bSubmitError = false;
+			var sInValid = this.oResourceBundle.getText("Message.error.invalid.value");
 			//var columns = this.itemTable.getColumns();
 			var rows = this.itemTable.getRows();
 			for (var x1 = 1; x1 < len; x1++) {
@@ -1372,12 +1373,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						if (!!rowCells[y1].getProperty("required")) {
 							if (!(rowCells[y1].getValue().trim())) {
 								bSubmitError = true;
-								rowCells[y1].setValueStateText("Invalid Value");
+								rowCells[y1].setValueStateText(sInValid);
 								rowCells[y1].setValueState("Error");
 								items[x1].hasError = true;
 							} else if ((rowCells[y1].getType() === "Number") && (rowCells[y1].getValue() < 1)) {
 								bSubmitError = true;
-								rowCells[y1].setValueStateText("Invalid Value");
+								rowCells[y1].setValueStateText(sInValid);
 								rowCells[y1].setValueState("Error");
 								items[x1].hasError = true;
 							} else {

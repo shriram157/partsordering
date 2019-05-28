@@ -95,7 +95,7 @@
 								<Label text="{i18n>Lable.CreateOrder.Order}*"/>
 								<ui:template>
 									<Input type="Number" valueStateText="{i18n>ValidationMessage.qty}" required='true'
-										value="{ path: 'orderModel>qty', type: 'sap.ui.model.type.Integer', contraints:'{minimum :1}' }" valueState="None" change='onQtyChange'/>
+										value="{ path: 'orderModel>qty', type: 'sap.ui.model.type.Integer' }" valueState="None" change='onQtyChange'/>
 								</ui:template>
 							</ui:Column>
 							<ui:Column width="{sizeModel>/remContractNo}" visible="{orderModel>/typeB}" id="ContractNo" sortProperty="ContractNo">
