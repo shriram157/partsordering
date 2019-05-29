@@ -50,8 +50,8 @@ sap.ui.define([], function () {
 						return  0;
 						// changed to return blank  if 0 - May 27.
 					}
-					return parseFloat(sValue).toFixed(2);
-				
+					return parseFloat(sValue).toFixed(0);
+					// changed to return blank  if 0 decimals - May 29.
 				}
 
 			} catch (err) {
