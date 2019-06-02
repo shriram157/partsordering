@@ -128,8 +128,8 @@ sap.ui.define([
 				}
 			});
 		},
-		
-		onBusinessPartnerSelected : function(oEvent) {
+
+		onBusinessPartnerSelected: function (oEvent) {
 			var selectedDealer = oEvent.getSource().getSelectedKey();
 			this.getView().getModel().setProperty("/filters/dealer", selectedDealer);
 		},
