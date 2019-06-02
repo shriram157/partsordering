@@ -280,7 +280,7 @@ sap.ui.define([
 		_onObjectMatched: function (oEvent) {
 			// first, clean the message
 			sap.ui.getCore().getMessageManager().removeAllMessages();
-
+			var resourceBundle = this.getResourceBundle();
 			var appStateModel = this.getStateModel();
 			appStateModel.setProperty('/tabKey', 'CS');
 			if (appStateModel.getProperty('/userProfile').userType === "National") {
