@@ -85,6 +85,7 @@ sap.ui.define([
 
 		getDealersForTCIUser: function () {
 			var oFilter = new Array();
+			var that = this;
 			oFilter[1] = new sap.ui.model.Filter("SearchTerm2", sap.ui.model.FilterOperator.NE, 'X');
 			oFilter[0] = new sap.ui.model.Filter(
 				[
