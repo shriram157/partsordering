@@ -16,9 +16,9 @@
 				<OverflowToolbarLayoutData priority="NeverOverflow" shrinkable="true"/>
 			</layoutData>
 			<items>
-				<IconTabFilter text="{i18n>headerMenu.CreateOrder}" key="CO"/>
-				<IconTabFilter text="{i18n>headerMenu.FindOrder}" key="FO"/>
-				<IconTabFilter text="{i18n>headerMenu.CheckOrderStatus}" key="CS"/>
+				<IconTabFilter text="{i18n>headerMenu.CreateOrder}" id="Itf_CreateOrder" key="CO"/>
+				<IconTabFilter text="{i18n>headerMenu.FindOrder}" id="Itf_FindOrder"  key="FO"/>
+				<IconTabFilter text="{i18n>headerMenu.CheckOrderStatus}" id="Itf_CheckOrder" key="CS"/>
 			</items>
 		</IconTabHeader>
 		<Button icon="sap-icon://comment" type="Transparent">

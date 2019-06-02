@@ -47,7 +47,11 @@ sap.ui.define([
 			var lv_headerMenuMode = this.getHeaderMenuModel();
 			this.setModel(orderTypeListModel, CONT_HEADERMODEL);
 
+			if (appStateModel.getProperty('/userProfile').userType === "National") {
+					this.getRouter().navTo("CheckOrderStatus", null, true);	
+			} else {
 			this.init();
+			}
 		},
 
 		init: function () {

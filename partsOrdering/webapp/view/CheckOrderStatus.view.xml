@@ -11,6 +11,27 @@
 				search="onSearch" showRestoreButton="false" showClearButton="true" useToolbar='false' showGoOnFB='true'
 				visible="{viewModel>/filterPanelEnable}" showFilterConfiguration='false'>
 				<fb:filterItems>
+					<fb:FilterItem name="dealer" label="{i18n>Label.CheckOrder.Dealer}" labelTooltip="{i18n>Label.CheckOrder.Dealer}">
+						<fb:control>
+							<ComboBox showSecondaryValues="true" required="true"  fieldGroupIds="requiredField"
+							 placeholder="{i18n>Label.CheckOrder.Dealer}" value="{BpDealerModel>/BusinessPartnerKey}"
+								filterSecondaryValues="true"  visible="false" id="cb_filterDealer"
+								items="{path: 'BpDealerModel>/', sorter: { path: 'BusinessPartner' }, length:750 }" selectedKey="{BusinessPartnerKey}"
+								selectionChange="onBusinessPartnerSelected" showValueStateMessage="false" textAlign="Begin"  width="15%">
+								<core:ListItem key="{BpDealerModel>BusinessPartnerKey}" text="{BpDealerModel>BusinessPartner}"
+									additionalText="{BpDealerModel>BusinessPartnerName}"/>
+								<layoutData>
+									<layout:GridData span="L2 M12 S12"/>
+								</layoutData>
+							</ComboBox>
+							<!--<Input value="{viewModel>/filters/dealer}" enabled="false" placeholder="{i18n>Label.CheckOrder.Dealer}"></Input>-->
+						</fb:control>
+					</fb:FilterItem>
+					<fb:FilterItem name="dealer" label="{i18n>Label.CheckOrder.Dealer}" labelTooltip="{i18n>Label.CheckOrder.Dealer}">
+						<fb:control>
+							<Input value="{viewModel>/filters/dealer}" enabled="false" placeholder="{i18n>Label.CheckOrder.Dealer}" width="15%"></Input>
+						</fb:control>
+					</fb:FilterItem>
 					<fb:FilterItem name="orderNumber" label="{i18n>Label.CheckOrder.DealerOrder}" labelTooltip="{i18n>Label.CheckOrder.DealerOrder}">
 						<fb:control>
 							<Input value="{viewModel>/filters/orderNumber}" enabled="{viewModel>/filterAllx}" placeholder="{i18n>Label.CheckOrder.DealerOrder}"
@@ -149,9 +170,9 @@
 								<ObjectNumber number="{path: 'viewModel>quant_cancelled', formatter:'.formatter.round2dec'}"/>
 								<ObjectNumber number="{path: 'viewModel>quant_back_ordered', formatter:'.formatter.round2dec'}"/>
 								<ObjectIdentifier title="{viewModel>dealer_orderNo}"/>
-							<!--	<Text text="{path : 'viewModel>doc_type', formatter:'.formatter.orderTypeD' }" visible="{=${viewModel>campCode} !==''}"
+								<!--	<Text text="{path : 'viewModel>doc_type', formatter:'.formatter.orderTypeD' }" visible="{=${viewModel>campCode} !==''}"
 									tooltip="{i18n>Lable.CreateOrder.CampaignNumber} : {/campCode} {i18n>Lable.CreateOrder.OpCode} : {/OpCode} {i18n>Lable.CreateOrder.vin} : {/VIN}"/>-->
-								<Text text="{path : 'viewModel>doc_type', formatter:'.formatter.orderTypeD' }" />
+								<Text text="{path : 'viewModel>doc_type', formatter:'.formatter.orderTypeD' }"/>
 								<Text text="{path :'viewModel>TCI_order_no', formatter:'.formatter.getItemNumber'}"/>
 							</cells>
 						</ColumnListItem>

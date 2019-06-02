@@ -57,9 +57,9 @@ sap.ui.define([
 			this._oFilterFiNumber = this.byId('fiNumberFilter');
 			this._fromDate = this.byId('dateFrom');
 			this._toDate = this.byId('dateTo');
-
-			this.checkDealerInfo();
-
+			if (this.getStateModel().getProperty('/userProfile').userType !== "National") {
+				this.checkDealerInfo();
+			}
 			var oTable = this.getView().byId("idProductsTable");
 			oTable.addEventDelegate({
 				onAfterRendering: function () {
@@ -82,6 +82,57 @@ sap.ui.define([
 			}, this._oList);
 
 		},
+
+		getDealersForTCIUser: function () {
+			var oFilter = new Array();
+			oFilter[1] = new sap.ui.model.Filter("SearchTerm2", sap.ui.model.FilterOperator.NE, 'X');
+			oFilter[0] = new sap.ui.model.Filter(
+				[
+					new sap.ui.model.Filter("BusinessPartnerType", sap.ui.model.FilterOperator.EQ, 'Z001'),
+					new sap.ui.model.Filter("BusinessPartnerType", sap.ui.model.FilterOperator.EQ, 'Z004'),
+					new sap.ui.model.Filter("BusinessPartnerType", sap.ui.model.FilterOperator.EQ, 'Z005')
+				], false);
+
+			var bModel = this.getApiBPModel();
+			bModel.read('/A_BusinessPartner', {
+				filters: oFilter,
+				urlParameters: {
+					// "$select": "BusinessPartnerType,BusinessPartner,BusinessPartnerName"
+					"$expand": "to_Customer",
+					"$orderby": "BusinessPartner asc"
+				},
+				success: function (oData, oResponse) {
+
+					if (!!oData && !!oData.results && oData.results.length > 0) {
+						var BpDealer = [];
+						for (var x1 = 0; x1 < oData.results.length; x1++) {
+
+							var item = oData.results[x1];
+
+							BpDealer.push({
+								"BusinessPartnerKey": item.BusinessPartnerKey,
+								"BusinessPartner": item.BusinessPartner, //.substring(5, BpLength),
+								"BusinessPartnerName": item.BusinessPartnerName, //item.OrganizationBPName1 //item.BusinessPartnerFullName
+								"Division": item.Division,
+								"BusinessPartnerType": item.BusinessPartnerType,
+								"searchTermReceivedDealerName": item.SearchTerm2
+							});
+
+						}
+					}
+					that.getView().setModel(new sap.ui.model.json.JSONModel(BpDealer), "BpDealerModel");
+				},
+				error: function (err) {
+					// error handling here
+					//callback(null);
+				}
+			});
+		},
+		
+		onBusinessPartnerSelected : function(oEvent) {
+			var selectedDealer = oEvent.getSource().getSelectedKey();
+			this.getView().getModel().setProperty("/filters/dealer", selectedDealer);
+		}
 
 		onFilterChange: function (oEvent) {
 			var shouldExclude = false;
@@ -229,12 +280,41 @@ sap.ui.define([
 		_onObjectMatched: function (oEvent) {
 			// first, clean the message
 			sap.ui.getCore().getMessageManager().removeAllMessages();
-			if (!this.checkDealerInfo()) {
-				return;
-			}
 
 			var appStateModel = this.getStateModel();
 			appStateModel.setProperty('/tabKey', 'CS');
+			if (appStateModel.getProperty('/userProfile').userType === "National") {
+				var otList = {
+					"typeList": [{
+						code: 'IP',
+						name: resourceBundle.getText('Parts.Status.InProcess')
+					}, {
+						code: 'PR',
+						name: resourceBundle.getText('Parts.Status.Processed')
+					}, {
+						code: 'CL',
+						name: resourceBundle.getText('Parts.Status.Cancelled')
+					}, {
+						code: 'BK',
+						name: resourceBundle.getText('Parts.Status.BackOrdered')
+					}]
+				}
+				this.getView().byId("cb_filterDealer").setVisible(true);
+				this.getView().byId("Itf_CreateOrder").setVisible(false);
+				this.getView().byId("Itf_findOrder").setVisible(false);
+				if (!this.getView().getModel("BpDealerModel")) {
+					this.getDealersForTCIUser();
+				}
+			} else {
+				if (!this.checkDealerInfo()) {
+					return;
+				}
+				var otList = this.getCurrentOrderTypeList().getData();
+				this.getView().byId("cb_filterDealer").setVisible(false);
+				this.getView().byId("Itf_CreateOrder").setVisible(true);
+				this.getView().byId("Itf_FindOrder").setVisible(true);
+
+			}
 
 			// dynamic the type list 
 			var filterModel = this.getModel('filterModel');
@@ -242,7 +322,7 @@ sap.ui.define([
 				filterModel = this.getFilterSelectionModel();
 				this.setModel(filterModel, 'filterModel');
 			}
-			var otList = this.getCurrentOrderTypeList().getData();
+
 			var resourceBundle = this.getResourceBundle();
 			var newList = [{
 				code: 0,
