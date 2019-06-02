@@ -301,7 +301,7 @@ sap.ui.define([
 				}
 				this.getView().byId("cb_filterDealer").setVisible(true);
 				this.getView().byId("Itf_CreateOrder").setVisible(false);
-				this.getView().byId("Itf_findOrder").setVisible(false);
+				this.getView().byId("Itf_FindOrder").setVisible(false);
 				if (!this.getView().getModel("BpDealerModel")) {
 					this.getDealersForTCIUser();
 				}
