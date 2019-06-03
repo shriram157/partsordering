@@ -129,13 +129,14 @@ sap.ui.define([
 		},
 
 		onBusinessPartnerSelected: function (oEvent) {
-			var selectedDealer = oEvent.getSource().getSelectedKey();
+			var oSource = oEvent.getSource();
+			var selectedDealer = oSource.getSelectedKey();
 			this.getView().getModel().setProperty("/filters/dealer", selectedDealer);
 			var appStateModel = this.getStateModel();
-			var sPath = oEvent.getSource().getSelectedContextPath();
-			var theData = this.getModel(CONST_VIEW_MODEL).getProperty(sPath);
-			appStateModel.setProperty('/selectedBP/bpName', theData.OrganizationBPName1);
-			appStateModel.setProperty('/selectedBP/dealerCode', theData.BusinessPartner);
+			//var sPath = oEvent.getSource().getSelectedContextPath();
+			//var theData = this.getModel(CONST_VIEW_MODEL).getProperty(sPath);
+			appStateModel.setProperty('/selectedBP/bpName', oSource().getSelectedItem().getProperty("additionalText"));
+			appStateModel.setProperty('/selectedBP/dealerCode', selectedDealer);
 		},
 
 		onFilterChange: function (oEvent) {
