@@ -11,19 +11,15 @@
 				search="onSearch" showRestoreButton="false" showClearButton="true" useToolbar='false' showGoOnFB='true'
 				visible="{viewModel>/filterPanelEnable}" showFilterConfiguration='false'>
 				<fb:filterItems>
-					<fb:FilterItem name="dealer" label="{i18n>Label.CheckOrder.Dealer}" labelTooltip="{i18n>Label.CheckOrder.Dealer}" id="fi_Dealer" visible="false">
+					<fb:FilterItem name="dealer" label="{i18n>Label.CheckOrder.Dealer}" labelTooltip="{i18n>Label.CheckOrder.Dealer}" id="fi_Dealer"
+						visible="false">
 						<fb:control>
-							<ComboBox showSecondaryValues="true" required="true"  fieldGroupIds="requiredField"
-							 placeholder="{i18n>Label.CheckOrder.Dealer}" 
-								filterSecondaryValues="true"  visible="false" id="cb_filterDealer"
-								items="{path: 'BpDealerModel>/', sorter: { path: 'BusinessPartner' }, length:750 }" 
-								selectionChange="onBusinessPartnerSelected" showValueStateMessage="false" textAlign="Begin"  width="15%">
+							<ComboBox showSecondaryValues="true" required="true" fieldGroupIds="requiredField" placeholder="{i18n>Label.CheckOrder.Dealer}"
+								filterSecondaryValues="true" visible="false" id="cb_filterDealer"
+								items="{path: 'BpDealerModel>/', sorter: { path: 'BusinessPartner' }, length:750 }" selectionChange="onBusinessPartnerSelected"
+								showValueStateMessage="false" textAlign="Begin" width="15%">
 								<core:ListItem key="{BpDealerModel>BusinessPartnerKey}" text="{BpDealerModel>BusinessPartner}"
-									additionalText="{BpDealerModel>BusinessPartnerName}">
-									<CustomData key="{BpDealerModel>BusinessPartnerType}" value="{BpDealerModel>OrganizationBPName1}" writeToDom="false">
-									
-									 </CustomData>
-								</core:ListItem>	
+									additionalText="{BpDealerModel>BusinessPartnerName}"></core:ListItem>
 							</ComboBox>
 							<!--<Input value="{viewModel>/filters/dealer}" enabled="false" placeholder="{i18n>Label.CheckOrder.Dealer}"></Input>-->
 						</fb:control>
