@@ -21,7 +21,7 @@
 								<core:ListItem key="{BpDealerModel>BusinessPartnerKey}" text="{BpDealerModel>BusinessPartner}"
 									additionalText="{BpDealerModel>BusinessPartnerName}">
 									<CustomData>
-										<core:CustomData key="{BpDealerModel>BusinessPartnerType}" value="{BpDealerModel>OrganizationBPName1}" />
+										<core:CustomData key="{BpDealerModel>BusinessPartnerType}" value="{BpDealerModel>OrganizationBPName1}" writeToDom="false"/>
 									 </CustomData>
 								</core:ListItem>	
 							</ComboBox>
