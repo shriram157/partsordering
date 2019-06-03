@@ -86,7 +86,7 @@ sap.ui.define([
 		getDealersForTCIUser: function () {
 			var oFilter = new Array();
 			var that = this;
-			oFilter[1] = new sap.ui.model.Filter("SearchTerm2", sap.ui.model.FilterOperator.NE, 'X');
+			oFilter[1] = new sap.ui.model.Filter("zstatus", sap.ui.model.FilterOperator.NE, 'X');
 			oFilter[0] = new sap.ui.model.Filter(
 				[
 					new sap.ui.model.Filter("BusinessPartnerType", sap.ui.model.FilterOperator.EQ, 'Z001'),
@@ -99,7 +99,7 @@ sap.ui.define([
 				filters: oFilter,
 				urlParameters: {
 					// "$select": "BusinessPartnerType,BusinessPartner,BusinessPartnerName"
-					"$expand": "to_Customer",
+					//"$expand": "to_Customer",
 					"$orderby": "BusinessPartner asc"
 				},
 				success: function (oData, oResponse) {
