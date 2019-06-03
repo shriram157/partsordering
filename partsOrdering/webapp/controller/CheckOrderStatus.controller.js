@@ -114,7 +114,8 @@ sap.ui.define([
 								"BusinessPartnerKey": item.BusinessPartner,
 								"BusinessPartner": item.BusinessPartner.substring(5, item.BusinessPartner.length ), //.substring(5, BpLength),
 								"BusinessPartnerName": item.BusinessPartnerName, //item.OrganizationBPName1 //item.BusinessPartnerFullName
-								"OrganizationBPName1" : item.OrganizationBPName1
+								"OrganizationBPName1" : item.OrganizationBPName1,
+								"BusinessPartnerType" : item.BusinessPartnerType
 							});
 
 						}

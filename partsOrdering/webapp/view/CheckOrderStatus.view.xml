@@ -19,7 +19,11 @@
 								items="{path: 'BpDealerModel>/', sorter: { path: 'BusinessPartner' }, length:750 }" 
 								selectionChange="onBusinessPartnerSelected" showValueStateMessage="false" textAlign="Begin"  width="15%">
 								<core:ListItem key="{BpDealerModel>BusinessPartnerKey}" text="{BpDealerModel>BusinessPartner}"
-									additionalText="{BpDealerModel>BusinessPartnerName}"/>
+									additionalText="{BpDealerModel>BusinessPartnerName}">
+									<CustomData>
+										<core:CustomData key="{BpDealerModel>BusinessPartnerType}" value="{BpDealerModel>OrganizationBPName1}" />
+									 </CustomData>
+								</core:ListItem>	
 							</ComboBox>
 							<!--<Input value="{viewModel>/filters/dealer}" enabled="false" placeholder="{i18n>Label.CheckOrder.Dealer}"></Input>-->
 						</fb:control>
