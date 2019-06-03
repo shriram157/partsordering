@@ -253,7 +253,12 @@ sap.ui.define([
 				pattern: "YYYYMMdd"
 			});
 			var appStateModel = this.getStateModel();
-			var dealerCode = appStateModel.getProperty('/selectedBP/dealerCode');
+			var dealerCode ;
+			if (this.getView().byId("cb_filterDealer").getVisible()) {
+			   dealerCode = this.getView().byId("cb_filterDealer").getSelectedKey();
+			 } else  { 
+				 dealerCode = appStateModel.getProperty('/selectedBP/dealerCode');
+			} 
 			var nowDate = new Date();
 			// //				var fromMonth = nowDate.getMonth() + 1 -3; // three months
 			// 				var fromYear = nowDate.getFullYear();
@@ -301,7 +306,7 @@ sap.ui.define([
 						code: 'BK',
 						name: resourceBundle.getText('Parts.Status.BackOrdered')
 					}]
-				}
+				};
 				this.getView().byId("fi_Dealer").setVisible(true);
 				this.getView().byId("cb_filterDealer").setVisible(true);
 				this.getView().byId("Itf_CreateOrder").setVisible(false);
@@ -473,7 +478,13 @@ sap.ui.define([
 			//take the existing conditions get the data
 			var appStateModel = this.getStateModel();
 			//var oItem = this.byId('iconTabHeader');
-			var dealerCode = appStateModel.getProperty('/selectedBP/dealerCode');
+	
+			var dealerCode ;
+			if (this.getView().byId("cb_filterDealer").getVisible()) {
+			   dealerCode = this.getView().byId("cb_filterDealer").getSelectedKey();
+			 } else  { 
+				 dealerCode = appStateModel.getProperty('/selectedBP/dealerCode');
+			} 
 			var bpCode = appStateModel.getProperty('/selectedBP/bpNumber');
 			var ztype = appStateModel.getProperty('/selectedBP/bpGroup');
 			var isSalesOrder = that.isSalesOrderAssociated(ztype);
