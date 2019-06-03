@@ -16,7 +16,7 @@
 							<ComboBox showSecondaryValues="true" required="true"  fieldGroupIds="requiredField"
 							 placeholder="{i18n>Label.CheckOrder.Dealer}" value="{BpDealerModel>/BusinessPartnerKey}"
 								filterSecondaryValues="true"  visible="false" id="cb_filterDealer"
-								items="{path: 'BpDealerModel>/', sorter: { path: 'BusinessPartner' }, length:750 }" selectedKey="{BusinessPartnerKey}"
+								items="{path: 'BpDealerModel>/', sorter: { path: 'BusinessPartner' }, length:750 }" selectedKey="{BpDealerModel>BusinessPartnerKey}"
 								selectionChange="onBusinessPartnerSelected" showValueStateMessage="false" textAlign="Begin"  width="15%">
 								<core:ListItem key="{BpDealerModel>BusinessPartnerKey}" text="{BpDealerModel>BusinessPartner}"
 									additionalText="{BpDealerModel>BusinessPartnerName}"/>
