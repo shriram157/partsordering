@@ -111,7 +111,7 @@ sap.ui.define([
 							var item = oData.results[x1];
 
 							BpDealer.push({
-								"BusinessPartnerKey": item.BusinessPartnerKey,
+								"BusinessPartnerKey": item.BusinessPartner,
 								"BusinessPartner": item.BusinessPartner.substring(5, item.BusinessPartner.length ), //.substring(5, BpLength),
 								"BusinessPartnerName": item.BusinessPartnerName, //item.OrganizationBPName1 //item.BusinessPartnerFullName
 								"OrganizationBPName1" : item.OrganizationBPName1
@@ -133,9 +133,7 @@ sap.ui.define([
 			var selectedDealer = oSource.getSelectedKey();
 			this.getView().getModel().setProperty("/filters/dealer", selectedDealer);
 			var appStateModel = this.getStateModel();
-			//var sPath = oEvent.getSource().getSelectedContextPath();
-			//var theData = this.getModel(CONST_VIEW_MODEL).getProperty(sPath);
-			appStateModel.setProperty('/selectedBP/bpName', oSource().getSelectedItem().getProperty("additionalText"));
+			appStateModel.setProperty("/selectedBP/bpName", oSource.getSelectedItem().getProperty("additionalText"));
 			appStateModel.setProperty('/selectedBP/dealerCode', selectedDealer);
 		},
 
