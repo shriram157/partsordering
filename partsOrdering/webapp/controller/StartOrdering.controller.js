@@ -47,10 +47,8 @@ sap.ui.define([
 			var lv_headerMenuMode = this.getHeaderMenuModel();
 			this.setModel(orderTypeListModel, CONT_HEADERMODEL);
 
-			if (appStateModel.getProperty('/userProfile').userType === "National") {
-					this.getRouter().navTo("CheckOrderStatus", null, true);	
-			} else {
-			this.init();
+			if (appStateModel.getProperty('/userProfile').userType !== "National") {
+				this.init();
 			}
 		},
 
@@ -80,7 +78,7 @@ sap.ui.define([
 				//	this.getBusinessPartnersByDealerCode("46055", function(sData){
 				//userProfile.dealerCode = "42120"; // debugging - comment it 
 				//this.getBusinessPartnersByDealerCode("42120", function (sData) {
-					
+
 				this.getBusinessPartnersByDealerCode(userProfile.dealerCode, function (sData) {
 					bpCode = sData.BusinessPartner;
 					appStateModel.setProperty('/selectedBP/bpNumber', bpCode);
@@ -174,15 +172,19 @@ sap.ui.define([
 
 		_onObjectMatched: function (oEvent) {
 			var that = this;
-			if (!this.checkDealerInfo()) {
-				//commented for debugging
-				return false;
+			if (this.getStateModel().getProperty('/userProfile').userType === "National") {
+				this.getRouter().navTo("CheckOrderStatus", null, true);
 			} else {
-			 var vModel = this.getView().getModel();
-			 vModel.setProperty('/selectedOrderMeta/order_id', "");
-			}
+				if (!this.checkDealerInfo()) {
+					//commented for debugging
+					return false;
+				} else {
+					var vModel = this.getView().getModel();
+					vModel.setProperty('/selectedOrderMeta/order_id', "");
+				}
 
-			this.init();
+				this.init();
+			}
 		},
 
 		onOrderTypeChange: function (event) {

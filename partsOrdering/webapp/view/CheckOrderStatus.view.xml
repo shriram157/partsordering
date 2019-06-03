@@ -20,9 +20,6 @@
 								selectionChange="onBusinessPartnerSelected" showValueStateMessage="false" textAlign="Begin"  width="15%">
 								<core:ListItem key="{BpDealerModel>BusinessPartnerKey}" text="{BpDealerModel>BusinessPartner}"
 									additionalText="{BpDealerModel>BusinessPartnerName}"/>
-								<layoutData>
-									<layout:GridData span="L2 M12 S12"/>
-								</layoutData>
 							</ComboBox>
 							<!--<Input value="{viewModel>/filters/dealer}" enabled="false" placeholder="{i18n>Label.CheckOrder.Dealer}"></Input>-->
 						</fb:control>
