@@ -142,7 +142,8 @@ sap.ui.define([
 			var appStateModel = this.getStateModel();
 			appStateModel.setProperty("/selectedBP/bpName", oObject.OrganizationBPName1);
 			appStateModel.setProperty("/selectedBP/dealerCode", oObject.BusinessPartner);
-			appStateModel.getProperty('/selectedBP/bpGroup',oObject.BusinessPartnerType);
+			appStateModel.setProperty('/selectedBP/bpGroup',oObject.BusinessPartnerType);
+			appStateModel.setProperty('/selectedBP/bpNumber',selectedDealer);
 		},
 
 		onFilterChange: function (oEvent) {
@@ -487,12 +488,8 @@ sap.ui.define([
 			var appStateModel = this.getStateModel();
 			//var oItem = this.byId('iconTabHeader');
 	
-			var dealerCode ;
-			if (this.getView().byId("cb_filterDealer").getVisible()) {
-			   dealerCode = this.getView().byId("cb_filterDealer").getSelectedKey();
-			 } else  { 
-				 dealerCode = appStateModel.getProperty('/selectedBP/dealerCode');
-			} 
+			var dealerCode = appStateModel.getProperty('/selectedBP/dealerCode');
+		
 			var bpCode = appStateModel.getProperty('/selectedBP/bpNumber');
 			var ztype = appStateModel.getProperty('/selectedBP/bpGroup');
 			var isSalesOrder = that.isSalesOrderAssociated(ztype);
