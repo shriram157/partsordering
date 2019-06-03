@@ -320,7 +320,7 @@
 			},
 			"routes": [{
 				"pattern": "",
-				"name": "Default",
+				"name": "RouteApp",
 				"target": ["RouteApp"]
 			}, {
 				"pattern": "StartOrdering",
