@@ -575,7 +575,7 @@ sap.ui.define([
 					}
 				}
 			}
-
+			if (!!conditions.bpCode) {
 			this.searchPartsOrders(exactMode, conditions, isSalesOrder, function (results) {
 				viewModel.setProperty('/orders', results);
 
@@ -621,7 +621,7 @@ sap.ui.define([
 
 				sap.ui.core.BusyIndicator.hide();
 			});
-
+			}
 		},
 
 		onExpandFilter: function (oEvevt) {
