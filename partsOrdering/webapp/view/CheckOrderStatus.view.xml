@@ -14,9 +14,9 @@
 					<fb:FilterItem name="dealer" label="{i18n>Label.CheckOrder.Dealer}" labelTooltip="{i18n>Label.CheckOrder.Dealer}">
 						<fb:control>
 							<ComboBox showSecondaryValues="true" required="true"  fieldGroupIds="requiredField"
-							 placeholder="{i18n>Label.CheckOrder.Dealer}" value="{BpDealerModel>/BusinessPartnerKey}"
+							 placeholder="{i18n>Label.CheckOrder.Dealer}" 
 								filterSecondaryValues="true"  visible="false" id="cb_filterDealer"
-								items="{path: 'BpDealerModel>/', sorter: { path: 'BusinessPartner' }, length:750 }" selectedKey="{BpDealerModel>BusinessPartnerKey}"
+								items="{path: 'BpDealerModel>/', sorter: { path: 'BusinessPartner' }, length:750 }" 
 								selectionChange="onBusinessPartnerSelected" showValueStateMessage="false" textAlign="Begin"  width="15%">
 								<core:ListItem key="{BpDealerModel>BusinessPartnerKey}" text="{BpDealerModel>BusinessPartner}"
 									additionalText="{BpDealerModel>BusinessPartnerName}"/>
