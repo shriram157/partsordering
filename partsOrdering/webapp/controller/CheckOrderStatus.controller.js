@@ -132,10 +132,17 @@ sap.ui.define([
 		onBusinessPartnerSelected: function (oEvent) {
 			var oSource = oEvent.getSource();
 			var selectedDealer = oSource.getSelectedKey();
-			this.getView().getModel().setProperty("/filters/dealer", selectedDealer);
+			var oContext = oEvent.getSource().getSelectedItem().getBindingContext("BpDealerModel");
+			var oObject  = oContext.getObject();
+			if (oObject.BusinessPartnerType ===  "Z004") {   //PO/STO
+			this.getView().getModel().setProperty("/filters/dealer", oObject.BusinessPartner);
+			}  else {
+				this.getView().getModel().setProperty("/filters/dealer", selectedDealer);
+			}
 			var appStateModel = this.getStateModel();
-			appStateModel.setProperty("/selectedBP/bpName", oSource.getSelectedItem().getProperty("additionalText"));
-			appStateModel.setProperty("/selectedBP/dealerCode", oSource.getSelectedItem().getProperty("text"));
+			appStateModel.setProperty("/selectedBP/bpName", oObject.OrganizationBPName1);
+			appStateModel.setProperty("/selectedBP/dealerCode", oObject.BusinessPartner);
+			appStateModel.getProperty('/selectedBP/bpGroup',oObject.BusinessPartnerType);
 		},
 
 		onFilterChange: function (oEvent) {
