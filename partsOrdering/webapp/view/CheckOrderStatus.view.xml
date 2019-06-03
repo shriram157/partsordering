@@ -11,7 +11,7 @@
 				search="onSearch" showRestoreButton="false" showClearButton="true" useToolbar='false' showGoOnFB='true'
 				visible="{viewModel>/filterPanelEnable}" showFilterConfiguration='false'>
 				<fb:filterItems>
-					<fb:FilterItem name="dealer" label="{i18n>Label.CheckOrder.Dealer}" labelTooltip="{i18n>Label.CheckOrder.Dealer}">
+					<fb:FilterItem name="dealer" label="{i18n>Label.CheckOrder.Dealer}" labelTooltip="{i18n>Label.CheckOrder.Dealer}" id="fi_Dealer" visible="false">
 						<fb:control>
 							<ComboBox showSecondaryValues="true" required="true"  fieldGroupIds="requiredField"
 							 placeholder="{i18n>Label.CheckOrder.Dealer}" 

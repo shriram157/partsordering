@@ -302,9 +302,11 @@ sap.ui.define([
 						name: resourceBundle.getText('Parts.Status.BackOrdered')
 					}]
 				}
+				this.getView().byId("fi_Dealer").setVisible(true);
 				this.getView().byId("cb_filterDealer").setVisible(true);
 				this.getView().byId("Itf_CreateOrder").setVisible(false);
 				this.getView().byId("Itf_FindOrder").setVisible(false);
+				
 				if (!this.getView().getModel("BpDealerModel")) {
 					this.getDealersForTCIUser();
 				}
@@ -313,6 +315,7 @@ sap.ui.define([
 					return;
 				}
 				var otList = this.getCurrentOrderTypeList().getData();
+				this.getView().byId("fi_Dealer").setVisible(false);
 				this.getView().byId("cb_filterDealer").setVisible(false);
 				this.getView().byId("Itf_CreateOrder").setVisible(true);
 				this.getView().byId("Itf_FindOrder").setVisible(true);
