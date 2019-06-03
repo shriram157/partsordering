@@ -134,7 +134,7 @@ sap.ui.define([
 			this.getView().getModel().setProperty("/filters/dealer", selectedDealer);
 			var appStateModel = this.getStateModel();
 			appStateModel.setProperty("/selectedBP/bpName", oSource.getSelectedItem().getProperty("additionalText"));
-			appStateModel.setProperty("/selectedBP/dealerCode", oSource.getSelectedText());
+			appStateModel.setProperty("/selectedBP/dealerCode", oSource.getSelectedItem().getProperty("text"));
 		},
 
 		onFilterChange: function (oEvent) {
