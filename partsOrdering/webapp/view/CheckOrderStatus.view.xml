@@ -20,8 +20,8 @@
 								selectionChange="onBusinessPartnerSelected" showValueStateMessage="false" textAlign="Begin"  width="15%">
 								<core:ListItem key="{BpDealerModel>BusinessPartnerKey}" text="{BpDealerModel>BusinessPartner}"
 									additionalText="{BpDealerModel>BusinessPartnerName}">
-									<CustomData>
-										<core:CustomData key="{BpDealerModel>BusinessPartnerType}" value="{BpDealerModel>OrganizationBPName1}" writeToDom="false"/>
+									<CustomData key="{BpDealerModel>BusinessPartnerType}" value="{BpDealerModel>OrganizationBPName1}" writeToDom="false">
+									
 									 </CustomData>
 								</core:ListItem>	
 							</ComboBox>
