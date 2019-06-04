@@ -320,8 +320,8 @@
 			},
 			"routes": [{
 				"pattern": "",
-				"name": "RouteApp",
-				"target": ["RouteApp"]
+				"name": "Default",
+				"target": ["CheckOrderStatus"]
 			}, {
 				"pattern": "StartOrdering",
 				"name": "StartOrdering",
@@ -344,13 +344,7 @@
 				"target": ["CheckOrderStatus"]
 			}],
 			"targets": {
-				"RouteApp": {
-					"viewName": "App",
-					"viewType": "XML",
-					"clearControlAggregation": false,
-					"viewLevel": 1,
-					"transition": "slide"
-				},
+			
 				"Login": {
 					"viewName": "Login",
 					"viewType": "XML",

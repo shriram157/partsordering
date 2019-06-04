@@ -10,7 +10,6 @@ sap.ui.define([
 ], function (BaseController, MessagePopover, MessageItem, MessageToast, Link, JSONModel, formatter, Sorter) {
 	"use strict";
 
-	var CONT_OTLISTMODEL = "orderTypeListModel";
 	var CONST_VIEW_MODEL = 'viewModel';
 	return BaseController.extend("tci.wave2.ui.parts.ordering.controller.CheckOrderStatus", {
 
@@ -59,6 +58,8 @@ sap.ui.define([
 			this._toDate = this.byId('dateTo');
 			if (this.getStateModel().getProperty('/userProfile').userType !== "National") {
 				this.checkDealerInfo();
+			} else {
+				this.init();
 			}
 			var oTable = this.getView().byId("idProductsTable");
 			oTable.addEventDelegate({
@@ -80,6 +81,71 @@ sap.ui.define([
 					}
 				}
 			}, this._oList);
+
+		},
+
+		init: function () {
+			var that = this;
+
+			// find the proper user type related info
+			var appStateModel = this.getModel();
+
+			var userProfile = appStateModel.getProperty('/userProfile');
+
+			/* UI Helper */
+			var bpCode = null;
+			var userType = null;
+			var dealerType = null;
+			var zGroup = null;
+
+			/* UI Helper */
+
+			if (!!userProfile && !!userProfile.loaded) {
+				//debugging
+				//	this.getBusinessPartnersByDealerCode("46055", function(sData){
+				//userProfile.dealerCode = "42120"; // debugging - comment it 
+				//this.getBusinessPartnersByDealerCode("42120", function (sData) {
+
+				this.getBusinessPartnersByDealerCode(userProfile.dealerCode, function (sData) {
+					bpCode = sData.BusinessPartner;
+					appStateModel.setProperty('/selectedBP/bpNumber', bpCode);
+
+					//appStateModel.setProperty('/selectedBP/bpName', sData.BusinessPartnerName);
+					appStateModel.setProperty('/selectedBP/bpName', sData.OrganizationBPName1);
+					appStateModel.setProperty('/selectedBP/dealerCode', userProfile.dealerCode);
+
+					appStateModel.setProperty('/selectedBP/customer', sData.Customer);
+
+					zGroup = sData.BusinessPartnerType;
+					dealerType = sData.to_Customer.Attribute1;
+					appStateModel.setProperty('/selectedBP/bpType', dealerType);
+					appStateModel.setProperty('/selectedBP/bpGroup', zGroup);
+
+					// get the user type
+					//Debugging
+					//userProfile.userType = "Dealer";
+					userType = that.getInternalUserType(userProfile.userType, zGroup);
+					appStateModel.setProperty('/userInfo/userType', userType);
+
+				});
+
+			} else {
+				//var userType = appStateModel.getProperty('/userInfo/userType');
+
+				// default
+
+				this.getBusinessPartnersByID(bpCode, function (sData) {
+					if (!!sData && !!sData.to_Customer) {
+						zGroup = sData.BusinessPartnerType;
+						dealerType = sData.to_Customer.Attribute1;
+
+						appStateModel.setProperty('/selectedBP/bpType', dealerType);
+						appStateModel.setProperty('/selectedBP/bpGroup', zGroup);
+
+					}
+				});
+
+			}
 
 		},
 
@@ -112,10 +178,10 @@ sap.ui.define([
 
 							BpDealer.push({
 								"BusinessPartnerKey": item.BusinessPartner,
-								"BusinessPartner": item.BusinessPartner.substring(5, item.BusinessPartner.length ), //.substring(5, BpLength),
+								"BusinessPartner": item.BusinessPartner.substring(5, item.BusinessPartner.length), //.substring(5, BpLength),
 								"BusinessPartnerName": item.BusinessPartnerName, //item.OrganizationBPName1 //item.BusinessPartnerFullName
-								"OrganizationBPName1" : item.OrganizationBPName1,
-								"BusinessPartnerType" : item.BusinessPartnerType
+								"OrganizationBPName1": item.OrganizationBPName1,
+								"BusinessPartnerType": item.BusinessPartnerType
 							});
 
 						}
@@ -133,17 +199,17 @@ sap.ui.define([
 			var oSource = oEvent.getSource();
 			var selectedDealer = oSource.getSelectedKey();
 			var oContext = oEvent.getSource().getSelectedItem().getBindingContext("BpDealerModel");
-			var oObject  = oContext.getObject();
-			if (oObject.BusinessPartnerType ===  "Z004") {   //PO/STO
-			this.getView().getModel().setProperty("/filters/dealer", oObject.BusinessPartner);
-			}  else {
+			var oObject = oContext.getObject();
+			if (oObject.BusinessPartnerType === "Z004") { //PO/STO
+				this.getView().getModel().setProperty("/filters/dealer", oObject.BusinessPartner);
+			} else {
 				this.getView().getModel().setProperty("/filters/dealer", selectedDealer);
 			}
 			var appStateModel = this.getStateModel();
 			appStateModel.setProperty("/selectedBP/bpName", oObject.OrganizationBPName1);
 			appStateModel.setProperty("/selectedBP/dealerCode", oObject.BusinessPartner);
-			appStateModel.setProperty('/selectedBP/bpGroup',oObject.BusinessPartnerType);
-			appStateModel.setProperty('/selectedBP/bpNumber',selectedDealer);
+			appStateModel.setProperty('/selectedBP/bpGroup', oObject.BusinessPartnerType);
+			appStateModel.setProperty('/selectedBP/bpNumber', selectedDealer);
 		},
 
 		onFilterChange: function (oEvent) {
@@ -262,12 +328,12 @@ sap.ui.define([
 				pattern: "YYYYMMdd"
 			});
 			var appStateModel = this.getStateModel();
-			var dealerCode ;
+			var dealerCode;
 			if (this.getView().byId("cb_filterDealer").getVisible()) {
-			   dealerCode = this.getView().byId("cb_filterDealer").getSelectedKey();
-			 } else  { 
-				 dealerCode = appStateModel.getProperty('/selectedBP/dealerCode');
-			} 
+				dealerCode = this.getView().byId("cb_filterDealer").getSelectedKey();
+			} else {
+				dealerCode = appStateModel.getProperty('/selectedBP/dealerCode');
+			}
 			var nowDate = new Date();
 			// //				var fromMonth = nowDate.getMonth() + 1 -3; // three months
 			// 				var fromYear = nowDate.getFullYear();
@@ -320,7 +386,7 @@ sap.ui.define([
 				this.getView().byId("cb_filterDealer").setVisible(true);
 				this.getView().byId("Itf_CreateOrder").setVisible(false);
 				this.getView().byId("Itf_FindOrder").setVisible(false);
-				
+
 				if (!this.getView().getModel("BpDealerModel")) {
 					this.getDealersForTCIUser();
 				}
@@ -487,9 +553,9 @@ sap.ui.define([
 			//take the existing conditions get the data
 			var appStateModel = this.getStateModel();
 			//var oItem = this.byId('iconTabHeader');
-	
+
 			var dealerCode = appStateModel.getProperty('/selectedBP/dealerCode');
-		
+
 			var bpCode = appStateModel.getProperty('/selectedBP/bpNumber');
 			var ztype = appStateModel.getProperty('/selectedBP/bpGroup');
 			var isSalesOrder = that.isSalesOrderAssociated(ztype);
@@ -576,51 +642,51 @@ sap.ui.define([
 				}
 			}
 			if (!!conditions.bpCode) {
-			this.searchPartsOrders(exactMode, conditions, isSalesOrder, function (results) {
-				viewModel.setProperty('/orders', results);
+				this.searchPartsOrders(exactMode, conditions, isSalesOrder, function (results) {
+					viewModel.setProperty('/orders', results);
 
-				var list = that.byId("idProductsTable");
-				var binding = list.getBinding("items");
-				var afilters = [];
-				binding.afilters = null;
-				binding.oCombinedFilter = null;
-				binding.filter(null);
-				if (!!filters.partNumber && filters.partNumber.trim().length > 0) {
-					var filter = new sap.ui.model.Filter("part_no", sap.ui.model.FilterOperator.EQ, filters.partNumber);
-					//binding.filter(filter, true);
-					afilters.push(filter);
-					//conditions.partNumber = filters.partNumber.trim();
-				}
-
-				if (!!filters.partsStates && filters.partsStates.length > 0) {
-
-					for (var x1 = 0; x1 < filters.partsStates.length; x1++) {
-						switch (filters.partsStates[x1]) {
-						case 'IP':
-							afilters.push(new sap.ui.model.Filter("quant_in_process", sap.ui.model.FilterOperator.GT, 0.00));
-							break;
-						case 'PR':
-							afilters.push(new sap.ui.model.Filter("quant_processed", sap.ui.model.FilterOperator.GT, 0.00));
-							break;
-						case 'CL':
-							afilters.push(new sap.ui.model.Filter("quant_cancelled", sap.ui.model.FilterOperator.GT, 0.00));
-							break;
-						case 'BK':
-							afilters.push(new sap.ui.model.Filter("quant_back_ordered", sap.ui.model.FilterOperator.GT, 0.00));
-							break;
-						}
+					var list = that.byId("idProductsTable");
+					var binding = list.getBinding("items");
+					var afilters = [];
+					binding.afilters = null;
+					binding.oCombinedFilter = null;
+					binding.filter(null);
+					if (!!filters.partNumber && filters.partNumber.trim().length > 0) {
+						var filter = new sap.ui.model.Filter("part_no", sap.ui.model.FilterOperator.EQ, filters.partNumber);
+						//binding.filter(filter, true);
+						afilters.push(filter);
+						//conditions.partNumber = filters.partNumber.trim();
 					}
-					//var aFilter = new sap.ui.model.Filter(partsSts, false);
-					//oFilter.push(aFilter);
 
-				}
-				if (afilters.length > 0) {
-					binding.filter(afilters, true);
-				}
-				viewModel.setProperty('/filteredItems', binding.getLength());
+					if (!!filters.partsStates && filters.partsStates.length > 0) {
 
-				sap.ui.core.BusyIndicator.hide();
-			});
+						for (var x1 = 0; x1 < filters.partsStates.length; x1++) {
+							switch (filters.partsStates[x1]) {
+							case 'IP':
+								afilters.push(new sap.ui.model.Filter("quant_in_process", sap.ui.model.FilterOperator.GT, 0.00));
+								break;
+							case 'PR':
+								afilters.push(new sap.ui.model.Filter("quant_processed", sap.ui.model.FilterOperator.GT, 0.00));
+								break;
+							case 'CL':
+								afilters.push(new sap.ui.model.Filter("quant_cancelled", sap.ui.model.FilterOperator.GT, 0.00));
+								break;
+							case 'BK':
+								afilters.push(new sap.ui.model.Filter("quant_back_ordered", sap.ui.model.FilterOperator.GT, 0.00));
+								break;
+							}
+						}
+						//var aFilter = new sap.ui.model.Filter(partsSts, false);
+						//oFilter.push(aFilter);
+
+					}
+					if (afilters.length > 0) {
+						binding.filter(afilters, true);
+					}
+					viewModel.setProperty('/filteredItems', binding.getLength());
+
+					sap.ui.core.BusyIndicator.hide();
+				});
 			}
 		},
 
