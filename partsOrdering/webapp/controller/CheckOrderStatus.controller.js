@@ -189,10 +189,10 @@ sap.ui.define([
 						}
 					}
 					that.getView().setModel(new sap.ui.model.json.JSONModel(BpDealer), "BpDealerModel");
-					this.getView().byId("cb_filterDealer").setBusy(false);
+					that.getView().byId("cb_filterDealer").setBusy(false);
 				},
 				error: function (err) {
-					this.getView().byId("cb_filterDealer").setBusy(false);
+					that.getView().byId("cb_filterDealer").setBusy(false);
 					// error handling here
 					//callback(null);
 				}
