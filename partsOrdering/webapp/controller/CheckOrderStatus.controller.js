@@ -59,7 +59,9 @@ sap.ui.define([
 			if (this.getStateModel().getProperty('/userProfile').userType !== "National") {
 				this.init();
 				this.checkDealerInfo();
-			} 
+			} else {
+				this._onObjectMatched();
+			}
 			var oTable = this.getView().byId("idProductsTable");
 			oTable.addEventDelegate({
 				onAfterRendering: function () {
