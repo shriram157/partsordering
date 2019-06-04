@@ -688,6 +688,8 @@ sap.ui.define([
 
 					sap.ui.core.BusyIndicator.hide();
 				});
+			} else {
+				sap.ui.core.BusyIndicator.hide();
 			}
 		},
 
