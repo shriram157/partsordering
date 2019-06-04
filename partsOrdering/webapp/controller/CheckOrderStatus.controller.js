@@ -151,6 +151,7 @@ sap.ui.define([
 		},
 
 		getDealersForTCIUser: function () {
+			this.getView().byId("cb_filterDealer").setBusy(true);
 			var oFilter = new Array();
 			var that = this;
 			oFilter[1] = new sap.ui.model.Filter("zstatus", sap.ui.model.FilterOperator.NE, 'X');
@@ -188,8 +189,10 @@ sap.ui.define([
 						}
 					}
 					that.getView().setModel(new sap.ui.model.json.JSONModel(BpDealer), "BpDealerModel");
+					this.getView().byId("cb_filterDealer").setBusy(false);
 				},
 				error: function (err) {
+					this.getView().byId("cb_filterDealer").setBusy(false);
 					// error handling here
 					//callback(null);
 				}
