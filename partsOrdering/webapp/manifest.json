@@ -304,8 +304,8 @@
 			"css": [{
 				"uri": "css/style.css"
 			}],
-			"js" : [{
-				"uri" : "libs/xlsx.full.min.js"
+			"js": [{
+				"uri": "libs/xlsx.full.min.js"
 			}]
 		},
 		"routing": {
@@ -344,7 +344,6 @@
 				"target": ["CheckOrderStatus"]
 			}],
 			"targets": {
-			
 				"Login": {
 					"viewName": "Login",
 					"viewType": "XML",
