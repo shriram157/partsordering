@@ -539,7 +539,7 @@ sap.ui.define([
 			if (hasError) {
 				sap.ui.getCore().getMessageManager().removeAllMessages();
 				//Commented for debugging
-				this.getRouter().navTo("StartOrdering", null, false);
+				this.getRouter().navTo("CheckOrderStatus", null, false);
 				return false;
 			} else {
 				return true;

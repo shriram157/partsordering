@@ -57,10 +57,9 @@ sap.ui.define([
 			this._fromDate = this.byId('dateFrom');
 			this._toDate = this.byId('dateTo');
 			if (this.getStateModel().getProperty('/userProfile').userType !== "National") {
-				this.checkDealerInfo();
-			} else {
 				this.init();
-			}
+				this.checkDealerInfo();
+			} 
 			var oTable = this.getView().byId("idProductsTable");
 			oTable.addEventDelegate({
 				onAfterRendering: function () {
