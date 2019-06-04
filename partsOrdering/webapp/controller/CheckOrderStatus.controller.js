@@ -641,7 +641,7 @@ sap.ui.define([
 					}
 				}
 			}
-			if (!!conditions.bpCode) {
+			if (!!conditions.bpCode && conditions.bpCode !== "") {
 				this.searchPartsOrders(exactMode, conditions, isSalesOrder, function (results) {
 					viewModel.setProperty('/orders', results);
 
