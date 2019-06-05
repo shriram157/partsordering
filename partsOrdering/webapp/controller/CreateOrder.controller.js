@@ -447,6 +447,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var oItem = this.oOrderModel.getData().items[iRowIndex];
 			var sAttribute1 = this.oOrderModel.getProperty("/Attribute1");
 			var sAttribute2 = this.oOrderModel.getProperty("/Attribute2");
+			sValue =  sValue.toString().replace(/-/g, "");
 			that.itemTable.setBusy(true);
 			DataManager.getPartDescSPQForPart(sValue, oItem, function (item1Data, oitem) {
 				//that.getInfoFromPart(sValue, model.getProperty('/purBpCode'), function (item1Data) {
