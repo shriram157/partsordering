@@ -398,8 +398,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var aFilters = [];
 			var language = this.sLang;
 			if (!!sTerm) {
-				sTerm = sValue.toString().replace(/-/g, "");
-				sTerm = sValue.trim();
+				sTerm = sTerm.toString().replace(/-/g, "");
+				sTerm = sTerm.trim();
 				oEvent.getSource().setValue(sTerm);
 
 				aFilters.push(new sap.ui.model.Filter("Material", sap.ui.model.FilterOperator.Contains, sTerm));
