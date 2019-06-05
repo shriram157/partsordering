@@ -392,7 +392,16 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var win = window.open(url, 'PartsAvailibility');
 			win.focus();
 		},
-
+		
+		handleDashSpace : function(oEvent) {
+			var sValue = oEvent.getParameter("newValue");
+			if (!!sValue) {
+				sValue =  sValue.toString().replace(/-/g, "");
+				sValue = sValue.trim();
+				oEvent.getSource().setValue(sValue);
+			}
+		},
+		
 		handleSuggest: function (oEvent) {
 			var sTerm = oEvent.getParameter("suggestValue");
 			var aFilters = [];
