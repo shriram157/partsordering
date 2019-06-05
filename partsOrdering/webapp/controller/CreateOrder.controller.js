@@ -394,7 +394,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		},
 		
 		handleDashSpace : function(oEvent) {
-			var sValue = oEvent.getParameter("newValue");
+			var sValue = oEvent.getSource().getValue();
 			if (!!sValue) {
 				sValue =  sValue.toString().replace(/-/g, "");
 				sValue = sValue.trim();
