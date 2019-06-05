@@ -393,20 +393,17 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			win.focus();
 		},
 		
-		handleDashSpace : function(oEvent) {
-			var sValue = oEvent.getSource().getValue();
-			if (!!sValue) {
-				sValue =  sValue.toString().replace(/-/g, "");
-				sValue = sValue.trim();
-				oEvent.getSource().setValue(sValue);
-			}
-		},
-		
+	
 		handleSuggest: function (oEvent) {
 			var sTerm = oEvent.getParameter("suggestValue");
 			var aFilters = [];
 			var language = this.sLang;
-			if (sTerm) {
+			if (!!sTerm) {
+				sTerm =  sValue.toString().replace(/-/g, "");
+				sTerm = sValue.trim();
+				oEvent.getSource().setValue(sTerm);
+			}
+		},
 				aFilters.push(new sap.ui.model.Filter("Material", sap.ui.model.FilterOperator.Contains, sTerm));
 				//aFilters.push(new sap.ui.model.Filter("LanguageKey", sap.ui.model.FilterOperator.EQ, this.sLang));
 			}

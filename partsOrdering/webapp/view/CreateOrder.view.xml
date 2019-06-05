@@ -63,7 +63,7 @@
 										<Input value="{orderModel>partNumber}" type="Text" textFormatMode="Key" showSuggestion='true' suggest="handleSuggest"
 													change='handleProductChange' startSuggestion="3" suggestionItems="{path: 'materialSuggestionModel>/Matsuggestions', templateShareable:true}"
 											maxSuggestionWidth='500px' width="340px" required="true" tooltip="{orderModel>partNumber}" 	visible="{= ${orderModel>line} === 0 || ${orderModel>line} ===''}"
-											liveChange="handleDashSpace" >
+											>
 											<suggestionItems>
 														<core:ListItem key="{materialSuggestionModel>Material}" text="{materialSuggestionModel>Material}"
 															additionalText="{materialSuggestionModel>MaterialName}"/>
