@@ -394,9 +394,11 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		},
 
 		handleSuggest: function (oEvent) {
+			var oSource = oEvent.getSource();
 			var sTerm = oEvent.getParameter("suggestValue");
 			var aFilters = [];
 			var language = this.sLang;
+		
 			if (!!sTerm) {
 				sTerm = sTerm.toString().replace(/-/g, "");
 				sTerm = sTerm.trim();
@@ -412,10 +414,10 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						"$filter": "startswith(Material," + "'" + (sTerm) + "')"
 					},
 					success: $.proxy(function (oData) {
-
+						var Matsuggestions = [];
 						sap.ui.core.BusyIndicator.hide();
 
-						var Matsuggestions = [];
+
 						//set the model materialSuggestionModel
 
 						$.each(oData.results, function (i, item) {
@@ -431,12 +433,17 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						this.getView().setModel(this._materialSuggestionModel, "materialSuggestionModel");
 						var oModelSuggestion = this.getView().getModel("materialSuggestionModel");
 						oModelSuggestion.refresh();
+						if (Matsuggestions.length === 1) {
+							oSource.setValue(Matsuggestions[0].Material);
+							oSource.fireChange();
+						}
 					}, this),
 					error: function () {
 						sap.ui.core.BusyIndicator.hide();
 
 					}.bind(this),
 				});
+				
 			}
 			//oEvent.getSource().getBinding("suggestionItems").filter(aFilters);
 		},
@@ -444,7 +451,15 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		handleProductChange: function (oEvent) {
 			var that = this;
 			var sValue = oEvent.getParameter("newValue");
+			if (!!sValue) {
+				 if (!!oEvent.id) {
+				 	oEvent.oSource = this.getView().byId(oEvent.id);				 	
+				 }
+			}
+		
 			var oVBox = oEvent.getSource().getParent();
+			sValue = oEvent.getSource().getValue();
+		
 			var oRow = oVBox.getParent();
 			var iRowIndex = oRow.getIndex();
 			var oItem = this.oOrderModel.getData().items[iRowIndex];
@@ -453,6 +468,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			sValue = sValue.toString().replace(/-/g, "");
 			sValue = sValue.trim();
 			that.itemTable.setBusy(true);
+			
 			DataManager.getPartDescSPQForPart(sValue, oItem, function (item1Data, oitem) {
 				//that.getInfoFromPart(sValue, model.getProperty('/purBpCode'), function (item1Data) {
 				if (!!item1Data && (item1Data[0].Division !== "00" && item1Data[0].Division !== sAttribute1 && item1Data[0].Division !==
