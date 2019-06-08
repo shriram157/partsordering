@@ -525,8 +525,8 @@ sap.ui.define([
 		},
 
 		onLiveChange: function (oEvent) {
-			var sQuery = oEvent.getSource().getValue();
-				sQuery = sQuery.toString().replace(/-/g, "").trim();
+			var sQuery = oEvent.getSource().getValue().trim();
+				sQuery = sQuery.toString().replace(/-/g, "");
 
 			var aFilters = [];
 			var orFilters = [];
