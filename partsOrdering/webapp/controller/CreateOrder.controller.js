@@ -707,7 +707,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			}
 
 		},
-
+		
+	
+		
 		toggleSelect: function (oEvent) {
 			var that = this;
 			var isSelected = oEvent.getParameters("Selected").selected;
@@ -1109,8 +1111,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			}
 			this.toggleSubmitDraftButton();
 		},
+		
 		checkQtyZero: function (oEvent) {
-			var iQty = parseInt(oEvent.getParameter("newValue"));
+			var iQty = parseInt(oEvent.getParameter("newValue"),10);
 			if (iQty === 0 || isNaN(iQty)) {
 				return "";
 			}
@@ -1132,6 +1135,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					oSource.setValueState("None");
 					obj.hasError = false;
 					this._insetUpadateArray(obj);
+					oSource.setValue(parseInt(newValue,10));
 
 				} else {
 					obj.hasError = true;

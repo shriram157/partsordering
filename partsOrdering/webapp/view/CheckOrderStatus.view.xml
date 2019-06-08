@@ -33,7 +33,7 @@
 					<fb:FilterItem name="partNumber" label="{i18n>Label.CheckOrder.PartNumber}" labelTooltip="{i18n>Label.CheckOrder.PartsNumber}">
 						<fb:control>
 							<Input type="Text" value="{viewModel>/filters/partNumber}" enabled="{viewModel>/filterAllx}"
-								placeholder="{i18n>Label.CheckOrder.PartNumber}" width="15%"></Input>
+								placeholder="{i18n>Label.CheckOrder.PartNumber}" width="15%" liveChange="removeSpaceDash"></Input>
 						</fb:control>
 					</fb:FilterItem>
 					<fb:FilterItem name="orderType" label="{i18n>Label.CheckOrder.OrderType}" labelTooltip="{i18n>Label.CheckOrder.OrderType}" mandatory="false">

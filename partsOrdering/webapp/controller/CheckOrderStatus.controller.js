@@ -370,8 +370,7 @@ sap.ui.define([
 			var resourceBundle = this.getResourceBundle();
 			var appStateModel = this.getStateModel();
 			appStateModel.setProperty('/tabKey', 'CS');
-			if (appStateModel.getProperty('/userProfile').userType === "National") {
-				var otList = {
+			var otList = {
 					"typeList": [{
 						code: 'IP',
 						name: resourceBundle.getText('Parts.Status.InProcess')
@@ -386,6 +385,8 @@ sap.ui.define([
 						name: resourceBundle.getText('Parts.Status.BackOrdered')
 					}]
 				};
+			if (appStateModel.getProperty('/userProfile').userType === "National") {
+				
 				this.getView().byId("fi_Dealer").setVisible(true);
 				this.getView().byId("cb_filterDealer").setVisible(true);
 				this.getView().byId("Itf_CreateOrder").setVisible(false);
@@ -398,7 +399,7 @@ sap.ui.define([
 				if (!this.checkDealerInfo()) {
 					return;
 				}
-				var otList = this.getCurrentOrderTypeList().getData();
+				//var otList = this.getCurrentOrderTypeList().getData();
 				this.getView().byId("fi_Dealer").setVisible(false);
 				this.getView().byId("cb_filterDealer").setVisible(false);
 				this.getView().byId("Itf_CreateOrder").setVisible(true);
@@ -500,6 +501,16 @@ sap.ui.define([
 		cleanUpDialog: function (oEvent) {
 			this.byId('idProductsTable').removeSelections(true);
 		},
+		
+		removeSpaceDash : function(oEvent)  {
+				var oSource = oEvent.getSource();
+				var spartNumber = oSource.getValue();
+				spartNumber = spartNumber.trim();
+				if (spartNumber.length > 0) {
+					spartNumber = spartNumber.toString().replace(/-/g, "");                         
+				} 
+				oSource.setValue(spartNumber);
+		},
 
 		onReset: function (oEvent) {
 			var viewModel = this.getModel(CONST_VIEW_MODEL);
@@ -515,6 +526,7 @@ sap.ui.define([
 
 		onLiveChange: function (oEvent) {
 			var sQuery = oEvent.getSource().getValue();
+				sQuery = sQuery.toString().replace(/-/g, "").trim();
 
 			var aFilters = [];
 			var orFilters = [];
