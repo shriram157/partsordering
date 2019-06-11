@@ -111,15 +111,6 @@ sap.ui.define([
 
 					},
 
-					init: function () {
-					
-
-						/* UI Helper */
-
-					
-
-					},
-
 					getDealersForTCIUser: function () {
 						this.getView().byId("cb_filterDealer").setBusy(true);
 						var oFilter = new Array();
