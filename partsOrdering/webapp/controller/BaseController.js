@@ -1254,6 +1254,15 @@ sap.ui.define([
 					case '3':
 						ordersSts.push(new sap.ui.model.Filter("DocType", sap.ui.model.FilterOperator.EQ, 'ZCO'));
 						break;
+					case 'ZOR':
+						ordersSts.push(new sap.ui.model.Filter("DocType", sap.ui.model.FilterOperator.EQ, 'ZOR'));
+						break;
+					case 'ZRO':
+						ordersSts.push(new sap.ui.model.Filter("DocType", sap.ui.model.FilterOperator.EQ, 'ZRO'));
+						break;
+					case 'ZCO':
+						ordersSts.push(new sap.ui.model.Filter("DocType", sap.ui.model.FilterOperator.EQ, 'ZCO'));
+						break;
 					}
 				}
 				if (ordersSts.length > 0) {
@@ -1439,7 +1448,7 @@ sap.ui.define([
 				if (!!conditions.fiNumber) {
 					oFilter.push(new sap.ui.model.Filter("bill_no", sap.ui.model.FilterOperator.EQ, conditions.fiNumber.padStart(10, '0')));
 				}
-				
+
 				oFilter.push(new sap.ui.model.Filter("erdat", sap.ui.model.FilterOperator.BT, conditions.fromOrderDate, conditions.toOrderDate));
 
 			} else {
@@ -1489,6 +1498,15 @@ sap.ui.define([
 							break;
 						case '3':
 							ordersSts.push(new sap.ui.model.Filter("doc_type", sap.ui.model.FilterOperator.EQ, 'ZCO'));
+							break;
+						case 'ZOR':
+							ordersSts.push(new sap.ui.model.Filter("DocType", sap.ui.model.FilterOperator.EQ, 'ZOR'));
+							break;
+						case 'ZRO':
+							ordersSts.push(new sap.ui.model.Filter("DocType", sap.ui.model.FilterOperator.EQ, 'ZRO'));
+							break;
+						case 'ZCO':
+							ordersSts.push(new sap.ui.model.Filter("DocType", sap.ui.model.FilterOperator.EQ, 'ZCO'));
 							break;
 						}
 					}
@@ -3043,12 +3061,12 @@ sap.ui.define([
 									aDraftItem.uuid = lv_aResultItem.ItemDraftUUID;
 									aDraftItem.parentUuid = lv_aResultItem.HeaderDraftUUID;
 									aDraftItem.partDesc = lv_aResultItem.MatDesc;
-									aDraftItem.ItemStatus =  "Draft";
+									aDraftItem.ItemStatus = "Draft";
 									that.getSPQForDraftItem(aDraftItem, orderData);
 									// aDraftItem.supplier = lv_aResultItem.Supplier;
 									// aDraftItem.purInfoRecord = lv_aResultItem.PurchasingInfoRecord;
 									//aDraftItem.spq = lv_aResultItem:'',
-									
+
 									// messages - item level messages
 									if (!!aDraftItem && !!aDraftItem.messages) {
 										aDraftItem.messages = aDraftItem.messages.concat(messageList[aDraftItem.uuid]);
@@ -3073,53 +3091,52 @@ sap.ui.define([
 				}
 			});
 		},
-		
-		getSPQForDraftItem : function(aDraftItem, oOrderModel) {
-		var that = this;
-		var orderTypeId = oOrderModel.orderTypeId;
-		DataManager.getPartDescSPQForPart(aDraftItem.partNumber, aDraftItem, function (item1Data, oItem) {        
-						if (!!item1Data) {
-						oItem["Status"] = "Success";
-						oItem["StatusText"] = "";
-						oItem["hasError"] = false;
-						oItem["itemCategoryGroup"] = item1Data[0].categoryGroup;
-						oItem["division"] = item1Data[0].Division;
-						//oItem["partDesc"] = item1Data[0].MaterialDescription;
-						//oItem["sloc"] = oOrderModel.getProperty("/sloc");
-						//Valid for UB Only-will be updated for ZLOC
-						//oItem["revPlant"] = oOrderModel.getProperty("/revPlant");
-						//Valid for UB Only-will be updated for ZLOC
-						oItem["companyCode"] = "2014";
-						oItem["spq"] = item1Data[0].SPQ;
-						oItem["selected"] = false;
-						oItem["OrderType"] = that.getRealOrderTypeByItemCategoryGroup(item1Data[0].categoryGroup, that.bIsSalesOrder, orderTypeId);
-						/*if (oItem["orderType"] === 'ZLOC') {
+
+		getSPQForDraftItem: function (aDraftItem, oOrderModel) {
+			var that = this;
+			var orderTypeId = oOrderModel.orderTypeId;
+			DataManager.getPartDescSPQForPart(aDraftItem.partNumber, aDraftItem, function (item1Data, oItem) {
+				if (!!item1Data) {
+					oItem["Status"] = "Success";
+					oItem["StatusText"] = "";
+					oItem["hasError"] = false;
+					oItem["itemCategoryGroup"] = item1Data[0].categoryGroup;
+					oItem["division"] = item1Data[0].Division;
+					//oItem["partDesc"] = item1Data[0].MaterialDescription;
+					//oItem["sloc"] = oOrderModel.getProperty("/sloc");
+					//Valid for UB Only-will be updated for ZLOC
+					//oItem["revPlant"] = oOrderModel.getProperty("/revPlant");
+					//Valid for UB Only-will be updated for ZLOC
+					oItem["companyCode"] = "2014";
+					oItem["spq"] = item1Data[0].SPQ;
+					oItem["selected"] = false;
+					oItem["OrderType"] = that.getRealOrderTypeByItemCategoryGroup(item1Data[0].categoryGroup, that.bIsSalesOrder, orderTypeId);
+					/*if (oItem["orderType"] === 'ZLOC') {
  							that.getSupplierForPart(oItem["partNum"], stoSupplyingPlant, function (data) {
  								if (!!data && !!data[0]) {*/
-						//oItem["supplier"] = data[0].VendorAccountNumber;
-						//oItem["supplier"] = item1Data[0].VendorAccountNumber;
-						//oItem["sloc"] = data.SLoc;
-						oItem["revPlant"] = item1Data[0].Plant;
-						//oModel.setProperty("/itemCategoryGroup", item1Data[0].categoryGroup);
+					//oItem["supplier"] = data[0].VendorAccountNumber;
+					//oItem["supplier"] = item1Data[0].VendorAccountNumber;
+					//oItem["sloc"] = data.SLoc;
+					oItem["revPlant"] = item1Data[0].Plant;
+					//oModel.setProperty("/itemCategoryGroup", item1Data[0].categoryGroup);
 
-					
-					} else {
-						oItem["Status"] = "Error";
-						oItem["StatusText"] = "Incorrect Data";
-						oItem["hasError"] = true;
-						oItem["itemCategoryGroup"] = "";
-						//oItem["division"] = "";
-						//oItem["partDesc"] = "";
-						//oItem["supplier"] = "";
-						//oItem["purInfoRecord"] = "";
-						//oItem["companyCode"] = "";
-						//oItem["currency"] = 'CAD';
-						//oItem["netPriceAmount"] = "";
-						//oItem["taxCode"] = "";
-						oItem["spq"] = "";
-					}
-				  //return oItem;
-				});
+				} else {
+					oItem["Status"] = "Error";
+					oItem["StatusText"] = "Incorrect Data";
+					oItem["hasError"] = true;
+					oItem["itemCategoryGroup"] = "";
+					//oItem["division"] = "";
+					//oItem["partDesc"] = "";
+					//oItem["supplier"] = "";
+					//oItem["purInfoRecord"] = "";
+					//oItem["companyCode"] = "";
+					//oItem["currency"] = 'CAD';
+					//oItem["netPriceAmount"] = "";
+					//oItem["taxCode"] = "";
+					oItem["spq"] = "";
+				}
+				//return oItem;
+			});
 		},
 
 		// [uuid, line] as key 
