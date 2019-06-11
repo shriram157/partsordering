@@ -843,12 +843,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		},
 
 		onActivate: function (oEvent) {
-			var items = this.oOrderModel.getData().items;
-
-			/*if (items.length > 11) {
-				this.itemTable.setVisibleRowCount(items.length);
-			}*/
-			//oEvent.getSource().setEnabled(false);
+			
 			this.itemTable.setBusy(true);
 			this._oBusyDialog.setTitle("Submit Order");
 			this._oBusyDialog.setText("Order Activation In Progress...");
@@ -1457,12 +1452,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				var IIndex = 0;
 				that.submitError = {};
 				var contractItems = [];
-
+				var c1 = 0;
 				var getItemIndex = function () {
 					return IIndex++;
 				};
 				var bpCode = this.oOrderModel.getProperty('/purBpCode');
-				for (var c1 = 1; c1 < items.length; c1++) {
+				for (c1 = 1; c1 < items.length; c1++) {
 					if (items[c1].contractNum && items[c1].contractNum.toString().trim() !== "") {
 						contractItems.push(c1);
 						DataManager.validateContractNumber(bpCode, items[c1].contractNum, items[c1].partNumber, function (data, isOK, messages) {
@@ -1475,8 +1470,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								that._resetLineError(items[I].line);
 
 							} else {
-								var C1 = getItemIndex();
-								var iCItem = contractItems[C1];
+								var X1 = getItemIndex();
+								var iCItem = contractItems[X1];
 								var oCItem = items[iCItem];
 								var iline = oCItem.line;
 								if (!that.lineError) {
@@ -1493,7 +1488,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								that.itemTable.getBinding("rows").getModel().refresh(true);
 
 							}
-							if (IIndex === (contractItems.length) && (!bSubmitError)) {
+							if (IIndex === (contractItems.length) && (!bSubmitError) && (c1 === items.length - 1)) {
 								//return bSubmitError;
 								that._activateFinal(false);
 
@@ -1504,7 +1499,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					} else {
 						//var J = getItemIndex();
 
-						if (contractItems.length === 0 && (!bSubmitError)) {
+						if (contractItems.length === 0 && (!bSubmitError) && (c1 === items.length - 1)) {
 							that._activateFinal(false);
 
 						}
