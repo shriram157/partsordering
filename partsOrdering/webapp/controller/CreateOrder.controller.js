@@ -1488,7 +1488,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								that.itemTable.getBinding("rows").getModel().refresh(true);
 
 							}
-							if (IIndex === (contractItems.length) && (!bSubmitError) && (c1 === items.length - 1)) {
+							if (IIndex === (contractItems.length) && (!bSubmitError) && (c1 === items.length)) {
 								//return bSubmitError;
 								that._activateFinal(false);
 
@@ -1498,7 +1498,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						});
 					} else {
 						//var J = getItemIndex();
-
+						//Will trigger only if the no contracts
 						if (contractItems.length === 0 && (!bSubmitError) && (c1 === items.length - 1)) {
 							that._activateFinal(false);
 
