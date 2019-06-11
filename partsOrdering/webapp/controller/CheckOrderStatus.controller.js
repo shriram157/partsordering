@@ -353,6 +353,7 @@ sap.ui.define([
 								this.getView().byId("cb_filterDealer").setVisible(false);
 								this.getView().byId("Itf_CreateOrder").setVisible(true);
 								this.getView().byId("Itf_FindOrder").setVisible(true);
+								if (this.getCurrentOrderTypeList()) {
 								var otList = this.getCurrentOrderTypeList().getData();
 								var newList = [{
 									code: 0,
@@ -360,6 +361,7 @@ sap.ui.define([
 								}];
 								newList = newList.concat(otList.typeList);
 								filterModel.setProperty('/orderTypeList', newList);
+								}
 							}
 
 							// dynamic the type list 
