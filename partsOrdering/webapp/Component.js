@@ -72,7 +72,7 @@ sap.ui.define([
 			this.setModel(appMode, "ApplicationMode");
 
 			// Parse the current url and display the targets of the route that matches the hash
-			this.getRouter().initialize();
+		
 			
 			this.loadUserProfile(function(userData){
 				var userProfile ={};
@@ -182,6 +182,7 @@ sap.ui.define([
 				dataType: "json",
 				success: function (oData,a,b) {
 					callbackFunc(oData);
+					that.getRouter().initialize();
 				},
 				error: function (response) {
 					callbackFunc(null);
