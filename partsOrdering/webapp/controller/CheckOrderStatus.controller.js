@@ -339,24 +339,10 @@ sap.ui.define([
 						sap.ui.getCore().getMessageManager().removeAllMessages();
 						var resourceBundle = this.getResourceBundle();
 						var appStateModel = this.getStateModel();
+						var filterModel = this.getModel('filterModel');
 						appStateModel.setProperty('/tabKey', 'CS');
 						if (appStateModel.getProperty('/userProfile').userType === "National") {
-							var newList = {
-								"typeList": {
-									[{
-										code: 0,
-										name: resourceBundle.getText('Parts.Status.All')
-									},{
-										code: "1",
-										name: resourceBundle.getText('order.type.standard')
-									}, {
-										code: '2',
-										name: resourceBundle.getText('order.type.rush')
-									}, {
-										code: '3',
-										name: resourceBundle.getText('order.type.campaign')
-									}]
-								};
+							
 
 								this.getView().byId("fi_Dealer").setVisible(true);
 								this.getView().byId("cb_filterDealer").setVisible(true);
@@ -382,17 +368,17 @@ sap.ui.define([
 									name: resourceBundle.getText('Parts.Status.All')
 								}];
 								newList = newList.concat(otList.typeList);
-
+								filterModel.setProperty('/orderTypeList', newList);
 							}
 
 							// dynamic the type list 
-							var filterModel = this.getModel('filterModel');
+						
 							if (!!!filterModel) {
 								filterModel = this.getFilterSelectionModel();
 								this.setModel(filterModel, 'filterModel');
 							}
 						
-							filterModel.setProperty('/orderTypeList', newList);
+						
 
 							var viewModel = this.getModel(CONST_VIEW_MODEL);
 							viewModel.setProperty('/filters', this.getRunningDefaultFilterValues());
