@@ -1465,7 +1465,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								var C1 = getItemIndex();
 								var I = contractItems[C1];
 								items[I].contractLine = data.line_item;
-
 								items[I].hasError = false;
 								that._resetLineError(items[I].line);
 
@@ -1491,10 +1490,10 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							if (IIndex === (contractItems.length) && (!bSubmitError) && (c1 === items.length)) {
 								//return bSubmitError;
 								that._activateFinal(false);
-
+								that.itemTable.setBusy(false);
+								that._oBusyfragment.close();
 							}
-							that.itemTable.setBusy(false);
-							that._oBusyfragment.close();
+						
 						});
 					} else {
 						//var J = getItemIndex();
