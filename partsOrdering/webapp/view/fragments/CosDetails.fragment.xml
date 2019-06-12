@@ -101,7 +101,7 @@
 					</ColumnListItem>
 				</items>
 			</Table>
-			<Table items="{ path: '/POtoDeliv/results' }" showNoData='true' visible="{=${path: '/POtoDeliv'} &amp;&amp; ${path: '/POtoDeliv'} !== undefined }">
+			<Table items="{ path: '/POtoDeliv/results' }" showNoData='true' visible="{=${path: '/POtoDeliv'} !== ''  &amp;&amp; ${path: '/POtoDeliv'} !== undefined }">
 				<headerToolbar>
 					<Toolbar>
 						<VBox width='76px'>
