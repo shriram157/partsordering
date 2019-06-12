@@ -63,7 +63,7 @@ sap.ui.define([
 			var userType = null;
 			var dealerType = null;
 			var zGroup = null;
-			if (userProfile.userType !== "National") {
+			if (userProfile.userType !== "National" ||  userProfile.userType.toUpperCase() !== "ZONE") {
 				this.getBusinessPartnersByDealerCode(userProfile.dealerCode, function (sData) {
 					bpCode = sData.BusinessPartner;
 					appStateModel.setProperty('/selectedBP/bpNumber', bpCode);
@@ -334,7 +334,7 @@ sap.ui.define([
 			var appStateModel = this.getStateModel();
 			var filterModel = this.getModel('filterModel');
 			appStateModel.setProperty('/tabKey', 'CS');
-			if (appStateModel.getProperty('/userProfile').userType === "National") {
+			if (appStateModel.getProperty('/userProfile').userType === "National" || appStateModel.getProperty('/userProfile').userType.toUpperCase() === "ZONE" ) {
 
 				this.getView().byId("fi_Dealer").setVisible(true);
 				this.getView().byId("cb_filterDealer").setVisible(true);
