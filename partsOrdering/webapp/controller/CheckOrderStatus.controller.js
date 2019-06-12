@@ -63,7 +63,7 @@ sap.ui.define([
 			var userType = null;
 			var dealerType = null;
 			var zGroup = null;
-			if (userProfile.userType !== "National" ||  userProfile.userType.toUpperCase() !== "ZONE") {
+			if (userProfile.userType !== "National" &&  userProfile.userType.toUpperCase() !== "ZONE") {
 				this.getBusinessPartnersByDealerCode(userProfile.dealerCode, function (sData) {
 					bpCode = sData.BusinessPartner;
 					appStateModel.setProperty('/selectedBP/bpNumber', bpCode);
