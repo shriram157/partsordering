@@ -1500,13 +1500,13 @@ sap.ui.define([
 							ordersSts.push(new sap.ui.model.Filter("doc_type", sap.ui.model.FilterOperator.EQ, 'ZCO'));
 							break;
 						case 'ZOR':
-							ordersSts.push(new sap.ui.model.Filter("DocType", sap.ui.model.FilterOperator.EQ, 'ZOR'));
+							ordersSts.push(new sap.ui.model.Filter("doc_type", sap.ui.model.FilterOperator.EQ, 'ZOR'));
 							break;
 						case 'ZRO':
-							ordersSts.push(new sap.ui.model.Filter("DocType", sap.ui.model.FilterOperator.EQ, 'ZRO'));
+							ordersSts.push(new sap.ui.model.Filter("doc_type", sap.ui.model.FilterOperator.EQ, 'ZRO'));
 							break;
 						case 'ZCO':
-							ordersSts.push(new sap.ui.model.Filter("DocType", sap.ui.model.FilterOperator.EQ, 'ZCO'));
+							ordersSts.push(new sap.ui.model.Filter("doc_type", sap.ui.model.FilterOperator.EQ, 'ZCO'));
 							break;
 						}
 					}
