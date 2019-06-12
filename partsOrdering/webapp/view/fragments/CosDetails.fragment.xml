@@ -29,7 +29,7 @@
 				</statuses>
 				<headerContainer></headerContainer>
 			</ObjectHeader>
-			<Table items="{ path: '/SOtoDeliv/results' }" showNoData='true' visible="{=${/SOtoDeliv} !== ''}">
+			<Table items="{ path: '/SOtoDeliv/results' }" showNoData='true' visible="{=${path: '/SOtoDeliv'} !== '' &amp;&amp;   ${path: '/SOtoDeliv'} !== undefined}">
 				<headerToolbar>
 					<Toolbar>
 						<VBox width='76px'>
@@ -101,7 +101,7 @@
 					</ColumnListItem>
 				</items>
 			</Table>
-			<Table items="{ path: '/POtoDeliv/results' }" showNoData='true' visible="{=${/POtoDeliv} !== ''}">
+			<Table items="{ path: '/POtoDeliv/results' }" showNoData='true' visible="{=${path: '/POtoDeliv'} &amp;&amp; ${path: '/POtoDeliv'} !== undefined }">
 				<headerToolbar>
 					<Toolbar>
 						<VBox width='76px'>
