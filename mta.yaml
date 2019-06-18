@@ -11,8 +11,9 @@ modules:
       disk-quota: 512M
       memory: 256M
    properties:
-      UPS_NAME: PARTS_ORDERING_APIM_CUPS
       NODE_TLS_REJECT_UNAUTHORIZED: 0
+      OPTIMIZE_MEMORY: true
+      UPS_NAME: PARTS_ORDERING_APIM_CUPS
    provides:
     - name: partsOrdering_node_api
       properties:
@@ -41,6 +42,7 @@ modules:
              "uriPattern": "^/custom/do/logout$"
            }
          ]
+      OPTIMIZE_MEMORY: true
       SESSION_TIMEOUT: 60
       XS_APP_LOG_LEVEL: info
    build-parameters:
