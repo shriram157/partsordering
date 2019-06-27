@@ -44,7 +44,7 @@ modules:
          ]
       OPTIMIZE_MEMORY: true
       SESSION_TIMEOUT: 60
-      XS_APP_LOG_LEVEL: info
+      XS_APP_LOG_LEVEL: error
    build-parameters:
       builder: grunt
    requires:
