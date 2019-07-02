@@ -73,6 +73,22 @@ module.exports = class ProxyRequestHandler {
 				headers: headOptions
 			});
 
+		// Remove MYSAPSSO2 cookie before making the proxied request, so that it does not override basic auth when APIM
+		// proxies the request to SAP Gateway
+		if ("cookie" in req.headers) {
+			var cookies = req.headers.cookie.split(";");
+			var filteredCookies = "";
+			cookies.forEach(cookie => {
+				var sepIndex = cookie.indexOf("=");
+				var cookieName = cookie.substring(0, sepIndex).trim();
+				var cookieValue = cookie.substring(sepIndex + 1).trim();
+				if (cookieName !== "MYSAPSSO2") {
+					filteredCookies += (filteredCookies.length > 0 ? "; " : "") + cookieName + "=" + cookieValue;
+				}
+			});
+			req.headers.cookie = filteredCookies;
+		}
+
 		req.pipe(xRequest);
 
 		xRequest.on('response', (response) => {
