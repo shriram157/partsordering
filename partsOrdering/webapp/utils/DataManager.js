@@ -380,7 +380,7 @@ sap.ui.define([], function () {
 				 		 	 oData.results[i].message = newFrstring;
 				 		 } else if (messageTemp.includes("does not exist") == true) {
 				 		    	var newFrstring1 = messageTemp.replace(/Item/, 'Article'); 
-				 		        var newFrString2 = newFrstring1.replace(/does not exist/, 'n "'"existe pas' ); 
+				 		        var newFrString2 = newFrstring1.replace(/does not exist/, 'n ''existe pas' ); 
 				 			 oData.results[i].message = newFrString2;
 				 		 } else if (messageTemp.includes("Sales document  was not changed") == true) {	 
 				 		 	 oData.results[i].message = "Le document de vente n'a pas été changé";
