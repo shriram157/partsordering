@@ -367,7 +367,49 @@ sap.ui.define([], function () {
 					var orderNumber = null;
 
 					orderNumber = oData.vbeln;
-					var addiMesssage = oData.message;
+		// Based on the language,  the message has to hardcoded for french or english
+				var lang = sap.ui.getCore().getConfiguration().getLanguage().toUpperCase().substring(0, 2);	
+				 if (lang == "FR") {
+				 	
+				 	for (var i=0; i<oData.results.length; i++) {
+				 		var messageTemp = oData.results[i].message;
+				 		 if (messageTemp.includes("Discountinued, Part cannot be substituted") == true) {
+				 		    oData.results[i].message = "Remise, la pièce ne peut être remplacée";
+				 		 } else if (messageTemp.includes("Error in SALES_ITEM_IN") == true) {
+				 		 	var newFrstring = messageTemp.replace(/Error in/, 'Erreur dans SALES_ITEM_IN'); 
+				 		 	 oData.results[i].message = newFrstring;
+				 		 } else if (messageTemp.includes("does not exist") == true) {
+				 		    	var newFrstring1 = messageTemp.replace(/Item/, 'Article'); 
+				 		        var newFrString2 = newFrstring1.replace(/does not exist/, 'n "'"existe pas' ); 
+				 			 oData.results[i].message = newFrString2;
+				 		 } else if (messageTemp.includes("Sales document  was not changed") == true) {	 
+				 		 	 oData.results[i].message = "Le document de vente n'a pas été changé";
+				 		 	
+				 		 } else if (messageTemp.includes("does not allow external procurement") == true) {	 
+				 		 		var newFrstring1 = messageTemp.replace(/Status "Obsolete" of material/, 'Statut "Obsolète" du matériel'); 
+				 		 	    var newFrString2 = newFrstring1.replace(/does not allow external procurement/, 'ne permet pas les achats externes' );
+				 		 	    oData.results[i].message = newFrString2;
+				 		 	    oData.results[i].Material = newFrString2.substring(40, 30);
+				 		 } else if (messageTemp.includes("The sales document is not yet complete: Edit data") == true) {	 
+				 		 	 		    oData.results[i].message = "Le document de vente n'est pas encore complet: Modifier les données";
+				 		 }
+				 			 
+				 	}
+ 
+		 
+				 } else {
+				 	// even for english need to push marerial #
+				 		for (var i=0; i<oData.results.length; i++) {
+				             	var messageTemp = oData.results[i].message;
+				         	if (messageTemp.includes("does not allow external procurement") == true) { 
+				         	if (oData.results[i].Material == ""){	
+				         	oData.results[i].Material = messageTemp.substring(40, 30);	
+				         	}
+				         	}
+					
+				 		}
+					
+				 }
 
 					callBack(oData, orderNumber, messageList);
 				},
