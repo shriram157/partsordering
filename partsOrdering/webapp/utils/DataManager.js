@@ -379,7 +379,7 @@ sap.ui.define([], function () {
 								oData.results[i].message = newFrstring;
 							} else if (messageTemp.includes("does not exist") == true) {
 								var newFrstring1 = messageTemp.replace(/Item/, 'Article');
-								var tempvar =  "n 'existe pas"
+								var tempvar = "n 'existe pas"
 								var newFrString2 = newFrstring1.replace(/does not exist/, tempvar);
 								oData.results[i].message = newFrString2;
 							} else if (messageTemp.includes("Sales document  was not changed") == true) {
@@ -396,6 +396,12 @@ sap.ui.define([], function () {
 								var newFrstring1 = messageTemp.replace(/Material/, 'matériel');
 								var tempVar = "n'est pas répertorié et donc pas autorisé";
 								var newFrString2 = newFrstring1.replace(/is not listed and therefore not allowed/, tempVar);
+								oData.results[i].message = newFrString2;
+
+							} else if (messageTemp.includes("has been excluded") == true) {
+								var newFrstring1 = messageTemp.replace(/Material/, 'matériel');
+								var tempVar = "a été exclu"
+								var newFrString2 = newFrstring1.replace(/has been excluded/, tempVar);
 								oData.results[i].message = newFrString2;
 							}
 						}
