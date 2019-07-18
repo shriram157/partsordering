@@ -80,6 +80,7 @@ sap.ui.define([
 
 				if (!!userData && !!userData.userContext && !!userData.userContext.userAttributes){
 					//var appMode = that.getModel('ApplicationMode');
+					// userProfile.dealerCode="42120";//uncomment for local testing
 					if (!!userData.userContext.userAttributes.DealerCode && userData.userContext.userAttributes.DealerCode.length > 0){
 						userProfile.dealerCode = userData.userContext.userAttributes.DealerCode[0];        
 					}
@@ -112,8 +113,9 @@ sap.ui.define([
 					}
 					
 					
+					// userProfile.userType="Dealer"; //uncomment for local testing
 					if (!!userData.userContext.userAttributes.UserType && userData.userContext.userAttributes.UserType.length > 0){
-						userProfile.userType = userData.userContext.userAttributes.UserType[0];        
+						userProfile.userType = userData.userContext.userAttributes.UserType[0];         //comment for local testing
 					}
 					
 					if(!!userData.userContext.userInfo){

@@ -228,6 +228,9 @@ sap.ui.define([
 					}, {
 						code: 'BK',
 						name: resourceBundle.getText('Parts.Status.BackOrdered')
+					}, {
+						code: 'OpOR',
+						name: resourceBundle.getText('Parts.Status.OpenOrdered')
 					}]
 				};
 				var iDataModel = new sap.ui.model.json.JSONModel();
@@ -1479,6 +1482,13 @@ sap.ui.define([
 							break;
 						case 'BK':
 							partsSts.push(new sap.ui.model.Filter("quant_back_ordered", sap.ui.model.FilterOperator.GT, '0'));
+							break;
+						case 'OpOR':
+							partsSts.push(new sap.ui.model.Filter("quant_cancelled", sap.ui.model.FilterOperator.EQ, '0'));
+							partsSts.push(new sap.ui.model.Filter("quant_back_ordered", sap.ui.model.FilterOperator.EQ, '0'));
+							partsSts.push(new sap.ui.model.Filter("quant_processed", sap.ui.model.FilterOperator.EQ, '0'));
+							partsSts.push(new sap.ui.model.Filter("quant_in_process", sap.ui.model.FilterOperator.EQ, '0'));
+							partsSts.push(new sap.ui.model.Filter("quant_ordered", sap.ui.model.FilterOperator.NE, '0'));
 							break;
 						}
 					}
@@ -3206,6 +3216,13 @@ sap.ui.define([
 							break;
 						case 'BK':
 							partsSts.push(new sap.ui.model.Filter("quant_back_ordered", sap.ui.model.FilterOperator.GT, '0'));
+							break;
+						case 'OpOR':
+							partsSts.push(new sap.ui.model.Filter("quant_cancelled", sap.ui.model.FilterOperator.EQ, '0'));
+							partsSts.push(new sap.ui.model.Filter("quant_back_ordered", sap.ui.model.FilterOperator.EQ, '0'));
+							partsSts.push(new sap.ui.model.Filter("quant_processed", sap.ui.model.FilterOperator.EQ, '0'));
+							partsSts.push(new sap.ui.model.Filter("quant_in_process", sap.ui.model.FilterOperator.EQ, '0'));
+							partsSts.push(new sap.ui.model.Filter("quant_ordered", sap.ui.model.FilterOperator.NE, '0'));
 							break;
 						}
 					}

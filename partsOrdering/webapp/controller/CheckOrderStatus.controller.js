@@ -640,6 +640,13 @@ sap.ui.define([
 							case 'BK':
 								afilters.push(new sap.ui.model.Filter("quant_back_ordered", sap.ui.model.FilterOperator.GT, 0.00));
 								break;
+							case 'OpOR':
+								afilters.push(new sap.ui.model.Filter("quant_back_ordered", sap.ui.model.FilterOperator.EQ, 0.00));
+								afilters.push(new sap.ui.model.Filter("quant_cancelled", sap.ui.model.FilterOperator.EQ, 0.00));
+								afilters.push(new sap.ui.model.Filter("quant_processed", sap.ui.model.FilterOperator.EQ, 0.00));
+								afilters.push(new sap.ui.model.Filter("quant_in_process", sap.ui.model.FilterOperator.EQ, 0.00));
+								afilters.push(new sap.ui.model.Filter("quant_ordered", sap.ui.model.FilterOperator.NE, 0.00));
+								break;
 							}
 						}
 						//var aFilter = new sap.ui.model.Filter(partsSts, false);
