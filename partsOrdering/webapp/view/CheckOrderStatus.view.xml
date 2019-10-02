@@ -152,8 +152,8 @@
 					<items>
 						<ColumnListItem>
 							<cells>
-								<!--<ObjectIdentifier title="{path : 'viewModel>part_no', formatter:'.formatter.getItemNumber' }"/>-->
-								<ObjectIdentifier title="{viewModel>part_no}" tooltip="{rejectionReason} {rejectionDescription}"/>
+								<!--<ObjectIdentifier title="{path : 'viewModel>matnr', formatter:'.formatter.getItemNumber' }"/>-->
+								<ObjectIdentifier title="{viewModel>matnr}" tooltip="{rejectionReason} {rejectionDescription}"/>
 								<core:Icon src="sap-icon://share" color='#FF5733' visible="{path : 'viewModel>sub_flag', formatter:'.formatter.sub2boolean'}"/>
 								<Text text="{path : 'viewModel>ship_from' }"/>
 								<ObjectNumber number="{path: 'viewModel>quant_ordered', formatter:'.formatter.round2dec'}"/>

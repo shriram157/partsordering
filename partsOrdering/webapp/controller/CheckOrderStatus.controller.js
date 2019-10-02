@@ -63,7 +63,7 @@ sap.ui.define([
 			var userType = null;
 			var dealerType = null;
 			var zGroup = null;
-			if (userProfile.userType !== "National" &&  userProfile.userType.toUpperCase() !== "ZONE") {
+			if (userProfile.userType !== "National" && userProfile.userType.toUpperCase() !== "ZONE") {
 				this.getBusinessPartnersByDealerCode(userProfile.dealerCode, function (sData) {
 					bpCode = sData.BusinessPartner;
 					appStateModel.setProperty('/selectedBP/bpNumber', bpCode);
@@ -334,7 +334,8 @@ sap.ui.define([
 			var appStateModel = this.getStateModel();
 			var filterModel = this.getModel('filterModel');
 			appStateModel.setProperty('/tabKey', 'CS');
-			if (appStateModel.getProperty('/userProfile').userType === "National" || appStateModel.getProperty('/userProfile').userType.toUpperCase() === "ZONE" ) {
+			if (appStateModel.getProperty('/userProfile').userType === "National" || appStateModel.getProperty('/userProfile').userType.toUpperCase() ===
+				"ZONE") {
 
 				this.getView().byId("fi_Dealer").setVisible(true);
 				this.getView().byId("cb_filterDealer").setVisible(true);
@@ -437,7 +438,7 @@ sap.ui.define([
 			aModel.setData(theData);
 			// call a server to get the desc
 
-			this.getMaterialDesc(theData.part_no, 0, function (index, desc) {
+			this.getMaterialDesc(theData.matnr, 0, function (index, desc) {
 				theData.partdesc = desc;
 				that._oDetailDialog.setModel(aModel);
 				// toggle compact style
@@ -482,7 +483,7 @@ sap.ui.define([
 			var orFilters = [];
 			var filter = null;
 			if (!!sQuery && sQuery.length > 0) {
-				filter = new sap.ui.model.Filter("part_no", sap.ui.model.FilterOperator.Contains, sQuery);
+				filter = new sap.ui.model.Filter("matnr", sap.ui.model.FilterOperator.Contains, sQuery);
 				orFilters.push(filter);
 				filter = new sap.ui.model.Filter("TCI_order_no", sap.ui.model.FilterOperator.Contains, sQuery);
 				orFilters.push(filter);
@@ -618,7 +619,7 @@ sap.ui.define([
 					binding.oCombinedFilter = null;
 					binding.filter(null);
 					if (!!filters.partNumber && filters.partNumber.trim().length > 0) {
-						var filter = new sap.ui.model.Filter("part_no", sap.ui.model.FilterOperator.EQ, filters.partNumber);
+						var filter = new sap.ui.model.Filter("matnr", sap.ui.model.FilterOperator.EQ, filters.partNumber);
 						//binding.filter(filter, true);
 						afilters.push(filter);
 						//conditions.partNumber = filters.partNumber.trim();

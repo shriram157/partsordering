@@ -1458,7 +1458,7 @@ sap.ui.define([
 				oFilter[1] = new sap.ui.model.Filter("erdat", sap.ui.model.FilterOperator.BT, conditions.fromOrderDate, conditions.toOrderDate);
 
 				if (!!conditions.partNumber) {
-					aFilter = new sap.ui.model.Filter("part_no", sap.ui.model.FilterOperator.Contains, conditions.partNumber);
+					aFilter = new sap.ui.model.Filter("matnr", sap.ui.model.FilterOperator.EQ, conditions.partNumber);
 					oFilter.push(aFilter);
 				}
 				if (!!conditions.orderNumber) {
@@ -1777,7 +1777,7 @@ sap.ui.define([
 				'camp_code': campCode,
 				'op_code': opCode,
 				'VIN_no': vinNo,
-				'part_no': partNum
+				'matnr': partNum
 			});
 			bModel.read(key, {
 				success: function (oData, oResponse) {
@@ -1801,7 +1801,7 @@ sap.ui.define([
 				var key = bModel.createKey('/contractNo_validationSet', {
 					'camp_no': contract,
 					'dealer_code': bpCode,
-					'part_no': part
+					'matnr': part
 				});
 				bModel.read(key, {
 					success: function (oData, oResponse) {
@@ -3192,7 +3192,7 @@ sap.ui.define([
 			} else {
 				oFilter[1] = new sap.ui.model.Filter("erdat", sap.ui.model.FilterOperator.BT, conditions.fromOrderDate, conditions.toOrderDate);
 				if (!!conditions.partNumber) {
-					aFilter = new sap.ui.model.Filter("part_no", sap.ui.model.FilterOperator.Contains, conditions.partNumber);
+					aFilter = new sap.ui.model.Filter("matnr", sap.ui.model.FilterOperator.Contains, conditions.partNumber);
 					oFilter.push(aFilter);
 				}
 				if (!!conditions.orderNumber) {
