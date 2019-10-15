@@ -458,6 +458,7 @@ sap.ui.define([
 			spartNumber = spartNumber.trim();
 			if (spartNumber.length > 0) {
 				spartNumber = spartNumber.toString().replace(/-/g, "");
+				spartNumber=spartNumber.toUpperCase();
 			}
 			oSource.setValue(spartNumber);
 		},
@@ -545,6 +546,7 @@ sap.ui.define([
 			if (!!filters) {
 				if (!!filters.partNumber && filters.partNumber.trim().length > 0) {
 					conditions.partNumber = filters.partNumber.trim();
+					conditions.partNumber = conditions.partNumber.toUpperCase();
 				}
 				if (!!filters.deleveryNumber && filters.deleveryNumber.trim().length > 0) {
 					conditions.deleveryNumber = filters.deleveryNumber.trim();
@@ -574,7 +576,7 @@ sap.ui.define([
 
 					if (month < 10) {
 						month = "0" + month;
-					};
+					}
 					var day = date.getDate();
 
 					if (day < 10) {

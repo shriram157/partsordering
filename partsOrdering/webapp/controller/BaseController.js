@@ -1451,7 +1451,10 @@ sap.ui.define([
 				if (!!conditions.fiNumber) {
 					oFilter.push(new sap.ui.model.Filter("bill_no", sap.ui.model.FilterOperator.EQ, conditions.fiNumber.padStart(10, '0')));
 				}
-
+				if (!!conditions.partNumber) {
+					aFilter = new sap.ui.model.Filter("matnr", sap.ui.model.FilterOperator.EQ, conditions.partNumber);
+					oFilter.push(aFilter);
+				}
 				oFilter.push(new sap.ui.model.Filter("erdat", sap.ui.model.FilterOperator.BT, conditions.fromOrderDate, conditions.toOrderDate));
 
 			} else {
