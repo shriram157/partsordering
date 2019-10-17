@@ -1491,7 +1491,7 @@ sap.ui.define([
 							partsSts.push(new sap.ui.model.Filter("quant_back_ordered", sap.ui.model.FilterOperator.EQ, '0'));
 							partsSts.push(new sap.ui.model.Filter("quant_processed", sap.ui.model.FilterOperator.EQ, '0'));
 							partsSts.push(new sap.ui.model.Filter("quant_in_process", sap.ui.model.FilterOperator.EQ, '0'));
-							partsSts.push(new sap.ui.model.Filter("quant_ordered", sap.ui.model.FilterOperator.NE, '0'));
+							// partsSts.push(new sap.ui.model.Filter("quant_ordered", sap.ui.model.FilterOperator.NE, '0'));
 							break;
 						}
 					}
@@ -3225,7 +3225,7 @@ sap.ui.define([
 							partsSts.push(new sap.ui.model.Filter("quant_back_ordered", sap.ui.model.FilterOperator.EQ, '0'));
 							partsSts.push(new sap.ui.model.Filter("quant_processed", sap.ui.model.FilterOperator.EQ, '0'));
 							partsSts.push(new sap.ui.model.Filter("quant_in_process", sap.ui.model.FilterOperator.EQ, '0'));
-							partsSts.push(new sap.ui.model.Filter("quant_ordered", sap.ui.model.FilterOperator.NE, '0'));
+							// partsSts.push(new sap.ui.model.Filter("quant_ordered", sap.ui.model.FilterOperator.NE, '0'));
 							break;
 						}
 					}
