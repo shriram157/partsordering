@@ -1947,6 +1947,7 @@ sap.ui.define([
 			if (!!isSalesOrder) {
 				that._searchPartsSalesOrder(exactMode, conditions, function (oList) {
 					if (!!oList && oList.length > 0) {
+						
 						var finalList = [];
 						var currentItem = null;
 						var oldItem = null;
@@ -1958,9 +1959,15 @@ sap.ui.define([
 						var fiLine = null;
 
 						for (var i = 0; i < oList.length; i++) {
+							oList[i].quant_ordered=parseFloat(oList[i].quant_ordered);
+							oList[i].quant_in_process=parseFloat(oList[i].quant_in_process);
+							oList[i].quant_processed=parseFloat(oList[i].quant_processed);
+							oList[i].quant_cancelled=parseFloat(oList[i].quant_cancelled);
+							oList[i].quant_back_ordered=parseFloat(oList[i].quant_back_ordered);
 							currentItem = oList[i];
+							
 							if (currentKey.TCI_order_no === currentItem.TCI_order_no && currentKey.TCI_itemNo === currentItem.TCI_itemNo) {
-								//TODO										
+								//TODO									
 							} else {
 								if (!!oldItem) {
 									oldItem.deliv_no_str = oldItem.deliv_no_list.join('.');
@@ -2007,6 +2014,7 @@ sap.ui.define([
 						if (!!oldItem) {
 							finalList.push(oldItem);
 						}
+						
 						callback(finalList);
 
 					} else {
@@ -2027,6 +2035,11 @@ sap.ui.define([
 						var fiLine = null;
 
 						for (var i = 0; i < oList.length; i++) {
+							oList[i].quant_ordered=parseFloat(oList[i].quant_ordered);
+							oList[i].quant_in_process=parseFloat(oList[i].quant_in_process);
+							oList[i].quant_processed=parseFloat(oList[i].quant_processed);
+							oList[i].quant_cancelled=parseFloat(oList[i].quant_cancelled);
+							oList[i].quant_back_ordered=parseFloat(oList[i].quant_back_ordered);
 							currentItem = oList[i];
 							if (currentKey.TCI_order_no === currentItem.TCI_order_no && currentKey.TCI_itemNo === currentItem.TCI_itemNo) {
 								//TODO										

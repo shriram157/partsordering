@@ -110,7 +110,7 @@ sap.ui.define([
 						sap.ui.getCore().getConfiguration().setLanguage(userProfile.language);
 					}
 
-					// userProfile.userType="Dealer"; //uncomment for local testing
+					 //userProfile.userType="Dealer"; //uncomment for local testing
 					if (!!userData.userContext.userAttributes.UserType && userData.userContext.userAttributes.UserType.length > 0) {
 						userProfile.userType = userData.userContext.userAttributes.UserType[0]; //comment for local testing
 					}

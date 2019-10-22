@@ -46,8 +46,8 @@ sap.ui.define([], function () {
 		round2dec: function (sValue) {
 			try {
 				if (!!sValue) {
-					if (sValue === "0") {
-						return  0;
+					if (sValue === 0) {
+						return  "0";
 						// changed to return blank  if 0 - May 27.
 					}
 					return parseFloat(sValue).toFixed(0);
@@ -57,7 +57,8 @@ sap.ui.define([], function () {
 			} catch (err) {
 
 			}
-			return "";
+			
+			return "0";
 		},
 
 		linex2Format: function (typeD, typeB, opCode, vin) {

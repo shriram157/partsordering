@@ -538,7 +538,7 @@ sap.ui.define([
 				conditions.bpCode = dealerCode;
 			}
 
-			var viewModel = this.getModel(CONST_VIEW_MODEL);
+	//		var viewModel = this.getModel(CONST_VIEW_MODEL);
 			var filters = viewModel.getProperty('/filters');
 			var filterAll = viewModel.getProperty('/filterAll');
 			var lc_index = -1;
