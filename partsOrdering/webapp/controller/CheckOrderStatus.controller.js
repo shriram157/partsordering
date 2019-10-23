@@ -375,7 +375,7 @@ sap.ui.define([
 			var viewModel = this.getModel(CONST_VIEW_MODEL);
 			viewModel.setProperty('/filters', this.getRunningDefaultFilterValues());
 
-			this.refresh();
+			//this.refresh(); //No initial loading of table 
 		},
 
 		onClick: function (oID) {
