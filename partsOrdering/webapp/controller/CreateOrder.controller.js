@@ -1491,7 +1491,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								//return bSubmitError;
 								that._activateFinal(false);
 								that.itemTable.setBusy(false);
-								that._oBusyfragment.close();
+							//	that._oBusyfragment.close();
 							} else if (IIndex === (contractItems.length) && (bSubmitError)) {
 									that.itemTable.setBusy(false);
 								that._oBusyfragment.close();
