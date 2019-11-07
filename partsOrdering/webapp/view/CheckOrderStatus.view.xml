@@ -26,14 +26,14 @@
 					</fb:FilterItem>
 					<fb:FilterItem name="orderNumber" label="{i18n>Label.CheckOrder.DealerOrder}" labelTooltip="{i18n>Label.CheckOrder.DealerOrder}">
 						<fb:control>
-							<Input value="{viewModel>/filters/orderNumber}" enabled="{viewModel>/filterAllx}" placeholder="{i18n>Label.CheckOrder.DealerOrder}"
+							<Input value="{viewModel>/filters/orderNumber}" enabled="{viewModel>/filterAllx}" placeholder="{i18n>Label.CheckOrder.DealerOrder}" submit="onSearch"
 								width="15%"></Input>
 						</fb:control>
 					</fb:FilterItem>
 					<fb:FilterItem name="partNumber" label="{i18n>Label.CheckOrder.PartNumber}" labelTooltip="{i18n>Label.CheckOrder.PartsNumber}">
 						<fb:control>
 							<Input type="Text" value="{viewModel>/filters/partNumber}" enabled="{viewModel>/filterAllx}"
-								placeholder="{i18n>Label.CheckOrder.PartNumber}" width="15%" liveChange="removeSpaceDash"></Input>
+								placeholder="{i18n>Label.CheckOrder.PartNumber}" width="15%" liveChange="removeSpaceDash" submit="onSearch"></Input>
 						</fb:control>
 					</fb:FilterItem>
 					<fb:FilterItem name="orderType" label="{i18n>Label.CheckOrder.OrderType}" labelTooltip="{i18n>Label.CheckOrder.OrderType}" mandatory="false">
@@ -52,19 +52,19 @@
 					</fb:FilterItem>
 					<fb:FilterItem name="tciOrderNumber" label="{i18n>Label.CheckOrder.TciOrder}" labelTooltip="{i18n>Label.CheckOrder.TciOrder}">
 						<fb:control>
-							<Input id="tciOrderNumberFilter" value="{viewModel>/filters/tciOrderNumber}" placeholder="{i18n>Label.CheckOrder.TciOrder}" width="15%"
+							<Input id="tciOrderNumberFilter" value="{viewModel>/filters/tciOrderNumber}" placeholder="{i18n>Label.CheckOrder.TciOrder}" submit="onSearch" width="15%"
 								change="onFilterChange"></Input>
 						</fb:control>
 					</fb:FilterItem>
 					<fb:FilterItem name="deleveryNumber" label="{i18n>Label.CheckOrder.deliveryNumber}" labelTooltip="{i18n>Label.CheckOrder.deliveryNumber}">
 						<fb:control>
-							<Input id="deleveryNumberFilter" value="{viewModel>/filters/deleveryNumber}" placeholder="{i18n>Label.CheckOrder.deliveryNumber}"
+							<Input id="deleveryNumberFilter" submit="onSearch" value="{viewModel>/filters/deleveryNumber}" placeholder="{i18n>Label.CheckOrder.deliveryNumber}"
 								width="15%" change="onFilterChange"></Input>
 						</fb:control>
 					</fb:FilterItem>
 					<fb:FilterItem name="fiNumber" label="{i18n>Label.CheckOrder.fiNumber}" labelTooltip="{i18n>Label.CheckOrder.fiNumber}">
 						<fb:control>
-							<Input id="fiNumberFilter" value="{viewModel>/filters/fiNumber}" placeholder="{i18n>Label.CheckOrder.fiNumber}" width="15%"
+							<Input id="fiNumberFilter" submit="onSearch" value="{viewModel>/filters/fiNumber}" placeholder="{i18n>Label.CheckOrder.fiNumber}" width="15%"
 								change="onFilterChange"></Input>
 						</fb:control>
 					</fb:FilterItem>
