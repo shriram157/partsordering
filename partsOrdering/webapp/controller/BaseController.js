@@ -1152,7 +1152,7 @@ sap.ui.define([
 							iBP = {};
 							iBP.BusinessPartnerType = oData.results[i].BusinessPartnerType;
 							iBP.BusinessPartner = oData.results[i].BusinessPartner;
-							iBP.Name = oData.results[i].BusinessPartnerName;
+							iBP.Name = oData.results[i].OrganizationBPName1;
 							iBP.Dealer = iBP.BusinessPartner.slice(-5);
 							bpList.push(iBP);
 						}
