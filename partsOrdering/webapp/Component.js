@@ -78,7 +78,7 @@ sap.ui.define([
 
 				if (!!userData && !!userData.userContext && !!userData.userContext.userAttributes) {
 					//var appMode = that.getModel('ApplicationMode');
-					 //userProfile.dealerCode="29000";//uncomment for local testing
+					 //userProfile.dealerCode="42120";//uncomment for local testing
 					if (!!userData.userContext.userAttributes.DealerCode && userData.userContext.userAttributes.DealerCode.length > 0) {
 						userProfile.dealerCode = userData.userContext.userAttributes.DealerCode[0];
 					}

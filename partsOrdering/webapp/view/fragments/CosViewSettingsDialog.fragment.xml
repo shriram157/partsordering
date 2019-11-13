@@ -8,6 +8,7 @@
 		sortDescending="{viewModel>/sortDescending}">
 		<sortItems>
 			<ViewSettingsItem text="{i18n>Label.CheckOrder.PartsNumber}" key="matnr" />
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.LineItem}" key="TCI_itemNo" />
 			<ViewSettingsItem text="{i18n>Label.CheckOrder.ShipFrom}" key="ship_from" />
 			<ViewSettingsItem text="{i18n>Label.CheckOrder.Substitution}" key="sub_flag" />
 			<ViewSettingsItem text="{i18n>Label.CheckOrder.Quantity.Ordered}" key="quant_ordered" />
