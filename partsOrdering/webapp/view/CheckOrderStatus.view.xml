@@ -102,11 +102,11 @@
 					<Column width="11%">
 						<Text text="{i18n>Label.CheckOrder.PartNumber} "/>
 					</Column>
-					<Column minScreenWidth="Tablet" demandPopin="true" width="4%" hAlign="Center"></Column>
-					<Column minScreenWidth="Tablet" demandPopin="true" width="8%" hAlign="Begin">
+					<Column minScreenWidth="Tablet" demandPopin="true" width="4%" ></Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" width="8%" >
 						<Text text="{i18n>Label.CheckOrder.LineItem} "/>
 					</Column>
-					<Column minScreenWidth="Tablet" demandPopin="true" width="6%" hAlign="Begin">
+					<Column minScreenWidth="Tablet" demandPopin="true" width="6%" >
 						<Text text="{i18n>Label.CheckOrder.ShipFrom} "/>
 					</Column>
 					<Column width="8%">
@@ -141,9 +141,9 @@
 					sticky="{['sap.m.Sticky.ColumnHeaders', 'sap.m.Sticky.HeaderToolbar','sap.m.Sticky.InfoToolbar']}">
 					<columns>
 						<Column width="11%"/>
-						<Column minScreenWidth="Tablet" demandPopin="true" width="4%" hAlign="Center"/>
-						<Column minScreenWidth="Tablet" demandPopin="true" width="8%" hAlign="Center"/>
-						<Column minScreenWidth="Tablet" demandPopin="true" width="6%" hAlign="Center"/>
+						<Column minScreenWidth="Tablet" demandPopin="true" width="4%" />
+						<Column minScreenWidth="Tablet" demandPopin="true" width="8%" />
+						<Column minScreenWidth="Tablet" demandPopin="true" width="6%" />
 						<Column width="8%" id="quant_ordered" hAlign="Center" sortIndicator="None"></Column>
 						<Column width="8%" id="quant_in_process" hAlign="Center" sortIndicator="None"></Column>
 						<Column width="8%" id="quant_processed" hAlign="Center" sortIndicator="None"></Column>
