@@ -424,7 +424,7 @@ sap.ui.define([], function () {
 				},
 				error: function (oError) {
 					var messageList = that._extractSapErrorMessage(oError);
-					callBack(null, messageList);
+					callBack(null, null, messageList);
 				}
 			});
 
@@ -593,17 +593,22 @@ sap.ui.define([], function () {
 			var messageItem = null;
 			var messageList = [];
 			if (!!error && !!error.responseText) {
-				sapMessage = JSON.parse(error.responseText);
-				if (!!sapMessage.error && !!sapMessage.error.innererror && !!sapMessage.error.innererror.errordetails) {
-					for (var x = 0; x < sapMessage.error.innererror.errordetails.length; x++) {
-						mItem = sapMessage.error.innererror.errordetails[x];
-						if (!!mItem) {
-							messageItem = {
-								severity: mItem.severity,
-								code: mItem.code,
-								message: mItem.message
-							};
-							messageList.push(messageItem);
+				if (error.statusCode == 504 ) {
+					messageList.push(error.statusCode);
+				} else {
+					sapMessage = JSON.parse(error.responseText);
+				
+					if (!!sapMessage.error && !!sapMessage.error.innererror && !!sapMessage.error.innererror.errordetails) {
+						for (var x = 0; x < sapMessage.error.innererror.errordetails.length; x++) {
+							mItem = sapMessage.error.innererror.errordetails[x];
+							if (!!mItem) {
+								messageItem = {
+									severity: mItem.severity,
+									code: mItem.code,
+									message: mItem.message
+								};
+								messageList.push(messageItem);
+							}
 						}
 					}
 				}

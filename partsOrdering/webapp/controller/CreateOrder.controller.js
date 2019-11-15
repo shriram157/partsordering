@@ -858,11 +858,17 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				if (this.bIsSalesOrder) {
 					DataManager.activateSalesDraftOrder(this.oOrderModel.getData(), function (oData, orderNumber, messageList) {
 						sap.ui.core.BusyIndicator.hide();
-						if ((!orderNumber) && (!!oData.results)) {
+						if ((!orderNumber) && (!!oData)) {
 							orderNumber = oData.results[0].vbeln;
 						}
 						if (!orderNumber) {
 							if (messageList.length > 0) {
+								if(messageList[0] == 504)
+								{
+									that.onTimeOut(that.oOrderModel);
+									that._oBusyfragment.close();
+							
+								}
 								that.submitError = {};
 								var items = that.oOrderModel.getData().items;
 								for (var i = 1; i < items.length; i++) {
@@ -1074,7 +1080,23 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				onClose: function (sAction) {}
 			});
 		},
-
+		onTimeOut: function(oOrderModel) {
+			var rData = oOrderModel.getData();
+			var lv_tciOrderNumber = rData.tciOrderNumber;
+			var that=this;
+			var resourceBundle = this.getResourceBundle();
+			var failedtext = resourceBundle.getText('Message.Failed.TimeOut',[lv_tciOrderNumber]);
+			
+			MessageBox.error(failedtext, {
+				actions: [MessageBox.Action.CLOSE],
+				styleClass: this.getOwnerComponent().getContentDensityClass(),
+				onClose: function (sAction) {
+						this.getRouter().navTo("CheckOrderStatus", null, false);
+			
+					}
+					.bind(this)
+			});
+		},
 		_showActivationOk: function (sDetails) {
 			var that = this;
 			MessageBox.success(sDetails, {
@@ -1491,7 +1513,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								//return bSubmitError;
 								that._activateFinal(false);
 								that.itemTable.setBusy(false);
-								that._oBusyfragment.close();
+							//	that._oBusyfragment.close();
 							} else if (IIndex === (contractItems.length) && (bSubmitError)) {
 									that.itemTable.setBusy(false);
 								that._oBusyfragment.close();
