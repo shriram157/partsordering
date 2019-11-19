@@ -144,11 +144,11 @@
 						<Column minScreenWidth="Tablet" demandPopin="true" width="4%" />
 						<Column minScreenWidth="Tablet" demandPopin="true" width="8%" />
 						<Column minScreenWidth="Tablet" demandPopin="true" width="6%" />
-						<Column width="8%" id="quant_ordered" hAlign="Center" sortIndicator="None"></Column>
-						<Column width="8%" id="quant_in_process" hAlign="Center" sortIndicator="None"></Column>
-						<Column width="8%" id="quant_processed" hAlign="Center" sortIndicator="None"></Column>
-						<Column width="8%" id="quant_cancelled" hAlign="Center" sortIndicator="None"></Column>
-						<Column width="9%" id="quant_back_ordered" hAlign="Center" sortIndicator="None"></Column>
+						<Column width="8%" id="quant_ordered" hAlign="Center" ></Column>
+						<Column width="8%" id="quant_in_process" hAlign="Center" ></Column>
+						<Column width="8%" id="quant_processed" hAlign="Center" ></Column>
+						<Column width="8%" id="quant_cancelled" hAlign="Center" ></Column>
+						<Column width="9%" id="quant_back_ordered" hAlign="Center"></Column>
 						<Column width="10%" minScreenWidth="Tablet" demandPopin="true"/>
 						<Column width="10%" minScreenWidth="Tablet" demandPopin="true"/>
 						<Column width="10%" minScreenWidth="Tablet" demandPopin="true" hAlign="End"/>

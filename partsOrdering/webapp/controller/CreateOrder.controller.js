@@ -398,7 +398,17 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var sTerm = oEvent.getParameter("suggestValue");
 			var aFilters = [];
 			var language = this.sLang;
-		
+			var that = this;
+			oSource.addEventDelegate({
+				onsapfocusleave: function (oEvt) {
+
+					that.outFocus = true;
+					that.countOutFocus = 0;
+					that.countOutFocus++;
+					oSource.fireChange();
+
+				}
+			});
 			if (!!sTerm) {
 				sTerm = sTerm.toString().replace(/-/g, "");
 				sTerm = sTerm.trim();
@@ -416,7 +426,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					success: $.proxy(function (oData) {
 						var Matsuggestions = [];
 						sap.ui.core.BusyIndicator.hide();
-
 
 						//set the model materialSuggestionModel
 
@@ -437,29 +446,26 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							oSource.setValue(Matsuggestions[0].Material);
 							oSource.fireChange();
 						}
+
 					}, this),
 					error: function () {
 						sap.ui.core.BusyIndicator.hide();
 
 					}.bind(this),
 				});
-				
+
 			}
 			//oEvent.getSource().getBinding("suggestionItems").filter(aFilters);
 		},
-
+		handleSuggestionItemSelected: function (oEvt) {
+			this.outFocus = false;
+		},
 		handleProductChange: function (oEvent) {
 			var that = this;
 			var sValue = oEvent.getParameter("newValue");
-			if (!!sValue) {
-				 if (!!oEvent.id) {
-				 	oEvent.oSource = this.getView().byId(oEvent.id);				 	
-				 }
-			}
-		
+
 			var oVBox = oEvent.getSource().getParent();
 			sValue = oEvent.getSource().getValue();
-		
 			var oRow = oVBox.getParent();
 			var iRowIndex = oRow.getIndex();
 			var oItem = this.oOrderModel.getData().items[iRowIndex];
@@ -468,7 +474,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			sValue = sValue.toString().replace(/-/g, "");
 			sValue = sValue.trim();
 			that.itemTable.setBusy(true);
-			
+
 			DataManager.getPartDescSPQForPart(sValue, oItem, function (item1Data, oitem) {
 				//that.getInfoFromPart(sValue, model.getProperty('/purBpCode'), function (item1Data) {
 				if (!!item1Data && (item1Data[0].Division !== "00" && item1Data[0].Division !== sAttribute1 && item1Data[0].Division !==
@@ -510,6 +516,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					oitem.ItemStatus = "Unsaved";
 					that.itemTable.getBinding("rows").getModel().refresh(true);
 				} else {
+					if (that.outFocus && that.countOutFocus == 1) {
+
 					oitem.hasError = "";
 					oitem.itemCategoryGroup = "";
 					oitem.division = "";
@@ -524,13 +532,16 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					oitem.contractNum = "";
 					oitem.partNumber = "";
 					//oItem.addIcon = true;
-
-					var failedtext = that.oResourceBundle.getText('Message.Failed.Load.Part', [sValue]);
-					MessageBox.error(failedtext, {
-						onClose: function (sAction) {
-							that.itemTable.setBusy(false);
-						}
-					});
+					
+						var failedtext = that.oResourceBundle.getText('Message.Failed.Load.Part', [sValue]);
+						MessageBox.error(failedtext, {
+							onClose: function (sAction) {
+								that.itemTable.setBusy(false);
+							}
+						});
+						that.countOutFocus++;
+						that.outFocus = false;
+					}
 					if (iRowIndex === 0) {
 						oitem.addIcon = true;
 						oitem.hasError = false;
@@ -559,6 +570,11 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					oSource.setEnabled(true);
 					oSource.setBusy(false);
 				}
+				oOrderData.items[0].qty="";
+				oOrderData.items[0].contractNum="";
+				oOrderData.items[0].campaignNum="";
+				oOrderData.items[0].comment="";
+				that.oOrderModel.setData(oOrderData);
 				return;
 			}
 			var oItem = JSON.parse(JSON.stringify(oOrderData.items[0]));
@@ -707,9 +723,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			}
 
 		},
-		
-	
-		
+
 		toggleSelect: function (oEvent) {
 			var that = this;
 			var isSelected = oEvent.getParameters("Selected").selected;
@@ -843,7 +857,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		},
 
 		onActivate: function (oEvent) {
-			
+
 			this.itemTable.setBusy(true);
 			this._oBusyDialog.setTitle("Submit Order");
 			this._oBusyDialog.setText("Order Activation In Progress...");
@@ -863,11 +877,10 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						}
 						if (!orderNumber) {
 							if (messageList.length > 0) {
-								if(messageList[0] == 504)
-								{
+								if (messageList[0] == 504) {
 									that.onTimeOut(that.oOrderModel);
 									that._oBusyfragment.close();
-							
+
 								}
 								that.submitError = {};
 								var items = that.oOrderModel.getData().items;
@@ -1080,21 +1093,20 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				onClose: function (sAction) {}
 			});
 		},
-		onTimeOut: function(oOrderModel) {
+		onTimeOut: function (oOrderModel) {
 			var rData = oOrderModel.getData();
 			var lv_tciOrderNumber = rData.tciOrderNumber;
-			var that=this;
+			var that = this;
 			var resourceBundle = this.getResourceBundle();
-			var failedtext = resourceBundle.getText('Message.Failed.TimeOut',[lv_tciOrderNumber]);
-			
+			var failedtext = resourceBundle.getText('Message.Failed.TimeOut', [lv_tciOrderNumber]);
+
 			MessageBox.error(failedtext, {
 				actions: [MessageBox.Action.CLOSE],
 				styleClass: this.getOwnerComponent().getContentDensityClass(),
 				onClose: function (sAction) {
-						this.getRouter().navTo("CheckOrderStatus", null, false);
-			
-					}
-					.bind(this)
+					that.getRouter().navTo("CheckOrderStatus", null, false);
+
+				}.bind(this)
 			});
 		},
 		_showActivationOk: function (sDetails) {
@@ -1128,9 +1140,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			}
 			this.toggleSubmitDraftButton();
 		},
-		
+
 		checkQtyZero: function (oEvent) {
-			var iQty = parseInt(oEvent.getParameter("newValue"),10);
+			var iQty = parseInt(oEvent.getParameter("newValue"), 10);
 			if (iQty === 0 || isNaN(iQty)) {
 				return "";
 			}
@@ -1152,7 +1164,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					oSource.setValueState("None");
 					obj.hasError = false;
 					this._insetUpadateArray(obj);
-					oSource.setValue(parseInt(newValue,10));
+					oSource.setValue(parseInt(newValue, 10));
 
 				} else {
 					obj.hasError = true;
@@ -1513,12 +1525,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								//return bSubmitError;
 								that._activateFinal(false);
 								that.itemTable.setBusy(false);
-							//	that._oBusyfragment.close();
+								//	that._oBusyfragment.close();
 							} else if (IIndex === (contractItems.length) && (bSubmitError)) {
-									that.itemTable.setBusy(false);
+								that.itemTable.setBusy(false);
 								that._oBusyfragment.close();
 							}
-						
+
 						});
 					} else {
 						//var J = getItemIndex();
