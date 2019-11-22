@@ -518,21 +518,21 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				} else {
 					if (that.outFocus && that.countOutFocus == 1) {
 
-					oitem.hasError = "";
-					oitem.itemCategoryGroup = "";
-					oitem.division = "";
-					oitem.partDesc = "";
-					oitem.supplier = "";
-					oitem.purInfoRecord = "";
-					oitem.companyCode = "";
-					oitem.currency = 'CAD';
-					oitem.netPriceAmount = "";
-					oitem.taxCode = "";
-					oitem.spq = "";
-					oitem.contractNum = "";
-					oitem.partNumber = "";
-					//oItem.addIcon = true;
-					
+						oitem.hasError = "";
+						oitem.itemCategoryGroup = "";
+						oitem.division = "";
+						oitem.partDesc = "";
+						oitem.supplier = "";
+						oitem.purInfoRecord = "";
+						oitem.companyCode = "";
+						oitem.currency = 'CAD';
+						oitem.netPriceAmount = "";
+						oitem.taxCode = "";
+						oitem.spq = "";
+						oitem.contractNum = "";
+						oitem.partNumber = "";
+						//oItem.addIcon = true;
+
 						var failedtext = that.oResourceBundle.getText('Message.Failed.Load.Part', [sValue]);
 						MessageBox.error(failedtext, {
 							onClose: function (sAction) {
@@ -570,10 +570,10 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					oSource.setEnabled(true);
 					oSource.setBusy(false);
 				}
-				oOrderData.items[0].qty="";
-				oOrderData.items[0].contractNum="";
-				oOrderData.items[0].campaignNum="";
-				oOrderData.items[0].comment="";
+				oOrderData.items[0].qty = "";
+				oOrderData.items[0].contractNum = "";
+				oOrderData.items[0].campaignNum = "";
+				oOrderData.items[0].comment = "";
 				that.oOrderModel.setData(oOrderData);
 				return;
 			}
@@ -611,104 +611,161 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var iCreateLen = this.aCreateItems.length;
 			var iUpdateLen = this.aUpdateItems.length;
 			var itemsLen = iCreateLen + iUpdateLen;
+
+			var countContractPresent = 0;
+			//var contractPresentArray=[];
+
 			var oSource = oEvent.getSource();
 			if (itemsLen > 0) {
-				oEvent.getSource().setEnabled(false);
-				that.itemTable.setBusy(true);
-				that._oBusyDialog.setTitle("Save Draft");
-				that._oBusyDialog.setText("Saving Order Items As Draft...");
-				that._oBusyfragment.open();
-			}
-			var iItems = 0;
+				var model = this.getModel("orderModel");
+				var typeB = model.getData().typeB;
+				if (!!typeB) {
+					for (var j = 0; j < iCreateLen; j++) {
+						if (this.aCreateItems[j].contractNum !== "") {
+							++countContractPresent;
 
-			if (this.bIsSalesOrder) {
-				DataManager.saveDraftSalesOrder(this.aCreateItems, this.aUpdateItems, function (oSalesItem, sOperation, IIndex, isOK,
-					errorMessages) {
-					var Index = oSalesItem.line;
-					var oItem = that.oOrderModel.getData().items[Index];
-					if (isOK) {
-						if (sOperation === "Create") {
-							oItem["uuid"] = oSalesItem.uuid;
-							oItem["parentUuid"] = oSalesItem.parentUuid;
-							oItem["ItmNumber"] = oSalesItem.ItmNumber;
-							that.aCreateItems.splice(0, 1);
-						} else { // it is update.
-							that.aUpdateItems.splice(0, 1);
 						}
-						oItem.ItemStatus = "Draft";
-						oItem.hasError = false;
-						that.oOrderModel.getData().modifiedOn = new Date();
-						that.oOrderModel.refresh(true);
-					} // isOK end;
-					oItem.selected = false;
-					that._resetLineError(oSalesItem.line);
-					if (!isOK) {
-						oSalesItem.hasError = true;
-						that._setLineError(oSalesItem.line, sOperation, errorMessages);
 					}
-					iItems++;
-					if (iItems === itemsLen) {
-						that.toggleSubmitDraftButton();
-						that._oBusyfragment.close();
+					for (var j = 0; j < iUpdateLen; j++) {
+						if (this.aUpdateItems[j].contractNum !== "") {
+							++countContractPresent;
+
+						}
 					}
-				});
-			} else {
-				DataManager.saveDraftPurchaseOrder(this.aCreateItems, this.aUpdateItems, function (oPurchaseItem, sOperation, IIndex, isOK,
-					errorMessages) {
-					var Index = oPurchaseItem.line;
-					var oItem = that.oOrderModel.getData().items[Index];
-					if (isOK) {
-						if (sOperation === "Create") {
-							oItem["uuid"] = oPurchaseItem.uuid;
-							oItem["parentUuid"] = oPurchaseItem.parentUuid;
-							oItem["ItmNumber"] = oPurchaseItem.ItmNumber;
-							for (var j = 0; j < that.aCreateItems.length; j++) {
-								if (that.aCreateItems[j].line === Index) {
-									that.aCreateItems.splice(j, 1);
-									break;
-								}
-							}
-						} else {
-							for (var u = 0; u < that.aUpdateItems.length; u++) {
-								if (that.aUpdateItems[u].line === Index) {
-									that.aUpdateItems.splice(u, 1);
-									break;
+				}
+				if (itemsLen !== countContractPresent && !!typeB) {
+					var items = model.getData().items;
+					var len = items.length;
+					var sInValid = this.oResourceBundle.getText("Message.error.create.separate.contract");
+					//var columns = this.itemTable.getColumns();
+					var rows = this.itemTable.getRows();
+
+					for (var x1 = 1; x1 < len; x1++) {
+						var rowCells = rows[x1].getCells();
+						var cellsLen = rowCells.length;
+
+						for (var y1 = 6; y1 < cellsLen; y1++) {
+							if (rowCells[y1].getMetadata()._sClassName === "sap.m.Input") {
+								if (!rowCells[y1].getProperty("required")) {
+									rowCells[y1].setValueStateText("");
+									rowCells[y1].setValueState("None");
+									items[x1].hasError = false;
+									rowCells[y1].setValue("");
+								} else {
+									//bSubmitError = false;
+									rowCells[y1].setValueStateText("");
+									rowCells[y1].setValueState("None");
+									items[x1].hasError = false;
 								}
 							}
 						}
-						oItem.ItemStatus = "Draft";
-						oItem.hasError = false;
-						that.oOrderModel.getData().modifiedOn = new Date();
-						that.oOrderModel.refresh(true);
-						that._resetLineError(oItem.line);
 					}
-					oItem.selected = false;
-					if (!isOK) {
-						oItem.hasError = true;
-						//oItem["errorMessages"] = errorMessages;
-						if (sOperation !== "Invalid") {
-							that._setLineError(oItem.line, sOperation, errorMessages);
-						} else {
-							if (!that.lineError) {
-								that.lineError = {};
+					MessageBox.error(sInValid, {
+						actions: [MessageBox.Action.CLOSE],
+						styleClass: this.getOwnerComponent().getContentDensityClass()
+
+					});
+
+				} else {
+					oEvent.getSource().setEnabled(false);
+					that.itemTable.setBusy(true);
+					that._oBusyDialog.setTitle("Save Draft");
+					that._oBusyDialog.setText("Saving Order Items As Draft...");
+					that._oBusyfragment.open();
+
+					var iItems = 0;
+
+					if (this.bIsSalesOrder) {
+						DataManager.saveDraftSalesOrder(this.aCreateItems, this.aUpdateItems, function (oSalesItem, sOperation, IIndex, isOK,
+							errorMessages) {
+							var Index = oSalesItem.line;
+							var oItem = that.oOrderModel.getData().items[Index];
+							if (isOK) {
+								if (sOperation === "Create") {
+									oItem["uuid"] = oSalesItem.uuid;
+									oItem["parentUuid"] = oSalesItem.parentUuid;
+									oItem["ItmNumber"] = oSalesItem.ItmNumber;
+									that.aCreateItems.splice(0, 1);
+								} else { // it is update.
+									that.aUpdateItems.splice(0, 1);
+								}
+								oItem.ItemStatus = "Draft";
+								oItem.hasError = false;
+								that.oOrderModel.getData().modifiedOn = new Date();
+								that.oOrderModel.refresh(true);
+							} // isOK end;
+							oItem.selected = false;
+							that._resetLineError(oSalesItem.line);
+							if (!isOK) {
+								oSalesItem.hasError = true;
+								that._setLineError(oSalesItem.line, sOperation, errorMessages);
 							}
-							that.lineError[oItem.line] = [];
-							that.lineError[oItem.line]["error"] = that.oResourceBundle.getText("Message.error.invalid.part");
-							that.itemTable.getBinding("rows").getModel().refresh(true);
-							that.btnSortError.setVisible(true);
-							that.btnFilterError.setVisible(true);
-						}
-					}
-					iItems++;
-					if (iItems === itemsLen) {
-						that.toggleSubmitDraftButton();
-						that._oBusyfragment.close();
-					}
+							iItems++;
+							if (iItems === itemsLen) {
+								that.toggleSubmitDraftButton();
+								that._oBusyfragment.close();
+							}
+						});
+					} else {
+						DataManager.saveDraftPurchaseOrder(this.aCreateItems, this.aUpdateItems, function (oPurchaseItem, sOperation, IIndex, isOK,
+							errorMessages) {
+							var Index = oPurchaseItem.line;
+							var oItem = that.oOrderModel.getData().items[Index];
+							if (isOK) {
+								if (sOperation === "Create") {
+									oItem["uuid"] = oPurchaseItem.uuid;
+									oItem["parentUuid"] = oPurchaseItem.parentUuid;
+									oItem["ItmNumber"] = oPurchaseItem.ItmNumber;
+									for (var j = 0; j < that.aCreateItems.length; j++) {
+										if (that.aCreateItems[j].line === Index) {
+											that.aCreateItems.splice(j, 1);
+											break;
+										}
+									}
+								} else {
+									for (var u = 0; u < that.aUpdateItems.length; u++) {
+										if (that.aUpdateItems[u].line === Index) {
+											that.aUpdateItems.splice(u, 1);
+											break;
+										}
+									}
+								}
+								oItem.ItemStatus = "Draft";
+								oItem.hasError = false;
+								that.oOrderModel.getData().modifiedOn = new Date();
+								that.oOrderModel.refresh(true);
+								that._resetLineError(oItem.line);
+							}
+							oItem.selected = false;
+							if (!isOK) {
+								oItem.hasError = true;
+								//oItem["errorMessages"] = errorMessages;
+								if (sOperation !== "Invalid") {
+									that._setLineError(oItem.line, sOperation, errorMessages);
+								} else {
+									if (!that.lineError) {
+										that.lineError = {};
+									}
+									that.lineError[oItem.line] = [];
+									that.lineError[oItem.line]["error"] = that.oResourceBundle.getText("Message.error.invalid.part");
+									that.itemTable.getBinding("rows").getModel().refresh(true);
+									that.btnSortError.setVisible(true);
+									that.btnFilterError.setVisible(true);
+								}
+							}
+							iItems++;
+							if (iItems === itemsLen) {
+								that.toggleSubmitDraftButton();
+								that._oBusyfragment.close();
+							}
 
-				});
+						});
 
-				//this.toggleSubmitDraftButton();
+						//this.toggleSubmitDraftButton();
+					}
+				}
 			}
+
 			that.itemTable.setBusy(false);
 			oSource.setEnabled(true);
 		},
@@ -1283,6 +1340,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var newItems = [];
 			var isSalesOrder = model.getProperty('/isSalesOrder');
 			var Deletelines = [];
+			var rows = that.itemTable.getRows();
 
 			if (!!items && items.length > 0) {
 
@@ -1312,12 +1370,34 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 										if (Index >= 0) {
 											for (var c = 0; c < that.aCreateItems.length; c++) {
 												if (that.aCreateItems[c].line === y) {
+													var rowCells = rows[y].getCells();
+													var cellsLen = rowCells.length;
+
+													for (var y1 = 5; y1 < cellsLen; y1++) {
+														if (rowCells[y1].getMetadata()._sClassName === "sap.m.Input") {
+
+															rowCells[y1].setValueStateText("");
+															rowCells[y1].setValueState("None");
+
+														}
+													}
 													that.aCreateItems.splice(c, 1);
 												}
 
 											}
 											for (var u = 0; u < that.aUpdateItems.length; c++) {
 												if (that.aUpdateItems[u].line === y) {
+													var rowCells = rows[y].getCells();
+													var cellsLen = rowCells.length;
+
+													for (var y1 = 5; y1 < cellsLen; y1++) {
+														if (rowCells[y1].getMetadata()._sClassName === "sap.m.Input") {
+
+															rowCells[y1].setValueStateText("");
+															rowCells[y1].setValueState("None");
+
+														}
+													}
 													that.aUpdateItems.splice(u, 1);
 												}
 											}
@@ -1359,6 +1439,17 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						if (Index >= 0) {
 							for (var c = 0; c < that.aCreateItems.length; c++) {
 								if (that.aCreateItems[c].line === y) {
+									var rowCells = rows[y].getCells();
+									var cellsLen = rowCells.length;
+
+									for (var y1 = 5; y1 < cellsLen; y1++) {
+										if (rowCells[y1].getMetadata()._sClassName === "sap.m.Input") {
+
+											rowCells[y1].setValueStateText("");
+											rowCells[y1].setValueState("None");
+
+										}
+									}
 									that.aCreateItems.splice(c, 1);
 								}
 							}
@@ -1384,6 +1475,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				}
 				sap.ui.core.BusyIndicator.hide();
 			}
+
 			that.toggleSubmitDraftButton();
 
 		},
