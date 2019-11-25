@@ -1261,14 +1261,14 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var oSource = oEvent.getSource();
 			var bpCode = this.oOrderModel.getProperty('/purBpCode');
 			
-			if(sValue !== "")
-			{
+			
 			if (obj.addIcon !== true) {
 
 				this._insetUpadateArray(obj);
 				this.toggleSubmitDraftButton();
 
-				//var resourceBundle = this.oResourceBundle;
+			if(sValue !== "")
+			{	//var resourceBundle = this.oResourceBundle;
 				DataManager.validateContractNumber(bpCode, sValue, obj.partNumber, function (data, isOK, messages) {
 					if (!!isOK && !!data) {
 						obj.contractLine = data.line_item;
@@ -1285,14 +1285,15 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					}
 				});
 			}
-		}
 		else
-		{
+			{
 						oSource.setValueState("None");
 						obj.hasError = false;
 						obj.ItemStatus = "Unsaved";
 						
 		}
+			}
+		
 		},
 
 		onCampOpVINChange: function (oEvent) {
