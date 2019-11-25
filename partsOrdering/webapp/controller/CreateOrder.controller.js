@@ -610,56 +610,44 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var that = this;
 			var iCreateLen = this.aCreateItems.length;
 			var iUpdateLen = this.aUpdateItems.length;
-			var itemsLen = iCreateLen + iUpdateLen;
-
-			var countContractPresent = 0;
+			var itemsLen= iCreateLen+iUpdateLen;
+			var itmsLen = this.getModel("orderModel").getData().items.length-1;
+			var itms=this.getModel("orderModel").getData().items;
+			var countContractPresent = 0, countContractAbsent = 0;
 			//var contractPresentArray=[];
 
 			var oSource = oEvent.getSource();
-			if (itemsLen > 0) {
-				var model = this.getModel("orderModel");
-				var typeB = model.getData().typeB;
-				if (!!typeB) {
-					for (var j = 0; j < iCreateLen; j++) {
-						if (this.aCreateItems[j].contractNum !== "") {
-							++countContractPresent;
-
-						}
+			if (itmsLen > 0) {
+				for (var j = 1; j <= itmsLen; j++) {
+					if (!itms[j].contractNum) {
+						itms[j].contractNum = "";
 					}
-					for (var j = 0; j < iUpdateLen; j++) {
-						if (this.aUpdateItems[j].contractNum !== "") {
-							++countContractPresent;
 
-						}
+					if (itms[j].contractNum !== "") {
+						++countContractPresent;
+
+					}
+					else
+					{
+						++countContractAbsent;
 					}
 				}
-				if (itemsLen !== countContractPresent && !!typeB) {
-					var items = model.getData().items;
-					var len = items.length;
+				
+				var boolFlag=false;
+				if(itmsLen !== countContractPresent && itmsLen === countContractAbsent )
+				{
+					boolFlag=false;
+				}
+				else if(itmsLen === countContractPresent && itmsLen !== countContractAbsent)
+				{
+					boolFlag=false;
+				}
+				else
+				{
+					boolFlag=true;
+				}
+				if (boolFlag) {
 					var sInValid = this.oResourceBundle.getText("Message.error.create.separate.contract");
-					//var columns = this.itemTable.getColumns();
-					var rows = this.itemTable.getRows();
-
-					for (var x1 = 1; x1 < len; x1++) {
-						var rowCells = rows[x1].getCells();
-						var cellsLen = rowCells.length;
-
-						for (var y1 = 6; y1 < cellsLen; y1++) {
-							if (rowCells[y1].getMetadata()._sClassName === "sap.m.Input") {
-								if (!rowCells[y1].getProperty("required")) {
-									rowCells[y1].setValueStateText("");
-									rowCells[y1].setValueState("None");
-									items[x1].hasError = false;
-									rowCells[y1].setValue("");
-								} else {
-									//bSubmitError = false;
-									rowCells[y1].setValueStateText("");
-									rowCells[y1].setValueState("None");
-									items[x1].hasError = false;
-								}
-							}
-						}
-					}
 					MessageBox.error(sInValid, {
 						actions: [MessageBox.Action.CLOSE],
 						styleClass: this.getOwnerComponent().getContentDensityClass()
@@ -667,6 +655,26 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					});
 
 				} else {
+					var model = this.getModel("orderModel");
+					var items = model.getData().items;
+					var len = items.length;
+					//var bSubmitError = false;
+					var rows = this.itemTable.getRows();
+					for (var x1 = 1; x1 < len; x1++) {
+						var rowCells = rows[x1].getCells();
+						var cellsLen = rowCells.length;
+
+						for (var y1 =6; y1 < cellsLen; y1++) {
+							if (rowCells[y1].getMetadata()._sClassName === "sap.m.Input") {
+							
+									rowCells[y1].setValueStateText("");
+									rowCells[y1].setValueState("None");
+									items[x1].hasError = false;
+
+								
+							}
+						}
+					}
 					oEvent.getSource().setEnabled(false);
 					that.itemTable.setBusy(true);
 					that._oBusyDialog.setTitle("Save Draft");
@@ -700,11 +708,17 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								oSalesItem.hasError = true;
 								that._setLineError(oSalesItem.line, sOperation, errorMessages);
 							}
-							iItems++;
-							if (iItems === itemsLen) {
+							else
+							{
+								iItems++;
 								that.toggleSubmitDraftButton();
 								that._oBusyfragment.close();
+								
 							}
+								
+							
+							
+							
 						});
 					} else {
 						DataManager.saveDraftPurchaseOrder(this.aCreateItems, this.aUpdateItems, function (oPurchaseItem, sOperation, IIndex, isOK,
@@ -753,10 +767,14 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 									that.btnFilterError.setVisible(true);
 								}
 							}
-							iItems++;
-							if (iItems === itemsLen) {
+							else
+							{
+								iItems++;
+							
 								that.toggleSubmitDraftButton();
 								that._oBusyfragment.close();
+							
+								
 							}
 
 						});
@@ -1242,6 +1260,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var sValue = oEvent.getParameter("newValue");
 			var oSource = oEvent.getSource();
 			var bpCode = this.oOrderModel.getProperty('/purBpCode');
+			
+			if(sValue !== "")
+			{
 			if (obj.addIcon !== true) {
 
 				this._insetUpadateArray(obj);
@@ -1264,7 +1285,14 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					}
 				});
 			}
-
+		}
+		else
+		{
+						oSource.setValueState("None");
+						obj.hasError = false;
+						obj.ItemStatus = "Unsaved";
+						
+		}
 		},
 
 		onCampOpVINChange: function (oEvent) {
