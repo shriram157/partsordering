@@ -1,7 +1,7 @@
 <mvc:View controllerName="tci.wave2.ui.parts.ordering.controller.CreateOrder" xmlns:html="http://www.w3.org/1999/xhtml"
 	xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:form="sap.ui.layout.form" xmlns:layout="sap.ui.layout" displayBlock="true"
 	xmlns="sap.m" xmlns:ui="sap.ui.table">
-	<Page showNavButton="false" floatingFooter="false" enableScrolling='false'>
+	<Page showNavButton="false" floatingFooter="sap.ui.Device.system.phone" enableScrolling='sap.ui.Device.system.phone'>
 		<customHeader>
 			<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.TopHeader" type="XML"/>
 		</customHeader>
