@@ -292,7 +292,7 @@ sap.ui.define([
 
 		getRunningDefaultFilterValues: function () {
 			var dateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
-				pattern: "YYYYMMdd"
+				pattern: "yyyyMMdd"
 			});
 			var appStateModel = this.getStateModel();
 			var dealerCode;
@@ -310,8 +310,7 @@ sap.ui.define([
 			// 				}
 			// 				var fromDate = new Date(fromYear,fromMonth,nowDate.getDate());
 			var timelong = nowDate.getTime() - (15 * 1000 * 60 * 60 * 24);
-			var fromDateString = new Date(timelong);
-			var fromDate = new Date(new Date(fromDateString).toLocaleString("en-US", {timeZone: "America/New_York"}));
+			var fromDate = new Date(timelong);
 			//var fromDateStr = ''+fromYear+fromMonth+nowDate.getDate();
 			return {
 				partsStates: ['ALL'],
