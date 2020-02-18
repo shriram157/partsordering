@@ -144,7 +144,7 @@ sap.ui.define([
 							BpDealer.push({
 								"BusinessPartnerKey": item.BusinessPartner,
 								"BusinessPartner": item.BusinessPartner.substring(5, item.BusinessPartner.length), //.substring(5, BpLength),
-								"BusinessPartnerName": item.BusinessPartnerName, //item.OrganizationBPName1 //item.BusinessPartnerFullName
+								"BusinessPartnerName": item.OrganizationBPName1, //item.OrganizationBPName1 //item.BusinessPartnerFullName
 								"OrganizationBPName1": item.OrganizationBPName1,
 								"BusinessPartnerType": item.BusinessPartnerType
 							});
@@ -291,8 +291,8 @@ sap.ui.define([
 		},
 
 		getRunningDefaultFilterValues: function () {
-			var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
-				pattern: "YYYYMMdd"
+			var dateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
+				pattern: "yyyyMMdd"
 			});
 			var appStateModel = this.getStateModel();
 			var dealerCode;
@@ -375,7 +375,7 @@ sap.ui.define([
 			var viewModel = this.getModel(CONST_VIEW_MODEL);
 			viewModel.setProperty('/filters', this.getRunningDefaultFilterValues());
 
-			this.refresh();
+			//this.refresh(); //No initial loading of table 
 		},
 
 		onClick: function (oID) {
@@ -538,7 +538,7 @@ sap.ui.define([
 				conditions.bpCode = dealerCode;
 			}
 
-			var viewModel = this.getModel(CONST_VIEW_MODEL);
+	//		var viewModel = this.getModel(CONST_VIEW_MODEL);
 			var filters = viewModel.getProperty('/filters');
 			var filterAll = viewModel.getProperty('/filterAll');
 			var lc_index = -1;
@@ -648,7 +648,7 @@ sap.ui.define([
 								afilters.push(new sap.ui.model.Filter("quant_cancelled", sap.ui.model.FilterOperator.EQ, 0.00));
 								afilters.push(new sap.ui.model.Filter("quant_processed", sap.ui.model.FilterOperator.EQ, 0.00));
 								afilters.push(new sap.ui.model.Filter("quant_in_process", sap.ui.model.FilterOperator.EQ, 0.00));
-								afilters.push(new sap.ui.model.Filter("quant_ordered", sap.ui.model.FilterOperator.NE, 0.00));
+								// afilters.push(new sap.ui.model.Filter("quant_ordered", sap.ui.model.FilterOperator.NE, 0.00));
 								break;
 							}
 						}

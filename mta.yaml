@@ -21,6 +21,7 @@ modules:
    requires:
     - name: application-logs_partsOrdering
     - name: uaa_partsOrdering
+    - name: cf-drain
     - name: PARTS_ORDERING_APIM_CUPS
 
  - name: partsOrdering
@@ -44,12 +45,17 @@ modules:
          ]
       OPTIMIZE_MEMORY: true
       SESSION_TIMEOUT: 60
-      XS_APP_LOG_LEVEL: error
+      XS_APP_LOG_LEVEL: info
+      XS_LOG_CONNECTION_DATA: true
+      XS_LOG_NETWORK: true
+      XS_LOG_REFERER: true
+      XS_LOG_USER: true
    build-parameters:
       builder: grunt
    requires:
     - name: application-logs_partsOrdering
     - name: uaa_partsOrdering
+    - name: cf-drain
     - name: partsOrdering_node_api
       group: destinations
       properties:
@@ -71,6 +77,11 @@ resources:
       service: xsuaa
       service-plan: application
       path: ./xs-security.json
+
+ - name: cf-drain
+   type: org.cloudfoundry.existing-service
+   parameters:
+      service-name: cf-drain
 
  - name: PARTS_ORDERING_APIM_CUPS
    type: org.cloudfoundry.existing-service
