@@ -16,6 +16,8 @@
 			<ViewSettingsItem text="{i18n>Label.CheckOrder.Quantity.Processed}" key="quant_processed" />
 			<ViewSettingsItem text="{i18n>Label.CheckOrder.Quantity.Cancelled}" key="quant_cancelled" />
 			<ViewSettingsItem text="{i18n>Label.CheckOrder.Quantity.BackOrdered}" key="quant_back_ordered" />
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.Quantity.Open}" key="open_qty" /> <!--New fields Addition -->
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.Estimated.Delivery.Date}" key="est_deliv_date" /><!--New fields Addition -->
 			<ViewSettingsItem text="{i18n>Label.CheckOrder.DealerOrder}" key="dealer_orderNo" />
 			<ViewSettingsItem text="{i18n>Label.CheckOrder.OrderType}" key="doc_type" />
 			<ViewSettingsItem text="{i18n>Label.CheckOrder.TciOrder}" key="TCI_order_no" selected ='true'/>
