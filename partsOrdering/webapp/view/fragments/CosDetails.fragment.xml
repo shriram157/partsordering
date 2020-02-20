@@ -59,7 +59,7 @@
 						<ToolbarSeparator/>
 						<VBox width='88px'>
 							<Label text="{i18n>Header.Quantity.Open}"></Label>
-							<ObjectNumber number="{path : '/open_qty', formatter:'.formatter.round2dec'}" state="Error"/>
+							<ObjectNumber number="{path : '/open_qty', formatter:'.formatter.round2dec'}" state="None"/>
 						</VBox>
 						<ToolbarSeparator/>
 					</Toolbar>
@@ -136,7 +136,7 @@
 						<ToolbarSeparator/>
 						<VBox width='88px'>
 							<Label text="{i18n>Header.Quantity.Open}"></Label>
-							<ObjectNumber number="{path : '/open_qty', formatter:'.formatter.round2dec'}" state="Error"/>
+							<ObjectNumber number="{path : '/open_qty', formatter:'.formatter.round2dec'}" state="None"/>
 						</VBox>
 						<ToolbarSeparator/>
 					</Toolbar>
