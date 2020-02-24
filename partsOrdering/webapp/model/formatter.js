@@ -17,12 +17,12 @@ sap.ui.define([], function () {
 			return parseFloat(sValue).toFixed(2);
 		},
 
-		linex1Format: function (typeD, typeB,  campCode, contCode) {
+		linex1Format: function (typeD, typeB, campCode, contCode) {
 			var lv_line;
-		/*	if (!!line) {
-				lv_line = line.replace(/^0+/, '');
-				lv_line = ''; // don't show the line number
-			}*/
+			/*	if (!!line) {
+					lv_line = line.replace(/^0+/, '');
+					lv_line = ''; // don't show the line number
+				}*/
 			if (!!typeD) {
 				if (!!lv_line) {
 					return lv_line + " / " + campCode;
@@ -47,7 +47,7 @@ sap.ui.define([], function () {
 			try {
 				if (!!sValue) {
 					if (sValue === 0) {
-						return  "0";
+						return "0";
 						// changed to return blank  if 0 - May 27.
 					}
 					return parseFloat(sValue).toFixed(0);
@@ -57,8 +57,50 @@ sap.ui.define([], function () {
 			} catch (err) {
 
 			}
-			
+
 			return "0";
+		},
+		estDateFormat: function (inDate) {
+			// var inDate = "+ 20200314";
+			/* alert(inDate); */
+			// alert(inDate.indexOf("+"));
+			var outDate = "";
+			if (inDate !== "") {
+				if (inDate.indexOf("+") >= 0) {
+					var onlyDate = inDate.slice(2, 10);
+					// alert(onlyDate);
+					var sYear = onlyDate.slice(0, 4);
+					// alert(sYear);
+					var sMonth = onlyDate.slice(4, 6) - 1;
+					// alert(sMonth);
+					var sDate = onlyDate.slice(6, 8);
+					// alert(sDate);
+					var formattedDate = new Date(sYear, sMonth, sDate);
+					// alert(formattedDate);
+					var strDate = formattedDate.toString();
+					// alert(formattedDate.toString().slice(4, 15));
+					// var outDate = "+ " + strDate.slice(11,15) + " " + strDate(4,7) + " ," + strDate (8,10);
+					outDate = "+ " + strDate.slice(4, 7) + " " + strDate.slice(8, 10) + ", " + strDate.slice(11, 15);
+					// alert(outDate);
+				} else {
+					var onlyDate = inDate.slice(0, 8);
+					// alert(onlyDate);
+					var sYear = onlyDate.slice(0, 4);
+					// alert(sYear);
+					var sMonth = onlyDate.slice(4, 6) - 1;
+					// alert(sMonth);
+					var sDate = onlyDate.slice(6, 8);
+					// alert(sDate);
+					var formattedDate = new Date(sYear, sMonth, sDate);
+					// alert(formattedDate);
+					var strDate = formattedDate.toString();
+					// alert(formattedDate.toString().slice(4, 15));
+					//var outDate =strDate.slice(11,15) + " " + strDate.slice(4,7) + " ," + strDate.slice(8,10);
+					outDate = strDate.slice(4, 7) + " " + strDate.slice(8, 10) + ", " + strDate.slice(11, 15);
+					// alert(outDate);
+				}
+			}
+			return outDate;
 		},
 
 		linex2Format: function (typeD, typeB, opCode, vin) {
@@ -233,7 +275,7 @@ sap.ui.define([], function () {
 		confDelFormat: function (cnfQty, delQty) {
 			if (typeof cnfQty !== 'undefined' && cnfQty !== null && cnfQty.trim() > 0) {
 				return Math.round(cnfQty);
-			} else if (typeof delQty !== 'undefined' &&  delQty !== null && delQty.trim() > 0) {
+			} else if (typeof delQty !== 'undefined' && delQty !== null && delQty.trim() > 0) {
 				return Math.round(delQty);
 			} else {
 				return "";

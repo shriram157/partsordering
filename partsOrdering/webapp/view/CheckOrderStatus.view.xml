@@ -102,13 +102,13 @@
 					<Column width="11%">
 						<Text text="{i18n>Label.CheckOrder.PartNumber} "/>
 					</Column>
-					<Column minScreenWidth="Tablet" demandPopin="true" width="4%" ></Column>
-					<Column minScreenWidth="Tablet" demandPopin="true" width="8%" >
+					<Column minScreenWidth="Tablet" demandPopin="true" width="4%"></Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" width="8%">
 						<Text text="{i18n>Label.CheckOrder.LineItem} "/>
 					</Column>
-					<Column minScreenWidth="Tablet" demandPopin="true" width="6%" >
-						<Text text="{i18n>Label.CheckOrder.ShipFrom} "/>
-					</Column>
+					<!--<Column minScreenWidth="Tablet" demandPopin="true" width="6%" >-->
+					<!--	<Text text="{i18n>Label.CheckOrder.ShipFrom} "/>-->
+					<!--</Column>-->
 					<Column width="8%">
 						<Text text="{i18n>Label.CheckOrder.Quantity.Ordered}"/>
 					</Column>
@@ -124,14 +124,21 @@
 					<Column width="9%">
 						<Text text="{i18n>Label.CheckOrder.Quantity.BackOrdered}"/>
 					</Column>
+					<Column width="8%">
+						<Text text="{i18n>Label.CheckOrder.Quantity.Open}"/><!--New fields Addition --></Column>
+					<Column width="9%">
+						<Text text="{i18n>Label.CheckOrder.Estimated.Delivery.Date}"/><!--New fields Addition --></Column>
 					<Column width="10%" minScreenWidth="Tablet" demandPopin="true">
 						<Text text="{i18n>Label.CheckOrder.DealerOrder}"/>
 					</Column>
 					<Column width="10%" minScreenWidth="Tablet" demandPopin="true">
 						<Text text="{i18n>Label.CheckOrder.OrderType}"/>
 					</Column>
-					<Column width="10%" minScreenWidth="Tablet" demandPopin="true" hAlign="End">
+					<Column width="10%" minScreenWidth="Tablet" demandPopin="true">
 						<Text text="{i18n>Label.CheckOrder.TciOrder}"/>
+					</Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" width="6%">
+						<Text text="{i18n>Label.CheckOrder.ShipFrom} "/>
 					</Column>
 				</columns>
 			</Table>
@@ -141,17 +148,22 @@
 					sticky="{['sap.m.Sticky.ColumnHeaders', 'sap.m.Sticky.HeaderToolbar','sap.m.Sticky.InfoToolbar']}">
 					<columns>
 						<Column width="11%"/>
-						<Column minScreenWidth="Tablet" demandPopin="true" width="4%" />
-						<Column minScreenWidth="Tablet" demandPopin="true" width="8%" />
-						<Column minScreenWidth="Tablet" demandPopin="true" width="6%" />
-						<Column width="8%" id="quant_ordered" hAlign="Center" ></Column>
-						<Column width="8%" id="quant_in_process" hAlign="Center" ></Column>
-						<Column width="8%" id="quant_processed" hAlign="Center" ></Column>
-						<Column width="8%" id="quant_cancelled" hAlign="Center" ></Column>
+						<Column minScreenWidth="Tablet" demandPopin="true" width="4%"/>
+						<Column minScreenWidth="Tablet" demandPopin="true" width="8%"/>
+						<!--<Column minScreenWidth="Tablet" demandPopin="true" width="6%" />-->
+						<Column width="8%" id="quant_ordered" hAlign="Center"></Column>
+						<Column width="8%" id="quant_in_process" hAlign="Center"></Column>
+						<Column width="8%" id="quant_processed" hAlign="Center"></Column>
+						<Column width="8%" id="quant_cancelled" hAlign="Center"></Column>
 						<Column width="9%" id="quant_back_ordered" hAlign="Center"></Column>
+						<Column width="8%" id="open_qty" hAlign="Center"></Column>
+						<!--New fields Addition -->
+						<Column width="9%" id="est_deliv_date" hAlign="Center"></Column>
+						<!--New fields Addition -->
 						<Column width="10%" minScreenWidth="Tablet" demandPopin="true"/>
 						<Column width="10%" minScreenWidth="Tablet" demandPopin="true"/>
-						<Column width="10%" minScreenWidth="Tablet" demandPopin="true" hAlign="End"/>
+						<Column width="10%" minScreenWidth="Tablet" demandPopin="true" />
+						<Column minScreenWidth="Tablet" demandPopin="true" width="6%"/>
 					</columns>
 					<items>
 						<ColumnListItem>
@@ -160,17 +172,22 @@
 								<ObjectIdentifier title="{viewModel>matnr}" tooltip="{rejectionReason} {rejectionDescription}"/>
 								<core:Icon src="sap-icon://share" color='#FF5733' visible="{path : 'viewModel>sub_flag', formatter:'.formatter.sub2boolean'}"/>
 								<ObjectNumber number="{viewModel>TCI_itemNo}"/>
-								<Text text="{path : 'viewModel>ship_from' }"/>
+								<!--<Text text="{path : 'viewModel>ship_from' }"/>-->
 								<ObjectNumber number="{path: 'viewModel>quant_ordered', formatter:'.formatter.round2dec'}"/>
 								<ObjectNumber number="{path: 'viewModel>quant_in_process', formatter:'.formatter.round2dec' }"/>
 								<ObjectNumber number="{path: 'viewModel>quant_processed', formatter:'.formatter.round2dec'}"/>
 								<ObjectNumber number="{path: 'viewModel>quant_cancelled', formatter:'.formatter.round2dec'}"/>
 								<ObjectNumber number="{path: 'viewModel>quant_back_ordered', formatter:'.formatter.round2dec'}"/>
+								<ObjectNumber number="{path: 'viewModel>open_qty', formatter:'.formatter.round2dec'}"/>
+								<!--New fields Addition -->
+								<Text text="{path: 'viewModel>est_deliv_date',formatter:'.formatter.estDateFormat'}"/>
+								<!--New fields Addition -->
 								<ObjectIdentifier title="{viewModel>dealer_orderNo}"/>
 								<!--	<Text text="{path : 'viewModel>doc_type', formatter:'.formatter.orderTypeD' }" visible="{=${viewModel>campCode} !==''}"
 									tooltip="{i18n>Lable.CreateOrder.CampaignNumber} : {/campCode} {i18n>Lable.CreateOrder.OpCode} : {/OpCode} {i18n>Lable.CreateOrder.vin} : {/VIN}"/>-->
 								<Text text="{path : 'viewModel>doc_type', formatter:'.formatter.orderTypeD' }"/>
 								<Text text="{path :'viewModel>TCI_order_no', formatter:'.formatter.getItemNumber'}"/>
+								<Text text="{path : 'viewModel>ship_from' }"/>
 							</cells>
 						</ColumnListItem>
 					</items>

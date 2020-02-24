@@ -1964,6 +1964,7 @@ sap.ui.define([
 							oList[i].quant_processed=parseFloat(oList[i].quant_processed);
 							oList[i].quant_cancelled=parseFloat(oList[i].quant_cancelled);
 							oList[i].quant_back_ordered=parseFloat(oList[i].quant_back_ordered);
+							oList[i].open_qty=parseFloat(oList[i].open_qty);//MA21Feb20++ Open Qty added
 							currentItem = oList[i];
 							
 							if (currentKey.TCI_order_no === currentItem.TCI_order_no && currentKey.TCI_itemNo === currentItem.TCI_itemNo) {
@@ -2040,6 +2041,7 @@ sap.ui.define([
 							oList[i].quant_processed=parseFloat(oList[i].quant_processed);
 							oList[i].quant_cancelled=parseFloat(oList[i].quant_cancelled);
 							oList[i].quant_back_ordered=parseFloat(oList[i].quant_back_ordered);
+							oList[i].open_qty=parseFloat(oList[i].open_qty);//MA21Feb20++ Open Qty added
 							currentItem = oList[i];
 							if (currentKey.TCI_order_no === currentItem.TCI_order_no && currentKey.TCI_itemNo === currentItem.TCI_itemNo) {
 								//TODO										
