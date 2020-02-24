@@ -134,7 +134,7 @@
 					<Column width="10%" minScreenWidth="Tablet" demandPopin="true">
 						<Text text="{i18n>Label.CheckOrder.OrderType}"/>
 					</Column>
-					<Column width="10%" minScreenWidth="Tablet" demandPopin="true" hAlign="End">
+					<Column width="10%" minScreenWidth="Tablet" demandPopin="true">
 						<Text text="{i18n>Label.CheckOrder.TciOrder}"/>
 					</Column>
 					<Column minScreenWidth="Tablet" demandPopin="true" width="6%">
@@ -162,7 +162,7 @@
 						<!--New fields Addition -->
 						<Column width="10%" minScreenWidth="Tablet" demandPopin="true"/>
 						<Column width="10%" minScreenWidth="Tablet" demandPopin="true"/>
-						<Column width="10%" minScreenWidth="Tablet" demandPopin="true" hAlign="End"/>
+						<Column width="10%" minScreenWidth="Tablet" demandPopin="true" />
 						<Column minScreenWidth="Tablet" demandPopin="true" width="6%"/>
 					</columns>
 					<items>
@@ -180,7 +180,7 @@
 								<ObjectNumber number="{path: 'viewModel>quant_back_ordered', formatter:'.formatter.round2dec'}"/>
 								<ObjectNumber number="{path: 'viewModel>open_qty', formatter:'.formatter.round2dec'}"/>
 								<!--New fields Addition -->
-								<Text text="{path: 'viewModel>est_deliv_date'}"/>
+								<Text text="{path: 'viewModel>est_deliv_date',formatter:'.formatter.estDateFormat'}"/>
 								<!--New fields Addition -->
 								<ObjectIdentifier title="{viewModel>dealer_orderNo}"/>
 								<!--	<Text text="{path : 'viewModel>doc_type', formatter:'.formatter.orderTypeD' }" visible="{=${viewModel>campCode} !==''}"

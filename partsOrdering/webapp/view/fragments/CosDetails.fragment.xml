@@ -57,7 +57,7 @@
 							<ObjectNumber number="{path : '/quant_back_ordered', formatter:'.formatter.round2dec'}" state="Error"/>
 						</VBox>
 						<ToolbarSeparator/>
-						<VBox width='88px'>
+						<VBox width='90px'>
 							<Label text="{i18n>Header.Quantity.Open}"></Label>
 							<ObjectNumber number="{path : '/open_qty', formatter:'.formatter.round2dec'}" state="None"/>
 						</VBox>
@@ -134,7 +134,7 @@
 							<ObjectNumber number="{path : '/quant_back_ordered', formatter:'.formatter.round2dec'}" state="Error"/>
 						</VBox>
 						<ToolbarSeparator/>
-						<VBox width='88px'>
+						<VBox width='90px'>
 							<Label text="{i18n>Header.Quantity.Open}"></Label>
 							<ObjectNumber number="{path : '/open_qty', formatter:'.formatter.round2dec'}" state="None"/>
 						</VBox>
