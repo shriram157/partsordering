@@ -131,11 +131,14 @@
 					<Column width="10%" minScreenWidth="Tablet" demandPopin="true">
 						<Text text="{i18n>Label.CheckOrder.DealerOrder}"/>
 					</Column>
-					<Column width="10%" minScreenWidth="Tablet" demandPopin="true">
-						<Text text="{i18n>Label.CheckOrder.OrderType}"/>
-					</Column>
+					<!--<Column width="10%" minScreenWidth="Tablet" demandPopin="true">-->
+					<!--	<Text text="{i18n>Label.CheckOrder.OrderType}"/>-->
+					<!--</Column>-->
 					<Column width="10%" minScreenWidth="Tablet" demandPopin="true">
 						<Text text="{i18n>Label.CheckOrder.TciOrder}"/>
+					</Column>
+					<Column width="10%" minScreenWidth="Tablet" demandPopin="true">
+						<Text text="{i18n>Label.CheckOrder.OrderType}"/>
 					</Column>
 					<Column minScreenWidth="Tablet" demandPopin="true" width="6%">
 						<Text text="{i18n>Label.CheckOrder.ShipFrom} "/>
@@ -162,7 +165,7 @@
 						<!--New fields Addition -->
 						<Column width="10%" minScreenWidth="Tablet" demandPopin="true"/>
 						<Column width="10%" minScreenWidth="Tablet" demandPopin="true"/>
-						<Column width="10%" minScreenWidth="Tablet" demandPopin="true" />
+						<Column width="10%" minScreenWidth="Tablet" demandPopin="true"/>
 						<Column minScreenWidth="Tablet" demandPopin="true" width="6%"/>
 					</columns>
 					<items>
@@ -183,10 +186,11 @@
 								<Text text="{path: 'viewModel>est_deliv_date',formatter:'.formatter.estDateFormat'}"/>
 								<!--New fields Addition -->
 								<ObjectIdentifier title="{viewModel>dealer_orderNo}"/>
-								<!--	<Text text="{path : 'viewModel>doc_type', formatter:'.formatter.orderTypeD' }" visible="{=${viewModel>campCode} !==''}"
+								<!--<Text text="{path : 'viewModel>doc_type', formatter:'.formatter.orderTypeD' }" visible="{=${viewModel>campCode} !==''}"
 									tooltip="{i18n>Lable.CreateOrder.CampaignNumber} : {/campCode} {i18n>Lable.CreateOrder.OpCode} : {/OpCode} {i18n>Lable.CreateOrder.vin} : {/VIN}"/>-->
-								<Text text="{path : 'viewModel>doc_type', formatter:'.formatter.orderTypeD' }"/>
+								<!--<Text text="{path : 'viewModel>doc_type', formatter:'.formatter.orderTypeD' }"/>-->
 								<Text text="{path :'viewModel>TCI_order_no', formatter:'.formatter.getItemNumber'}"/>
+								<Text text="{path : 'viewModel>doc_type', formatter:'.formatter.orderTypeD' }"/>
 								<Text text="{path : 'viewModel>ship_from' }"/>
 							</cells>
 						</ColumnListItem>
