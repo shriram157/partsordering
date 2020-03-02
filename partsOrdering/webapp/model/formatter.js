@@ -80,7 +80,11 @@ sap.ui.define([], function () {
 					var strDate = formattedDate.toString();
 					// alert(formattedDate.toString().slice(4, 15));
 					// var outDate = "+ " + strDate.slice(11,15) + " " + strDate(4,7) + " ," + strDate (8,10);
-					outDate = "+ " + strDate.slice(4, 7) + " " + strDate.slice(8, 10) + ", " + strDate.slice(11, 15);
+					if (onlyDate) {
+						outDate = "+ " + strDate.slice(4, 7) + " " + strDate.slice(8, 10) + ", " + strDate.slice(11, 15);
+					} else {
+						outDate = "+ ";
+					}
 					// alert(outDate);
 				} else {
 					var onlyDate = inDate.slice(0, 8);
@@ -101,6 +105,7 @@ sap.ui.define([], function () {
 				}
 			}
 			return outDate;
+
 		},
 
 		linex2Format: function (typeD, typeB, opCode, vin) {

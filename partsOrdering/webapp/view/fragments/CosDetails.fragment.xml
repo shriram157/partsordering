@@ -19,7 +19,7 @@
 					<!--	tooltip="{/rejectionReason} {/rejectionDescription}" visible="{=${/quant_cancelled} !== '0'}" />-->
 					<ObjectAttribute title="{i18n>Label.CheckOrder.Creation.Date}"
 						text="{ path: '/erdat', type: 'sap.ui.model.type.Date', formatOptions: { style: 'long', source: { pattern: 'yyyy/MM/dd' } } }"/>
-					<ObjectAttribute title="{i18n>Label.CheckOrder.Ship.From}" text="{/ship_from}"/>
+					<ObjectAttribute  class = "CLattributetext" title="{i18n>Label.CheckOrder.Ship.From}" text="{/ship_from}"/>
 				</attributes>
 				<statuses>
 					<ObjectStatus text="{i18n>Label.CheckOrder.Substituted} : {/matnr}" state="Warning" visible='{/subs}'/>
