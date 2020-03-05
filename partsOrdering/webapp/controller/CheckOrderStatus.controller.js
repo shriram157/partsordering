@@ -227,9 +227,56 @@ sap.ui.define([
 				aSorters = [];
 			sPath = mParams.sortItem.getKey();
 			bDescending = mParams.sortDescending;
-			aSorters.push(new sap.ui.model.Sorter(sPath, bDescending));
+			if (sPath === "est_deliv_date") {
+				var mySorter = new sap.ui.model.Sorter(sPath, bDescending);
+				mySorter.fnCompare = function (a, b) {
+					var date1, date2;
+					if (a === "") {
+						date1 = new Date(0);
+					} else {
+						if (a.charAt(0) === "+") {
+							date1 = new Date(a.substring(2, 6), a.substring(6, 8) - 1, a.substring(8, 10));
+						} else {
+							date1 = new Date(a.substring(0, 4), a.substring(4, 6) - 1, a.substring(6, 8));
+						}
+					}
+					if (b === "") {
+						date2 = new Date(0);
+					} else {
+						if (b.charAt(0) === "+") {
+							date2 = new Date(b.substring(2, 6), b.substring(6, 8) - 1, b.substring(8, 10));
+						} else {
+							date2 = new Date(b.substring(0, 4), b.substring(4, 6) - 1, b.substring(6, 8));
+						}
+					}
+
+					if (date1 > date2) {
+						return 1;
+					} else if (date1 < date2) {
+						return -1;
+					} else {
+						return 0;
+					}
+				};
+				aSorters.push(mySorter);
+			} else {
+				aSorters.push(new sap.ui.model.Sorter(sPath, bDescending));
+			}
+			//aSorters.push(new sap.ui.model.Sorter(sPath, bDescending));
 			this._oList.getBinding("items").sort(aSorters);
 		},
+		
+		
+		// 	onConfirmViewSettingsDialog: function (oEvent) {
+		// 	var mParams = oEvent.getParameters(),
+		// 		sPath,
+		// 		bDescending,
+		// 		aSorters = [];
+		// 	sPath = mParams.sortItem.getKey();
+		// 	bDescending = mParams.sortDescending;
+		// 	aSorters.push(new sap.ui.model.Sorter(sPath, bDescending));
+		// 	this._oList.getBinding("items").sort(aSorters);
+		// },
 
 		onSetting: function (oEvent) {
 			if (!this._oDialog) {
@@ -458,7 +505,7 @@ sap.ui.define([
 			spartNumber = spartNumber.trim();
 			if (spartNumber.length > 0) {
 				spartNumber = spartNumber.toString().replace(/-/g, "");
-				spartNumber=spartNumber.toUpperCase();
+				spartNumber = spartNumber.toUpperCase();
 			}
 			oSource.setValue(spartNumber);
 		},
@@ -538,7 +585,7 @@ sap.ui.define([
 				conditions.bpCode = dealerCode;
 			}
 
-	//		var viewModel = this.getModel(CONST_VIEW_MODEL);
+			//		var viewModel = this.getModel(CONST_VIEW_MODEL);
 			var filters = viewModel.getProperty('/filters');
 			var filterAll = viewModel.getProperty('/filterAll');
 			var lc_index = -1;
