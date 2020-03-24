@@ -228,13 +228,15 @@ sap.ui.define([
 					}, {
 						code: 'BK',
 						name: resourceBundle.getText('Parts.Status.BackOrdered')
-					}, {
-						code: 'OpOR',
-						name: resourceBundle.getText('Parts.Status.OpenOrdered')
 					},{
 						code: 'QtOp',
-						name: resourceBundle.getText('Parts.Status.Quantity.Open')
+					name: resourceBundle.getText('Parts.Status.Quantity.Open')
+					},
+					{
+						code: 'OpOR',
+						name: resourceBundle.getText('Parts.Status.OpenOrdered')
 					}]
+					
 				};
 				var iDataModel = new sap.ui.model.json.JSONModel();
 				iDataModel.setData(iData);
@@ -1489,6 +1491,9 @@ sap.ui.define([
 						case 'BK':
 							partsSts.push(new sap.ui.model.Filter("quant_back_ordered", sap.ui.model.FilterOperator.GT, '0'));
 							break;
+						case 'QtOp':
+							partsSts.push(new sap.ui.model.Filter("open_qty", sap.ui.model.FilterOperator.GT, '0'));
+							break;
 						case 'OpOR':
 							partsSts.push(new sap.ui.model.Filter("quant_cancelled", sap.ui.model.FilterOperator.EQ, '0'));
 							partsSts.push(new sap.ui.model.Filter("quant_back_ordered", sap.ui.model.FilterOperator.EQ, '0'));
@@ -1496,10 +1501,7 @@ sap.ui.define([
 							partsSts.push(new sap.ui.model.Filter("quant_in_process", sap.ui.model.FilterOperator.EQ, '0'));
 							// partsSts.push(new sap.ui.model.Filter("quant_ordered", sap.ui.model.FilterOperator.NE, '0'));
 							//New Field added for Quantity open
-							partsSts.push(new sap.ui.model.Filter("open_qty", sap.ui.model.FilterOperator.EQ, '0')); 
-							break;
-						case 'QtOp':
-							partsSts.push(new sap.ui.model.Filter("open_qty", sap.ui.model.FilterOperator.GT, '0'));
+							partsSts.push(new sap.ui.model.Filter("open_qty", sap.ui.model.FilterOperator.EQ, '0'));
 							break;
 						}
 					}
@@ -1955,7 +1957,7 @@ sap.ui.define([
 			if (!!isSalesOrder) {
 				that._searchPartsSalesOrder(exactMode, conditions, function (oList) {
 					if (!!oList && oList.length > 0) {
-						
+
 						var finalList = [];
 						var currentItem = null;
 						var oldItem = null;
@@ -1967,14 +1969,14 @@ sap.ui.define([
 						var fiLine = null;
 
 						for (var i = 0; i < oList.length; i++) {
-							oList[i].quant_ordered=parseFloat(oList[i].quant_ordered);
-							oList[i].quant_in_process=parseFloat(oList[i].quant_in_process);
-							oList[i].quant_processed=parseFloat(oList[i].quant_processed);
-							oList[i].quant_cancelled=parseFloat(oList[i].quant_cancelled);
-							oList[i].quant_back_ordered=parseFloat(oList[i].quant_back_ordered);
-							oList[i].open_qty=parseFloat(oList[i].open_qty);//MA21Feb20++ Open Qty added
+							oList[i].quant_ordered = parseFloat(oList[i].quant_ordered);
+							oList[i].quant_in_process = parseFloat(oList[i].quant_in_process);
+							oList[i].quant_processed = parseFloat(oList[i].quant_processed);
+							oList[i].quant_cancelled = parseFloat(oList[i].quant_cancelled);
+							oList[i].quant_back_ordered = parseFloat(oList[i].quant_back_ordered);
+							oList[i].open_qty = parseFloat(oList[i].open_qty); //MA21Feb20++ Open Qty added
 							currentItem = oList[i];
-							
+
 							if (currentKey.TCI_order_no === currentItem.TCI_order_no && currentKey.TCI_itemNo === currentItem.TCI_itemNo) {
 								//TODO									
 							} else {
@@ -2023,7 +2025,7 @@ sap.ui.define([
 						if (!!oldItem) {
 							finalList.push(oldItem);
 						}
-						
+
 						callback(finalList);
 
 					} else {
@@ -2044,12 +2046,12 @@ sap.ui.define([
 						var fiLine = null;
 
 						for (var i = 0; i < oList.length; i++) {
-							oList[i].quant_ordered=parseFloat(oList[i].quant_ordered);
-							oList[i].quant_in_process=parseFloat(oList[i].quant_in_process);
-							oList[i].quant_processed=parseFloat(oList[i].quant_processed);
-							oList[i].quant_cancelled=parseFloat(oList[i].quant_cancelled);
-							oList[i].quant_back_ordered=parseFloat(oList[i].quant_back_ordered);
-							oList[i].open_qty=parseFloat(oList[i].open_qty);//MA21Feb20++ Open Qty added
+							oList[i].quant_ordered = parseFloat(oList[i].quant_ordered);
+							oList[i].quant_in_process = parseFloat(oList[i].quant_in_process);
+							oList[i].quant_processed = parseFloat(oList[i].quant_processed);
+							oList[i].quant_cancelled = parseFloat(oList[i].quant_cancelled);
+							oList[i].quant_back_ordered = parseFloat(oList[i].quant_back_ordered);
+							oList[i].open_qty = parseFloat(oList[i].open_qty); //MA21Feb20++ Open Qty added
 							currentItem = oList[i];
 							if (currentKey.TCI_order_no === currentItem.TCI_order_no && currentKey.TCI_itemNo === currentItem.TCI_itemNo) {
 								//TODO										
