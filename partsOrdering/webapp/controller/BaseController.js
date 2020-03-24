@@ -231,6 +231,9 @@ sap.ui.define([
 					}, {
 						code: 'OpOR',
 						name: resourceBundle.getText('Parts.Status.OpenOrdered')
+					},{
+						code: 'QtOp',
+						name: resourceBundle.getText('Parts.Status.Quantity.Open')
 					}]
 				};
 				var iDataModel = new sap.ui.model.json.JSONModel();
@@ -1492,6 +1495,11 @@ sap.ui.define([
 							partsSts.push(new sap.ui.model.Filter("quant_processed", sap.ui.model.FilterOperator.EQ, '0'));
 							partsSts.push(new sap.ui.model.Filter("quant_in_process", sap.ui.model.FilterOperator.EQ, '0'));
 							// partsSts.push(new sap.ui.model.Filter("quant_ordered", sap.ui.model.FilterOperator.NE, '0'));
+							//New Field added for Quantity open
+							partsSts.push(new sap.ui.model.Filter("open_qty", sap.ui.model.FilterOperator.EQ, '0')); 
+							break;
+						case 'QtOp':
+							partsSts.push(new sap.ui.model.Filter("open_qty", sap.ui.model.FilterOperator.GT, '0'));
 							break;
 						}
 					}
