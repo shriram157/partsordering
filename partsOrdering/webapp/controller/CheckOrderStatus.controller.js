@@ -732,6 +732,152 @@ sap.ui.define([
 			}
 			viewModel.setProperty('/filterPanelEnable', togglePanel);
 
+		},
+		// CR1044- Export To excel Functionlity
+		onDataExport: function (oEvent) {
+			var data;
+			if (this.getView().getModel("viewModel") != undefined) {
+				data = this.getView().getModel("viewModel").getData();
+			} else {
+				data = this.getView().byId("idProductsTable").getModel("viewModel").getData();
+			}
+			this.JSONToExcelConvertor(data, "Report", true);
+		},
+		estDateFormat: function (inDate) {
+			// var inDate = "+ 20200314";
+			/* alert(inDate); */
+			// alert(inDate.indexOf("+"));
+			var outDate = "";
+			if (inDate !== "") {
+				if (inDate.indexOf("+") >= 0) {
+					var onlyDate = inDate.slice(2, 10);
+					// alert(onlyDate);
+					var sYear = onlyDate.slice(0, 4);
+					// alert(sYear);
+					var sMonth = onlyDate.slice(4, 6) - 1;
+					// alert(sMonth);
+					var sDate = onlyDate.slice(6, 8);
+					// alert(sDate);
+					var formattedDate = new Date(sYear, sMonth, sDate);
+					// alert(formattedDate);
+					var strDate = formattedDate.toString();
+					// alert(formattedDate.toString().slice(4, 15));
+					// var outDate = "+ " + strDate.slice(11,15) + " " + strDate(4,7) + " ," + strDate (8,10);
+					if (onlyDate) {
+						outDate = "+ " + strDate.slice(4, 7) + " " + strDate.slice(8, 10) + ", " + strDate.slice(11, 15);
+					} else {
+						outDate = "+ ";
+					}
+					// alert(outDate);
+				} else {
+					var onlyDate = inDate.slice(0, 8);
+					// alert(onlyDate);
+					var sYear = onlyDate.slice(0, 4);
+					// alert(sYear);
+					var sMonth = onlyDate.slice(4, 6) - 1;
+					// alert(sMonth);
+					var sDate = onlyDate.slice(6, 8);
+					// alert(sDate);
+					var formattedDate = new Date(sYear, sMonth, sDate);
+					// alert(formattedDate);
+					var strDate = formattedDate.toString();
+					// alert(formattedDate.toString().slice(4, 15));
+					//var outDate =strDate.slice(11,15) + " " + strDate.slice(4,7) + " ," + strDate.slice(8,10);
+					outDate = strDate.slice(4, 7) + " " + strDate.slice(8, 10) + ", " + strDate.slice(11, 15);
+					// alert(outDate);
+				}
+			}
+			return outDate;
+
+		},
+		OrdDatFormat: function (orDate) {
+			var sDate = "";
+			if (orDate !== "") {
+				// alert(myDate);
+				var sYear = orDate.substr(0, 4);
+				// alert(myYear);
+				var sMon = orDate.substr(4, 2);
+				// alert(myMon);
+				if (sMon.substr(0, 1) == "0") {
+					sMon = sMon.substr(1, 1);
+				} else {
+					// alert(sMon);
+					sMon=sMon;
+				}
+				var sDay = orDate.substr(6, 2);
+				// alert(myDay);
+				var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+				// alert(monthNames[myMon - 1]);
+				// alert(monthNames[myMon - 1] + " " + myDay + "," + myYear);
+				sDate = monthNames[sMon - 1] + " " + sDay + "," + sYear;
+			}
+			return sDate;
+
+		},
+
+		JSONToExcelConvertor: function (JSONData, ReportTitle, ShowLabel) {
+			var arrData = typeof JSONData.orders != 'object' ? JSON.parse(JSONData.orders) : JSONData.orders;
+			var CSV = "";
+			if (ShowLabel) {
+				var row = "";
+				row = row.slice(0, -1);
+			}
+
+			row += this.getResourceBundle().getText("Label.CheckOrder.PartNumber") + ",";
+			row += this.getResourceBundle().getText("Label.CheckOrder.LineItem") + ",";
+			row += this.getResourceBundle().getText("Label.CheckOrder.Quantity.Ordered") + ",";
+			row += this.getResourceBundle().getText("Label.CheckOrder.Quantity.InProcess") + ",";
+			row += this.getResourceBundle().getText("Label.CheckOrder.Quantity.Processed") + ",";
+			row += this.getResourceBundle().getText("Label.CheckOrder.Quantity.Cancelled") + ",";
+			row += this.getResourceBundle().getText("Label.CheckOrder.Quantity.BackOrdered") + ",";
+			row += this.getResourceBundle().getText("Label.CheckOrder.Quantity.Open") + ",";
+			row += this.getResourceBundle().getText("Label.CheckOrder.Estimated.Delivery.Date") + ",";
+			row += this.getResourceBundle().getText("Label.CheckOrder.DealerOrder") + ",";
+			row += this.getResourceBundle().getText("Label.CheckOrder.TciOrder") + ",";
+			row += this.getResourceBundle().getText("Label.CheckOrder.OrderType") + ",";
+			row += this.getResourceBundle().getText("Label.CheckOrder.ShipFrom") + ",";
+			row += this.getResourceBundle().getText("Label.CheckOrder.Order.Date") + ",";
+			// row += _thatDT.oI18nModel.getResourceBundle().getText("CustomerName") + ",";
+
+			CSV += row + '\r\n';
+
+			// loop is to extract each row
+			for (var i = 0; i < arrData.length; i++) {
+				var row = "";
+				row += '="' + arrData[i].matnr + '","' + arrData[i].TCI_itemNo + '","' + arrData[i].quant_ordered +
+					'","' + arrData[i].quant_in_process + '","' + arrData[i].quant_processed + '","' + arrData[i].quant_cancelled + '","' + arrData[i]
+					.quant_back_ordered + '","' +
+					arrData[i].open_qty + '","' + this.estDateFormat(arrData[i].est_deliv_date) + '","' + arrData[i].dealer_orderNo + '","' + arrData[
+						i]
+					.TCI_order_no + '","' + arrData[i].doc_type + '","' + arrData[i].ship_from + '","' + this.OrdDatFormat(arrData[i].erdat) + '",';
+				//}
+				row.slice(1, row.length);
+				CSV += row + '\r\n';
+			}
+			if (CSV == "") {
+				alert("Invalid data");
+				return;
+			}
+			var fileName = this.getResourceBundle().getText("Label.CheckOrderStatus");
+			fileName += ReportTitle.replace(/ /g, "_");
+			// Initialize file format you want csv or xls
+
+			var blob = new Blob(["\ufeff" + CSV], {
+				type: "text/csv;charset=utf-8,"
+			});
+			if (sap.ui.Device.browser.name === "ie" || sap.ui.Device.browser.name === "ed") { // IE 10+ , Edge (IE 12+)
+				navigator.msSaveBlob(blob, this.getResourceBundle().getText("Label.CheckOrderStatus") + ".csv");
+			} else {
+				var uri = 'data:text/csv;charset=utf-8,' + "\ufeff" + encodeURIComponent(CSV); //'data:application/vnd.ms-excel,' + escape(CSV);
+				var link = document.createElement("a");
+
+				link.href = uri;
+				link.style = "visibility:hidden";
+				link.download = fileName + ".csv";
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+			}
 		}
 
 	});

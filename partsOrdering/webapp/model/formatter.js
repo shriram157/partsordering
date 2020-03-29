@@ -107,6 +107,30 @@ sap.ui.define([], function () {
 			return outDate;
 
 		},
+		OrdDatFormat: function (orDate) {
+			var sDate = "";
+			if (orDate !== "") {
+				// alert(myDate);
+				var sYear = orDate.substr(0, 4);
+				// alert(myYear);
+				var sMon = orDate.substr(4, 2);
+				// alert(myMon);
+				if (sMon.substr(0, 1) == "0") {
+					sMon = sMon.substr(1, 1);
+				} else {
+					// alert(sMon);
+					sMon= sMon;
+				}
+				var sDay = orDate.substr(6, 2);
+				// alert(myDay);
+				var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+				// alert(monthNames[myMon - 1]);
+				// alert(monthNames[myMon - 1] + " " + myDay + "," + myYear);
+				sDate = monthNames[sMon - 1] + " " + sDay + "," + sYear;
+			}
+			return sDate;
+
+		},
 
 		linex2Format: function (typeD, typeB, opCode, vin) {
 			if (!!typeD) {
