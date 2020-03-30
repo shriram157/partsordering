@@ -6,8 +6,10 @@ sap.ui.define([
 	'sap/m/Link',
 	'sap/ui/model/json/JSONModel',
 	"tci/wave2/ui/parts/ordering/model/formatter",
-	'sap/ui/model/Sorter'
-], function (BaseController, MessagePopover, MessageItem, MessageToast, Link, JSONModel, formatter, Sorter) {
+	'sap/ui/model/Sorter',
+	"sap/ui/core/util/Export",
+	"sap/ui/core/util/ExportTypeCSV",
+], function (BaseController, MessagePopover, MessageItem, MessageToast, Link, JSONModel, formatter, Sorter, Export, ExportTypeCSV) {
 	"use strict";
 
 	var CONST_VIEW_MODEL = 'viewModel';
@@ -735,13 +737,193 @@ sap.ui.define([
 		},
 		// CR1044- Export To excel Functionlity
 		onDataExport: function (oEvent) {
-			var data;
-			if (this.getView().getModel("viewModel") != undefined) {
-				data = this.getView().getModel("viewModel").getData();
-			} else {
-				data = this.getView().byId("idProductsTable").getModel("viewModel").getData();
-			}
-			this.JSONToExcelConvertor(data, "Report", true);
+			// var data;
+			// if (this.getView().getModel("viewModel") != undefined) {
+			// 	data = this.getView().getModel("viewModel").getData();
+			// } else {
+			// 	data = this.getView().byId("idProductsTable").getModel("viewModel").getData();
+			// }
+			// this.JSONToExcelConvertor(data, "Report", true);
+
+			//===================================
+			var oExport = new sap.ui.core.util.Export({
+
+				exportType: new sap.ui.core.util.ExportTypeCSV({
+
+					separatorChar: "\t",
+
+					mimeType: "application/vnd.ms-excel",
+
+					charset: "utf-8",
+
+					fileExtension: "xls"
+
+				}),
+
+				models: this.getView().getModel("viewModel"),
+
+				rows: {
+
+					path: "/orders"
+
+				},
+
+				columns: [
+
+					{
+
+						name: this.getResourceBundle().getText("Label.CheckOrder.PartNumber"),
+
+						template: {
+
+							content: "{matnr}"
+
+						}
+
+					}, {
+
+						name: this.getResourceBundle().getText("Label.CheckOrder.LineItem"),
+
+						template: {
+
+							content: "{TCI_itemNo}"
+
+						}
+
+					}, {
+
+						name: this.getResourceBundle().getText("Label.CheckOrder.Quantity.Ordered"),
+
+						template: {
+
+							content: "{quant_ordered}"
+
+						}
+
+					}, {
+
+						name: this.getResourceBundle().getText("Label.CheckOrder.Quantity.InProcess"),
+
+						template: {
+
+							content: "{quant_in_process}"
+
+						}
+
+					}, {
+
+						name: this.getResourceBundle().getText("Label.CheckOrder.Quantity.Processed"),
+
+						template: {
+
+							content: "{quant_processed}"
+
+						}
+
+					}, {
+
+						name: this.getResourceBundle().getText("Label.CheckOrder.Quantity.Cancelled"),
+
+						template: {
+
+							content: "{quant_cancelled}"
+
+						}
+
+					},
+
+					{
+
+						name: this.getResourceBundle().getText("Label.CheckOrder.Quantity.BackOrdered"),
+
+						template: {
+
+							content: "{quant_back_ordered}"
+
+						}
+
+					}, {
+
+						name: this.getResourceBundle().getText("Label.CheckOrder.Quantity.Open"),
+
+						template: {
+
+							content: "{open_qty}"
+
+						}
+
+					}, {
+
+						name: this.getResourceBundle().getText("Label.CheckOrder.Estimated.Delivery.Date"),
+
+						template: {
+
+							content: "{est_deliv_date}"
+
+						}
+
+					}, {
+
+						name: this.getResourceBundle().getText("Label.CheckOrder.DealerOrder"),
+
+						template: {
+							content: "{dealer_orderNo}"
+
+						}
+					}, {
+
+						name: this.getResourceBundle().getText("Label.CheckOrder.TciOrder"),
+
+						template: {
+
+							content: "{TCI_order_no}"
+
+						}
+
+					}, {
+
+						name: this.getResourceBundle().getText("Label.CheckOrder.OrderType"),
+
+						template: {
+
+							content: "{doc_type}"
+
+						}
+
+					}, {
+
+						name: this.getResourceBundle().getText("Label.CheckOrder.ShipFrom"),
+
+						template: {
+
+							content: "{ship_from}"
+
+						}
+
+					}, {
+
+						name: this.getResourceBundle().getText("Label.CheckOrder.Order.Date"),
+
+						template: {
+
+							content: "{erdat}"
+
+						}
+
+					}
+
+				]
+
+			});
+
+			//* download exported file
+
+			oExport.saveFile().always(function () {
+
+				this.destroy();
+
+			});
+
 		},
 		estDateFormat: function (inDate) {
 			// var inDate = "+ 20200314";
@@ -802,7 +984,7 @@ sap.ui.define([
 					sMon = sMon.substr(1, 1);
 				} else {
 					// alert(sMon);
-					sMon=sMon;
+					sMon = sMon;
 				}
 				var sDay = orDate.substr(6, 2);
 				// alert(myDay);
