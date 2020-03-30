@@ -211,10 +211,10 @@
 		</content>
 		<footer>
 			<OverflowToolbar>
+				<ToolbarSpacer/>
 				<Button icon="sap-icon://message-popup" text="{=${message>/}.length}" visible="{=${message>/}.length > 0}" type="Emphasized"
 					press="handleMessagePopoverPress"/>
 				<Button text="{i18n>ExportToExcel}" type="Transparent" press="onDataExport" width="150px"/>
-				<ToolbarSpacer/>
 			</OverflowToolbar>
 		</footer>
 	</Page>
