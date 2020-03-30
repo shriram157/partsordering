@@ -745,6 +745,9 @@ sap.ui.define([
 			// }
 			// this.JSONToExcelConvertor(data, "Report", true);
 
+			var sortKey = this.getView().getModel("viewModel").getData().sortKey;
+			var sortDesc = this.getView().getModel("viewModel").getData().sortDescending;
+
 			//===================================
 			var oExport = new sap.ui.core.util.Export({
 
@@ -764,7 +767,11 @@ sap.ui.define([
 
 				rows: {
 
-					path: "/orders"
+					path: "/orders",
+					sorter: [{
+						path: sortKey,
+						descending: sortDesc
+					}]
 
 				},
 
