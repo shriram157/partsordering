@@ -817,6 +817,23 @@ sap.ui.define([
 			return sDate;
 
 		},
+		orderTypeD: function (type) {
+			var resourceBundle = this.getResourceBundle();
+			switch (type) {
+			case 'UB':
+				return resourceBundle.getText('order.type.standard');
+			case 'ZLOC':
+				return resourceBundle.getText('order.type.standard');
+			case 'ZOR':
+				return resourceBundle.getText('order.type.standard');
+			case 'ZRO':
+				return resourceBundle.getText('order.type.rush');
+			case 'ZCO':
+				return resourceBundle.getText('order.type.campaign');
+			default:
+				return resourceBundle.getText('order.type.other', [type]);
+			}
+		},
 
 		JSONToExcelConvertor: function (JSONData, ReportTitle, ShowLabel) {
 			var arrData = typeof JSONData.orders != 'object' ? JSON.parse(JSONData.orders) : JSONData.orders;
@@ -852,7 +869,7 @@ sap.ui.define([
 					.quant_back_ordered + '","' +
 					arrData[i].open_qty + '","' + this.estDateFormat(arrData[i].est_deliv_date) + '","' + arrData[i].dealer_orderNo + '","' + arrData[
 						i]
-					.TCI_order_no + '","' + arrData[i].doc_type + '","' + arrData[i].ship_from + '","' + this.OrdDatFormat(arrData[i].erdat) + '",';
+					.TCI_order_no + '","' + this.orderTypeD(arrData[i].doc_type) + '","' + arrData[i].ship_from + '","' + this.OrdDatFormat(arrData[i].erdat) + '",';
 				//}
 				row.slice(1, row.length);
 				CSV += row + '\r\n';
