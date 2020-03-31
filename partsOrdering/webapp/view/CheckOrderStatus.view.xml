@@ -203,12 +203,17 @@
 							</ColumnListItem>
 						</items>
 					</Table>
-				</content>
-				<Toolbar>
+					<Toolbar>
 					<content>
 						<Text text=""/>
 					</content>
 				</Toolbar>
+				</content>
+				<!--<Toolbar>-->
+				<!--	<content>-->
+				<!--		<Text text=""/>-->
+				<!--	</content>-->
+				<!--</Toolbar>-->
 			</ScrollContainer>
 		</content>
 		<footer>
