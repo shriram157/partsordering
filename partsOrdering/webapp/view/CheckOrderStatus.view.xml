@@ -203,11 +203,6 @@
 							</ColumnListItem>
 						</items>
 					</Table>
-					<Toolbar>
-					<content>
-						<Text text=""/>
-					</content>
-				</Toolbar>
 				</content>
 				<!--<Toolbar>-->
 				<!--	<content>-->
