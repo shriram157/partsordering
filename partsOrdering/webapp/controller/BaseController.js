@@ -231,11 +231,11 @@ sap.ui.define([
 					},{
 						code: 'QtOp',
 					name: resourceBundle.getText('Parts.Status.Quantity.Open')
-					},
-					{
-						code: 'OpOR',
-						name: resourceBundle.getText('Parts.Status.OpenOrdered')
 					}]
+					// {
+					// 	code: 'OpOR',
+					// 	name: resourceBundle.getText('Parts.Status.OpenOrdered')
+					// }]
 					
 				};
 				var iDataModel = new sap.ui.model.json.JSONModel();

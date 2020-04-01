@@ -834,6 +834,29 @@ sap.ui.define([
 				return resourceBundle.getText('order.type.other', [type]);
 			}
 		},
+		round2dec: function (sValue) {
+			try {
+				if (!!sValue) {
+					if (sValue === 0) {
+						return "0";
+						// changed to return blank  if 0 - May 27.
+					}
+					return parseFloat(sValue).toFixed(0);
+					// changed to return blank  if 0 decimals - May 29.
+				}
+
+			} catch (err) {
+
+			}
+
+			return "0";
+		},
+		getItemNumber: function (sValue) {
+			if (!!sValue) {
+				return sValue.replace(/^0+/, '');
+			}
+			return sValue;
+		},
 
 		JSONToExcelConvertor: function (JSONData, ReportTitle, ShowLabel) {
 			var arrData = typeof JSONData.orders != 'object' ? JSON.parse(JSONData.orders) : JSONData.orders;
@@ -864,12 +887,15 @@ sap.ui.define([
 			// loop is to extract each row
 			for (var i = 0; i < arrData.length; i++) {
 				var row = "";
-				row += '="' + arrData[i].matnr + '","' + arrData[i].TCI_itemNo + '","' + arrData[i].quant_ordered +
-					'","' + arrData[i].quant_in_process + '","' + arrData[i].quant_processed + '","' + arrData[i].quant_cancelled + '","' + arrData[i]
-					.quant_back_ordered + '","' +
-					arrData[i].open_qty + '","' + this.estDateFormat(arrData[i].est_deliv_date) + '","' + arrData[i].dealer_orderNo + '","' + arrData[
-						i]
-					.TCI_order_no + '","' + this.orderTypeD(arrData[i].doc_type) + '","' + arrData[i].ship_from + '","' + this.OrdDatFormat(arrData[i].erdat) + '",';
+				row += '="' + arrData[i].matnr + '","' + arrData[i].TCI_itemNo + '","' + this.round2dec(arrData[i].quant_ordered) +
+					'","' + arrData[i].quant_in_process + '","' + this.round2dec(arrData[i].quant_processed) + '","' + this.round2dec(arrData[i].quant_cancelled) +
+					'","' + this.round2dec(arrData[i]
+						.quant_back_ordered) + '","' +
+					this.round2dec(arrData[i].open_qty) + '","' + this.estDateFormat(arrData[i].est_deliv_date) + '","' + arrData[i].dealer_orderNo +
+					'","' +
+					this.getItemNumber(arrData[i]
+						.TCI_order_no) + '","' + this.orderTypeD(arrData[i].doc_type) + '","' + arrData[i].ship_from + '","' + this.OrdDatFormat(arrData[
+						i].erdat) + '",';
 				//}
 				row.slice(1, row.length);
 				CSV += row + '\r\n';
