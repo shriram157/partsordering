@@ -1436,7 +1436,7 @@ sap.ui.define([
 		_searchPartsSalesOrder: function (exactMode, conditions, callback) {
 			var that = this;
 			var bModel = this.getSalesOrderModel();
-
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oFilter = new Array();
 			//var dealerCode = conditions.dealerCode;
 			var dealerCode = conditions.bpCode;
@@ -1561,6 +1561,8 @@ sap.ui.define([
 				},
 				error: function (err) {
 					callback(null);
+					
+					sap.m.MessageBox.show(oBundle.getText("correctDateRange"), sap.m.MessageBox.Icon.ERROR, "Error", sap.m.MessageBox.Action.OK, null, null);
 				}
 			});
 		},
