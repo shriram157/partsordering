@@ -1792,7 +1792,7 @@ sap.ui.define([
 				'camp_code': campCode,
 				'op_code': opCode,
 				'VIN_no': vinNo,
-				'matnr': partNum
+				'part_no': partNum
 			});
 			bModel.read(key, {
 				success: function (oData, oResponse) {
