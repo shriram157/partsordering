@@ -684,7 +684,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					var iItems = 0;
 
 					if (this.bIsSalesOrder) {
-						DataManager.saveDraftSalesOrder(this.aCreateItems, this.aUpdateItems, function (oSalesItem, sOperation, IIndex, isOK,
+						DataManager.saveDraftSalesOrder(this, this.aCreateItems, this.aUpdateItems, function (oSalesItem, sOperation, IIndex, isOK,
 							errorMessages) {
 							var Index = oSalesItem.line;
 							var oItem = that.oOrderModel.getData().items[Index];

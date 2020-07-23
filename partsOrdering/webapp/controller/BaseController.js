@@ -1633,7 +1633,7 @@ sap.ui.define([
 								aDraftItem.comment = lv_aResultItem.Comments;
 								aDraftItem.uuid = lv_aResultItem.ItemDraftUUID;
 								aDraftItem.parentUuid = lv_aResultItem.HeaderDraftUUID;
-								aDraftItem.campainNum = lv_aResultItem.Zzcampaign;
+								aDraftItem.campaignNum = lv_aResultItem.Zzcampaign;
 								aDraftItem.opCode = lv_aResultItem.Zzopcode;
 								aDraftItem.vin = lv_aResultItem.VIN_no;
 								aDraftItem.contractNum = lv_aResultItem.RefDoc;
@@ -1725,7 +1725,7 @@ sap.ui.define([
 								aDraftItem.comment = lv_aResultItem.Comments;
 								aDraftItem.uuid = lv_aResultItem.ItemDraftUUID;
 								aDraftItem.parentUuid = lv_aResultItem.HeaderDraftUUID;
-								aDraftItem.campainNum = lv_aResultItem.Zzcampaign;
+								aDraftItem.campaignNum = lv_aResultItem.Zzcampaign;
 								aDraftItem.opCode = lv_aResultItem.Zzopcode;
 								aDraftItem.vin = lv_aResultItem.VIN_no;
 								aDraftItem.contractNum = lv_aResultItem.RefDoc;
@@ -1792,7 +1792,7 @@ sap.ui.define([
 				'camp_code': campCode,
 				'op_code': opCode,
 				'VIN_no': vinNo,
-				'matnr': partNum
+				'part_no': partNum
 			});
 			bModel.read(key, {
 				success: function (oData, oResponse) {
@@ -1845,7 +1845,7 @@ sap.ui.define([
 			obj.Comments = data.items[len].comment;
 			obj.MatDesc = data.items[len].partDesc;
 			if (!!data.typeD) { // Campiagn
-				obj.Zzcampaign = data.items[len].campainNum;
+				obj.Zzcampaign = data.items[len].campaignNum;
 				obj.Zzopcode = data.items[len].opCode;
 				obj.VIN_no = data.items[len].vin;
 			} else if (!!data.typeB) {

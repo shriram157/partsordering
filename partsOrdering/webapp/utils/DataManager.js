@@ -162,17 +162,17 @@ sap.ui.define([], function () {
 
 		}, //getPartDescSPQ End
 
-		saveDraftSalesOrder: function (aCreateItems, aUpdateItems, callbackFn) {
+		saveDraftSalesOrder: function (t, aCreateItems, aUpdateItems, callbackFn) {
 			if (aCreateItems.length > 0 && aCreateItems.length !== 0) {
-				this._createSalesOrder(aCreateItems, callbackFn);
+				this._createSalesOrder(t, aCreateItems, callbackFn);
 			}
 			if (aUpdateItems.length > 0 && aUpdateItems.length !== 0) {
-				this._updateSalesOrder(aUpdateItems, callbackFn);
+				this._updateSalesOrder(t, aUpdateItems, callbackFn);
 
 			}
 		},
 
-		_createSalesOrder: function (aCreateItems, callbackFn) {
+		_createSalesOrder: function (t, aCreateItems, callbackFn) {
 			var that = this;
 			//var lv_orderType = this.getRealOrderTypeByItemCategoryGroup( items[0].itemCategoryGroup , data.isSalesOrder, data.orderTypeId );
 			var aDraft = null;
@@ -190,11 +190,14 @@ sap.ui.define([], function () {
 				var obj = entry.getObject();
 
 				// populate the values
+				//var division = jQuery.sap.getUriParameters().get('Division');
 				obj.Division = _orderData.Division;
 				obj.SalesOrg = _orderData.SalesOrganization;
 				obj.DistrChan = _orderData.DistributionChannel;
-
-				obj.SoldtoParty = _orderData.purBpCode;
+				var dealerCode= t.getStateModel().getProperty('/userProfile').dealerCode;
+				
+				t.getBusinessPartnersByDealerCode(dealerCode, function (sData) {             
+				obj.SoldtoParty = sData.BusinessPartner;
 				obj.PurchNoC = _orderData.tciOrderNumber;
 				obj.DocType = _orderData.items[1].OrderType;
 
@@ -209,7 +212,7 @@ sap.ui.define([], function () {
 						aDraft.DraftUUID = oData.HeaderDraftUUID;
 						aDraft.Lines = 0;
 						_orderData.associatedDrafts.push(aDraft);
-						that._createSalesOrder(aCreateItems, callbackFn);
+						that._createSalesOrder(t, aCreateItems, callbackFn);
 						//Callback This function
 					},
 					error: function (oError) {
@@ -217,6 +220,7 @@ sap.ui.define([], function () {
 						var errMessage = errorResponse.error.message.value;
 						callbackFn(aCreateItems[0], "Create", -1, false, errMessage);
 					}
+				});
 				});
 			}
 			//Header Draft Available
@@ -282,7 +286,7 @@ sap.ui.define([], function () {
 			} //for end	
 		},
 
-		_updateSalesOrder: function (aUpdateItems, callbackFn) {
+		_updateSalesOrder: function (t, aUpdateItems, callbackFn) {
 			var IIndex = 0;
 			var getUpdateItemIndex = function () {
 				return IIndex;
