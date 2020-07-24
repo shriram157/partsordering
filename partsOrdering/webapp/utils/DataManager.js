@@ -194,33 +194,36 @@ sap.ui.define([], function () {
 				obj.Division = _orderData.Division;
 				obj.SalesOrg = _orderData.SalesOrganization;
 				obj.DistrChan = _orderData.DistributionChannel;
-				var dealerCode= t.getStateModel().getProperty('/userProfile').dealerCode;
-				
-				t.getBusinessPartnersByDealerCode(dealerCode, function (sData) {             
-				obj.SoldtoParty = sData.BusinessPartner;
-				obj.PurchNoC = _orderData.tciOrderNumber;
-				obj.DocType = _orderData.items[1].OrderType;
+				var dealerCode = t.getStateModel().getProperty('/userProfile').dealerCode;
 
-				_salesorderModel.create('/draft_soHeaderSet', obj, {
-					success: function (oData, response) {
-						// prepare aDraft
-						aDraft = {};
-						aDraft.SalesOrganization = oData.SalesOrg;
-						aDraft.DistributionChannel = oData.DistrChan;
-						aDraft.Division = oData.Division;
-						aDraft.OrderType = oData.DocType;
-						aDraft.DraftUUID = oData.HeaderDraftUUID;
-						aDraft.Lines = 0;
-						_orderData.associatedDrafts.push(aDraft);
-						that._createSalesOrder(t, aCreateItems, callbackFn);
-						//Callback This function
-					},
-					error: function (oError) {
-						var errorResponse = JSON.parse(oError.responseText);
-						var errMessage = errorResponse.error.message.value;
-						callbackFn(aCreateItems[0], "Create", -1, false, errMessage);
-					}
-				});
+				t.getBusinessPartnersByDealerCode(dealerCode, function (sData) {
+					obj.SoldtoParty = sData.BusinessPartner;
+					obj.PurchNoC = _orderData.tciOrderNumber;
+					obj.DocType = _orderData.items[1].OrderType;
+					console.log("payload" + obj);
+					console.table(obj);
+					_salesorderModel.create('/draft_soHeaderSet', obj, {
+						success: function (oData, response) {
+							console.log("Data" + oData);
+							console.log("Response" + response);
+							// prepare aDraft
+							aDraft = {};
+							aDraft.SalesOrganization = oData.SalesOrg;
+							aDraft.DistributionChannel = oData.DistrChan;
+							aDraft.Division = oData.Division;
+							aDraft.OrderType = oData.DocType;
+							aDraft.DraftUUID = oData.HeaderDraftUUID;
+							aDraft.Lines = 0;
+							_orderData.associatedDrafts.push(aDraft);
+							that._createSalesOrder(t, aCreateItems, callbackFn);
+							//Callback This function
+						},
+						error: function (oError) {
+							var errorResponse = JSON.parse(oError.responseText);
+							var errMessage = errorResponse.error.message.value;
+							callbackFn(aCreateItems[0], "Create", -1, false, errMessage);
+						}
+					});
 				});
 			}
 			//Header Draft Available
@@ -267,9 +270,13 @@ sap.ui.define([], function () {
 						}
 					}
 
+					console.log("payload for soItem" + obj);
+					console.table(obj);
+
 					_salesorderModel.create('/draft_soItemSet', obj, {
 						success: function (oData, oResponse) {
-
+							console.log("after Sucess soItem" + oData);
+							console.log("after Sucess soItem Response" + oResponse);
 							aCreateItems[0]["uuid"] = oData.ItemDraftUUID;
 							aCreateItems[0]["parentUuid"] = oData.HeaderDraftUUID;
 							aCreateItems[0]["ItmNumber"] = oData.ItmNumber;
@@ -354,6 +361,8 @@ sap.ui.define([], function () {
 			}
 
 			drafts = _orderData.associatedDrafts[0];
+			
+			console.log(drafts);
 
 			_salesorderModel.callFunction('/DraftToSO', {
 				method: "GET",
@@ -363,6 +372,8 @@ sap.ui.define([], function () {
 					IsActiveEntity: true
 				},
 				success: function (oData, oResponse) {
+					console.table(oData);
+					console.log(oData);
 					var messageList = null;
 					if (!!oData.results) {
 						messageList = oData.results;
@@ -597,11 +608,11 @@ sap.ui.define([], function () {
 			var messageItem = null;
 			var messageList = [];
 			if (!!error && !!error.responseText) {
-				if (error.statusCode == 504 ) {
+				if (error.statusCode == 504) {
 					messageList.push(error.statusCode);
 				} else {
 					sapMessage = JSON.parse(error.responseText);
-				
+
 					if (!!sapMessage.error && !!sapMessage.error.innererror && !!sapMessage.error.innererror.errordetails) {
 						for (var x = 0; x < sapMessage.error.innererror.errordetails.length; x++) {
 							mItem = sapMessage.error.innererror.errordetails[x];
