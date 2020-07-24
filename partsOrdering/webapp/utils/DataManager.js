@@ -200,12 +200,12 @@ sap.ui.define([], function () {
 					obj.SoldtoParty = sData.BusinessPartner;
 					obj.PurchNoC = _orderData.tciOrderNumber;
 					obj.DocType = _orderData.items[1].OrderType;
-					console.log("payload" + obj);
+					console.log({"payload" : obj});
 					console.table(obj);
 					_salesorderModel.create('/draft_soHeaderSet', obj, {
 						success: function (oData, response) {
-							console.log("Data" + oData);
-							console.log("Response" + response);
+							console.log({"Data after save draft" : oData});
+							console.log({"Response after save draft" : response});
 							// prepare aDraft
 							aDraft = {};
 							aDraft.SalesOrganization = oData.SalesOrg;
@@ -270,13 +270,13 @@ sap.ui.define([], function () {
 						}
 					}
 
-					console.log("payload for soItem" + obj);
+					console.log({"payload for draft soItem" : obj});
 					console.table(obj);
 
 					_salesorderModel.create('/draft_soItemSet', obj, {
 						success: function (oData, oResponse) {
-							console.log("after Sucess soItem" + oData);
-							console.log("after Sucess soItem Response" + oResponse);
+							console.log({"after Success draft soItem data" : oData});
+							console.log({"after Success draft soItem Response" : oResponse});
 							aCreateItems[0]["uuid"] = oData.ItemDraftUUID;
 							aCreateItems[0]["parentUuid"] = oData.HeaderDraftUUID;
 							aCreateItems[0]["ItmNumber"] = oData.ItmNumber;
