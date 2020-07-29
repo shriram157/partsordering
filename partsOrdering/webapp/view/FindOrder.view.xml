@@ -69,9 +69,9 @@
 					<Column	width="20%" minScreenWidth="Tablet"	demandPopin="true" hAlign="Center">
 						<Label text="{i18n>Label.Order.Creation.Date}" />
 					</Column>
-					<Column	width="20%" minScreenWidth="Tablet"	demandPopin="false" hAlign="Center">
-						<Label text="{i18n>Label.Order.Modification.Date}" />
-					</Column>
+					<!--<Column	width="20%" minScreenWidth="Tablet"	demandPopin="false" hAlign="Center">-->
+					<!--	<Label text="{i18n>Label.Order.Modification.Date}" />-->
+					<!--</Column>-->
 					<Column	width="40px" hAlign="Center">
 						<HBox justifyContent='End' alignItems='End'>
 							<core:Icon id="addButton" src="sap-icon://add" color='#00bfff'	press="onAdd" />	
@@ -86,7 +86,7 @@
 				horizontal="true"
 				vertical="true"
 				focusable="true">
-				<Table	id="idProductsTable" 
+				<Table	id="idProductsTable"  growingThreshold="20" growing="true" 
 						mode='SingleSelectMaster'
 						updateFinished="onUpdateFinished"
 						items="{
@@ -101,7 +101,7 @@
 						<Column width="30%"/>
 						<Column	width="20%" minScreenWidth="Tablet"	demandPopin="true" hAlign="Begin"/>
 						<Column	width="20%" minScreenWidth="Tablet"	demandPopin="false" hAlign="Center"/>
-						<Column	width="20%" minScreenWidth="Tablet"	demandPopin="true" hAlign="Center"/>
+						<!--<Column	width="20%" minScreenWidth="Tablet"	demandPopin="true" hAlign="Center"/>-->
 						<Column	width="36px" hAlign="End"/>
 					</columns>
 					<items>
@@ -110,7 +110,7 @@
 								<Link text="{viewModel>orderNumber}" enabled='false' />
 								<Text text="{path : 'viewModel>scOrderType', formatter:'.formatter.orderType' }" />
 								<Text text="{path:'viewModel>createdOn', formatter:'.formatter.shortDate'}" />
-								<Text text="{path:'viewModel>modifiedOn', formatter:'.formatter.shortDate'}" />
+								<!--<Text text="{path:'viewModel>modifiedOn', formatter:'.formatter.shortDate'}" />-->
 								<HBox justifyContent='End' alignItems='End'>
 									<core:Icon src="sap-icon://edit" color='#00bfff' press="onEdit" />
 								</HBox>
