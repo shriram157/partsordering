@@ -1245,7 +1245,7 @@ sap.ui.define([
 
 			if (!!conditions) {
 				if (!!conditions.orderNumber) {
-					oFilter[1] = new sap.ui.model.Filter("PurchNoC", sap.ui.model.FilterOperator.Contains, conditions.orderNumber);
+					oFilter[1] = new sap.ui.model.Filter("PurchNoC", sap.ui.model.FilterOperator.EQ, conditions.orderNumber);
 				}
 			}
 

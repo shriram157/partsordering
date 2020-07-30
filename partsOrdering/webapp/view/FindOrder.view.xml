@@ -11,7 +11,7 @@
 				<content>
 					<Text text="{path : 'viewModel>/filteredItems', formatter:'.formatter.totalDraft' }"/>
 					<ToolbarSpacer/>
-					<SearchField id="oidSearch" placeholder='{i18n>Placeholder.OrderNumber}' showRefreshButton='true' liveChange='onLiveChange'
+					<SearchField id="oidSearch" placeholder='{i18n>Placeholder.OrderNumber}' showRefreshButton='true' 
 						search='onSearch' width='450px'/>
 					<Button id="sortButton" type='Transparent' icon="sap-icon://sort" press="onSetting"/>
 					<Button id="filterButton" type='Transparent' icon="sap-icon://add-filter" press="onExpandFilter"/>
