@@ -44,7 +44,7 @@
 					<Column width="20%" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 						<Label text="{i18n>Lable.CreateOrder.OrderStatus}"/>
 					</Column>
-					<Column width="20%" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+					<Column width="20%" minScreenWidth="Tablet" demandPopin="true" hAlign="Center" >
 						<Label text="{i18n>Lable.CreateOrder.Message}"/>
 					</Column>
 					<!--<Column	width="20%" minScreenWidth="Tablet"	demandPopin="false" hAlign="Center">-->
@@ -65,7 +65,7 @@
 						<Column width="30%"/>
 						<Column width="20%" minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"/>
 						<Column width="20%" minScreenWidth="Tablet" demandPopin="false" hAlign="Center"/>
-						<Column width="20%" minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"/>
+						<Column width="20%" minScreenWidth="Tablet" demandPopin="true" hAlign="Center"/>
 						<Column width="20%" minScreenWidth="Tablet" demandPopin="true" hAlign="Center"/>
 						<!--<Column	width="20%" minScreenWidth="Tablet"	demandPopin="true" hAlign="Center"/>-->
 						<Column width="36px" hAlign="End"/>
@@ -77,7 +77,7 @@
 								<Text text="{path : 'viewModel>scOrderType', formatter:'.formatter.orderType' }"/>
 								<Text text="{path:'viewModel>createdOn', formatter:'.formatter.shortDate'}"/>
 								<!--<Text text="{path:'viewModel>modifiedOn', formatter:'.formatter.shortDate'}" />-->
-								<Text text="{path:'viewModel>Status'}"/>
+								<Text text="{path:'viewModel>Status', formatter:'.formatter.StatusFormatter'}"/>
 								<Text text="{path:'viewModel>Message'}"/>
 								<HBox justifyContent='End' alignItems='End'>
 									<core:Icon src="sap-icon://edit" color='#00bfff' press="onEdit"/>
