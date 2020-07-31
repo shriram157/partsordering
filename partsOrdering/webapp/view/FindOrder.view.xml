@@ -32,19 +32,19 @@
 			</fb:FilterBar>
 			<Table id="idProductsTableHeader" showNoData="false">
 				<columns>
-					<Column width="30%">
+					<Column>
 						<Label text="{i18n>Lable.Order.Number}"/>
 					</Column>
-					<Column width="20%" minScreenWidth="Tablet" demandPopin="true" hAlign="Begin">
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin">
 						<Label text="{i18n>Label.Order.Type}"/>
 					</Column>
-					<Column width="20%" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 						<Label text="{i18n>Label.Order.Creation.Date}"/>
 					</Column>
-					<Column width="20%" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center" visible="{viewModel>/rowStateMessageVsbl}">
 						<Label text="{i18n>Lable.CreateOrder.OrderStatus}"/>
 					</Column>
-					<Column width="20%" minScreenWidth="Tablet" demandPopin="true" hAlign="Center" >
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center" visible="{viewModel>/rowStateMessageVsbl}">
 						<Label text="{i18n>Lable.CreateOrder.Message}"/>
 					</Column>
 					<!--<Column	width="20%" minScreenWidth="Tablet"	demandPopin="false" hAlign="Center">-->
@@ -62,11 +62,11 @@
 					items="{ path: 'viewModel>/orders', sorter: { path: 'createdOn', descending : true } }"
 					sticky="{['sap.m.Sticky.ColumnHeaders', 'sap.m.Sticky.HeaderToolbar','sap.m.Sticky.InfoToolbar']}">
 					<columns>
-						<Column width="30%"/>
-						<Column width="20%" minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"/>
-						<Column width="20%" minScreenWidth="Tablet" demandPopin="false" hAlign="Center"/>
-						<Column width="20%" minScreenWidth="Tablet" demandPopin="true" hAlign="Center"/>
-						<Column width="20%" minScreenWidth="Tablet" demandPopin="true" hAlign="Center"/>
+						<Column/>
+						<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"/>
+						<Column minScreenWidth="Tablet" demandPopin="false" hAlign="Center"/>
+						<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center" visible="{viewModel>/rowStateMessageVsbl}"/>
+						<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center" visible="{viewModel>/rowStateMessageVsbl}"/>
 						<!--<Column	width="20%" minScreenWidth="Tablet"	demandPopin="true" hAlign="Center"/>-->
 						<Column width="36px" hAlign="End"/>
 					</columns>
@@ -77,8 +77,8 @@
 								<Text text="{path : 'viewModel>scOrderType', formatter:'.formatter.orderType' }"/>
 								<Text text="{path:'viewModel>createdOn', formatter:'.formatter.shortDate'}"/>
 								<!--<Text text="{path:'viewModel>modifiedOn', formatter:'.formatter.shortDate'}" />-->
-								<Text text="{path:'viewModel>Status', formatter:'.formatter.StatusFormatter'}"/>
-								<Text text="{path:'viewModel>Message'}"/>
+								<Text text="{path:'viewModel>Status', formatter:'.formatter.StatusFormatter'}" visible="{viewModel>/rowStateMessageVsbl}"/>
+								<Text text="{path:'viewModel>Message'}" visible="{viewModel>/rowStateMessageVsbl}"/>
 								<HBox justifyContent='End' alignItems='End'>
 									<core:Icon src="sap-icon://edit" color='#00bfff' press="onEdit"/>
 								</HBox>

@@ -30,6 +30,7 @@ sap.ui.define([
 			this.orderNumberSearch = this.byId('oidSearch');
 			//view model 
 			var viewState = {
+				rowStateMessageVsbl: false,
 				filterPanelEnable: false,
 				filteredItems: 0,
 				filters: {
@@ -63,6 +64,13 @@ sap.ui.define([
 
 			this.setModel(appStateModel);
 			this.refresh(this.orderNumberSearch.getValue());
+			var bpGroup = appStateModel.getProperty('/selectedBP/bpGroup');
+
+			if (this.isSalesOrderAssociated(bpGroup)) {
+				this.getModel(CONST_VIEW_MODEL).setProperty("/rowStateMessageVsbl", true);
+			} else {
+				this.getModel(CONST_VIEW_MODEL).setProperty("/rowStateMessageVsbl", false);
+			}
 
 			var otList = this.getCurrentOrderTypeList().getData();
 			var resourceBundle = this.getResourceBundle();
@@ -105,7 +113,7 @@ sap.ui.define([
 						filter = new sap.ui.model.Filter("scOrderType", sap.ui.model.FilterOperator.Contains, SelectedOrderType);
 						aFilters.push(filter);
 					}
-				} 
+				}
 
 				// update list binding
 				var binding = this._oList.getBinding("items");
