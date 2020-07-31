@@ -2899,7 +2899,7 @@ sap.ui.define([
 			oFilter[0] = new sap.ui.model.Filter("DealerCode", sap.ui.model.FilterOperator.EQ, dealerCode);
 			if (!!conditions) {
 				if (!!conditions.orderNumber) {
-					oFilter[2] = new sap.ui.model.Filter("DealerOrderNo", sap.ui.model.FilterOperator.Contains, conditions.orderNumber);
+					oFilter[2] = new sap.ui.model.Filter("DealerOrderNo", sap.ui.model.FilterOperator.EQ, conditions.orderNumber);
 				}
 			}
 
