@@ -11,25 +11,72 @@
 				<content>
 					<Text text="{path : 'viewModel>/filteredItems', formatter:'.formatter.totalDraft' }"/>
 					<ToolbarSpacer/>
-					<SearchField id="oidSearch" placeholder='{i18n>Placeholder.OrderNumber}' showRefreshButton='true' 
-						search='onSearch' width='450px'/>
+					<SearchField id="oidSearch" placeholder='{i18n>Placeholder.OrderNumber}' showRefreshButton='true' search='onSearch' width='450px'/>
 					<Button id="sortButton" type='Transparent' icon="sap-icon://sort" press="onSetting"/>
 					<Button id="filterButton" type='Transparent' icon="sap-icon://add-filter" press="onExpandFilter"/>
 				</content>
 			</Toolbar>
-			<fb:FilterBar reset="onReset" showRestoreButton="true" showClearButton="false" useToolbar='false' showGoOnFB='fasle' advancedMode="true"
-				visible="{viewModel>/filterPanelEnable}" showFilterConfiguration='false'>
-				<fb:filterItems>
-					<fb:FilterItem name="A" label="{i18n>Label.Order.Type}" labelTooltip="{i18n>Label.Order.Type}" mandatory="true">
-						<fb:control>
-							<MultiComboBox id="orderType" placeholder="{i18n>Label.Order.Type}" selectionFinish="onSelectionFinishOT" selectionChange="onSelectChangeOT"
-								width="15%" selectedKeys="{viewModel>/filters/orderStates}" items="{ path: 'viewModel>/orderTypeList' }">
-								<core:Item key="{viewModel>code}" text="{viewModel>name}"/>
-							</MultiComboBox>
-						</fb:control>
-					</fb:FilterItem>
-				</fb:filterItems>
-			</fb:FilterBar>
+
+			<!--<fb:FilterBar reset="onReset" showRestoreButton="true" showClearButton="false" useToolbar='false' showGoOnFB='fasle' advancedMode="true"-->
+			<!--	visible="{viewModel>/filterPanelEnable}" showFilterConfiguration='false'>-->
+			<!--	<fb:filterGroupItems>-->
+			<!--		<fb:FilterGroupItem groupName="G1" name="A" label="{i18n>Label.Order.Type}" labelTooltip="{i18n>Label.Order.Type}" mandatory="true">-->
+			<!--			<fb:control>-->
+			<!--				<ComboBox id="orderType" placeholder="{i18n>Label.Order.Type}" selectionChange="onSelectChangeOT"-->
+			<!--					selectedKey="{viewModel>/filters/orderStates}" items="{ path: 'viewModel>/orderTypeList' }">-->
+			<!--					<core:ListItem key="{viewModel>code}" text="{viewModel>name}"/>-->
+			<!--				</ComboBox>-->
+			<!--			</fb:control>-->
+			<!--		</fb:FilterGroupItem>-->
+			<!--		<fb:FilterGroupItem groupName="G1" name="B" label="{i18n>Lable.CreateOrder.OrderStatus}" labelTooltip="{Lable.CreateOrder.OrderStatus}"-->
+			<!--			mandatory="true">-->
+			<!--			<fb:control>-->
+			<!--				<ComboBox id="orderStatusType" placeholder="{i18n>Lable.CreateOrder.OrderStatus}" selectionChange="onSelectChangeST"-->
+			<!--					items="{ path: 'viewModel>/orderStatusList' }">-->
+			<!--					<core:ListItem key="{viewModel>StatusCode}" text="{viewModel>StatusName}"/>-->
+			<!--				</ComboBox>-->
+			<!--			</fb:control>-->
+			<!--		</fb:FilterGroupItem>-->
+			<!--	</fb:filterGroupItems>-->
+			<!--</fb:FilterBar>-->
+			
+				<VBox 	visible="{viewModel>/filterPanelEnable}" class="bgWhite">
+		<form:SimpleForm 
+			editable="true"
+			layout="ResponsiveGridLayout"
+			
+			labelSpanXL="4"
+			labelSpanL="4"
+			labelSpanM="12"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="0"
+			emptySpanL="0"
+			emptySpanM="0"
+			emptySpanS="0"
+			columnsXL="3"
+			columnsL="3"
+			columnsM="2"
+			singleContainerFullSize="false" >
+			<form:content>
+				<core:Title text="" />
+				<Label text="{i18n>Label.Order.Type}" />
+					<ComboBox id="orderType" placeholder="{i18n>Label.Order.Type}" selectionChange="onSelectChangeOT"
+								selectedKey="{viewModel>/filters/orderStates}" items="{ path: 'viewModel>/orderTypeList' }">
+								<core:ListItem key="{viewModel>code}" text="{viewModel>name}"/>
+							</ComboBox>
+			
+				<core:Title text="" />
+				<Label text="{i18n>Lable.CreateOrder.OrderStatus}" />
+					<ComboBox id="orderStatusType" placeholder="{i18n>Lable.CreateOrder.OrderStatus}" selectionChange="onSelectChangeST"
+								items="{ path: 'viewModel>/orderStatusList' }">
+								<core:ListItem key="{viewModel>StatusCode}" text="{viewModel>StatusName}"/>
+							</ComboBox>
+			
+			</form:content>
+		</form:SimpleForm>
+	</VBox>
+		
 			<Table id="idProductsTableHeader" showNoData="false">
 				<columns>
 					<Column>

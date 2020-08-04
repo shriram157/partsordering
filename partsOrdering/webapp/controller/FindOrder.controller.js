@@ -36,7 +36,7 @@ sap.ui.define([
 				filters: {
 					orderStates: [0]
 				},
-				sortDescending: false,
+				sortDescending: true,
 				orderTypeList: [],
 				contHigh: "85%",
 				orders: []
@@ -51,6 +51,7 @@ sap.ui.define([
 		},
 
 		_onObjectMatched: function (oEvent) {
+		
 			// default mode
 			sap.ui.getCore().getMessageManager().removeAllMessages();
 			if (!this.checkDealerInfo()) {
@@ -85,12 +86,29 @@ sap.ui.define([
 				orderStates: [0]
 			});
 			viewModel.setProperty('/orderTypeList', newList);
+			viewModel.setProperty('/orderStatusList', [
+				{
+					StatusCode : "N", 
+					StatusName : resourceBundle.getText('Parts.Status.All')
+				},
+				{
+					StatusCode : "D", 
+					StatusName : resourceBundle.getText('Order.Status.Draft')
+				},
+				{
+					StatusCode : "E", 
+					StatusName : resourceBundle.getText('Order.Status.Error')
+				}
+				
+			]);
+			
+			this.byId("orderStatusType").setSelectedKey("N");
 
 		},
 
 		onSelectChangeOT: function (oEvent) {
-			var currentKey = oEvent.getParameters('changedItem').changedItem.getKey();
-			var state = oEvent.getParameters('changedItem').selected;
+			//var currentKey = oEvent.getParameters('changedItem').changedItem.getKey();
+			var state = oEvent.getSource().getSelectedKey();
 			if (!!state) { // only for the selected
 
 				// if ('0' === currentKey) {
@@ -103,7 +121,7 @@ sap.ui.define([
 				// 		oEvent.getSource().setSelectedKeys(keys);
 				// 	}
 
-				var SelectedOrderType = oEvent.getParameters().changedItem.getKey();
+				var SelectedOrderType = oEvent.getSource().getSelectedKey();
 				var aFilters = [];
 				var filter = null;
 				if (!!SelectedOrderType && SelectedOrderType.length > 0) {
@@ -111,6 +129,61 @@ sap.ui.define([
 						this.refresh(this.orderNumberSearch.getValue());
 					} else {
 						filter = new sap.ui.model.Filter("scOrderType", sap.ui.model.FilterOperator.Contains, SelectedOrderType);
+						aFilters.push(filter);
+					}
+				}
+
+				// update list binding
+				var binding = this._oList.getBinding("items");
+				binding.filter(aFilters, "Application");
+
+				var viewModel = this.getModel(CONST_VIEW_MODEL);
+				viewModel.setProperty('/filteredItems', binding.getLength());
+
+				/////////////////
+				// var sQuery = oEvent.getSource().getValue();
+
+				// var aFilters = [];
+				// var filter = null;
+				// if (!!sQuery && sQuery.length > 0) {
+				// 	filter = new sap.ui.model.Filter("orderNumber", sap.ui.model.FilterOperator.Contains, sQuery);
+				// 	aFilters.push(filter);
+				// } else {
+				// 	
+				// }
+
+				// // update list binding
+				// var binding = this._oList.getBinding("items");
+				// binding.filter(aFilters, "Application");
+
+				// var viewModel = this.getModel(CONST_VIEW_MODEL);
+				// viewModel.setProperty('/filteredItems', binding.getLength());
+				///////////////////////
+			}
+		},
+		
+		onSelectChangeST : function(oEvent){
+				var state = oEvent.getSource().getSelectedKey();
+			if (!!state) { // only for the selected
+
+				// if ('0' === currentKey) {
+				// 	oEvent.getSource().setSelectedKeys(['0']);
+				// } else {
+				// 	var keys = oEvent.getSource().getSelectedKeys();
+				// 	var index = keys.indexOf('0');
+				// 	if (index >= 0) {
+				// 		keys = keys.splice(index + 1);
+				// 		oEvent.getSource().setSelectedKeys(keys);
+				// 	}
+
+				var SelectedOrderType = oEvent.getSource().getSelectedKey();
+				var aFilters = [];
+				var filter = null;
+				if (!!SelectedOrderType && SelectedOrderType.length > 0) {
+					if (SelectedOrderType === "N") {
+						this.refresh(this.orderNumberSearch.getValue());
+					} else {
+						filter = new sap.ui.model.Filter("Status", sap.ui.model.FilterOperator.EQ, SelectedOrderType);
 						aFilters.push(filter);
 					}
 				}
