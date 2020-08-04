@@ -10,7 +10,7 @@
 			<ViewSettingsItem text="{i18n>Lable.Order.Number}" key="orderNumber" />
 			<ViewSettingsItem text="{i18n>Label.Order.Type}" key="scOrderType" />
 			<ViewSettingsItem text="{i18n>Label.Order.Creation.Date}" key="createdOn" selected ='true' />
-			<ViewSettingsItem text="{i18n>Lable.CreateOrder.OrderStatus}" key="Status" />
+			<ViewSettingsItem text="{i18n>Lable.CreateOrder.OrderStatus}" key="Status" enabled="{viewModel>/rowStateMessageVsbl}"/>
 		</sortItems>
 	</ViewSettingsDialog>
 </core:FragmentDefinition>

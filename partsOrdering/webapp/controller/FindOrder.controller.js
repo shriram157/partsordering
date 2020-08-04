@@ -51,7 +51,7 @@ sap.ui.define([
 		},
 
 		_onObjectMatched: function (oEvent) {
-		
+
 			// default mode
 			sap.ui.getCore().getMessageManager().removeAllMessages();
 			if (!this.checkDealerInfo()) {
@@ -86,22 +86,19 @@ sap.ui.define([
 				orderStates: [0]
 			});
 			viewModel.setProperty('/orderTypeList', newList);
-			viewModel.setProperty('/orderStatusList', [
-				{
-					StatusCode : "N", 
-					StatusName : resourceBundle.getText('Parts.Status.All')
-				},
-				{
-					StatusCode : "D", 
-					StatusName : resourceBundle.getText('Order.Status.Draft')
-				},
-				{
-					StatusCode : "E", 
-					StatusName : resourceBundle.getText('Order.Status.Error')
+			viewModel.setProperty('/orderStatusList', [{
+					StatusCode: "N",
+					StatusName: resourceBundle.getText('Parts.Status.All')
+				}, {
+					StatusCode: "D",
+					StatusName: resourceBundle.getText('Order.Status.Draft')
+				}, {
+					StatusCode: "E",
+					StatusName: resourceBundle.getText('Order.Status.Error')
 				}
-				
+
 			]);
-			
+
 			this.byId("orderStatusType").setSelectedKey("N");
 
 		},
@@ -161,9 +158,9 @@ sap.ui.define([
 				///////////////////////
 			}
 		},
-		
-		onSelectChangeST : function(oEvent){
-				var state = oEvent.getSource().getSelectedKey();
+
+		onSelectChangeST: function (oEvent) {
+			var state = oEvent.getSource().getSelectedKey();
 			if (!!state) { // only for the selected
 
 				// if ('0' === currentKey) {
