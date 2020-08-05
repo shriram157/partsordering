@@ -68,9 +68,12 @@ sap.ui.define([
 			var bpGroup = appStateModel.getProperty('/selectedBP/bpGroup');
 
 			if (this.isSalesOrderAssociated(bpGroup)) {
+
 				this.getModel(CONST_VIEW_MODEL).setProperty("/rowStateMessageVsbl", true);
+
 			} else {
 				this.getModel(CONST_VIEW_MODEL).setProperty("/rowStateMessageVsbl", false);
+
 			}
 
 			var otList = this.getCurrentOrderTypeList().getData();
@@ -347,6 +350,17 @@ sap.ui.define([
 			// toggle compact style
 			jQuery.sap.syncStyleClass("sapUiSizeCompact", this.getView(), this._oDialog);
 			this._oDialog.open();
+			// var appStateModel = this.getStateModel();
+			// appStateModel.setProperty('/tabKey', 'FO');
+
+			// this.setModel(appStateModel);
+
+			var bpGroup = this.getStateModel().getProperty('/selectedBP/bpGroup');
+			if (this.isSalesOrderAssociated(bpGroup)) {
+				$(".sapMSLI:nth-child(5)").css("visibility", "visible");
+			} else {
+				$(".sapMSLI:nth-child(5)").css("visibility", "hidden");
+			}
 		},
 
 		onUpdateFinished: function (oEvent) {},

@@ -183,5 +183,7 @@
 }
 .bgWhite {background:#fff;}
 
-
+.clDisableStatus .sapMSLI:nth-child(5) {
+    display: none;
+}
 /* Enter your custom styles here */
