@@ -192,7 +192,11 @@ sap.ui.define([], function () {
 
 		totalDraft: function (lines) {
 			var resourceBundle = this.getResourceBundle();
-			return resourceBundle.getText('Label.FindOrder.Total', [lines]);
+			if(lines < 1000){
+				return resourceBundle.getText('Label.FindOrder.Total', [lines]);
+			}else{
+				return resourceBundle.getText('Label.FindOrder.Draft');
+			}
 		},
 		partNumberLabelFormat: function (typeB, typeD) {
 			var resourceBundle = this.getResourceBundle();
