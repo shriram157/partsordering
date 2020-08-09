@@ -590,6 +590,19 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			this.aCreateItems.push(oOrderData.items[0]);
 			this.toggleSubmitDraftButton();
 			oOrderData.items.splice(0, 1);
+			//code by Minakshi for duplicate vin, ops, camp and partnum
+			if (oOrderData.orderTypeId == 3) {
+				oOrderData.items = oOrderData.items.reduce((unique, o) => {
+					if (!unique.some(obj => obj.partNumber === o.partNumber && obj.campaignNum === o.campaignNum && obj.opCode === o.opCode && obj.vin ===
+							o.vin)) {
+						unique.push(o);
+					}
+					return unique;
+				}, []);
+			}
+
+			//code by Minakshi for duplicate vin, ops, camp and partnum
+
 			oOrderData.items.splice(0, 0, that._getNewItem());
 			//rData.newline = [that._getNewLine()];
 			oOrderData.totalLines = oOrderData.items.length - 1;
@@ -610,10 +623,11 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var that = this;
 			var iCreateLen = this.aCreateItems.length;
 			var iUpdateLen = this.aUpdateItems.length;
-			var itemsLen= iCreateLen+iUpdateLen;
-			var itmsLen = this.getModel("orderModel").getData().items.length-1;
-			var itms=this.getModel("orderModel").getData().items;
-			var countContractPresent = 0, countContractAbsent = 0;
+			var itemsLen = iCreateLen + iUpdateLen;
+			var itmsLen = this.getModel("orderModel").getData().items.length - 1;
+			var itms = this.getModel("orderModel").getData().items;
+			var countContractPresent = 0,
+				countContractAbsent = 0;
 			//var contractPresentArray=[];
 
 			var oSource = oEvent.getSource();
@@ -626,25 +640,18 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					if (itms[j].contractNum !== "") {
 						++countContractPresent;
 
-					}
-					else
-					{
+					} else {
 						++countContractAbsent;
 					}
 				}
-				
-				var boolFlag=false;
-				if(itmsLen !== countContractPresent && itmsLen === countContractAbsent )
-				{
-					boolFlag=false;
-				}
-				else if(itmsLen === countContractPresent && itmsLen !== countContractAbsent)
-				{
-					boolFlag=false;
-				}
-				else
-				{
-					boolFlag=true;
+
+				var boolFlag = false;
+				if (itmsLen !== countContractPresent && itmsLen === countContractAbsent) {
+					boolFlag = false;
+				} else if (itmsLen === countContractPresent && itmsLen !== countContractAbsent) {
+					boolFlag = false;
+				} else {
+					boolFlag = true;
 				}
 				if (boolFlag) {
 					var sInValid = this.oResourceBundle.getText("Message.error.create.separate.contract");
@@ -664,14 +671,13 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						var rowCells = rows[x1].getCells();
 						var cellsLen = rowCells.length;
 
-						for (var y1 =6; y1 < cellsLen; y1++) {
+						for (var y1 = 6; y1 < cellsLen; y1++) {
 							if (rowCells[y1].getMetadata()._sClassName === "sap.m.Input") {
-							
-									rowCells[y1].setValueStateText("");
-									rowCells[y1].setValueState("None");
-									items[x1].hasError = false;
 
-								
+								rowCells[y1].setValueStateText("");
+								rowCells[y1].setValueState("None");
+								items[x1].hasError = false;
+
 							}
 						}
 					}
@@ -707,18 +713,13 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							if (!isOK) {
 								oSalesItem.hasError = true;
 								that._setLineError(oSalesItem.line, sOperation, errorMessages);
-							}
-							else
-							{
+							} else {
 								iItems++;
 								that.toggleSubmitDraftButton();
 								that._oBusyfragment.close();
-								
+
 							}
-								
-							
-							
-							
+
 						});
 					} else {
 						DataManager.saveDraftPurchaseOrder(this.aCreateItems, this.aUpdateItems, function (oPurchaseItem, sOperation, IIndex, isOK,
@@ -766,15 +767,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 									that.btnSortError.setVisible(true);
 									that.btnFilterError.setVisible(true);
 								}
-							}
-							else
-							{
+							} else {
 								iItems++;
-							
+
 								that.toggleSubmitDraftButton();
 								that._oBusyfragment.close();
-							
-								
+
 							}
 
 						});
@@ -1260,40 +1258,36 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var sValue = oEvent.getParameter("newValue");
 			var oSource = oEvent.getSource();
 			var bpCode = this.oOrderModel.getProperty('/purBpCode');
-			
-			
+
 			if (obj.addIcon !== true) {
 
 				this._insetUpadateArray(obj);
 				this.toggleSubmitDraftButton();
 
-			if(sValue !== "")
-			{	//var resourceBundle = this.oResourceBundle;
-				DataManager.validateContractNumber(bpCode, sValue, obj.partNumber, function (data, isOK, messages) {
-					if (!!isOK && !!data) {
-						obj.contractLine = data.line_item;
-						oSource.setValueState("None");
-						obj.hasError = false;
-						obj.ItemStatus = "Unsaved";
-						//model.setProperty('/newline', newline);
-					} else {
-						//obj.hasError = true;
-						obj.hasError = true;
-						oSource.setValueState("Error");
-						//oSource.setValueText("Invalid Contract No");
-						//TODO -- ERROR 
-					}
-				});
+				if (sValue !== "") { //var resourceBundle = this.oResourceBundle;
+					DataManager.validateContractNumber(bpCode, sValue, obj.partNumber, function (data, isOK, messages) {
+						if (!!isOK && !!data) {
+							obj.contractLine = data.line_item;
+							oSource.setValueState("None");
+							obj.hasError = false;
+							obj.ItemStatus = "Unsaved";
+							//model.setProperty('/newline', newline);
+						} else {
+							//obj.hasError = true;
+							obj.hasError = true;
+							oSource.setValueState("Error");
+							//oSource.setValueText("Invalid Contract No");
+							//TODO -- ERROR 
+						}
+					});
+				} else {
+					oSource.setValueState("None");
+					obj.hasError = false;
+					obj.ItemStatus = "Unsaved";
+
+				}
 			}
-		else
-			{
-						oSource.setValueState("None");
-						obj.hasError = false;
-						obj.ItemStatus = "Unsaved";
-						
-		}
-			}
-		
+
 		},
 
 		onCampOpVINChange: function (oEvent) {
