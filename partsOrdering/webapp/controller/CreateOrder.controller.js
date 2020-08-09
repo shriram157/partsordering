@@ -590,11 +590,18 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			this.aCreateItems.push(oOrderData.items[0]);
 			this.toggleSubmitDraftButton();
 			oOrderData.items.splice(0, 1);
+			var that = this;
 			//code by Minakshi for duplicate vin, ops, camp and partnum
 			if (oOrderData.orderTypeId == 3) {
 				oOrderData.items = oOrderData.items.reduce((unique, o) => {
 					if (!unique.some(obj => obj.partNumber === o.partNumber && obj.campaignNum === o.campaignNum && obj.opCode === o.opCode && obj.vin ===
 							o.vin)) {
+						var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
+						MessageBox.error(sInValid, {
+							actions: [MessageBox.Action.CLOSE],
+							styleClass: that.getOwnerComponent().getContentDensityClass()
+
+						});
 						unique.push(o);
 					}
 					return unique;
