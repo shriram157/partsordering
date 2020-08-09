@@ -596,12 +596,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oOrderData.items = oOrderData.items.reduce((unique, o) => {
 					if (!unique.some(obj => obj.partNumber === o.partNumber && obj.campaignNum === o.campaignNum && obj.opCode === o.opCode && obj.vin ===
 							o.vin)) {
-						var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
-						MessageBox.error(sInValid, {
-							actions: [MessageBox.Action.CLOSE],
-							styleClass: that.getOwnerComponent().getContentDensityClass()
+						// var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
+						// MessageBox.error(sInValid, {
+						// 	actions: [MessageBox.Action.CLOSE],
+						// 	styleClass: that.getOwnerComponent().getContentDensityClass()
 
-						});
+						// });
 						unique.push(o);
 					}
 					return unique;
@@ -707,8 +707,46 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 									oItem["parentUuid"] = oSalesItem.parentUuid;
 									oItem["ItmNumber"] = oSalesItem.ItmNumber;
 									that.aCreateItems.splice(0, 1);
+
+									//code by Minakshi for duplicate vin, ops, camp and partnum
+
+									that.aCreateItems = that.aCreateItems.reduce((unique, o) => {
+										if (!unique.some(obj => obj.partNumber === o.partNumber && obj.campaignNum === o.campaignNum && obj.opCode === o.opCode &&
+												obj.vin ===
+												o.vin)) {
+											// var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
+											// MessageBox.error(sInValid, {
+											// 	actions: [MessageBox.Action.CLOSE],
+											// 	styleClass: that.getOwnerComponent().getContentDensityClass()
+
+											// });
+											unique.push(o);
+										}
+										return unique;
+									}, []);
+
+									//code by Minakshi for duplicate vin, ops, camp and partnum
+
 								} else { // it is update.
 									that.aUpdateItems.splice(0, 1);
+									//code by Minakshi for duplicate vin, ops, camp and partnum
+									that.aUpdateItems = that.aUpdateItems.reduce((unique, o) => {
+										if (!unique.some(obj => obj.partNumber === o.partNumber && obj.campaignNum === o.campaignNum && obj.opCode === o.opCode &&
+												obj.vin ===
+												o.vin)) {
+											// var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
+											// MessageBox.error(sInValid, {
+											// 	actions: [MessageBox.Action.CLOSE],
+											// 	styleClass: that.getOwnerComponent().getContentDensityClass()
+
+											// });
+											unique.push(o);
+										}
+										return unique;
+									}, []);
+
+									//code by Minakshi for duplicate vin, ops, camp and partnum
+
 								}
 								oItem.ItemStatus = "Draft";
 								oItem.hasError = false;
