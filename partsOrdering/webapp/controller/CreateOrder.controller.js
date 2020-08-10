@@ -565,7 +565,22 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oSource.setEnabled(false);
 				oSource.setBusy(true);
 			}
+			var newAddedLineData = oOrderData.items[0];
+			var sIndex = oOrderData.items.findIndex(ind => ind.partNumber == newAddedLineData.partNumber && ind.opCode == newAddedLineData.opCode &&
+				ind.campaignNum == newAddedLineData.campaignNum && ind.vin == newAddedLineData.vin);
+
 			if (oOrderData.items[0].hasError || oOrderData.items[0].partNumber.toString().trim() === "") {
+				if (oSource) {
+					oSource.setEnabled(true);
+					oSource.setBusy(false);
+				}
+				oOrderData.items[0].qty = "";
+				oOrderData.items[0].contractNum = "";
+				oOrderData.items[0].campaignNum = "";
+				oOrderData.items[0].comment = "";
+				that.oOrderModel.setData(oOrderData);
+				return;
+			} else if (sIndex > -1) {
 				if (oSource) {
 					oSource.setEnabled(true);
 					oSource.setBusy(false);
@@ -592,21 +607,21 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			oOrderData.items.splice(0, 1);
 			var that = this;
 			//code by Minakshi for duplicate vin, ops, camp and partnum
-			if (oOrderData.orderTypeId == 3) {
-				oOrderData.items = oOrderData.items.reduce((unique, o) => {
-					if (!unique.some(obj => obj.partNumber === o.partNumber && obj.campaignNum === o.campaignNum && obj.opCode === o.opCode && obj.vin ===
-							o.vin)) {
-						// var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
-						// MessageBox.error(sInValid, {
-						// 	actions: [MessageBox.Action.CLOSE],
-						// 	styleClass: that.getOwnerComponent().getContentDensityClass()
+			// if (oOrderData.orderTypeId == 3) {
+			// 	oOrderData.items = oOrderData.items.reduce((unique, o) => {
+			// 		if (!unique.some(obj => obj.partNumber === o.partNumber && obj.campaignNum === o.campaignNum && obj.opCode === o.opCode && obj.vin ===
+			// 				o.vin)) {
+			// 			// var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
+			// 			// MessageBox.error(sInValid, {
+			// 			// 	actions: [MessageBox.Action.CLOSE],
+			// 			// 	styleClass: that.getOwnerComponent().getContentDensityClass()
 
-						// });
-						unique.push(o);
-					}
-					return unique;
-				}, []);
-			}
+			// 			// });
+			// 			unique.push(o);
+			// 		}
+			// 		return unique;
+			// 	}, []);
+			// }
 
 			//code by Minakshi for duplicate vin, ops, camp and partnum
 
@@ -710,40 +725,40 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 									//code by Minakshi for duplicate vin, ops, camp and partnum
 
-									that.aCreateItems = that.aCreateItems.reduce((unique, o) => {
-										if (!unique.some(obj => obj.partNumber === o.partNumber && obj.campaignNum === o.campaignNum && obj.opCode === o.opCode &&
-												obj.vin ===
-												o.vin)) {
-											// var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
-											// MessageBox.error(sInValid, {
-											// 	actions: [MessageBox.Action.CLOSE],
-											// 	styleClass: that.getOwnerComponent().getContentDensityClass()
+									// that.aCreateItems = that.aCreateItems.reduce((unique, o) => {
+									// 	if (!unique.some(obj => obj.partNumber === o.partNumber && obj.campaignNum === o.campaignNum && obj.opCode === o.opCode &&
+									// 			obj.vin ===
+									// 			o.vin)) {
+									// 		// var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
+									// 		// MessageBox.error(sInValid, {
+									// 		// 	actions: [MessageBox.Action.CLOSE],
+									// 		// 	styleClass: that.getOwnerComponent().getContentDensityClass()
 
-											// });
-											unique.push(o);
-										}
-										return unique;
-									}, []);
+									// 		// });
+									// 		unique.push(o);
+									// 	}
+									// 	return unique;
+									// }, []);
 
 									//code by Minakshi for duplicate vin, ops, camp and partnum
 
 								} else { // it is update.
 									that.aUpdateItems.splice(0, 1);
 									//code by Minakshi for duplicate vin, ops, camp and partnum
-									that.aUpdateItems = that.aUpdateItems.reduce((unique, o) => {
-										if (!unique.some(obj => obj.partNumber === o.partNumber && obj.campaignNum === o.campaignNum && obj.opCode === o.opCode &&
-												obj.vin ===
-												o.vin)) {
-											// var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
-											// MessageBox.error(sInValid, {
-											// 	actions: [MessageBox.Action.CLOSE],
-											// 	styleClass: that.getOwnerComponent().getContentDensityClass()
+									// that.aUpdateItems = that.aUpdateItems.reduce((unique, o) => {
+									// 	if (!unique.some(obj => obj.partNumber === o.partNumber && obj.campaignNum === o.campaignNum && obj.opCode === o.opCode &&
+									// 			obj.vin ===
+									// 			o.vin)) {
+									// 		// var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
+									// 		// MessageBox.error(sInValid, {
+									// 		// 	actions: [MessageBox.Action.CLOSE],
+									// 		// 	styleClass: that.getOwnerComponent().getContentDensityClass()
 
-											// });
-											unique.push(o);
-										}
-										return unique;
-									}, []);
+									// 		// });
+									// 		unique.push(o);
+									// 	}
+									// 	return unique;
+									// }, []);
 
 									//code by Minakshi for duplicate vin, ops, camp and partnum
 
