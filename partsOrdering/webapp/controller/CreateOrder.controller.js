@@ -580,7 +580,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oOrderData.items[0].comment = "";
 				that.oOrderModel.setData(oOrderData);
 				return;
-			} else if (sIndex > -1) {
+			} else if (sIndex > 0) {
 				var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
 				MessageBox.error(sInValid, {
 					actions: [MessageBox.Action.CLOSE],
