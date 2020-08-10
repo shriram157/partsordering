@@ -581,6 +581,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				that.oOrderModel.setData(oOrderData);
 				return;
 			} else if (sIndex > -1) {
+				var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
+				MessageBox.error(sInValid, {
+					actions: [MessageBox.Action.CLOSE],
+					styleClass: that.getOwnerComponent().getContentDensityClass()
+
+				});
 				if (oSource) {
 					oSource.setEnabled(true);
 					oSource.setBusy(false);
@@ -589,6 +595,11 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oOrderData.items[0].contractNum = "";
 				oOrderData.items[0].campaignNum = "";
 				oOrderData.items[0].comment = "";
+				oOrderData.items[0].partNumber = "";
+				oOrderData.items[0].opCode = "";
+				oOrderData.items[0].vin = "";
+				oOrderData.items[0].spq = "";
+				oOrderData.items[0].partDesc = "";
 				that.oOrderModel.setData(oOrderData);
 				return;
 			}
