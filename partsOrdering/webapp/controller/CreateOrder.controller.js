@@ -566,8 +566,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oSource.setBusy(true);
 			}
 			var newAddedLineData = oOrderData.items[0];
-			var sIndex = oOrderData.items.findIndex(ind => ind.partNumber == newAddedLineData.partNumber && ind.opCode == newAddedLineData.opCode &&
-				ind.campaignNum == newAddedLineData.campaignNum && ind.vin == newAddedLineData.vin);
+			var sIndex = oOrderData.items.filter(ind => ind.partNumber == newAddedLineData.partNumber && ind.opCode == newAddedLineData.opCode &&
+				ind.campaignNum == newAddedLineData.campaignNum && ind.vin == newAddedLineData.vin).length;
 
 			if (oOrderData.items[0].hasError || oOrderData.items[0].partNumber.toString().trim() === "") {
 				if (oSource) {
@@ -580,7 +580,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oOrderData.items[0].comment = "";
 				that.oOrderModel.setData(oOrderData);
 				return;
-			} else if (sIndex > 0) {
+			} else if (sIndex > 1 && oOrderData.orderTypeId == "3") {
 				var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
 				MessageBox.error(sInValid, {
 					actions: [MessageBox.Action.CLOSE],
