@@ -177,6 +177,13 @@
     word-wrap: break-word;
     text-overflow: clip;
 }
+.sapUiFormTitleH5 {
+    line-height: 0!important;
+    height: 0!important;
+}
+.bgWhite {background:#fff;}
 
-
+.clDisableStatus .sapMSLI:nth-child(5) {
+    display: none;
+}
 /* Enter your custom styles here */

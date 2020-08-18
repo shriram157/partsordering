@@ -1245,7 +1245,7 @@ sap.ui.define([
 
 			if (!!conditions) {
 				if (!!conditions.orderNumber) {
-					oFilter[1] = new sap.ui.model.Filter("PurchNoC", sap.ui.model.FilterOperator.Contains, conditions.orderNumber);
+					oFilter[1] = new sap.ui.model.Filter("PurchNoC", sap.ui.model.FilterOperator.EQ, conditions.orderNumber);
 				}
 			}
 
@@ -1395,7 +1395,8 @@ sap.ui.define([
 							lv_draft.isSalesOrder = true;
 							lv_draft.scOrderType = that.getInnerOrderTypeByZOrderType(lv_draft.zOrderType);
 							lv_draft.scOrderStatus = 'DF'; // always standard as in front view
-
+							lv_draft.Status = lv_aResult.Status;
+							lv_draft.Message = lv_aResult.Message;
 							// new
 							aDraftItem = {};
 
@@ -1640,6 +1641,8 @@ sap.ui.define([
 								aDraftItem.contractLine = lv_aResultItem.RefDocItemNo;
 								aDraftItem.partDesc = lv_aResultItem.MatDesc;
 								aDraftItem.ItemStatus = "Draft";
+								aDraftItem.Status = lv_aResultItem.Status;
+							aDraftItem.Message = lv_aResultItem.Message;
 
 								//aDraftItem.spq = lv_aResultItem:'',
 								that.getSPQForDraftItem(aDraftItem, orderData);
@@ -1681,7 +1684,7 @@ sap.ui.define([
 			bModel.read(key, {
 				urlParameters: {
 					// "$select": "BusinessPartnerType,BusinessPartner,BusinessPartnerName"
-					"$expand": "headerToItemDraft"
+					$expand: "headerToItemDraft"
 				},
 				success: function (oData, oResponse) {
 					var messageList = that._extractSapMessage(oResponse);
@@ -1855,7 +1858,7 @@ sap.ui.define([
 
 			bModel.create('/draft_soItemSet', obj, {
 				success: function (oData, oResponse) {
-					//TODO
+				
 					var messageList = that._extractSapItemMessages(oResponse);
 					data.items[len].uuid = oData.ItemDraftUUID;
 					data.items[len].parentUuid = oData.HeaderDraftUUID;
@@ -2896,7 +2899,7 @@ sap.ui.define([
 			oFilter[0] = new sap.ui.model.Filter("DealerCode", sap.ui.model.FilterOperator.EQ, dealerCode);
 			if (!!conditions) {
 				if (!!conditions.orderNumber) {
-					oFilter[2] = new sap.ui.model.Filter("DealerOrderNo", sap.ui.model.FilterOperator.Contains, conditions.orderNumber);
+					oFilter[2] = new sap.ui.model.Filter("DealerOrderNo", sap.ui.model.FilterOperator.EQ, conditions.orderNumber);
 				}
 			}
 

@@ -167,6 +167,18 @@ sap.ui.define([], function () {
 			var dateFormatted = dateFormat.format(oDate);
 			return dateFormatted;
 		},
+		StatusFormatter : function(oVal){
+			var resourceBundle = this.getResourceBundle();
+			
+			if(oVal){
+				if(oVal === "E"){
+					return resourceBundle.getText("Order.Status.Error");
+				}else if(oVal === "D"){
+					return resourceBundle.getText("Order.Status.Draft");
+				}
+			}
+			return oVal;
+		},
 
 		getItemTooltip: function (uuid, pUuid) {
 			var resourceBundle = this.getResourceBundle();
@@ -180,7 +192,11 @@ sap.ui.define([], function () {
 
 		totalDraft: function (lines) {
 			var resourceBundle = this.getResourceBundle();
-			return resourceBundle.getText('Label.FindOrder.Total', [lines]);
+			if(lines < 1000){
+				return resourceBundle.getText('Label.FindOrder.Total', [lines]);
+			}else{
+				return resourceBundle.getText('Label.FindOrder.Draft');
+			}
 		},
 		partNumberLabelFormat: function (typeB, typeD) {
 			var resourceBundle = this.getResourceBundle();

@@ -9,10 +9,14 @@ sap.ui.define([
 	'sap/ui/model/Sorter',
 	"sap/ui/core/util/Export",
 	"sap/ui/core/util/ExportTypeCSV",
-], function (BaseController, MessagePopover, MessageItem, MessageToast, Link, JSONModel, formatter, Sorter, Export, ExportTypeCSV) {
+	"tci/wave2/ui/parts/ordering/utils/UIHelper",
+		"tci/wave2/ui/parts/ordering/utils/DataManager"
+], function (BaseController, MessagePopover, MessageItem, MessageToast, Link, JSONModel, formatter, Sorter, Export, ExportTypeCSV, UIHelper, DataManager) {
 	"use strict";
 
 	var CONST_VIEW_MODEL = 'viewModel';
+	var CONT_OTLISTMODEL = "orderTypeListModel";
+	var CONT_HEADERMODEL = "headerMenuModel";
 	return BaseController.extend("tci.wave2.ui.parts.ordering.controller.CheckOrderStatus", {
 
 		formatter: formatter,
@@ -23,8 +27,15 @@ sap.ui.define([
 			oRouter.getRoute("CheckOrderStatus").attachPatternMatched(this._onObjectMatched, this);
 
 			// default mode
+			// var appStateModel = this.getStateModel();
+			// this.getView().setModel(appStateModel);
+			// default mode
+			var _oComponentOwner = this.getOwnerComponent();
+			DataManager.init(BaseController, _oComponentOwner, this.getResourceBundle(), this.getSapLangugaeFromLocal());
+
+			
 			var appStateModel = this.getStateModel();
-			this.getView().setModel(appStateModel);
+			this.setModel(appStateModel);
 
 			//message
 			var oMessageManager = sap.ui.getCore().getMessageManager();
@@ -35,7 +46,7 @@ sap.ui.define([
 			if (!this._oResponsivePopover) {
 				this._oResponsivePopover = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.OrderStatusQtySort", this);
 				//this._oResponsivePopover.setModel(this.getView().getModel());
-			};
+			}
 
 			var viewState = {
 				filteredItems: 0,
@@ -112,6 +123,141 @@ sap.ui.define([
 					}
 				}
 			}, this._oList);
+			
+			var currentOrderTypeList = {
+				displayUi: true,
+				typeList: []
+			};
+			var orderTypeListModel = new sap.ui.model.json.JSONModel();
+			orderTypeListModel.setData(currentOrderTypeList);
+			this.setModel(orderTypeListModel, CONT_OTLISTMODEL);
+
+			this.orderTypeField = this.byId("orderTypeInput");
+			this.orderNumberField = this.byId("orderNumberInput");
+		
+			this.setModel(orderTypeListModel, CONT_HEADERMODEL);
+			
+			if (appStateModel.getProperty('/userProfile').userType !== "National") {
+				this.init();
+			}
+
+		},
+		
+		init: function () {
+			var that = this;
+			var appStateModel = this.getStateModel();
+			appStateModel.setProperty('/tabKey', 'CS');
+
+			// find the proper user type related info
+			var appStateModel = this.getModel();
+
+			var userProfile = appStateModel.getProperty('/userProfile');
+			var viewDataModel = this.getUserTypesSelectionModel();
+			var viewData = viewDataModel.getData();
+			/* UI Helper */
+			var bpCode = null;
+			var userType = null;
+			var dealerType = null;
+			var zGroup = null;
+			var customer = null;
+			/* UI Helper */
+
+			var currentOrderTypeList = [];
+			var orderListModel = this.getModel(CONT_OTLISTMODEL);
+			if (!!userProfile && !!userProfile.loaded) {
+				//debugging
+				//	this.getBusinessPartnersByDealerCode("46055", function(sData){
+				//userProfile.dealerCode = "42120"; // debugging - comment it 
+				//this.getBusinessPartnersByDealerCode("42120", function (sData) {
+
+				this.getBusinessPartnersByDealerCode(userProfile.dealerCode, function (sData) {
+					bpCode = sData.BusinessPartner;
+					appStateModel.setProperty('/selectedBP/bpNumber', bpCode);
+					UIHelper.setBpCode(bpCode);
+					//appStateModel.setProperty('/selectedBP/bpName', sData.BusinessPartnerName);
+					appStateModel.setProperty('/selectedBP/bpName', sData.OrganizationBPName1);
+					appStateModel.setProperty('/selectedBP/dealerCode', userProfile.dealerCode);
+					UIHelper.setDealerCode(userProfile.dealerCode);
+					appStateModel.setProperty('/selectedBP/customer', sData.Customer);
+					UIHelper.setCustomer(sData.Customer);
+					UIHelper.setDealerType(sData.to_Customer.Attribute1);
+					UIHelper.setBpGroup(sData.BusinessPartnerType);
+					zGroup = sData.BusinessPartnerType;
+					dealerType = sData.to_Customer.Attribute1;
+					appStateModel.setProperty('/selectedBP/bpType', dealerType);
+					appStateModel.setProperty('/selectedBP/bpGroup', zGroup);
+
+					// get the user type
+					//Debugging
+					//userProfile.userType = "Dealer";
+					userType = that.getInternalUserType(userProfile.userType, zGroup);
+					appStateModel.setProperty('/userInfo/userType', userType);
+					UIHelper.setUserType(userType);
+					if ('Z001' === zGroup) {
+						// redefine the order list 
+						that.getSalesDocTypeByBPCode(bpCode, dealerType, function (lData) {
+							if (!!lData) {
+								currentOrderTypeList = lData;
+							} else {
+								currentOrderTypeList = [];
+							}
+							orderListModel.setProperty('/typeList', currentOrderTypeList);
+							that.setCurrentOrderTypeList(orderListModel);
+						});
+					} else {
+						for (var i = 0; i < viewData.userTypes.length; i++) {
+							if (userType === viewData.userTypes[i].type) {
+								currentOrderTypeList = viewData.userTypes[i].orderTypeList;
+							}
+						}
+						orderListModel.setProperty('/typeList', currentOrderTypeList);
+						that.setCurrentOrderTypeList(orderListModel);
+					}
+				});
+
+			} else {
+				//var userType = appStateModel.getProperty('/userInfo/userType');
+
+				var userType = UIHelper.getUserType();
+
+				for (var i = 0; i < viewData.userTypes.length; i++) {
+					if (userType === viewData.userTypes[i].type) {
+						currentOrderTypeList = viewData.userTypes[i].orderTypeList;
+					}
+				}
+
+				// default
+				//bpCode = appStateModel.getProperty('/selectedBP/bpNumber');
+				bpCode = UIHelper.getBpCode();
+				orderListModel.setProperty('/typeList', currentOrderTypeList);
+				that.setCurrentOrderTypeList(orderListModel);
+
+				this.getBusinessPartnersByID(bpCode, function (sData) {
+					if (!!sData && !!sData.to_Customer) {
+						zGroup = sData.BusinessPartnerType;
+						dealerType = sData.to_Customer.Attribute1;
+						UIHelper.setBpGroup(sData.BusinessPartnerType);
+						UIHelper.setDealerType(sData.to_Customer.Attribute1);
+						appStateModel.setProperty('/selectedBP/bpType', dealerType);
+						appStateModel.setProperty('/selectedBP/bpGroup', zGroup);
+						if ('Z001' === zGroup) {
+
+							// redefine the order list 
+							that.getSalesDocTypeByBPCode(bpCode, dealerType, function (lData) {
+								if (!!lData) {
+									currentOrderTypeList = lData;
+								} else {
+									currentOrderTypeList = [];
+								}
+								orderListModel.setProperty('/typeList', currentOrderTypeList);
+								that.setCurrentOrderTypeList(orderListModel);
+							});
+
+						}
+					}
+				});
+
+			}
 
 		},
 
@@ -374,6 +520,8 @@ sap.ui.define([
 				toOrderDate: dateFormat.format(nowDate)
 			};
 		},
+		
+			
 
 		_onObjectMatched: function (oEvent) {
 			// first, clean the message

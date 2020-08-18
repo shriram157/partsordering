@@ -7,10 +7,10 @@
 		confirm="onConfirmViewSettingsDialog"
 		sortDescending="{viewModel>/sortDescending}">
 		<sortItems>
-			<ViewSettingsItem text="{i18n>Lable.Order.Number}" key="orderNumber" selected ='true' />
+			<ViewSettingsItem text="{i18n>Lable.Order.Number}" key="orderNumber" />
 			<ViewSettingsItem text="{i18n>Label.Order.Type}" key="scOrderType" />
-			<ViewSettingsItem text="{i18n>Label.Order.Creation.Date}" key="createdOn" />
-			<ViewSettingsItem text="{i18n>Label.Order.Modification.Date}" key="modifiedOn" />
+			<ViewSettingsItem text="{i18n>Label.Order.Creation.Date}" key="createdOn" selected ='true' />
+			<ViewSettingsItem text="{i18n>Lable.CreateOrder.OrderStatus}" key="Status"/>
 		</sortItems>
 	</ViewSettingsDialog>
 </core:FragmentDefinition>

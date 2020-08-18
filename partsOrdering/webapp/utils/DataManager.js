@@ -151,9 +151,9 @@ sap.ui.define([], function () {
 					},
 					error: function (err) {
 
-						var errorResponse = JSON.parse(oError.responseText);
+						var errorResponse = JSON.parse(err.responseText);
 						var errMessage = errorResponse.error.message.value;
-						callbackFn(oError, "SalesHeaderCreate", -1, false, errMessage);
+						callbackFn(err, "SalesHeaderCreate", -1, false, errMessage);
 
 					}
 				});
