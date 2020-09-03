@@ -1240,9 +1240,15 @@ sap.ui.define([
 			var bModel = this.getSalesOrderModel();
 			var oFilter = new Array();
 			var aFilter = null;
-			//oFilter[0] = new sap.ui.model.Filter("IsActiveEntity", sap.ui.model.FilterOperator.EQ, false );
-			oFilter[0] = new sap.ui.model.Filter("SoldtoParty", sap.ui.model.FilterOperator.EQ, bpNumber);
+// *****************************revalidation of SOLD-TO-PARTY*********************************
+				var dealerCode = that.getStateModel().getProperty('/userProfile').dealerCode;
 
+				that.getBusinessPartnersByDealerCode(dealerCode, function (sData) {
+			
+			
+			//oFilter[0] = new sap.ui.model.Filter("IsActiveEntity", sap.ui.model.FilterOperator.EQ, false );
+			oFilter[0] = new sap.ui.model.Filter("SoldtoParty", sap.ui.model.FilterOperator.EQ, sData.BusinessPartner);
+// *****************************revalidation of SOLD-TO-PARTY*********************************
 			if (!!conditions) {
 				if (!!conditions.orderNumber) {
 					oFilter[1] = new sap.ui.model.Filter("PurchNoC", sap.ui.model.FilterOperator.EQ, conditions.orderNumber);
@@ -1432,6 +1438,7 @@ sap.ui.define([
 					callback(null);
 				}
 			});
+				});
 		},
 
 		_searchPartsSalesOrder: function (exactMode, conditions, callback) {
