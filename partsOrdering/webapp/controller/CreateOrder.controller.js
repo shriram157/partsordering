@@ -1756,6 +1756,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						if (!!that.submitError[items[I].partNumber]) {
 							that.submitError[items[I].partNumber] = null;
 						}
+						that._oBusyfragment.close();
+						that.itemTable.setBusy(false);
 						//model.setProperty('/newline', newline);
 					} else {
 						var I = getItemIndex();
@@ -1765,17 +1767,19 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						}
 						that.submitError[items[I].partNumber].error = data;
 						that.itemTable.getBinding("rows").getModel().refresh(true);
-
+						that._oBusyfragment.close();
+						that.itemTable.setBusy(false);
 						//obj.hasError = true;
 						//oSource.setValueState("Error");
 						//oSource.setValueText("Invalid Contract No");
 					}
 					if (IIndex === items.length && (!bSubmitError)) {
 						that._activateFinal(false);
-
+						that._oBusyfragment.close();
+						that.itemTable.setBusy(false);
 					}
-					that.itemTable.setBusy(false);
-					that._oBusyfragment.close();
+					
+					
 				});
 			}
 
