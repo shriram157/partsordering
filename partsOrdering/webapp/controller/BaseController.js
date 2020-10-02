@@ -1582,12 +1582,15 @@ sap.ui.define([
 			//var key = bModel.createKey('/draft_soHeaderSet'	'HeaderDraftUUID': uuid,
 			//	'IsActiveEntity': 'false'
 			//});
+				var bpCode= this.getStateModel().getProperty('/selectedBP/bpNumber');
+
 			var oFilter = new Array();
 			oFilter[0] = new sap.ui.model.Filter("PurchNoC", sap.ui.model.FilterOperator.EQ, orderData.tciOrderNumber);
 
-			//oFilter[1] = new sap.ui.model.Filter("PurchNoC", sap.ui.model.FilterOperator.EQ, orderData.tciOrderNumber);
+			oFilter[1] = new sap.ui.model.Filter("SoldtoParty", sap.ui.model.FilterOperator.EQ, bpCode);
 
-			oFilter[1] = new sap.ui.model.Filter("IsActiveEntity", sap.ui.model.FilterOperator.EQ, false);
+			oFilter[2] = new sap.ui.model.Filter("IsActiveEntity", sap.ui.model.FilterOperator.EQ, false);
+            oFilter[3] = new sap.ui.model.Filter("Message", sap.ui.model.FilterOperator.EQ, 'EQ');
 
 			bModel.read('/draft_soHeaderSet', {
 				filters: new Array(new sap.ui.model.Filter({
