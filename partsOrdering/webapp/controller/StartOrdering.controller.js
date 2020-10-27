@@ -95,6 +95,10 @@ sap.ui.define([
 					dealerType = sData.to_Customer.Attribute1;
 					appStateModel.setProperty('/selectedBP/bpType', dealerType);
 					appStateModel.setProperty('/selectedBP/bpGroup', zGroup);
+					
+					if(dealerType == "04"){
+					that.getView().getModel().setProperty('/selectedOrderMeta/typeB', true);	
+					}
 
 					// get the user type
 					//Debugging
@@ -211,6 +215,7 @@ sap.ui.define([
 
 			var orderNumber = vModel.getProperty('/selectedOrderMeta/order_id');
 			var orderType = vModel.getProperty('/selectedOrderMeta/order_type');
+	
 
 			var hasError = false;
 			//				if (!!!orderNumber || orderNumber.length < 5 || orderNumber.length >40){
@@ -228,6 +233,7 @@ sap.ui.define([
 				return false;
 			} else {
 				sap.ui.getCore().getMessageManager().removeAllMessages();
+				
 				this.getRouter().navTo("CreateOrder", {
 					orderNum: orderNumber,
 					orderType: orderType

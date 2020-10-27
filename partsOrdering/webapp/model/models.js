@@ -44,7 +44,9 @@ sap.ui.define([
 					selectedOrderMeta : {
 						order_type : "",
 						order_name : "",
-						order_id :""
+						order_id :"",
+						typeB : false,
+						contract_num : ""
 					},
 					appLinks : {
 						loaded : false,
