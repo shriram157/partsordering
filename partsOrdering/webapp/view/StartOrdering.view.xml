@@ -34,7 +34,7 @@ xmlns:core="sap.ui.core"  xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout" xm
 								/>
 								
 								<Label text="{i18n>Label.ContractNumber}" labelFor='contractNumInp' />
-								<Input  maxLength="8" value="{ path : '/selectedOrderMeta/contract_num', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:8}' }" type="Text"
+								<Input  maxLength="8" value="{ path : '/selectedOrderMeta/contract_num', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:10}' }" type="Text"
 										valueStateText="{i18n>ValidationMessage.contractNum}" placeholder="{i18n>Placeholder.contractNum}" visible="{/selectedOrderMeta/typeB}"
 										required='false' valueState="None"/>
 								

@@ -532,7 +532,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						oitem.netPriceAmount = "";
 						oitem.taxCode = "";
 						oitem.spq = "";
-						oitem.contractNum = "";
+						
 						oitem.partNumber = "";
 						//oItem.addIcon = true;
 
