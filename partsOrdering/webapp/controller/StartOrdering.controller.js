@@ -185,6 +185,7 @@ sap.ui.define([
 				} else {
 					var vModel = this.getView().getModel();
 					vModel.setProperty('/selectedOrderMeta/order_id', "");
+					vModel.setProperty('/selectedOrderMeta/contract_num', "");
 				}
 
 				this.init();

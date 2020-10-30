@@ -2129,12 +2129,16 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var that = this;
 			//var sValue = oEvent.getParameter("newValue");
 			//var oModel = that.oOrderModel;
+			
 			var bpCode = that.oOrderModel.getProperty('/purBpCode');
 			var oImportModel = that._oImportTable.getModel(CONST_IMPORT_ORDER_MODEL);
 			var oItems = oImportModel.getData().items;
 			var bIsSalesOrder = that.oOrderModel.getProperty('/isSalesOrder');
 			var stoSupplyingPlant = that.oOrderModel.getProperty('/stoSupplyingPlant');
-			var bTypeB = that.oOrderModel.getProperty("/TypeB");
+			var bTypeB = that.oOrderModel.getProperty("/typeB");
+			if(bTypeB){
+				sap.ui.getCore().getModel("APP_STATE_MODEL").setProperty("/selectedOrderMeta/contract_num", oItems[0].contractNum);
+			}
 			var bTypeD = that.oOrderModel.getProperty("/TypeD");
 			var orderTypeId = that.oOrderModel.getProperty("/orderTypeId");
 			var sAttribute1 = this.oOrderModel.getProperty("/Attribute1");

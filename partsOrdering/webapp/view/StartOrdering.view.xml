@@ -1,6 +1,6 @@
 <mvc:View controllerName="tci.wave2.ui.parts.ordering.controller.StartOrdering" xmlns:html="http://www.w3.org/1999/xhtml"	
 xmlns:core="sap.ui.core"  xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" displayBlock="true" xmlns="sap.m">
-	<Page id="floatingFooterPage"  showNavButton="false" floatingFooter="true">
+	<Page id="floatingFooterPage"  showNavButton="false" floatingFooter="true" xmlns:custom="tci.wave2.ui.parts.ordering.utils">
 		<customHeader>
 			<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.TopHeader" type="XML"/>
 		</customHeader>	
@@ -25,7 +25,7 @@ xmlns:core="sap.ui.core"  xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout" xm
 									<core:Item key="{orderTypeListModel>code}" text="{orderTypeListModel>name}" />
 								</Select>									
 								<Label text="{i18n>Label.StartOrdering.Order.ID}" labelFor='orderNumberInput' />
-								<Input width="100%" required="true" type='Text' id='orderNumberInput'
+								<Input  width="100%" required="true" type='Text' id='orderNumberInput'
 									value="{
 												path : '/selectedOrderMeta/order_id',
 												type: 'sap.ui.model.type.String',
@@ -34,7 +34,7 @@ xmlns:core="sap.ui.core"  xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout" xm
 								/>
 								
 								<Label text="{i18n>Label.ContractNumber}" labelFor='contractNumInp' />
-								<Input  maxLength="8" value="{ path : '/selectedOrderMeta/contract_num', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:10}' }" type="Text"
+								<custom:CustomInputDecimal maxLength="10" value="{ path : '/selectedOrderMeta/contract_num', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:10}' }" 
 										valueStateText="{i18n>ValidationMessage.contractNum}" placeholder="{i18n>Placeholder.contractNum}" visible="{/selectedOrderMeta/typeB}"
 										required='false' valueState="None"/>
 								
