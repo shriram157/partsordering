@@ -1758,7 +1758,10 @@ sap.ui.define([
 								aDraftItem.messageLevel = that.getMessageLevel(aDraftItem.messages);
 								lv_orderData.items.push(aDraftItem);
 							}
+							
+							sap.ui.getCore().getModel("APP_STATE_MODEL").setProperty("/selectedOrderMeta/contract_num", oData.headerToItemDraft.results[0].RefDoc);
 						}
+						
 						aDraftHeader.Lines = lv_orderData.items.length;
 						lv_orderData.associatedDrafts = [];
 						lv_orderData.associatedDrafts.push(aDraftHeader);

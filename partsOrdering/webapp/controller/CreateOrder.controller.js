@@ -12,6 +12,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 	var CONST_VIEW_MODEL = 'viewModel';
 	var CONT_SIZE_MODEL = 'sizeModel';
 	var CONST_IMPORT_ORDER_MODEL = 'importOrderModel';
+	var CONTRACT_NUM = "";
 
 	return BaseController.extend("tci.wave2.ui.parts.ordering.controller.CreateOrder", {
 
@@ -137,9 +138,10 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			// load the model ... 
 			var orderType = oEvent.getParameter("arguments").orderType;
 			var orderNum = oEvent.getParameter("arguments").orderNum;
+			CONTRACT_NUM = sap.ui.getCore().getModel("APP_STATE_MODEL").getProperty("/selectedOrderMeta/contract_num");
 
 			//				var orderData = { typeB: false, typeD:false };
-			var orderData = this.initLocalModels(orderType, orderNum.trim());
+			var orderData = this.initLocalModels(orderType, orderNum.trim(), CONTRACT_NUM);
 			var model = new sap.ui.model.json.JSONModel();
 
 			this.setModel(new JSONModel(), "materialSuggestionModel");
@@ -291,7 +293,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 		},
 
-		initLocalModels: function (orderType, orderNum) {
+		initLocalModels: function (orderType, orderNum, contractNum) {
 			// default mode
 			var appStateModel = this.getStateModel();
 
@@ -329,6 +331,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			if (orderData.dealerType === '04') {
 				// campaign 
 				orderData.typeB = true;
+				orderData.contractNum = contractNum;
 			} else if (orderData.orderTypeId === '3') {
 				orderData.typeD = true;
 			}
@@ -372,7 +375,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				itemCategoryGroup: '',
 				sloc: '',
 				revPlant: '',
-				contractNum: '',
+				contractNum: sap.ui.getCore().getModel("APP_STATE_MODEL").getProperty("/selectedOrderMeta/contract_num"),
 				addIcon: true
 
 			};
@@ -529,7 +532,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						oitem.netPriceAmount = "";
 						oitem.taxCode = "";
 						oitem.spq = "";
-						oitem.contractNum = "";
+						
 						oitem.partNumber = "";
 						//oItem.addIcon = true;
 
@@ -2126,12 +2129,16 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var that = this;
 			//var sValue = oEvent.getParameter("newValue");
 			//var oModel = that.oOrderModel;
+			
 			var bpCode = that.oOrderModel.getProperty('/purBpCode');
 			var oImportModel = that._oImportTable.getModel(CONST_IMPORT_ORDER_MODEL);
 			var oItems = oImportModel.getData().items;
 			var bIsSalesOrder = that.oOrderModel.getProperty('/isSalesOrder');
 			var stoSupplyingPlant = that.oOrderModel.getProperty('/stoSupplyingPlant');
-			var bTypeB = that.oOrderModel.getProperty("/TypeB");
+			var bTypeB = that.oOrderModel.getProperty("/typeB");
+			if(bTypeB){
+				sap.ui.getCore().getModel("APP_STATE_MODEL").setProperty("/selectedOrderMeta/contract_num", oItems[0].contractNum);
+			}
 			var bTypeD = that.oOrderModel.getProperty("/TypeD");
 			var orderTypeId = that.oOrderModel.getProperty("/orderTypeId");
 			var sAttribute1 = this.oOrderModel.getProperty("/Attribute1");
