@@ -477,7 +477,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			sValue = sValue.toString().replace(/-/g, "");
 			sValue = sValue.trim();
 			that.itemTable.setBusy(true);
-
+            if(sValue !=""){
 			DataManager.getPartDescSPQForPart(sValue, oItem, function (item1Data, oitem) {
 				//that.getInfoFromPart(sValue, model.getProperty('/purBpCode'), function (item1Data) {
 				if (!!item1Data && (item1Data[0].Division !== "00" && item1Data[0].Division !== sAttribute1 && item1Data[0].Division !==
@@ -560,6 +560,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 				}
 			});
+            }
 			that.oOrderModel.refresh(true);
 			that.itemTable.setBusy(false);
 		},
