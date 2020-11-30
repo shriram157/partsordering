@@ -477,19 +477,24 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			sValue = sValue.toString().replace(/-/g, "");
 			sValue = sValue.trim();
 			that.itemTable.setBusy(true);
-
+            if(sValue !=""){
 			DataManager.getPartDescSPQForPart(sValue, oItem, function (item1Data, oitem) {
 				//that.getInfoFromPart(sValue, model.getProperty('/purBpCode'), function (item1Data) {
 				if (!!item1Data && (item1Data[0].Division !== "00" && item1Data[0].Division !== sAttribute1 && item1Data[0].Division !==
 						sAttribute2) && that.bIsSalesOrder) {
 					var failedtext = that.oResourceBundle.getText('Message.Failed.Not.Valid.Dealer.Part', [sValue]);
-					MessageBox.error(failedtext, {
-						onClose: function (sAction) {
-							that.itemTable.setBusy(false);
+					//INC0180000 
+					sap.m.MessageToast.show(failedtext);
+					that.itemTable.setBusy(false);
 							sValue = "";
 							oitem.partNumber = "";
-						}
-					});
+					// MessageBox.error(failedtext, {
+					// 	onClose: function (sAction) {
+					// 		that.itemTable.setBusy(false);
+					// 		sValue = "";
+					// 		oitem.partNumber = "";
+					// 	}
+					// });
 				} else if (!!item1Data && that.bIsSalesOrder) {
 					oitem.hasError = false;
 					oitem.itemCategoryGroup = item1Data[0].categoryGroup;
@@ -555,6 +560,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 				}
 			});
+            }
 			that.oOrderModel.refresh(true);
 			that.itemTable.setBusy(false);
 		},
