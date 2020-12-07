@@ -148,6 +148,18 @@ sap.ui.define([], function () {
 			}
 			return false;
 		},
+		sub3boolean: function (value) {
+			if (!!value && 'X' === value.toUpperCase()) {
+				return true;
+			}
+			return false;
+		},
+		sub4boolean: function (value) {
+			if (!!value && 'X' === value.toUpperCase()) {
+				return true;
+			}
+			return false;
+		},
 		getItemNumber: function (sValue) {
 			if (!!sValue) {
 				return sValue.replace(/^0+/, '');

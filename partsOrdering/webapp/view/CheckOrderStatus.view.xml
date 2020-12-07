@@ -108,6 +108,8 @@
 							<Column width="9rem">
 								<Text text="{i18n>Label.CheckOrder.PartNumber} "/>
 							</Column>
+							<Column width="4rem"></Column>
+							<Column width="4rem"></Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="5rem"></Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="7rem">
 								<Text text="{i18n>Label.CheckOrder.LineItem} "/>
@@ -179,6 +181,9 @@
 								<cells>
 									<!--<ObjectIdentifier title="{path : 'viewModel>matnr', formatter:'.formatter.getItemNumber' }"/>-->
 									<ObjectIdentifier title="{viewModel>matnr}" tooltip="{rejectionReason} {rejectionDescription}"/>
+									<core:Icon src="sap-icon://dropdown"  visible="{path : 'viewModel>bom_component', formatter:'.formatter.sub3boolean'}"/>
+									<core:Icon src="sap-icon://feeder-arrow" visible="{path : 'viewModel>bom_kit_part', formatter:'.formatter.sub4boolean'}"/>
+									
 									<core:Icon src="sap-icon://share" color='#FF5733' visible="{path : 'viewModel>sub_flag', formatter:'.formatter.sub2boolean'}"/>
 									<ObjectNumber number="{viewModel>TCI_itemNo}"/>
 									<!--<Text text="{path : 'viewModel>ship_from' }"/>-->
