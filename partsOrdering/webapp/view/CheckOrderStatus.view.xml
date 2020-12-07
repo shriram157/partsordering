@@ -181,8 +181,8 @@
 								<cells>
 									<!--<ObjectIdentifier title="{path : 'viewModel>matnr', formatter:'.formatter.getItemNumber' }"/>-->
 									<ObjectIdentifier title="{viewModel>matnr}" tooltip="{rejectionReason} {rejectionDescription}"/>
-									<core:Icon src="sap-icon://dropdown"  visible="{path : 'viewModel>bom_component', formatter:'.formatter.sub3boolean'}"/>
-									<core:Icon src="sap-icon://feeder-arrow" visible="{path : 'viewModel>bom_kit_part', formatter:'.formatter.sub4boolean'}"/>
+									<core:Icon src="sap-icon://megamenu" color="#498abf"  visible="{path : 'viewModel>bom_component', formatter:'.formatter.sub3boolean'}"/>
+									<core:Icon src="sap-icon://rhombus-milestone-2" color="#44637" visible="{path : 'viewModel>bom_kit_part', formatter:'.formatter.sub4boolean'}"/>
 									
 									<core:Icon src="sap-icon://share" color='#FF5733'  visible="{path : 'viewModel>sub_flag', formatter:'.formatter.sub2boolean'}"/>
 									<ObjectNumber number="{viewModel>TCI_itemNo}"/>
