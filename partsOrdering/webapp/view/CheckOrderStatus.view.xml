@@ -182,8 +182,8 @@
 									<!--<ObjectIdentifier title="{path : 'viewModel>matnr', formatter:'.formatter.getItemNumber' }"/>-->
 									<ObjectIdentifier title="{viewModel>matnr}" tooltip="{rejectionReason} {rejectionDescription}"/>
 								
-									<core:Icon src="sap-icon://dropdown" size="2rem"  visible="{path : 'viewModel>bom_kit_part', formatter:'.formatter.sub4boolean'}"/>
-									<core:Icon src="sap-icon://feeder-arrow" size="1.2rem"   visible="{path : 'viewModel>bom_component', formatter:'.formatter.sub3boolean'}"/>
+									<core:Icon src="sap-icon://dropdown" size="2.3rem"  visible="{path : 'viewModel>bom_kit_part', formatter:'.formatter.sub4boolean'}"/>
+									<core:Icon src="sap-icon://feeder-arrow" size=".8rem" visible="{path : 'viewModel>bom_component', formatter:'.formatter.sub3boolean'}"/>
 									<core:Icon src="sap-icon://share" color='#FF5733'  visible="{path : 'viewModel>sub_flag', formatter:'.formatter.sub2boolean'}"/>
 									<ObjectNumber number="{viewModel>TCI_itemNo}"/>
 									<!--<Text text="{path : 'viewModel>ship_from' }"/>-->
