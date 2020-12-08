@@ -187,6 +187,7 @@
 									<core:Icon src="sap-icon://share" color='#FF5733'  visible="{path : 'viewModel>sub_flag', formatter:'.formatter.sub2boolean'}"/>
 									<ObjectNumber number="{viewModel>TCI_itemNo}"/>
 									<!--<Text text="{path : 'viewModel>ship_from' }"/>-->
+									<!--changes done for DMND0002661-->
 									<ObjectNumber number="{path: 'viewModel>quant_ordered', formatter:'.formatter.round2dec'}"/>
 									<Text text="{= ${viewModel>bom_kit_part} === 'X' ? '0' : ${path:'viewModel>quant_in_process'}}"/>
 									<Text text="{= ${viewModel>bom_kit_part} === 'X' ? '0' : ${path:'viewModel>quant_processed'}}"/>

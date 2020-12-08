@@ -39,6 +39,7 @@
 						<ToolbarSeparator/>
 						<VBox width='76px'>
 							<Label text="{i18n>Header.Quantity.In.Process}"></Label>
+							<!--changes done for DMND0002661-->
 							<!--<ObjectNumber number="{path : '/quant_in_process', formatter:'.formatter.round2dec'}" state="Warning"/>-->
 							<ObjectStatus text="{= ${/bom_kit_part} === 'X' ? '0' : ${path:'/quant_in_process'}}" state="Warning"/>
 						</VBox>

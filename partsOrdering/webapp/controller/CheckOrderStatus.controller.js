@@ -628,8 +628,8 @@ sap.ui.define([
 				sPath = sPathList[0];
 			}
 			var theData = this.getModel(CONST_VIEW_MODEL).getProperty(sPath);
-			
-			if(theData.bom_kit_part == "X"){
+			// changes done for DMND0002661
+			if(theData.bom_kit_part == "X" && theData.SOtoDeliv.results.length > 0){
 			   for(var i in theData.SOtoDeliv.results){
 			       theData.SOtoDeliv.results[i].tracking_no = " ";
 			       theData.SOtoDeliv.results[i].deliv_no = " ";
@@ -637,14 +637,14 @@ sap.ui.define([
 			   }
 			}
 			
-			if(theData.bom_component == "X"){
+			if(theData.bom_component == "X" && theData.SOtoDeliv.results.length > 0){
 			   for(var j in theData.SOtoDeliv.results){
-			       theData.SOtoDeliv.results[i].bill_no = " ";
-			       theData.SOtoDeliv.results[i].bill_itemNo = " ";
+			       theData.SOtoDeliv.results[j].bill_no = " ";
+			       theData.SOtoDeliv.results[j].bill_itemNo = " ";
 			      
 			   }
 			}
-
+            // end of changes done for DMND0002661
 			//this._oDetailDialog.bindElement("viewModel>" +sPath);
 			var aModel = new JSONModel();
 			aModel.setData(theData);
