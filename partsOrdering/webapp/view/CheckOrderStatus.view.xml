@@ -188,7 +188,7 @@
 									<ObjectNumber number="{viewModel>TCI_itemNo}"/>
 									<!--<Text text="{path : 'viewModel>ship_from' }"/>-->
 									<ObjectNumber number="{path: 'viewModel>quant_ordered', formatter:'.formatter.round2dec'}"/>
-									<ObjectNumber number="{path: 'viewModel>quant_in_process', formatter:'.formatter.round2dec' }"/>
+									<Text text="{= ${viewModel>bom_kit_part} === 'X' ? '0' : 'viewModel>quant_in_process'}"/>
 									<ObjectNumber number="{path: 'viewModel>quant_processed', formatter:'.formatter.round2dec'}"/>
 									<ObjectNumber number="{path: 'viewModel>quant_cancelled', formatter:'.formatter.round2dec'}"/>
 									<ObjectNumber number="{path: 'viewModel>quant_back_ordered', formatter:'.formatter.round2dec'}"/>
