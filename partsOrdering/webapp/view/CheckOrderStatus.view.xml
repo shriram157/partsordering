@@ -189,10 +189,14 @@
 									<!--<Text text="{path : 'viewModel>ship_from' }"/>-->
 									<ObjectNumber number="{path: 'viewModel>quant_ordered', formatter:'.formatter.round2dec'}"/>
 									<Text text="{= ${viewModel>bom_kit_part} === 'X' ? '0' : ${path:'viewModel>quant_in_process'}}"/>
-									<ObjectNumber number="{path: 'viewModel>quant_processed', formatter:'.formatter.round2dec'}"/>
-									<ObjectNumber number="{path: 'viewModel>quant_cancelled', formatter:'.formatter.round2dec'}"/>
-									<ObjectNumber number="{path: 'viewModel>quant_back_ordered', formatter:'.formatter.round2dec'}"/>
-									<ObjectNumber number="{path: 'viewModel>open_qty', formatter:'.formatter.round2dec'}"/>
+									<Text text="{= ${viewModel>bom_kit_part} === 'X' ? '0' : ${path:'viewModel>quant_processed'}}"/>
+									<!--<ObjectNumber number="{path: 'viewModel>quant_processed', formatter:'.formatter.round2dec'}"/>-->
+									<Text text="{= ${viewModel>bom_kit_part} === 'X' ? '0' : ${path:'viewModel>quant_cancelled'}}"/>
+									<!--<ObjectNumber number="{path: 'viewModel>quant_cancelled', formatter:'.formatter.round2dec'}"/>-->
+									<Text text="{= ${viewModel>bom_kit_part} === 'X' ? '0' : ${path:'viewModel>quant_back_ordered'}}"/>
+									<!--<ObjectNumber number="{path: 'viewModel>quant_back_ordered', formatter:'.formatter.round2dec'}"/>-->
+									<Text text="{= ${viewModel>bom_kit_part} === 'X' ? '0' : ${path:'viewModel>open_qty'}}"/>
+									<!--<ObjectNumber number="{path: 'viewModel>open_qty', formatter:'.formatter.round2dec'}"/>-->
 									<!--New fields Addition -->
 									<Text text="{path: 'viewModel>est_deliv_date',formatter:'.formatter.estDateFormat'}"/>
 									<!--New fields Addition -->
