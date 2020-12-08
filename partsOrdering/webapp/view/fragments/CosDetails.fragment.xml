@@ -39,27 +39,32 @@
 						<ToolbarSeparator/>
 						<VBox width='76px'>
 							<Label text="{i18n>Header.Quantity.In.Process}"></Label>
-							<ObjectNumber number="{path : '/quant_in_process', formatter:'.formatter.round2dec'}" state="Warning"/>
+							<!--<ObjectNumber number="{path : '/quant_in_process', formatter:'.formatter.round2dec'}" state="Warning"/>-->
+							<ObjectStatus text="{= ${/bom_kit_part} === 'X' ? '0' : ${path:'/quant_in_process'}}" state="Warning"/>
 						</VBox>
 						<ToolbarSeparator/>
 						<VBox width='76px'>
 							<Label text="{i18n>Header.Quantity.Processed}"></Label>
-							<ObjectNumber number="{path : '/quant_processed', formatter:'.formatter.round2dec'}" state="None"/>
+							<!--<ObjectNumber number="{path : '/quant_processed', formatter:'.formatter.round2dec'}" state="None"/>-->
+							<ObjectStatus text="{= ${/bom_kit_part} === 'X' ? '0' : ${path:'/quant_processed'}}" state="None"/>
 						</VBox>
 						<ToolbarSeparator/>
 						<VBox width='76px'>
 							<Label text="{i18n>Header.Quantity.Cancelled}"></Label>
-							<ObjectNumber number="{path : '/quant_cancelled', formatter:'.formatter.round2dec'}" state="Error" tooltip="{/rejectionReason} {/rejectionDescription}"/>
+							<!--<ObjectNumber number="{path : '/quant_cancelled', formatter:'.formatter.round2dec'}" state="Error" tooltip="{/rejectionReason} {/rejectionDescription}"/>-->
+							<ObjectStatus text="{= ${/bom_kit_part} === 'X' ? '0' : ${path:'/quant_cancelled'}}" state="Error" tooltip="{/rejectionReason} {/rejectionDescription}"/>
 						</VBox>
 						<ToolbarSeparator/>
 						<VBox width='88px'>
 							<Label text="{i18n>Header.Quantity.Back.Ordered}"></Label>
-							<ObjectNumber number="{path : '/quant_back_ordered', formatter:'.formatter.round2dec'}" state="Error"/>
+							<!--<ObjectNumber number="{path : '/quant_back_ordered', formatter:'.formatter.round2dec'}" state="Error"/>-->
+							<ObjectStatus text="{= ${/bom_kit_part} === 'X' ? '0' : ${path:'/quant_back_ordered'}}" state="Error" />
 						</VBox>
 						<ToolbarSeparator/>
 						<VBox width='90px'>
 							<Label text="{i18n>Header.Quantity.Open}"></Label>
-							<ObjectNumber number="{path : '/open_qty', formatter:'.formatter.round2dec'}" state="None"/>
+							<!--<ObjectNumber number="{path : '/open_qty', formatter:'.formatter.round2dec'}" state="None"/>-->
+							<ObjectStatus text="{= ${/bom_kit_part} === 'X' ? '0' : ${path:'/open_qty'}}" state="None"/>
 						</VBox>
 						<ToolbarSeparator/>
 					</Toolbar>
@@ -97,11 +102,16 @@
 							<Text text="{parts : [{path: 'cnf_qty'}, {path : 'deliv_qty'}], formatter:'.formatter.confDelFormat'}"/>
 							<Text text="{path: 'estm_deliv_dt', type : 'sap.ui.model.type.Date', formatOptions: { style: 'medium', source: { pattern: 'yyyyMMdd' }}}"/>
 							<!--<ObjectNumber number="{path: 'tracking_no'}" />-->
-							<Text text="{path: 'tracking_no'}"/>
-							<ObjectIdentifier title="{path: 'deliv_no' , formatter:'.formatter.removeLeadingZero'}"/>
-							<ObjectIdentifier title="{path: 'deliv_itemNo', formatter:'.formatter.removeLeadingZero'}"/>
-							<ObjectIdentifier title="{path : 'bill_no', formatter:'.formatter.removeLeadingZero'}"/>
-							<ObjectIdentifier title="{path : 'bill_itemNo', formatter:'.formatter.removeLeadingZero'}"/>
+							<!--<Text text="{path: 'tracking_no'}"/>-->
+							<Text text="{= ${bom_kit_part} === 'X' ? ' ' : ${path:'tracking_no'}}"/>
+							<!--<ObjectIdentifier title="{path: 'deliv_no' , formatter:'.formatter.removeLeadingZero'}"/>-->
+							<ObjectIdentifier title="{= ${bom_kit_part} === 'X' ? ' ' : ${path:'deliv_no'}}"/>
+							<!--<ObjectIdentifier title="{path: 'deliv_itemNo', formatter:'.formatter.removeLeadingZero'}"/>-->
+							<ObjectIdentifier title="{= ${bom_kit_part} === 'X' ? ' ' : ${path:'deliv_itemNo'}}"/>
+							<!--<ObjectIdentifier title="{path : 'bill_no', formatter:'.formatter.removeLeadingZero'}"/>-->
+								<ObjectIdentifier title="{= ${bom_component} === 'X' ? ' ' : ${path:'bill_no'}}"/>
+							<!--<ObjectIdentifier title="{path : 'bill_itemNo', formatter:'.formatter.removeLeadingZero'}"/>-->
+							<ObjectIdentifier title="{= ${bom_component} === 'X' ? ' ' : ${path:'bill_itemNo'}}"/>
 						</cells>
 					</ColumnListItem>
 				</items>
