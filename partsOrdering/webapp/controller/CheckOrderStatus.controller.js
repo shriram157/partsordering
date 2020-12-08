@@ -628,6 +628,22 @@ sap.ui.define([
 				sPath = sPathList[0];
 			}
 			var theData = this.getModel(CONST_VIEW_MODEL).getProperty(sPath);
+			
+			if(theData.bom_kit_part == "X"){
+			   for(var i in theData.SOtoDeliv.results){
+			       theData.SOtoDeliv.results[i].tracking_no = " ";
+			       theData.SOtoDeliv.results[i].deliv_no = " ";
+			       theData.SOtoDeliv.results[i].deliv_itemNo = " ";
+			   }
+			}
+			
+			if(theData.bom_component == "X"){
+			   for(var j in theData.SOtoDeliv.results){
+			       theData.SOtoDeliv.results[i].bill_no = " ";
+			       theData.SOtoDeliv.results[i].bill_itemNo = " ";
+			      
+			   }
+			}
 
 			//this._oDetailDialog.bindElement("viewModel>" +sPath);
 			var aModel = new JSONModel();

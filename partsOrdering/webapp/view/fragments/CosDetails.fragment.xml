@@ -102,16 +102,11 @@
 							<Text text="{parts : [{path: 'cnf_qty'}, {path : 'deliv_qty'}], formatter:'.formatter.confDelFormat'}"/>
 							<Text text="{path: 'estm_deliv_dt', type : 'sap.ui.model.type.Date', formatOptions: { style: 'medium', source: { pattern: 'yyyyMMdd' }}}"/>
 							<!--<ObjectNumber number="{path: 'tracking_no'}" />-->
-							<!--<Text text="{path: 'tracking_no'}"/>-->
-							<Text text="{= ${bom_kit_part} === 'X' ? ' ' : ${path:'tracking_no'}}"/>
-							<!--<ObjectIdentifier title="{path: 'deliv_no' , formatter:'.formatter.removeLeadingZero'}"/>-->
-							<ObjectIdentifier title="{= ${bom_kit_part} === 'X' ? ' ' : ${path:'deliv_no'}}"/>
-							<!--<ObjectIdentifier title="{path: 'deliv_itemNo', formatter:'.formatter.removeLeadingZero'}"/>-->
-							<ObjectIdentifier title="{= ${bom_kit_part} === 'X' ? ' ' : ${path:'deliv_itemNo'}}"/>
-							<!--<ObjectIdentifier title="{path : 'bill_no', formatter:'.formatter.removeLeadingZero'}"/>-->
-								<ObjectIdentifier title="{= ${bom_component} === 'X' ? ' ' : ${path:'bill_no'}}"/>
-							<!--<ObjectIdentifier title="{path : 'bill_itemNo', formatter:'.formatter.removeLeadingZero'}"/>-->
-							<ObjectIdentifier title="{= ${bom_component} === 'X' ? ' ' : ${path:'bill_itemNo'}}"/>
+							<Text text="{path: 'tracking_no'}"/>
+							<ObjectIdentifier title="{path: 'deliv_no' , formatter:'.formatter.removeLeadingZero'}"/>
+							<ObjectIdentifier title="{path: 'deliv_itemNo', formatter:'.formatter.removeLeadingZero'}"/>
+							<ObjectIdentifier title="{path : 'bill_no', formatter:'.formatter.removeLeadingZero'}"/>
+							<ObjectIdentifier title="{path : 'bill_itemNo', formatter:'.formatter.removeLeadingZero'}"/>
 						</cells>
 					</ColumnListItem>
 				</items>
