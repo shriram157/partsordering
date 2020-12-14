@@ -635,8 +635,8 @@ sap.ui.define([
 					theData.SOtoDeliv.results[i].tracking_no = " ";
 					theData.SOtoDeliv.results[i].deliv_no = " ";
 					theData.SOtoDeliv.results[i].deliv_itemNo = " ";
-					theData.SOtoDeliv.results[j].bill_no = " ";
-					theData.SOtoDeliv.results[j].bill_itemNo = " ";
+					theData.SOtoDeliv.results[i].bill_no = " ";
+					theData.SOtoDeliv.results[i].bill_itemNo = " ";
 				}
 			}
 
