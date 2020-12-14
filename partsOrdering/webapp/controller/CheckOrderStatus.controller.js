@@ -10,8 +10,9 @@ sap.ui.define([
 	"sap/ui/core/util/Export",
 	"sap/ui/core/util/ExportTypeCSV",
 	"tci/wave2/ui/parts/ordering/utils/UIHelper",
-		"tci/wave2/ui/parts/ordering/utils/DataManager"
-], function (BaseController, MessagePopover, MessageItem, MessageToast, Link, JSONModel, formatter, Sorter, Export, ExportTypeCSV, UIHelper, DataManager) {
+	"tci/wave2/ui/parts/ordering/utils/DataManager"
+], function (BaseController, MessagePopover, MessageItem, MessageToast, Link, JSONModel, formatter, Sorter, Export, ExportTypeCSV,
+	UIHelper, DataManager) {
 	"use strict";
 
 	var CONST_VIEW_MODEL = 'viewModel';
@@ -33,7 +34,6 @@ sap.ui.define([
 			var _oComponentOwner = this.getOwnerComponent();
 			DataManager.init(BaseController, _oComponentOwner, this.getResourceBundle(), this.getSapLangugaeFromLocal());
 
-			
 			var appStateModel = this.getStateModel();
 			this.setModel(appStateModel);
 
@@ -123,7 +123,7 @@ sap.ui.define([
 					}
 				}
 			}, this._oList);
-			
+
 			var currentOrderTypeList = {
 				displayUi: true,
 				typeList: []
@@ -134,15 +134,15 @@ sap.ui.define([
 
 			this.orderTypeField = this.byId("orderTypeInput");
 			this.orderNumberField = this.byId("orderNumberInput");
-		
+
 			this.setModel(orderTypeListModel, CONT_HEADERMODEL);
-			
+
 			if (appStateModel.getProperty('/userProfile').userType !== "National") {
 				this.init();
 			}
 
 		},
-		
+
 		init: function () {
 			var that = this;
 			var appStateModel = this.getStateModel();
@@ -520,8 +520,6 @@ sap.ui.define([
 				toOrderDate: dateFormat.format(nowDate)
 			};
 		},
-		
-			
 
 		_onObjectMatched: function (oEvent) {
 			// first, clean the message
@@ -629,22 +627,27 @@ sap.ui.define([
 			}
 			var theData = this.getModel(CONST_VIEW_MODEL).getProperty(sPath);
 			// changes done for DMND0002661
-			if(theData.bom_kit_part == "X" && theData.SOtoDeliv.results.length > 0){
-			   for(var i in theData.SOtoDeliv.results){
-			       theData.SOtoDeliv.results[i].tracking_no = " ";
-			       theData.SOtoDeliv.results[i].deliv_no = " ";
-			       theData.SOtoDeliv.results[i].deliv_itemNo = " ";
-			   }
+			if (theData.bom_kit_part == "X" && theData.SOtoDeliv.results.length > 0) {
+				for (var i in theData.SOtoDeliv.results) {
+					theData.SOtoDeliv.results[i].cnf_qty = " ";
+					theData.SOtoDeliv.results[i].deliv_qty = " ";
+					theData.SOtoDeliv.results[i].estm_deliv_dt = " ";
+					theData.SOtoDeliv.results[i].tracking_no = " ";
+					theData.SOtoDeliv.results[i].deliv_no = " ";
+					theData.SOtoDeliv.results[i].deliv_itemNo = " ";
+					theData.SOtoDeliv.results[j].bill_no = " ";
+					theData.SOtoDeliv.results[j].bill_itemNo = " ";
+				}
 			}
-			
-			if(theData.bom_component == "X" && theData.SOtoDeliv.results.length > 0){
-			   for(var j in theData.SOtoDeliv.results){
-			       theData.SOtoDeliv.results[j].bill_no = " ";
-			       theData.SOtoDeliv.results[j].bill_itemNo = " ";
-			      
-			   }
+
+			if (theData.bom_component == "X" && theData.SOtoDeliv.results.length > 0) {
+				for (var j in theData.SOtoDeliv.results) {
+					theData.SOtoDeliv.results[j].bill_no = " ";
+					theData.SOtoDeliv.results[j].bill_itemNo = " ";
+
+				}
 			}
-            // end of changes done for DMND0002661
+			// end of changes done for DMND0002661
 			//this._oDetailDialog.bindElement("viewModel>" +sPath);
 			var aModel = new JSONModel();
 			aModel.setData(theData);
