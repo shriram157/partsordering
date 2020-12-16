@@ -1053,6 +1053,13 @@ sap.ui.define([
 
 			// loop is to extract each row
 			for (var i = 0; i < arrData.length; i++) {
+				if (arrData[i].bom_kit_part == "X") {
+					arrData[i].quant_in_process = "0";
+					arrData[i].quant_processed = "0";
+					arrData[i].quant_cancelled = "0";
+					arrData[i].quant_back_ordered = "0";
+					arrData[i].open_qty = "0";
+				}
 				var row = "";
 				row += '="' + arrData[i].matnr + '","' + arrData[i].TCI_itemNo + '","' + this.round2dec(arrData[i].quant_ordered) +
 					'","' + arrData[i].quant_in_process + '","' + this.round2dec(arrData[i].quant_processed) + '","' + this.round2dec(arrData[i].quant_cancelled) +
