@@ -47,7 +47,7 @@
 						<VBox width='76px'>
 							<Label text="{i18n>Header.Quantity.Processed}"></Label>
 							<!--<ObjectNumber number="{path : '/quant_processed', formatter:'.formatter.round2dec'}" state="None"/>-->
-							<ObjectStatus text="{= ${/bom_kit_part} === 'X' ? '0' : ${path:'/quant_processed'}}" state="None"/>
+							<ObjectStatus text="{path:'/quant_processed'}" state="None"/>
 						</VBox>
 						<ToolbarSeparator/>
 						<VBox width='76px'>
