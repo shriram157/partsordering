@@ -190,7 +190,7 @@
 									<!--changes done for DMND0002661-->
 									<ObjectNumber number="{path: 'viewModel>quant_ordered', formatter:'.formatter.round2dec'}"/>
 									<Text text="{= ${viewModel>bom_kit_part} === 'X' ? '0' : ${path:'viewModel>quant_in_process'}}"/>
-									<Text text="{= ${viewModel>bom_kit_part} === 'X' ? '0' : ${path:'viewModel>quant_processed'}}"/>
+									<Text text="{path:'viewModel>quant_processed'}"/>
 									<!--<ObjectNumber number="{path: 'viewModel>quant_processed', formatter:'.formatter.round2dec'}"/>-->
 									<Text text="{= ${viewModel>bom_kit_part} === 'X' ? '0' : ${path:'viewModel>quant_cancelled'}}"/>
 									<!--<ObjectNumber number="{path: 'viewModel>quant_cancelled', formatter:'.formatter.round2dec'}"/>-->
