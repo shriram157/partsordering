@@ -108,6 +108,8 @@
 							<Column width="9rem">
 								<Text text="{i18n>Label.CheckOrder.PartNumber} "/>
 							</Column>
+							<Column ></Column>
+							<Column ></Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="5rem"></Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="7rem">
 								<Text text="{i18n>Label.CheckOrder.LineItem} "/>
@@ -179,15 +181,23 @@
 								<cells>
 									<!--<ObjectIdentifier title="{path : 'viewModel>matnr', formatter:'.formatter.getItemNumber' }"/>-->
 									<ObjectIdentifier title="{viewModel>matnr}" tooltip="{rejectionReason} {rejectionDescription}"/>
-									<core:Icon src="sap-icon://share" color='#FF5733' visible="{path : 'viewModel>sub_flag', formatter:'.formatter.sub2boolean'}"/>
+								
+									<core:Icon src="sap-icon://dropdown" size="2.3rem" height="0"  visible="{path : 'viewModel>bom_kit_part', formatter:'.formatter.sub4boolean'}"/>
+									<core:Icon src="sap-icon://feeder-arrow" size=".8rem" visible="{path : 'viewModel>bom_component', formatter:'.formatter.sub3boolean'}"/>
+									<core:Icon src="sap-icon://share" color='#FF5733'  visible="{path : 'viewModel>sub_flag', formatter:'.formatter.sub2boolean'}"/>
 									<ObjectNumber number="{viewModel>TCI_itemNo}"/>
 									<!--<Text text="{path : 'viewModel>ship_from' }"/>-->
+									<!--changes done for DMND0002661-->
 									<ObjectNumber number="{path: 'viewModel>quant_ordered', formatter:'.formatter.round2dec'}"/>
-									<ObjectNumber number="{path: 'viewModel>quant_in_process', formatter:'.formatter.round2dec' }"/>
-									<ObjectNumber number="{path: 'viewModel>quant_processed', formatter:'.formatter.round2dec'}"/>
-									<ObjectNumber number="{path: 'viewModel>quant_cancelled', formatter:'.formatter.round2dec'}"/>
-									<ObjectNumber number="{path: 'viewModel>quant_back_ordered', formatter:'.formatter.round2dec'}"/>
-									<ObjectNumber number="{path: 'viewModel>open_qty', formatter:'.formatter.round2dec'}"/>
+									<Text text="{= ${viewModel>bom_kit_part} === 'X' ? '0' : ${path:'viewModel>quant_in_process'}}"/>
+									<Text text="{path:'viewModel>quant_processed'}"/>
+									<!--<ObjectNumber number="{path: 'viewModel>quant_processed', formatter:'.formatter.round2dec'}"/>-->
+									<Text text="{= ${viewModel>bom_kit_part} === 'X' ? '0' : ${path:'viewModel>quant_cancelled'}}"/>
+									<!--<ObjectNumber number="{path: 'viewModel>quant_cancelled', formatter:'.formatter.round2dec'}"/>-->
+									<Text text="{= ${viewModel>bom_kit_part} === 'X' ? '0' : ${path:'viewModel>quant_back_ordered'}}"/>
+									<!--<ObjectNumber number="{path: 'viewModel>quant_back_ordered', formatter:'.formatter.round2dec'}"/>-->
+									<Text text="{= ${viewModel>bom_kit_part} === 'X' ? '0' : ${path:'viewModel>open_qty'}}"/>
+									<!--<ObjectNumber number="{path: 'viewModel>open_qty', formatter:'.formatter.round2dec'}"/>-->
 									<!--New fields Addition -->
 									<Text text="{path: 'viewModel>est_deliv_date',formatter:'.formatter.estDateFormat'}"/>
 									<!--New fields Addition -->
