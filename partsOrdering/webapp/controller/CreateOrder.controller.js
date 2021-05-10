@@ -648,7 +648,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			oOrderData.items.splice(0, 0, that._getNewItem());
 			//rData.newline = [that._getNewLine()];
 			oOrderData.totalLines = oOrderData.items.length - 1;
-			if (oOrderData.totalLines > 16) {
+			if (oOrderData.totalLines >= 16) {
 				this.itemTable.setVisibleRowCount(oOrderData.items.length + 2);
 			}
 			// ---to save some newwork traffic
@@ -1567,7 +1567,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					}
 					rData.items = newItems;
 					rData.totalLines = rData.items.length - 1;
-					if (rData.totalLines > 16) {
+					if (rData.totalLines >= 16) {
 						this.itemTable.setVisibleRowCount(rData.totalLines + 2);
 					}
 					// ---to save some newwork traffic
