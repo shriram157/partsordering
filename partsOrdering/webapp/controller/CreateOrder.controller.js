@@ -273,6 +273,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					rData.typeD = true;
 				}
 
+				var dlrFlag = that.getOwnerComponent().getModel("LocalDataModel").getProperty("/salesdocData/dealercheckflag");
+				if (dlrFlag === "X") {
+					// campaign 
+					rData.typeB = false;
+				}
+
 				if (orderData.items.length === 0) {
 					that.btnDraft.setVisible(true);
 					that.btnSubmit.setVisible(false);
@@ -477,90 +483,90 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			sValue = sValue.toString().replace(/-/g, "");
 			sValue = sValue.trim();
 			that.itemTable.setBusy(true);
-            if(sValue !=""){
-			DataManager.getPartDescSPQForPart(sValue, oItem, function (item1Data, oitem) {
-				//that.getInfoFromPart(sValue, model.getProperty('/purBpCode'), function (item1Data) {
-				if (!!item1Data && (item1Data[0].Division !== "00" && item1Data[0].Division !== sAttribute1 && item1Data[0].Division !==
-						sAttribute2) && that.bIsSalesOrder) {
-					var failedtext = that.oResourceBundle.getText('Message.Failed.Not.Valid.Dealer.Part', [sValue]);
-					//INC0180000 
-					sap.m.MessageToast.show(failedtext);
-					that.itemTable.setBusy(false);
-							sValue = "";
-							oitem.partNumber = "";
-					// MessageBox.error(failedtext, {
-					// 	onClose: function (sAction) {
-					// 		that.itemTable.setBusy(false);
-					// 		sValue = "";
-					// 		oitem.partNumber = "";
-					// 	}
-					// });
-				} else if (!!item1Data && that.bIsSalesOrder) {
-					oitem.hasError = false;
-					oitem.itemCategoryGroup = item1Data[0].categoryGroup;
-					oitem.division = item1Data[0].Division;
-					oitem.partDesc = item1Data[0].MaterialDescription;
-					oitem.supplier = item1Data[0].VendorAccountNumber;
-					oitem.sloc = that.oOrderModel.getProperty("/sloc");
-					oitem.revPlant = that.oOrderModel.getProperty("/revPlant");
-					oitem.OrderType = that.getRealOrderTypeByItemCategoryGroup(oitem.itemCategoryGroup, that.bIsSalesOrder, that.oOrderModel.getProperty(
-						"/orderTypeId"));
-					oitem.companyCode = "2014";
-					oitem.spq = item1Data[0].SPQ;
-					oitem.ItemStatus = "Unsaved";
-					that.itemTable.getBinding("rows").getModel().refresh(true);
-				} else if (!!item1Data && (!that.bIsSalesOrder) && (item1Data[0].categoryGroup !== "")) {
-					oitem.hasError = false;
-					oitem.itemCategoryGroup = item1Data[0].categoryGroup;
-					oitem.division = item1Data[0].Division;
-					oitem.partDesc = item1Data[0].MaterialDescription;
-					oitem.supplier = item1Data[0].VendorAccountNumber;
-					oitem.sloc = that.oOrderModel.getProperty("/sloc");
-					oitem.revPlant = that.oOrderModel.getProperty("/revPlant");
-					oitem.OrderType = that.getRealOrderTypeByItemCategoryGroup(item1Data[0].categoryGroup, that.bIsSalesOrder, that.oOrderModel.getProperty(
-						"/orderTypeId"));
-					oitem.companyCode = "2014";
-					oitem.spq = item1Data[0].SPQ;
-					oitem.ItemStatus = "Unsaved";
-					that.itemTable.getBinding("rows").getModel().refresh(true);
-				} else {
-					if (that.outFocus && that.countOutFocus == 1) {
-
-						oitem.hasError = "";
-						oitem.itemCategoryGroup = "";
-						oitem.division = "";
-						oitem.partDesc = "";
-						oitem.supplier = "";
-						oitem.purInfoRecord = "";
-						oitem.companyCode = "";
-						oitem.currency = 'CAD';
-						oitem.netPriceAmount = "";
-						oitem.taxCode = "";
-						oitem.spq = "";
-						
+			if (sValue != "") {
+				DataManager.getPartDescSPQForPart(sValue, oItem, function (item1Data, oitem) {
+					//that.getInfoFromPart(sValue, model.getProperty('/purBpCode'), function (item1Data) {
+					if (!!item1Data && (item1Data[0].Division !== "00" && item1Data[0].Division !== sAttribute1 && item1Data[0].Division !==
+							sAttribute2) && that.bIsSalesOrder) {
+						var failedtext = that.oResourceBundle.getText('Message.Failed.Not.Valid.Dealer.Part', [sValue]);
+						//INC0180000 
+						sap.m.MessageToast.show(failedtext);
+						that.itemTable.setBusy(false);
+						sValue = "";
 						oitem.partNumber = "";
-						//oItem.addIcon = true;
-
-						var failedtext = that.oResourceBundle.getText('Message.Failed.Load.Part', [sValue]);
-						MessageBox.error(failedtext, {
-							onClose: function (sAction) {
-								that.itemTable.setBusy(false);
-							}
-						});
-						that.countOutFocus++;
-						that.outFocus = false;
-					}
-					if (iRowIndex === 0) {
-						oitem.addIcon = true;
+						// MessageBox.error(failedtext, {
+						// 	onClose: function (sAction) {
+						// 		that.itemTable.setBusy(false);
+						// 		sValue = "";
+						// 		oitem.partNumber = "";
+						// 	}
+						// });
+					} else if (!!item1Data && that.bIsSalesOrder) {
 						oitem.hasError = false;
+						oitem.itemCategoryGroup = item1Data[0].categoryGroup;
+						oitem.division = item1Data[0].Division;
+						oitem.partDesc = item1Data[0].MaterialDescription;
+						oitem.supplier = item1Data[0].VendorAccountNumber;
+						oitem.sloc = that.oOrderModel.getProperty("/sloc");
+						oitem.revPlant = that.oOrderModel.getProperty("/revPlant");
+						oitem.OrderType = that.getRealOrderTypeByItemCategoryGroup(oitem.itemCategoryGroup, that.bIsSalesOrder, that.oOrderModel.getProperty(
+							"/orderTypeId"));
+						oitem.companyCode = "2014";
+						oitem.spq = item1Data[0].SPQ;
+						oitem.ItemStatus = "Unsaved";
+						that.itemTable.getBinding("rows").getModel().refresh(true);
+					} else if (!!item1Data && (!that.bIsSalesOrder) && (item1Data[0].categoryGroup !== "")) {
+						oitem.hasError = false;
+						oitem.itemCategoryGroup = item1Data[0].categoryGroup;
+						oitem.division = item1Data[0].Division;
+						oitem.partDesc = item1Data[0].MaterialDescription;
+						oitem.supplier = item1Data[0].VendorAccountNumber;
+						oitem.sloc = that.oOrderModel.getProperty("/sloc");
+						oitem.revPlant = that.oOrderModel.getProperty("/revPlant");
+						oitem.OrderType = that.getRealOrderTypeByItemCategoryGroup(item1Data[0].categoryGroup, that.bIsSalesOrder, that.oOrderModel.getProperty(
+							"/orderTypeId"));
+						oitem.companyCode = "2014";
+						oitem.spq = item1Data[0].SPQ;
+						oitem.ItemStatus = "Unsaved";
+						that.itemTable.getBinding("rows").getModel().refresh(true);
 					} else {
-						oitem.addIcon = false;
-						oitem.hasError = oitem.hasError || false;
-					}
+						if (that.outFocus && that.countOutFocus == 1) {
 
-				}
-			});
-            }
+							oitem.hasError = "";
+							oitem.itemCategoryGroup = "";
+							oitem.division = "";
+							oitem.partDesc = "";
+							oitem.supplier = "";
+							oitem.purInfoRecord = "";
+							oitem.companyCode = "";
+							oitem.currency = 'CAD';
+							oitem.netPriceAmount = "";
+							oitem.taxCode = "";
+							oitem.spq = "";
+
+							oitem.partNumber = "";
+							//oItem.addIcon = true;
+
+							var failedtext = that.oResourceBundle.getText('Message.Failed.Load.Part', [sValue]);
+							MessageBox.error(failedtext, {
+								onClose: function (sAction) {
+									that.itemTable.setBusy(false);
+								}
+							});
+							that.countOutFocus++;
+							that.outFocus = false;
+						}
+						if (iRowIndex === 0) {
+							oitem.addIcon = true;
+							oitem.hasError = false;
+						} else {
+							oitem.addIcon = false;
+							oitem.hasError = oitem.hasError || false;
+						}
+
+					}
+				});
+			}
 			that.oOrderModel.refresh(true);
 			that.itemTable.setBusy(false);
 		},
@@ -1787,8 +1793,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						that._oBusyfragment.open();
 						that.itemTable.setBusy(false);
 					}
-					
-					
+
 				});
 			}
 
@@ -2135,14 +2140,14 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var that = this;
 			//var sValue = oEvent.getParameter("newValue");
 			//var oModel = that.oOrderModel;
-			
+
 			var bpCode = that.oOrderModel.getProperty('/purBpCode');
 			var oImportModel = that._oImportTable.getModel(CONST_IMPORT_ORDER_MODEL);
 			var oItems = oImportModel.getData().items;
 			var bIsSalesOrder = that.oOrderModel.getProperty('/isSalesOrder');
 			var stoSupplyingPlant = that.oOrderModel.getProperty('/stoSupplyingPlant');
 			var bTypeB = that.oOrderModel.getProperty("/typeB");
-			if(bTypeB){
+			if (bTypeB) {
 				sap.ui.getCore().getModel("APP_STATE_MODEL").setProperty("/selectedOrderMeta/contract_num", oItems[0].contractNum);
 			}
 			var bTypeD = that.oOrderModel.getProperty("/TypeD");
