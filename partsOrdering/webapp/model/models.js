@@ -11,6 +11,12 @@ sap.ui.define([
 			oModel.setDefaultBindingMode("OneWay");
 			return oModel;
 		},
+		createLocalDataModel: function () {
+			var oModel = new JSONModel();
+			oModel.setDefaultBindingMode("TwoWay");
+
+			return oModel;
+		},
 		
 		getAppStateModel: function(){
 			var odataModel = sap.ui.getCore().getModel("APP_STATE_MODEL");

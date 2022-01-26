@@ -1007,7 +1007,15 @@ sap.ui.define([
 					//"$expand" : "to_Customer"
 				},
 				success: function (oData, oResponse) {
+					that.getOwnerComponent().getModel("LocalDataModel").setProperty("/salesdocData", oData);
+					
+					var dlrFlag = that.getOwnerComponent().getModel("LocalDataModel").getProperty("/salesdocData/dealercheckflag");
+					if(dlrFlag === "X"){
+						that.getView().getModel().setProperty("/selectedOrderMeta/typeB", false);
+					}
+
 					if (!!oData) {
+						
 						var typeList = [];
 						var index = 0;
 						var typeItem = that.getOrderTypeByCode(oData.Zauart1, dealerType);
