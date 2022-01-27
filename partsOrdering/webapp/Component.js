@@ -27,7 +27,7 @@ sap.ui.define([
 
 			// initialize the error handler with the component
 			this._oErrorHandler = new ErrorHandler(this);
-
+			//DMND0003534 changes done by Minakshi
 			// set the device model
 			this.setModel(models.createDeviceModel(), "device");
 			this.setModel(models.createLocalDataModel(), "LocalDataModel");
@@ -111,7 +111,7 @@ sap.ui.define([
 						sap.ui.getCore().getConfiguration().setLanguage(userProfile.language);
 					}
 
-				//userProfile.userType="Dealer"; //uncomment for local testing
+					//userProfile.userType="Dealer"; //uncomment for local testing
 					if (!!userData.userContext.userAttributes.UserType && userData.userContext.userAttributes.UserType.length > 0) {
 						userProfile.userType = userData.userContext.userAttributes.UserType[0]; //comment for local testing
 					}

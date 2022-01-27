@@ -266,17 +266,18 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					that.btnSubmit.setVisible(false);
 					that.itemTable.setVisibleRowCount(16);
 				}
+				//DMND0003534 changes done by Minakshi
+				var dlrFlag = that.getOwnerComponent().getModel("LocalDataModel").getProperty("/salesdocData/dealercheckflag");
 				if (rData.dealerType === '04') {
 					// campaign 
-					rData.typeB = true;
+					if (dlrFlag === "X") {
+						// campaign 
+						rData.typeB = false;
+					} else {
+						rData.typeB = true;
+					}
 				} else if (rData.orderTypeId === '3') {
 					rData.typeD = true;
-				}
-
-				var dlrFlag = that.getOwnerComponent().getModel("LocalDataModel").getProperty("/salesdocData/dealercheckflag");
-				if (dlrFlag === "X") {
-					// campaign 
-					rData.typeB = false;
 				}
 
 				if (orderData.items.length === 0) {

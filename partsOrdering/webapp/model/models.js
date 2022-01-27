@@ -11,6 +11,7 @@ sap.ui.define([
 			oModel.setDefaultBindingMode("OneWay");
 			return oModel;
 		},
+		//DMND0003534 changes done by Minakshi
 		createLocalDataModel: function () {
 			var oModel = new JSONModel();
 			oModel.setDefaultBindingMode("TwoWay");
