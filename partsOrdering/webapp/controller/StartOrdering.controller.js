@@ -95,9 +95,15 @@ sap.ui.define([
 					dealerType = sData.to_Customer.Attribute1;
 					appStateModel.setProperty('/selectedBP/bpType', dealerType);
 					appStateModel.setProperty('/selectedBP/bpGroup', zGroup);
-					
+					//DMND0003534 changes done by Minakshi
 					if(dealerType == "04"){
-					that.getView().getModel().setProperty('/selectedOrderMeta/typeB', true);	
+						var dlrFlag = that.getOwnerComponent().getModel("LocalDataModel").getProperty("/salesdocData/dealercheckflag");
+						if(dlrFlag === "X"){
+							that.getView().getModel().setProperty("/selectedOrderMeta/typeB", false);
+						}else{
+							that.getView().getModel().setProperty('/selectedOrderMeta/typeB', true);
+						}
+					
 					}
 
 					// get the user type
