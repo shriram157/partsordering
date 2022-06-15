@@ -357,8 +357,10 @@ sap.ui.define([], function () {
 			};
 			if (!_salesorderModel) {
 				this.getSalesOrderModel();
-				//_salesorderModel.setUseBatch(false);
+				this.getSalesOrderModel.setUseBatch(false);
 			}
+
+			_salesorderModel.setUseBatch(false);
 
 			drafts = _orderData.associatedDrafts[0];
 			
