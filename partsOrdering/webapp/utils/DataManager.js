@@ -360,7 +360,7 @@ sap.ui.define([], function () {
 				this.getSalesOrderModel.setUseBatch(false);
 			}
 
-			_salesorderModel.setUseBatch(false);
+			//_salesorderModel.setUseBatch(false);
 
 			drafts = _orderData.associatedDrafts[0];
 			
