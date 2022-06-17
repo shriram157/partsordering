@@ -52,6 +52,7 @@ modules:
       XS_LOG_USER: true
    build-parameters:
       builder: grunt
+      build-result: dist
    requires:
     - name: application-logs_partsOrdering
     - name: uaa_partsOrdering
