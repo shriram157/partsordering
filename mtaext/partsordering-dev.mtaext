@@ -11,6 +11,11 @@ modules:
    parameters:
       host: dev-partsordering
       domain: scp.toyota.ca
+      
+ - name: di-local-npm-registry
+   properties:
+      UPSTREAM_LINK: "http://registry.npmjs.org"
+      SAPUPSTREAM_LINK: "https://npm.sap.com"
 
 resources:
  - name: uaa_partsOrdering
