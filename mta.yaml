@@ -4,6 +4,9 @@ description: Parts ordering consolidated app
 version: 2.0.0
 
 modules:
+ - name: di-local-npm-registry
+   properties:
+      UPSTREAM_LINK: "http://registry.npmjs.org"
  - name: partsOrdering_node
    type: nodejs
    path: partsOrdering_node
