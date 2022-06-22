@@ -364,9 +364,10 @@ sap.ui.define([], function () {
 
 			drafts = _orderData.associatedDrafts[0];
 			
-			//console.log(drafts);
+			// console.log(drafts);
 
-			_salesorderModel.read('/DraftToSO', {
+			_salesorderModel.callFunction('/DraftToSO', {
+				method: "GET",
 				urlParameters: {
 					TestRun: false,
 					HeaderDraftUUID: drafts.DraftUUID,
