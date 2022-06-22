@@ -360,14 +360,13 @@ sap.ui.define([], function () {
 				//this.getSalesOrderModel.setUseBatch(false);
 			}
 
-			//_salesorderModel.setUseBatch(false);
+			_salesorderModel.setUseBatch(false);
 
 			drafts = _orderData.associatedDrafts[0];
 			
-			console.log(drafts);
+			//console.log(drafts);
 
-			_salesorderModel.callFunction('/DraftToSO', {
-				method: "GET",
+			_salesorderModel.read('/DraftToSO', {
 				urlParameters: {
 					TestRun: false,
 					HeaderDraftUUID: drafts.DraftUUID,
