@@ -235,7 +235,7 @@ sap.ui.define([], function () {
 
 				if (!_salesorderModel) {
 					this.getSalesOrderModel();
-					//_salesorderModel.setUseBatch(false);
+					
 				}
 
 				for (var itemNo = 0; itemNo < aCreateItems.length; itemNo++) {
@@ -272,6 +272,8 @@ sap.ui.define([], function () {
 
 					console.log({"payload for draft soItem" : obj});
 					console.table(obj);
+					
+					_salesorderModel.setUseBatch(false);
 
 					_salesorderModel.create('/draft_soItemSet', obj, {
 						success: function (oData, oResponse) {
