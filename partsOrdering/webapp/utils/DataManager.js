@@ -235,7 +235,7 @@ sap.ui.define([], function () {
 
 				if (!_salesorderModel) {
 					this.getSalesOrderModel();
-					
+					//_salesorderModel.setUseBatch(false);
 				}
 
 				for (var itemNo = 0; itemNo < aCreateItems.length; itemNo++) {
@@ -272,8 +272,6 @@ sap.ui.define([], function () {
 
 					console.log({"payload for draft soItem" : obj});
 					console.table(obj);
-					
-					_salesorderModel.setUseBatch(false);
 
 					_salesorderModel.create('/draft_soItemSet', obj, {
 						success: function (oData, oResponse) {
@@ -359,14 +357,14 @@ sap.ui.define([], function () {
 			};
 			if (!_salesorderModel) {
 				this.getSalesOrderModel();
-				//this.getSalesOrderModel.setUseBatch(false);
+				this.getSalesOrderModel().setUseBatch(false);
 			}
 
 			//_salesorderModel.setUseBatch(false);
 
 			drafts = _orderData.associatedDrafts[0];
 			
-			console.log(drafts);
+			//console.log(drafts);
 
 			_salesorderModel.callFunction('/DraftToSO', {
 				method: "GET",
@@ -376,8 +374,8 @@ sap.ui.define([], function () {
 					IsActiveEntity: true
 				},
 				success: function (oData, oResponse) {
-					console.table(oData);
-					console.log(oData);
+					//console.table(oData);
+					//console.log(oData);
 					var messageList = null;
 					if (!!oData.results) {
 						messageList = oData.results;
