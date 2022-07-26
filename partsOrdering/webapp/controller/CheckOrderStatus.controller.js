@@ -6,11 +6,18 @@ sap.ui.define([
 	'sap/m/Link',
 	'sap/ui/model/json/JSONModel',
 	"tci/wave2/ui/parts/ordering/model/formatter",
-	'sap/ui/model/Sorter'
-], function (BaseController, MessagePopover, MessageItem, MessageToast, Link, JSONModel, formatter, Sorter) {
+	'sap/ui/model/Sorter',
+	"sap/ui/core/util/Export",
+	"sap/ui/core/util/ExportTypeCSV",
+	"tci/wave2/ui/parts/ordering/utils/UIHelper",
+	"tci/wave2/ui/parts/ordering/utils/DataManager"
+], function (BaseController, MessagePopover, MessageItem, MessageToast, Link, JSONModel, formatter, Sorter, Export, ExportTypeCSV,
+	UIHelper, DataManager) {
 	"use strict";
 
 	var CONST_VIEW_MODEL = 'viewModel';
+	var CONT_OTLISTMODEL = "orderTypeListModel";
+	var CONT_HEADERMODEL = "headerMenuModel";
 	return BaseController.extend("tci.wave2.ui.parts.ordering.controller.CheckOrderStatus", {
 
 		formatter: formatter,
@@ -21,8 +28,14 @@ sap.ui.define([
 			oRouter.getRoute("CheckOrderStatus").attachPatternMatched(this._onObjectMatched, this);
 
 			// default mode
+			// var appStateModel = this.getStateModel();
+			// this.getView().setModel(appStateModel);
+			// default mode
+			var _oComponentOwner = this.getOwnerComponent();
+			DataManager.init(BaseController, _oComponentOwner, this.getResourceBundle(), this.getSapLangugaeFromLocal());
+
 			var appStateModel = this.getStateModel();
-			this.getView().setModel(appStateModel);
+			this.setModel(appStateModel);
 
 			//message
 			var oMessageManager = sap.ui.getCore().getMessageManager();
@@ -33,7 +46,7 @@ sap.ui.define([
 			if (!this._oResponsivePopover) {
 				this._oResponsivePopover = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.OrderStatusQtySort", this);
 				//this._oResponsivePopover.setModel(this.getView().getModel());
-			};
+			}
 
 			var viewState = {
 				filteredItems: 0,
@@ -110,6 +123,141 @@ sap.ui.define([
 					}
 				}
 			}, this._oList);
+
+			var currentOrderTypeList = {
+				displayUi: true,
+				typeList: []
+			};
+			var orderTypeListModel = new sap.ui.model.json.JSONModel();
+			orderTypeListModel.setData(currentOrderTypeList);
+			this.setModel(orderTypeListModel, CONT_OTLISTMODEL);
+
+			this.orderTypeField = this.byId("orderTypeInput");
+			this.orderNumberField = this.byId("orderNumberInput");
+
+			this.setModel(orderTypeListModel, CONT_HEADERMODEL);
+
+			if (appStateModel.getProperty('/userProfile').userType !== "National") {
+				this.init();
+			}
+
+		},
+
+		init: function () {
+			var that = this;
+			var appStateModel = this.getStateModel();
+			appStateModel.setProperty('/tabKey', 'CS');
+
+			// find the proper user type related info
+			var appStateModel = this.getModel();
+
+			var userProfile = appStateModel.getProperty('/userProfile');
+			var viewDataModel = this.getUserTypesSelectionModel();
+			var viewData = viewDataModel.getData();
+			/* UI Helper */
+			var bpCode = null;
+			var userType = null;
+			var dealerType = null;
+			var zGroup = null;
+			var customer = null;
+			/* UI Helper */
+
+			var currentOrderTypeList = [];
+			var orderListModel = this.getModel(CONT_OTLISTMODEL);
+			if (!!userProfile && !!userProfile.loaded) {
+				//debugging
+				//	this.getBusinessPartnersByDealerCode("46055", function(sData){
+				//userProfile.dealerCode = "42120"; // debugging - comment it 
+				//this.getBusinessPartnersByDealerCode("42120", function (sData) {
+
+				this.getBusinessPartnersByDealerCode(userProfile.dealerCode, function (sData) {
+					bpCode = sData.BusinessPartner;
+					appStateModel.setProperty('/selectedBP/bpNumber', bpCode);
+					UIHelper.setBpCode(bpCode);
+					//appStateModel.setProperty('/selectedBP/bpName', sData.BusinessPartnerName);
+					appStateModel.setProperty('/selectedBP/bpName', sData.OrganizationBPName1);
+					appStateModel.setProperty('/selectedBP/dealerCode', userProfile.dealerCode);
+					UIHelper.setDealerCode(userProfile.dealerCode);
+					appStateModel.setProperty('/selectedBP/customer', sData.Customer);
+					UIHelper.setCustomer(sData.Customer);
+					UIHelper.setDealerType(sData.to_Customer.Attribute1);
+					UIHelper.setBpGroup(sData.BusinessPartnerType);
+					zGroup = sData.BusinessPartnerType;
+					dealerType = sData.to_Customer.Attribute1;
+					appStateModel.setProperty('/selectedBP/bpType', dealerType);
+					appStateModel.setProperty('/selectedBP/bpGroup', zGroup);
+
+					// get the user type
+					//Debugging
+					//userProfile.userType = "Dealer";
+					userType = that.getInternalUserType(userProfile.userType, zGroup);
+					appStateModel.setProperty('/userInfo/userType', userType);
+					UIHelper.setUserType(userType);
+					if ('Z001' === zGroup) {
+						// redefine the order list 
+						that.getSalesDocTypeByBPCode(bpCode, dealerType, function (lData) {
+							if (!!lData) {
+								currentOrderTypeList = lData;
+							} else {
+								currentOrderTypeList = [];
+							}
+							orderListModel.setProperty('/typeList', currentOrderTypeList);
+							that.setCurrentOrderTypeList(orderListModel);
+						});
+					} else {
+						for (var i = 0; i < viewData.userTypes.length; i++) {
+							if (userType === viewData.userTypes[i].type) {
+								currentOrderTypeList = viewData.userTypes[i].orderTypeList;
+							}
+						}
+						orderListModel.setProperty('/typeList', currentOrderTypeList);
+						that.setCurrentOrderTypeList(orderListModel);
+					}
+				});
+
+			} else {
+				//var userType = appStateModel.getProperty('/userInfo/userType');
+
+				var userType = UIHelper.getUserType();
+
+				for (var i = 0; i < viewData.userTypes.length; i++) {
+					if (userType === viewData.userTypes[i].type) {
+						currentOrderTypeList = viewData.userTypes[i].orderTypeList;
+					}
+				}
+
+				// default
+				//bpCode = appStateModel.getProperty('/selectedBP/bpNumber');
+				bpCode = UIHelper.getBpCode();
+				orderListModel.setProperty('/typeList', currentOrderTypeList);
+				that.setCurrentOrderTypeList(orderListModel);
+
+				this.getBusinessPartnersByID(bpCode, function (sData) {
+					if (!!sData && !!sData.to_Customer) {
+						zGroup = sData.BusinessPartnerType;
+						dealerType = sData.to_Customer.Attribute1;
+						UIHelper.setBpGroup(sData.BusinessPartnerType);
+						UIHelper.setDealerType(sData.to_Customer.Attribute1);
+						appStateModel.setProperty('/selectedBP/bpType', dealerType);
+						appStateModel.setProperty('/selectedBP/bpGroup', zGroup);
+						if ('Z001' === zGroup) {
+
+							// redefine the order list 
+							that.getSalesDocTypeByBPCode(bpCode, dealerType, function (lData) {
+								if (!!lData) {
+									currentOrderTypeList = lData;
+								} else {
+									currentOrderTypeList = [];
+								}
+								orderListModel.setProperty('/typeList', currentOrderTypeList);
+								that.setCurrentOrderTypeList(orderListModel);
+							});
+
+						}
+					}
+				});
+
+			}
 
 		},
 
@@ -478,7 +626,28 @@ sap.ui.define([
 				sPath = sPathList[0];
 			}
 			var theData = this.getModel(CONST_VIEW_MODEL).getProperty(sPath);
+			// changes done for DMND0002661
+			if (theData.bom_kit_part == "X" && theData.SOtoDeliv.results.length > 0) {
+				for (var i in theData.SOtoDeliv.results) {
+					theData.SOtoDeliv.results[i].cnf_qty = " ";
+					theData.SOtoDeliv.results[i].deliv_qty = " ";
+					theData.SOtoDeliv.results[i].estm_deliv_dt = " ";
+					theData.SOtoDeliv.results[i].tracking_no = " ";
+					theData.SOtoDeliv.results[i].deliv_no = " ";
+					theData.SOtoDeliv.results[i].deliv_itemNo = " ";
+					// theData.SOtoDeliv.results[i].bill_no = " ";
+					// theData.SOtoDeliv.results[i].bill_itemNo = " ";
+				}
+			}
 
+			if (theData.bom_component == "X" && theData.SOtoDeliv.results.length > 0) {
+				for (var j in theData.SOtoDeliv.results) {
+					theData.SOtoDeliv.results[j].bill_no = " ";
+					theData.SOtoDeliv.results[j].bill_itemNo = " ";
+
+				}
+			}
+			// end of changes done for DMND0002661
 			//this._oDetailDialog.bindElement("viewModel>" +sPath);
 			var aModel = new JSONModel();
 			aModel.setData(theData);
@@ -732,6 +901,202 @@ sap.ui.define([
 			}
 			viewModel.setProperty('/filterPanelEnable', togglePanel);
 
+		},
+		// CR1044- Export To excel Functionlity
+		onDataExport: function (oEvent) {
+			var data;
+			if (this.getView().getModel("viewModel") != undefined) {
+				data = this.getView().getModel("viewModel").getData();
+			} else {
+				data = this.getView().byId("idProductsTable").getModel("viewModel").getData();
+			}
+			this.JSONToExcelConvertor(data, "Report", true);
+
+		},
+		estDateFormat: function (inDate) {
+			// var inDate = "+ 20200314";
+			/* alert(inDate); */
+			// alert(inDate.indexOf("+"));
+			var outDate = "";
+			if (inDate !== "") {
+				if (inDate.indexOf("+") >= 0) {
+					var onlyDate = inDate.slice(2, 10);
+					// alert(onlyDate);
+					var sYear = onlyDate.slice(0, 4);
+					// alert(sYear);
+					var sMonth = onlyDate.slice(4, 6) - 1;
+					// alert(sMonth);
+					var sDate = onlyDate.slice(6, 8);
+					// alert(sDate);
+					var formattedDate = new Date(sYear, sMonth, sDate);
+					// alert(formattedDate);
+					var strDate = formattedDate.toString();
+					// alert(formattedDate.toString().slice(4, 15));
+					// var outDate = "+ " + strDate.slice(11,15) + " " + strDate(4,7) + " ," + strDate (8,10);
+					if (onlyDate) {
+						outDate = "+ " + strDate.slice(4, 7) + " " + strDate.slice(8, 10) + ", " + strDate.slice(11, 15);
+					} else {
+						outDate = "+ ";
+					}
+					// alert(outDate);
+				} else {
+					var onlyDate = inDate.slice(0, 8);
+					// alert(onlyDate);
+					var sYear = onlyDate.slice(0, 4);
+					// alert(sYear);
+					var sMonth = onlyDate.slice(4, 6) - 1;
+					// alert(sMonth);
+					var sDate = onlyDate.slice(6, 8);
+					// alert(sDate);
+					var formattedDate = new Date(sYear, sMonth, sDate);
+					// alert(formattedDate);
+					var strDate = formattedDate.toString();
+					// alert(formattedDate.toString().slice(4, 15));
+					//var outDate =strDate.slice(11,15) + " " + strDate.slice(4,7) + " ," + strDate.slice(8,10);
+					outDate = strDate.slice(4, 7) + " " + strDate.slice(8, 10) + ", " + strDate.slice(11, 15);
+					// alert(outDate);
+				}
+			}
+			return outDate;
+
+		},
+		OrdDatFormat: function (orDate) {
+			var sDate = "";
+			if (orDate !== "") {
+				// alert(myDate);
+				var sYear = orDate.substr(0, 4);
+				// alert(myYear);
+				var sMon = orDate.substr(4, 2);
+				// alert(myMon);
+				if (sMon.substr(0, 1) == "0") {
+					sMon = sMon.substr(1, 1);
+				} else {
+					// alert(sMon);
+					sMon = sMon;
+				}
+				var sDay = orDate.substr(6, 2);
+				// alert(myDay);
+				var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+				// alert(monthNames[myMon - 1]);
+				// alert(monthNames[myMon - 1] + " " + myDay + "," + myYear);
+				sDate = monthNames[sMon - 1] + " " + sDay + "," + sYear;
+			}
+			return sDate;
+
+		},
+		orderTypeD: function (type) {
+			var resourceBundle = this.getResourceBundle();
+			switch (type) {
+			case 'UB':
+				return resourceBundle.getText('order.type.standard');
+			case 'ZLOC':
+				return resourceBundle.getText('order.type.standard');
+			case 'ZOR':
+				return resourceBundle.getText('order.type.standard');
+			case 'ZRO':
+				return resourceBundle.getText('order.type.rush');
+			case 'ZCO':
+				return resourceBundle.getText('order.type.campaign');
+			default:
+				return resourceBundle.getText('order.type.other', [type]);
+			}
+		},
+		round2dec: function (sValue) {
+			try {
+				if (!!sValue) {
+					if (sValue === 0) {
+						return "0";
+						// changed to return blank  if 0 - May 27.
+					}
+					return parseFloat(sValue).toFixed(0);
+					// changed to return blank  if 0 decimals - May 29.
+				}
+
+			} catch (err) {
+
+			}
+
+			return "0";
+		},
+		getItemNumber: function (sValue) {
+			if (!!sValue) {
+				return sValue.replace(/^0+/, '');
+			}
+			return sValue;
+		},
+
+		JSONToExcelConvertor: function (JSONData, ReportTitle, ShowLabel) {
+			var arrData = typeof JSONData.orders != 'object' ? JSON.parse(JSONData.orders) : JSONData.orders;
+			var CSV = "";
+			if (ShowLabel) {
+				var row = "";
+				row = row.slice(0, -1);
+			}
+
+			row += this.getResourceBundle().getText("Label.CheckOrder.PartNumber") + ",";
+			row += this.getResourceBundle().getText("Label.CheckOrder.LineItem") + ",";
+			row += this.getResourceBundle().getText("Label.CheckOrder.Quantity.Ordered") + ",";
+			row += this.getResourceBundle().getText("Label.CheckOrder.Quantity.InProcess") + ",";
+			row += this.getResourceBundle().getText("Label.CheckOrder.Quantity.Processed") + ",";
+			row += this.getResourceBundle().getText("Label.CheckOrder.Quantity.Cancelled") + ",";
+			row += this.getResourceBundle().getText("Label.CheckOrder.Quantity.BackOrdered") + ",";
+			row += this.getResourceBundle().getText("Label.CheckOrder.Quantity.Open") + ",";
+			row += this.getResourceBundle().getText("Label.CheckOrder.Estimated.Delivery.Date") + ",";
+			row += this.getResourceBundle().getText("Label.CheckOrder.DealerOrder") + ",";
+			row += this.getResourceBundle().getText("Label.CheckOrder.TciOrder") + ",";
+			row += this.getResourceBundle().getText("Label.CheckOrder.OrderType") + ",";
+			row += this.getResourceBundle().getText("Label.CheckOrder.ShipFrom") + ",";
+			row += this.getResourceBundle().getText("Label.CheckOrder.Order.Date") + ",";
+			// row += _thatDT.oI18nModel.getResourceBundle().getText("CustomerName") + ",";
+
+			CSV += row + '\r\n';
+
+			// loop is to extract each row
+			for (var i = 0; i < arrData.length; i++) {
+				if (arrData[i].bom_kit_part == "X") {
+					arrData[i].quant_in_process = "0";
+					arrData[i].quant_cancelled = "0";
+					arrData[i].quant_back_ordered = "0";
+					arrData[i].open_qty = "0";
+				}
+				var row = "";
+				row += '="' + arrData[i].matnr + '","' + arrData[i].TCI_itemNo + '","' + this.round2dec(arrData[i].quant_ordered) +
+					'","' + arrData[i].quant_in_process + '","' + this.round2dec(arrData[i].quant_processed) + '","' + this.round2dec(arrData[i].quant_cancelled) +
+					'","' + this.round2dec(arrData[i]
+						.quant_back_ordered) + '","' +
+					this.round2dec(arrData[i].open_qty) + '","' + this.estDateFormat(arrData[i].est_deliv_date) + '","' + arrData[i].dealer_orderNo +
+					'","' +
+					this.getItemNumber(arrData[i]
+						.TCI_order_no) + '","' + this.orderTypeD(arrData[i].doc_type) + '","' + arrData[i].ship_from + '","' + this.OrdDatFormat(arrData[
+						i].erdat) + '",';
+				//}
+				row.slice(1, row.length);
+				CSV += row + '\r\n';
+			}
+			if (CSV == "") {
+				alert("Invalid data");
+				return;
+			}
+			var fileName = this.getResourceBundle().getText("Label.CheckOrderStatus");
+			fileName += ReportTitle.replace(/ /g, "_");
+			// Initialize file format you want csv or xls
+
+			var blob = new Blob(["\ufeff" + CSV], {
+				type: "text/csv;charset=utf-8,"
+			});
+			if (sap.ui.Device.browser.name === "ie" || sap.ui.Device.browser.name === "ed") { // IE 10+ , Edge (IE 12+)
+				navigator.msSaveBlob(blob, this.getResourceBundle().getText("Label.CheckOrderStatus") + ".csv");
+			} else {
+				var uri = 'data:text/csv;charset=utf-8,' + "\ufeff" + encodeURIComponent(CSV); //'data:application/vnd.ms-excel,' + escape(CSV);
+				var link = document.createElement("a");
+
+				link.href = uri;
+				link.style = "visibility:hidden";
+				link.download = fileName + ".csv";
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+			}
 		}
 
 	});

@@ -11,6 +11,13 @@ sap.ui.define([
 			oModel.setDefaultBindingMode("OneWay");
 			return oModel;
 		},
+		//DMND0003534 changes done by Minakshi
+		createLocalDataModel: function () {
+			var oModel = new JSONModel();
+			oModel.setDefaultBindingMode("TwoWay");
+
+			return oModel;
+		},
 		
 		getAppStateModel: function(){
 			var odataModel = sap.ui.getCore().getModel("APP_STATE_MODEL");
@@ -44,7 +51,9 @@ sap.ui.define([
 					selectedOrderMeta : {
 						order_type : "",
 						order_name : "",
-						order_id :""
+						order_id :"",
+						typeB : false,
+						contract_num : ""
 					},
 					appLinks : {
 						loaded : false,

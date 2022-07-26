@@ -1,27 +1,24 @@
-<core:FragmentDefinition
-		xmlns="sap.m"
-		xmlns:core="sap.ui.core">
-
-	<ViewSettingsDialog
-		id="viewSettingsDialog"
-		confirm="onConfirmViewSettingsDialog"
-		sortDescending="{viewModel>/sortDescending}">
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<ViewSettingsDialog id="viewSettingsDialog" confirm="onConfirmViewSettingsDialog" sortDescending="{viewModel>/sortDescending}">
 		<sortItems>
-			<ViewSettingsItem text="{i18n>Label.CheckOrder.PartsNumber}" key="matnr" />
-			<ViewSettingsItem text="{i18n>Label.CheckOrder.LineItem}" key="TCI_itemNo" />
-			<ViewSettingsItem text="{i18n>Label.CheckOrder.ShipFrom}" key="ship_from" />
-			<ViewSettingsItem text="{i18n>Label.CheckOrder.Substitution}" key="sub_flag" />
-			<ViewSettingsItem text="{i18n>Label.CheckOrder.Quantity.Ordered}" key="quant_ordered" />
-			<ViewSettingsItem text="{i18n>Label.CheckOrder.Quantity.InProcess}" key="quant_in_process" />
-			<ViewSettingsItem text="{i18n>Label.CheckOrder.Quantity.Processed}" key="quant_processed" />
-			<ViewSettingsItem text="{i18n>Label.CheckOrder.Quantity.Cancelled}" key="quant_cancelled" />
-			<ViewSettingsItem text="{i18n>Label.CheckOrder.Quantity.BackOrdered}" key="quant_back_ordered" />
-			<ViewSettingsItem text="{i18n>Label.CheckOrder.Quantity.Open}" key="open_qty" /> <!--New fields Addition -->
-			<ViewSettingsItem text="{i18n>Label.CheckOrder.Estimated.Delivery.Date}" key="est_deliv_date" /><!--New fields Addition -->
-			<ViewSettingsItem text="{i18n>Label.CheckOrder.DealerOrder}" key="dealer_orderNo" />
-			<ViewSettingsItem text="{i18n>Label.CheckOrder.OrderType}" key="doc_type" />
-			<ViewSettingsItem text="{i18n>Label.CheckOrder.TciOrder}" key="TCI_order_no" selected ='true'/>
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.PartsNumber}" key="matnr"/>
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.LineItem}" key="TCI_itemNo"/>
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.ShipFrom}" key="ship_from"/>
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.Substitution}" key="sub_flag"/>
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.Quantity.Ordered}" key="quant_ordered"/>
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.Quantity.InProcess}" key="quant_in_process"/>
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.Quantity.Processed}" key="quant_processed"/>
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.Quantity.Cancelled}" key="quant_cancelled"/>
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.Quantity.BackOrdered}" key="quant_back_ordered"/>
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.Quantity.Open}" key="open_qty"/>
+			<!--New fields Addition -->
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.Estimated.Delivery.Date}" key="est_deliv_date"/>
+			<!--New fields Addition -->
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.Order.Date}" key="erdat"/>
+			<!--New fields Addition -->
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.DealerOrder}" key="dealer_orderNo"/>
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.OrderType}" key="doc_type"/>
+			<ViewSettingsItem text="{i18n>Label.CheckOrder.TciOrder}" key="TCI_order_no" selected='true'/>
 		</sortItems>
-
 	</ViewSettingsDialog>
 </core:FragmentDefinition>

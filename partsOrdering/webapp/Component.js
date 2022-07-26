@@ -27,9 +27,10 @@ sap.ui.define([
 
 			// initialize the error handler with the component
 			this._oErrorHandler = new ErrorHandler(this);
-
+			//DMND0003534 changes done by Minakshi
 			// set the device model
 			this.setModel(models.createDeviceModel(), "device");
+			this.setModel(models.createLocalDataModel(), "LocalDataModel");
 
 			// Get resource bundle
 			var locale = jQuery.sap.getUriParameters().get('Language');
@@ -78,7 +79,7 @@ sap.ui.define([
 
 				if (!!userData && !!userData.userContext && !!userData.userContext.userAttributes) {
 					//var appMode = that.getModel('ApplicationMode');
-					//userProfile.dealerCode="29000";//uncomment for local testing
+					//userProfile.dealerCode="42120";//uncomment for local testing
 					if (!!userData.userContext.userAttributes.DealerCode && userData.userContext.userAttributes.DealerCode.length > 0) {
 						userProfile.dealerCode = userData.userContext.userAttributes.DealerCode[0];
 					}

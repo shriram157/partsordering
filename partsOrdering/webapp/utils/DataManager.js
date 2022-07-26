@@ -151,9 +151,9 @@ sap.ui.define([], function () {
 					},
 					error: function (err) {
 
-						var errorResponse = JSON.parse(oError.responseText);
+						var errorResponse = JSON.parse(err.responseText);
 						var errMessage = errorResponse.error.message.value;
-						callbackFn(oError, "SalesHeaderCreate", -1, false, errMessage);
+						callbackFn(err, "SalesHeaderCreate", -1, false, errMessage);
 
 					}
 				});
@@ -162,17 +162,17 @@ sap.ui.define([], function () {
 
 		}, //getPartDescSPQ End
 
-		saveDraftSalesOrder: function (aCreateItems, aUpdateItems, callbackFn) {
+		saveDraftSalesOrder: function (t, aCreateItems, aUpdateItems, callbackFn) {
 			if (aCreateItems.length > 0 && aCreateItems.length !== 0) {
-				this._createSalesOrder(aCreateItems, callbackFn);
+				this._createSalesOrder(t, aCreateItems, callbackFn);
 			}
 			if (aUpdateItems.length > 0 && aUpdateItems.length !== 0) {
-				this._updateSalesOrder(aUpdateItems, callbackFn);
+				this._updateSalesOrder(t, aUpdateItems, callbackFn);
 
 			}
 		},
 
-		_createSalesOrder: function (aCreateItems, callbackFn) {
+		_createSalesOrder: function (t, aCreateItems, callbackFn) {
 			var that = this;
 			//var lv_orderType = this.getRealOrderTypeByItemCategoryGroup( items[0].itemCategoryGroup , data.isSalesOrder, data.orderTypeId );
 			var aDraft = null;
@@ -190,33 +190,40 @@ sap.ui.define([], function () {
 				var obj = entry.getObject();
 
 				// populate the values
+				//var division = jQuery.sap.getUriParameters().get('Division');
 				obj.Division = _orderData.Division;
 				obj.SalesOrg = _orderData.SalesOrganization;
 				obj.DistrChan = _orderData.DistributionChannel;
+				var dealerCode = t.getStateModel().getProperty('/userProfile').dealerCode;
 
-				obj.SoldtoParty = _orderData.purBpCode;
-				obj.PurchNoC = _orderData.tciOrderNumber;
-				obj.DocType = _orderData.items[1].OrderType;
-
-				_salesorderModel.create('/draft_soHeaderSet', obj, {
-					success: function (oData, response) {
-						// prepare aDraft
-						aDraft = {};
-						aDraft.SalesOrganization = oData.SalesOrg;
-						aDraft.DistributionChannel = oData.DistrChan;
-						aDraft.Division = oData.Division;
-						aDraft.OrderType = oData.DocType;
-						aDraft.DraftUUID = oData.HeaderDraftUUID;
-						aDraft.Lines = 0;
-						_orderData.associatedDrafts.push(aDraft);
-						that._createSalesOrder(aCreateItems, callbackFn);
-						//Callback This function
-					},
-					error: function (oError) {
-						var errorResponse = JSON.parse(oError.responseText);
-						var errMessage = errorResponse.error.message.value;
-						callbackFn(aCreateItems[0], "Create", -1, false, errMessage);
-					}
+				t.getBusinessPartnersByDealerCode(dealerCode, function (sData) {
+					obj.SoldtoParty = sData.BusinessPartner;
+					obj.PurchNoC = _orderData.tciOrderNumber;
+					obj.DocType = _orderData.items[1].OrderType;
+					console.log({"payload" : obj});
+					console.table(obj);
+					_salesorderModel.create('/draft_soHeaderSet', obj, {
+						success: function (oData, response) {
+							console.log({"Data after save draft" : oData});
+							console.log({"Response after save draft" : response});
+							// prepare aDraft
+							aDraft = {};
+							aDraft.SalesOrganization = oData.SalesOrg;
+							aDraft.DistributionChannel = oData.DistrChan;
+							aDraft.Division = oData.Division;
+							aDraft.OrderType = oData.DocType;
+							aDraft.DraftUUID = oData.HeaderDraftUUID;
+							aDraft.Lines = 0;
+							_orderData.associatedDrafts.push(aDraft);
+							that._createSalesOrder(t, aCreateItems, callbackFn);
+							//Callback This function
+						},
+						error: function (oError) {
+							var errorResponse = JSON.parse(oError.responseText);
+							var errMessage = errorResponse.error.message.value;
+							callbackFn(aCreateItems[0], "Create", -1, false, errMessage);
+						}
+					});
 				});
 			}
 			//Header Draft Available
@@ -263,9 +270,13 @@ sap.ui.define([], function () {
 						}
 					}
 
+					console.log({"payload for draft soItem" : obj});
+					console.table(obj);
+
 					_salesorderModel.create('/draft_soItemSet', obj, {
 						success: function (oData, oResponse) {
-
+							console.log({"after Success draft soItem data" : oData});
+							console.log({"after Success draft soItem Response" : oResponse});
 							aCreateItems[0]["uuid"] = oData.ItemDraftUUID;
 							aCreateItems[0]["parentUuid"] = oData.HeaderDraftUUID;
 							aCreateItems[0]["ItmNumber"] = oData.ItmNumber;
@@ -282,7 +293,7 @@ sap.ui.define([], function () {
 			} //for end	
 		},
 
-		_updateSalesOrder: function (aUpdateItems, callbackFn) {
+		_updateSalesOrder: function (t, aUpdateItems, callbackFn) {
 			var IIndex = 0;
 			var getUpdateItemIndex = function () {
 				return IIndex;
@@ -346,10 +357,14 @@ sap.ui.define([], function () {
 			};
 			if (!_salesorderModel) {
 				this.getSalesOrderModel();
-				//_salesorderModel.setUseBatch(false);
+				//this.getSalesOrderModel.setUseBatch(false);
 			}
 
+			_salesorderModel.setUseBatch(false);
+
 			drafts = _orderData.associatedDrafts[0];
+			
+			// console.log(drafts);
 
 			_salesorderModel.callFunction('/DraftToSO', {
 				method: "GET",
@@ -359,6 +374,8 @@ sap.ui.define([], function () {
 					IsActiveEntity: true
 				},
 				success: function (oData, oResponse) {
+					console.table(oData);
+					console.log(oData);
 					var messageList = null;
 					if (!!oData.results) {
 						messageList = oData.results;
@@ -498,7 +515,7 @@ sap.ui.define([], function () {
 			var that = this;
 			if (!_salesorderModel) {
 				this.getSalesOrderModel();
-				//_salesorderModel.setUseBatch(false);
+				_salesorderModel.setUseBatch(false);
 			}
 
 			var key = _salesorderModel.createKey('/contractNo_validationSet', {
@@ -593,11 +610,11 @@ sap.ui.define([], function () {
 			var messageItem = null;
 			var messageList = [];
 			if (!!error && !!error.responseText) {
-				if (error.statusCode == 504 ) {
+				if (error.statusCode == 504) {
 					messageList.push(error.statusCode);
 				} else {
 					sapMessage = JSON.parse(error.responseText);
-				
+
 					if (!!sapMessage.error && !!sapMessage.error.innererror && !!sapMessage.error.innererror.errordetails) {
 						for (var x = 0; x < sapMessage.error.innererror.errordetails.length; x++) {
 							mItem = sapMessage.error.innererror.errordetails[x];

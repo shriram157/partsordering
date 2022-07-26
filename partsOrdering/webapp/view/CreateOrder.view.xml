@@ -108,6 +108,7 @@
 										enabled="{orderModel>/typeB}" required='false' valueState="None" change='onContractChange'/>
 								</ui:template>
 							</ui:Column>
+							
 							<ui:Column width="{sizeModel>/remCampaignNo}" visible="{orderModel>/typeD}" id="CampaigntNo" sortProperty="CampaignNo">
 								<Label text="{i18n>Lable.CreateOrder.CampaignNumber}*" visible="{orderModel>/typeD}"/>
 								<ui:template>

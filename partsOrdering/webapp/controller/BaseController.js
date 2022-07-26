@@ -231,11 +231,11 @@ sap.ui.define([
 					},{
 						code: 'QtOp',
 					name: resourceBundle.getText('Parts.Status.Quantity.Open')
-					},
-					{
-						code: 'OpOR',
-						name: resourceBundle.getText('Parts.Status.OpenOrdered')
 					}]
+					// {
+					// 	code: 'OpOR',
+					// 	name: resourceBundle.getText('Parts.Status.OpenOrdered')
+					// }]
 					
 				};
 				var iDataModel = new sap.ui.model.json.JSONModel();
@@ -1007,7 +1007,16 @@ sap.ui.define([
 					//"$expand" : "to_Customer"
 				},
 				success: function (oData, oResponse) {
+					//DMND0003534 changes done by Minakshi
+					that.getOwnerComponent().getModel("LocalDataModel").setProperty("/salesdocData", oData);
+					
+					var dlrFlag = that.getOwnerComponent().getModel("LocalDataModel").getProperty("/salesdocData/dealercheckflag");
+					if(dlrFlag === "X"){
+						that.getView().getModel().setProperty("/selectedOrderMeta/typeB", false);
+					}
+
 					if (!!oData) {
+						
 						var typeList = [];
 						var index = 0;
 						var typeItem = that.getOrderTypeByCode(oData.Zauart1, dealerType);
@@ -1240,12 +1249,18 @@ sap.ui.define([
 			var bModel = this.getSalesOrderModel();
 			var oFilter = new Array();
 			var aFilter = null;
-			//oFilter[0] = new sap.ui.model.Filter("IsActiveEntity", sap.ui.model.FilterOperator.EQ, false );
-			oFilter[0] = new sap.ui.model.Filter("SoldtoParty", sap.ui.model.FilterOperator.EQ, bpNumber);
+// *****************************revalidation of SOLD-TO-PARTY*********************************
+				var dealerCode = that.getStateModel().getProperty('/userProfile').dealerCode;
 
+				that.getBusinessPartnersByDealerCode(dealerCode, function (sData) {
+			
+			
+			//oFilter[0] = new sap.ui.model.Filter("IsActiveEntity", sap.ui.model.FilterOperator.EQ, false );
+			oFilter[0] = new sap.ui.model.Filter("SoldtoParty", sap.ui.model.FilterOperator.EQ, sData.BusinessPartner);
+// *****************************revalidation of SOLD-TO-PARTY*********************************
 			if (!!conditions) {
 				if (!!conditions.orderNumber) {
-					oFilter[1] = new sap.ui.model.Filter("PurchNoC", sap.ui.model.FilterOperator.Contains, conditions.orderNumber);
+					oFilter[1] = new sap.ui.model.Filter("PurchNoC", sap.ui.model.FilterOperator.EQ, conditions.orderNumber);
 				}
 			}
 
@@ -1395,7 +1410,8 @@ sap.ui.define([
 							lv_draft.isSalesOrder = true;
 							lv_draft.scOrderType = that.getInnerOrderTypeByZOrderType(lv_draft.zOrderType);
 							lv_draft.scOrderStatus = 'DF'; // always standard as in front view
-
+							lv_draft.Status = lv_aResult.Status;
+							lv_draft.Message = lv_aResult.Message;
 							// new
 							aDraftItem = {};
 
@@ -1431,12 +1447,13 @@ sap.ui.define([
 					callback(null);
 				}
 			});
+				});
 		},
 
 		_searchPartsSalesOrder: function (exactMode, conditions, callback) {
 			var that = this;
 			var bModel = this.getSalesOrderModel();
-
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oFilter = new Array();
 			//var dealerCode = conditions.dealerCode;
 			var dealerCode = conditions.bpCode;
@@ -1561,6 +1578,8 @@ sap.ui.define([
 				},
 				error: function (err) {
 					callback(null);
+					
+					sap.m.MessageBox.show(oBundle.getText("correctDateRange"), sap.m.MessageBox.Icon.ERROR, "Error", sap.m.MessageBox.Action.OK, null, null);
 				}
 			});
 		},
@@ -1572,12 +1591,15 @@ sap.ui.define([
 			//var key = bModel.createKey('/draft_soHeaderSet'	'HeaderDraftUUID': uuid,
 			//	'IsActiveEntity': 'false'
 			//});
+				var bpCode= this.getStateModel().getProperty('/selectedBP/bpNumber');
+
 			var oFilter = new Array();
 			oFilter[0] = new sap.ui.model.Filter("PurchNoC", sap.ui.model.FilterOperator.EQ, orderData.tciOrderNumber);
 
-			//oFilter[1] = new sap.ui.model.Filter("PurchNoC", sap.ui.model.FilterOperator.EQ, orderData.tciOrderNumber);
+			oFilter[1] = new sap.ui.model.Filter("SoldtoParty", sap.ui.model.FilterOperator.EQ, bpCode);
 
-			oFilter[1] = new sap.ui.model.Filter("IsActiveEntity", sap.ui.model.FilterOperator.EQ, false);
+			oFilter[2] = new sap.ui.model.Filter("IsActiveEntity", sap.ui.model.FilterOperator.EQ, false);
+            oFilter[3] = new sap.ui.model.Filter("Message", sap.ui.model.FilterOperator.EQ, 'EQ');
 
 			bModel.read('/draft_soHeaderSet', {
 				filters: new Array(new sap.ui.model.Filter({
@@ -1631,13 +1653,15 @@ sap.ui.define([
 								aDraftItem.comment = lv_aResultItem.Comments;
 								aDraftItem.uuid = lv_aResultItem.ItemDraftUUID;
 								aDraftItem.parentUuid = lv_aResultItem.HeaderDraftUUID;
-								aDraftItem.campainNum = lv_aResultItem.Zzcampaign;
+								aDraftItem.campaignNum = lv_aResultItem.Zzcampaign;
 								aDraftItem.opCode = lv_aResultItem.Zzopcode;
 								aDraftItem.vin = lv_aResultItem.VIN_no;
 								aDraftItem.contractNum = lv_aResultItem.RefDoc;
 								aDraftItem.contractLine = lv_aResultItem.RefDocItemNo;
 								aDraftItem.partDesc = lv_aResultItem.MatDesc;
 								aDraftItem.ItemStatus = "Draft";
+								aDraftItem.Status = lv_aResultItem.Status;
+							aDraftItem.Message = lv_aResultItem.Message;
 
 								//aDraftItem.spq = lv_aResultItem:'',
 								that.getSPQForDraftItem(aDraftItem, orderData);
@@ -1679,7 +1703,7 @@ sap.ui.define([
 			bModel.read(key, {
 				urlParameters: {
 					// "$select": "BusinessPartnerType,BusinessPartner,BusinessPartnerName"
-					"$expand": "headerToItemDraft"
+					$expand: "headerToItemDraft"
 				},
 				success: function (oData, oResponse) {
 					var messageList = that._extractSapMessage(oResponse);
@@ -1723,7 +1747,7 @@ sap.ui.define([
 								aDraftItem.comment = lv_aResultItem.Comments;
 								aDraftItem.uuid = lv_aResultItem.ItemDraftUUID;
 								aDraftItem.parentUuid = lv_aResultItem.HeaderDraftUUID;
-								aDraftItem.campainNum = lv_aResultItem.Zzcampaign;
+								aDraftItem.campaignNum = lv_aResultItem.Zzcampaign;
 								aDraftItem.opCode = lv_aResultItem.Zzopcode;
 								aDraftItem.vin = lv_aResultItem.VIN_no;
 								aDraftItem.contractNum = lv_aResultItem.RefDoc;
@@ -1743,7 +1767,10 @@ sap.ui.define([
 								aDraftItem.messageLevel = that.getMessageLevel(aDraftItem.messages);
 								lv_orderData.items.push(aDraftItem);
 							}
+							
+							sap.ui.getCore().getModel("APP_STATE_MODEL").setProperty("/selectedOrderMeta/contract_num", oData.headerToItemDraft.results[0].RefDoc);
 						}
+						
 						aDraftHeader.Lines = lv_orderData.items.length;
 						lv_orderData.associatedDrafts = [];
 						lv_orderData.associatedDrafts.push(aDraftHeader);
@@ -1790,7 +1817,7 @@ sap.ui.define([
 				'camp_code': campCode,
 				'op_code': opCode,
 				'VIN_no': vinNo,
-				'matnr': partNum
+				'part_no': partNum
 			});
 			bModel.read(key, {
 				success: function (oData, oResponse) {
@@ -1843,7 +1870,7 @@ sap.ui.define([
 			obj.Comments = data.items[len].comment;
 			obj.MatDesc = data.items[len].partDesc;
 			if (!!data.typeD) { // Campiagn
-				obj.Zzcampaign = data.items[len].campainNum;
+				obj.Zzcampaign = data.items[len].campaignNum;
 				obj.Zzopcode = data.items[len].opCode;
 				obj.VIN_no = data.items[len].vin;
 			} else if (!!data.typeB) {
@@ -1853,7 +1880,7 @@ sap.ui.define([
 
 			bModel.create('/draft_soItemSet', obj, {
 				success: function (oData, oResponse) {
-					//TODO
+				
 					var messageList = that._extractSapItemMessages(oResponse);
 					data.items[len].uuid = oData.ItemDraftUUID;
 					data.items[len].parentUuid = oData.HeaderDraftUUID;
@@ -2894,7 +2921,7 @@ sap.ui.define([
 			oFilter[0] = new sap.ui.model.Filter("DealerCode", sap.ui.model.FilterOperator.EQ, dealerCode);
 			if (!!conditions) {
 				if (!!conditions.orderNumber) {
-					oFilter[2] = new sap.ui.model.Filter("DealerOrderNo", sap.ui.model.FilterOperator.Contains, conditions.orderNumber);
+					oFilter[2] = new sap.ui.model.Filter("DealerOrderNo", sap.ui.model.FilterOperator.EQ, conditions.orderNumber);
 				}
 			}
 

@@ -107,6 +107,30 @@ sap.ui.define([], function () {
 			return outDate;
 
 		},
+		OrdDatFormat: function (orDate) {
+			var sDate = "";
+			if (orDate !== "") {
+				// alert(myDate);
+				var sYear = orDate.substr(0, 4);
+				// alert(myYear);
+				var sMon = orDate.substr(4, 2);
+				// alert(myMon);
+				if (sMon.substr(0, 1) == "0") {
+					sMon = sMon.substr(1, 1);
+				} else {
+					// alert(sMon);
+					sMon= sMon;
+				}
+				var sDay = orDate.substr(6, 2);
+				// alert(myDay);
+				var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+				// alert(monthNames[myMon - 1]);
+				// alert(monthNames[myMon - 1] + " " + myDay + "," + myYear);
+				sDate = monthNames[sMon - 1] + " " + sDay + "," + sYear;
+			}
+			return sDate;
+
+		},
 
 		linex2Format: function (typeD, typeB, opCode, vin) {
 			if (!!typeD) {
@@ -120,6 +144,18 @@ sap.ui.define([], function () {
 		},
 		sub2boolean: function (value) {
 			if (!!value && 'YES' === value.toUpperCase()) {
+				return true;
+			}
+			return false;
+		},
+		sub3boolean: function (value) {
+			if (!!value && 'X' === value.toUpperCase()) {
+				return true;
+			}
+			return false;
+		},
+		sub4boolean: function (value) {
+			if (!!value && 'X' === value.toUpperCase()) {
 				return true;
 			}
 			return false;
@@ -143,6 +179,18 @@ sap.ui.define([], function () {
 			var dateFormatted = dateFormat.format(oDate);
 			return dateFormatted;
 		},
+		StatusFormatter : function(oVal){
+			var resourceBundle = this.getResourceBundle();
+			
+			if(oVal){
+				if(oVal === "E"){
+					return resourceBundle.getText("Order.Status.Error");
+				}else if(oVal === "D"){
+					return resourceBundle.getText("Order.Status.Draft");
+				}
+			}
+			return oVal;
+		},
 
 		getItemTooltip: function (uuid, pUuid) {
 			var resourceBundle = this.getResourceBundle();
@@ -156,7 +204,11 @@ sap.ui.define([], function () {
 
 		totalDraft: function (lines) {
 			var resourceBundle = this.getResourceBundle();
-			return resourceBundle.getText('Label.FindOrder.Total', [lines]);
+			if(lines < 1000){
+				return resourceBundle.getText('Label.FindOrder.Total', [lines]);
+			}else{
+				return resourceBundle.getText('Label.FindOrder.Draft');
+			}
 		},
 		partNumberLabelFormat: function (typeB, typeD) {
 			var resourceBundle = this.getResourceBundle();
