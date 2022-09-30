@@ -357,12 +357,14 @@ sap.ui.define([], function () {
 			};
 			if (!_salesorderModel) {
 				this.getSalesOrderModel();
-				//_salesorderModel.setUseBatch(false);
+				//this.getSalesOrderModel.setUseBatch(false);
 			}
+
+			_salesorderModel.setUseBatch(false);
 
 			drafts = _orderData.associatedDrafts[0];
 			
-			console.log(drafts);
+			// console.log(drafts);
 
 			_salesorderModel.callFunction('/DraftToSO', {
 				method: "GET",
@@ -513,7 +515,7 @@ sap.ui.define([], function () {
 			var that = this;
 			if (!_salesorderModel) {
 				this.getSalesOrderModel();
-				//_salesorderModel.setUseBatch(false);
+				_salesorderModel.setUseBatch(false);
 			}
 
 			var key = _salesorderModel.createKey('/contractNo_validationSet', {

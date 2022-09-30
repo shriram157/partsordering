@@ -8,19 +8,22 @@
         <meta http-equiv='expires' content='0'/>
         <meta http-equiv='pragma' content='no-cache'/>
 		<title>Parts Ordering and Order Status Summary</title>
-
+<!--DMND0003799 VERSION UPDATE-->
 		<script id="sap-ui-bootstrap"
-			src="https://sapui5.hana.ondemand.com/1.63.1/resources/sap-ui-cachebuster/sap-ui-core.js"
+			src=https://sapui5.hana.ondemand.com/1.71/resources/sap-ui-core.js
 			data-sap-ui-libs="sap.m"
+			data-sap-ui-async="true"
 			data-sap-ui-theme="sap_belize_plus"
 			data-sap-ui-compatVersion="edge"
-			data-sap-ui-preload="async"
-			data-sap-ui-resourceroots='{"tci.wave2.ui.parts.ordering": "./"}'>
+			data-sap-ui-xx-bindingSyntax="complex"
+			data-sap-ui-resourceroots='{"tci.wave2.ui.parts.ordering": "./"}'
+			data-sap-ui-frameOptions="trusted"
+			data-sap-ui-oninit="module:sap/ui/core/ComponentSupport">
 		</script>
 
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 
-		<script>
+		<!--<script>
 			sap.ui.getCore().attachInit(function() {
 				new sap.m.Shell({
 					app: new sap.ui.core.ComponentContainer({
@@ -30,10 +33,17 @@
 					appWidthLimited : false
 				}).placeAt("content");
 			});
-		</script>
+		</script>-->
 	</head>
 
 	<body class="sapUiBody" id="content">
+	<div data-sap-ui-component
+		data-name="tci.wave2.ui.parts.ordering"
+		data-height="100%"
+		data-id="container"
+		data-settings='{"id" : "tci.wave2.ui.parts.ordering"}'
+		style="height: 100%">
+	</div>	
 	</body>
 
 </html>
