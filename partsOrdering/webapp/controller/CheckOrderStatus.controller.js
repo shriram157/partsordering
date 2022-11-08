@@ -647,6 +647,9 @@ sap.ui.define([
 
 				}
 			}
+			if ("(Label.CheckOrder.DealerOrder)"=="Z9_Stop_sales_code") {
+				this.byId("idProductsTable").getProperty("PartNumber").addStyleClass("text");		//changes by swetha
+			}
 			// end of changes done for DMND0002661
 			//this._oDetailDialog.bindElement("viewModel>" +sPath);
 			var aModel = new JSONModel();

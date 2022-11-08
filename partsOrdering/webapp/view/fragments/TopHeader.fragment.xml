@@ -2,7 +2,7 @@
 	<Bar class="sapUiSmallPaddingBeginEnd clCustomHeaderBg">
 		<contentLeft>
 			<!--<Image id="idLogo" src="images/Lexus_EN.png" width="100px"/>-->
-		<Image id="idLogo" src="{/userProfile/logoImage}" width="100px"/>
+		<!--<Image id="idLogo" src="{/userProfile/logoImage}" width="100px"/>--><!--changes by Swetha on 1/11/2022 for DMND0003688-->
 			<Text text="|" class="sapUiTinyMarginBeginEnd"/>
 			<Text class="clCustomFont" text="{i18n>appTitle}"/>
 		</contentLeft>

@@ -186,4 +186,7 @@
 .clDisableStatus .sapMSLI:nth-child(5) {
     display: none;
 }
+.Text {
+	color : blue;
+}
 /* Enter your custom styles here */
