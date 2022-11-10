@@ -640,15 +640,15 @@ sap.ui.define([
 				}
 			}
 
-			if (theData.bom_component == "X" && theData.SOtoDeliv.results.length > 0) {
+			if (theData.bom_component == " && theData.SOtoDeliv.results.length > 0) {
 				for (var j in theData.SOtoDeliv.results) {
 					theData.SOtoDeliv.results[j].bill_no = " ";
 					theData.SOtoDeliv.results[j].bill_itemNo = " ";
 
 				}
 			}
-			if ("(i18n>Label.CheckOrder.DealerOrder)" === "Z9_Stop_sales_code") {
-				this.byId("idProductsTable").getProperty("(i18n>Label.CheckOrder.PartNumber)").addStyleClass("text");		//changes by swetha
+			if (del_blk_col == "Z9_Stop_sales_code") {
+				this.getView().byId("idProductsTable").getProperty("del_blk_col").addStyleClass("text");		//changes by swetha
 			}
 			// end of changes done for DMND0002661
 			//this._oDetailDialog.bindElement("viewModel>" +sPath);
