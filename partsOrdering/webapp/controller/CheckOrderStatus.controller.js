@@ -647,8 +647,8 @@ sap.ui.define([
 
 				}
 			}
-			if (del_blk_col === "Z9_Stop_sales_code") {
-				this.byId("idProductsTable").getProperty("(i18n>Label.CheckOrder.PartNumber)").addStyleClass("text");		//changes by swetha
+			if ("del_blk_col" === "Z9_Stop_sales_code") {
+				this.byId("idProductsTable").getView.addStyleClass("text");		//changes by swetha
 			}
 			// end of changes done for DMND0002661
 			//this._oDetailDialog.bindElement("viewModel>" +sPath);
