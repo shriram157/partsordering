@@ -14,7 +14,7 @@
 					<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Number}"
 						text="{ path : '/TCI_order_no', formatter:'.formatter.removeLeadingZero' }"/>
 					<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Line}" text="{ path : '/TCI_itemNo', formatter:'.formatter.removeLeadingZero'}" />
-					<ObjectAttribute title="{i18n>Label.CheckOrder.Stop.Sales.Code}" text="{/stop_sales_code}"/><!--changes by swetha for DMND0003688 on 15/11/2022-->
+					<!--changes by swetha for DMND0003688 on 15/11/2022-->
 					<!--<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Line}"  text="{ path : '/TCI_itemNo', formatter:'.formatter.removeLeadingZero'}**"-->
 					<!--	tooltip="{/rejectionReason} {/rejectionDescription}" visible="{=${/quant_cancelled} !== '0'}" />-->
 					<ObjectAttribute title="{i18n>Label.CheckOrder.Creation.Date}"
@@ -29,6 +29,9 @@
 					<ObjectStatus text="{i18n>order.campaign.detail}" visible="{=${/campCode} !=='' || ${/OpCode} !==''}"
 						tooltip="{i18n>Lable.CreateOrder.CampaignNumber} : {/campCode} {i18n>Lable.CreateOrder.OpCode} : {/OpCode} {i18n>Lable.CreateOrder.vin} : {/VIN}"/>
 				</statuses>
+				<attributes>
+					<ObjectAttribute title="{i18n>Label.CheckOrder.Stop.Sales.Code}" text="{/stop_sales_code}"/>
+				</attributes>
 				<headerContainer></headerContainer>
 			</ObjectHeader>
 			<Table items="{ path: '/SOtoDeliv/results' }" showNoData='true' visible="{=${path: '/SOtoDeliv'} !== '' &amp;&amp;   ${path: '/SOtoDeliv'} !== undefined}">
