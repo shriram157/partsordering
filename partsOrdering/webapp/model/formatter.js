@@ -339,6 +339,14 @@ sap.ui.define([], function () {
 			}
 
 		}
+		
+		color:function(value)
+		{
+			if(value=="Z9")
+			{
+				return "Information";
+			}
+		}
 
 	};
 
