@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic">
-	<Dialog contentWidth="807px" contentHeight="70%" afterClose='cleanUpDialog' afterOpen='afterDialogOpen'
+	<Dialog contentWidth="807px" contentHeight="100%" afterClose='cleanUpDialog' afterOpen='afterDialogOpen'
 		title="{path : '/doc_type', formatter:'.formatter.orderTypeD'} : {/dealer_orderNo}" verticalScrolling='true' resizable="true"
 		draggable="true">
 		<beginButton>
