@@ -20,6 +20,7 @@
 					<ObjectAttribute title="{i18n>Label.CheckOrder.Creation.Date}"
 						text="{ path: '/erdat', type: 'sap.ui.model.type.Date', formatOptions: { style: 'long', source: { pattern: 'yyyy/MM/dd' } } }"/>
 					<ObjectAttribute  class = "CLattributetext" title="{i18n>Label.CheckOrder.Ship.From}" text="{/ship_from}"/>
+					<ObjectAtrribute class  ="CLattributetext" title="{i18n>Label.CheckOrder.Stop.Sales.Code}" text="{/stop_sales_code}"/>
 				</attributes>
 				<statuses>
 					<ObjectStatus text="{i18n>Label.CheckOrder.Substituted} : {/matnr}" state="Warning" visible='{/subs}'/>
