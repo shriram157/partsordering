@@ -338,7 +338,7 @@ sap.ui.define([], function () {
 				return "";
 			}
 
-		}
+		},
 		
 		color:function(value)
 		{
