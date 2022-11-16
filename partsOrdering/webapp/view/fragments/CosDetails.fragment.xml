@@ -80,6 +80,12 @@
 							<ObjectStatus text="{= ${/bom_kit_part} === 'X' ? '0' : ${path:'/open_qty'}}" state="None"/>
 						</VBox>
 						<ToolbarSeparator/>
+						<VBox width='90px'>
+							<Label text="{i18n>Header.Quantity.Open}"></Label>
+							<!--<ObjectNumber number="{path : '/open_qty', formatter:'.formatter.round2dec'}" state="None"/>-->
+							<ObjectStatus text="{= ${/bom_kit_part} === 'X' ? '0' : ${path:'/open_qty'}}" state="None"/>
+						</VBox>
+						<ToolbarSeparator/>
 					</Toolbar>
 				</headerToolbar>
 				<columns>
