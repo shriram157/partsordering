@@ -181,6 +181,7 @@
 								<cells>
 									<!--<ObjectIdentifier title="{path : 'viewModel>matnr', formatter:'.formatter.getItemNumber' }"/>-->
 									<!--<ObjectIdentifier title="{viewModel>matnr}" tooltip="{rejectionReason} {rejectionDescription}"/>-->
+									<!--changes by Shriram for DMND0003688 to add color for PartNumber if status is Z9 (added path,formatter)-->
 									<ObjectStatus text="{viewModel>matnr}" tooltip="{rejectionReason}{rejectionDescription}" state="{path : 'viewModel>del_blk_col', formatter:'.formatter.color'}"/>
 									<core:Icon src="sap-icon://dropdown" size="2.3rem" height="0"
 										visible="{path : 'viewModel>bom_kit_part', formatter:'.formatter.sub4boolean'}"/>

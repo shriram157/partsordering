@@ -14,7 +14,8 @@
 					<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Number}"
 						text="{ path : '/TCI_order_no', formatter:'.formatter.removeLeadingZero' }"/>
 					<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Line}" text="{ path : '/TCI_itemNo', formatter:'.formatter.removeLeadingZero'}" />
-					<!--<ObjectAttribute title="{i18n>Label.CheckOrder.Stop.Sales.Code}" text="{/stop_sales_code}"/>--><!--changes by swetha for DMND0003688 on 15/11/2022-->
+					<!--changes by swetha for DMND0003688 on 15/11/2022   start -->
+					<ObjectAttribute title="{i18n>Label.CheckOrder.Stop.Sales.Code}" text="{/stop_sales_code}"/><!--changes by swetha for DMND0003688 on 15/11/2022 end-->
 					<!--<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Line}"  text="{ path : '/TCI_itemNo', formatter:'.formatter.removeLeadingZero'}**"-->
 					<!--	tooltip="{/rejectionReason} {/rejectionDescription}" visible="{=${/quant_cancelled} !== '0'}" />-->
 					<ObjectAttribute title="{i18n>Label.CheckOrder.Creation.Date}"
@@ -31,13 +32,7 @@
 				
 				<headerContainer></headerContainer>
 			</ObjectHeader>
-			<!-- changes by Swetha for Stop sales code field-->
-			<ObjectHeader id="topPageHeader1" backgroundDesign="Transparent">
-				<attributes>
-					<ObjectAttribute title="{i18n>Label.CheckOrder.Stop.Sales.Code}" text="{/stop_sales_code}"/>	
-				</attributes>
-				
-			</ObjectHeader>
+			
 			<Table items="{ path: '/SOtoDeliv/results' }" showNoData='true' visible="{=${path: '/SOtoDeliv'} !== '' &amp;&amp;   ${path: '/SOtoDeliv'} !== undefined}">
 				<headerToolbar>
 					<Toolbar>
@@ -77,12 +72,7 @@
 							<ObjectStatus text="{= ${/bom_kit_part} === 'X' ? '0' : ${path:'/open_qty'}}" state="None"/>
 						</VBox>
 						<ToolbarSeparator/>
-						<VBox width='90px'>
-							<Label text="{i18n>Header.Stop.Sales.Code}"></Label>
-							<!--<ObjectNumber number="{path : '/open_qty', formatter:'.formatter.round2dec'}" state="None"/>-->
-							<ObjectStatus text="{= ${/bom_kit_part} === 'X' ? '0' : ${path:'/open_qty'}}" state="None"/>
-						</VBox>
-						<ToolbarSeparator/>
+						
 					</Toolbar>
 				</headerToolbar>
 				<columns>
