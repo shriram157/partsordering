@@ -32,13 +32,13 @@
 				<headerContainer></headerContainer>
 			</ObjectHeader>
 			<!-- changes by Swetha for Stop sales code field-->
-			<ObjectHeader id="topPageHeader" responsive="true" fullScreenOptimized="false" iconDensityAware="false" icon="images/car.png"
+			<ObjectHeader id="topPageHeader1" responsive="true" fullScreenOptimized="false" iconDensityAware="false" icon="images/car.png"
 				iconAlt="{i18n>Label.CheckOrder.Name}" intro="{/partdesc}" title="{path : '/part_no'}" titleActive="false" number="{/scheduleLines/length}"
 				numberUnit="{i18n>Label.CheckOrder.deliveries}" showTitleSelector="false" showMarkers="false" markFlagged="false" markFavorite="false"
 				numberState="Success" backgroundDesign="Transparent">
-				<ObjectAttribute>
+				<attributes>
 					<ObjectAttribute title="{i18n>Label.CheckOrder.Stop.Sales.Code}" text="{/stop_sales_code}"/>	
-				</ObjectAttribute>
+				</attributes>
 				
 			</ObjectHeader>
 			<Table items="{ path: '/SOtoDeliv/results' }" showNoData='true' visible="{=${path: '/SOtoDeliv'} !== '' &amp;&amp;   ${path: '/SOtoDeliv'} !== undefined}">
