@@ -14,7 +14,7 @@
 					<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Number}"
 						text="{ path : '/TCI_order_no', formatter:'.formatter.removeLeadingZero' }"/>
 					<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Line}" text="{ path : '/TCI_itemNo', formatter:'.formatter.removeLeadingZero'}" />
-					<ObjectAttribute title="{i18n>Label.CheckOrder.Stop.Sales.Code}" text="{/stop_sales_code}"/><!--changes by swetha for DMND0003688 on 15/11/2022-->
+					<!--<ObjectAttribute title="{i18n>Label.CheckOrder.Stop.Sales.Code}" text="{/stop_sales_code}"/>--><!--changes by swetha for DMND0003688 on 15/11/2022-->
 					<!--<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Line}"  text="{ path : '/TCI_itemNo', formatter:'.formatter.removeLeadingZero'}**"-->
 					<!--	tooltip="{/rejectionReason} {/rejectionDescription}" visible="{=${/quant_cancelled} !== '0'}" />-->
 					<ObjectAttribute title="{i18n>Label.CheckOrder.Creation.Date}"
@@ -30,6 +30,16 @@
 				</statuses>
 				
 				<headerContainer></headerContainer>
+			</ObjectHeader>
+			<!-- changes by Swetha for Stop sales code field-->
+			<ObjectHeader id="topPageHeader" responsive="true" fullScreenOptimized="false" iconDensityAware="false" icon="images/car.png"
+				iconAlt="{i18n>Label.CheckOrder.Name}" intro="{/partdesc}" title="{path : '/part_no'}" titleActive="false" number="{/scheduleLines/length}"
+				numberUnit="{i18n>Label.CheckOrder.deliveries}" showTitleSelector="false" showMarkers="false" markFlagged="false" markFavorite="false"
+				numberState="Success" backgroundDesign="Transparent">
+				<ObjectAttribute>
+					<ObjectAttribute title="{i18n>Label.CheckOrder.Stop.Sales.Code}" text="{/stop_sales_code}"/>	
+				</ObjectAttribute>
+				
 			</ObjectHeader>
 			<Table items="{ path: '/SOtoDeliv/results' }" showNoData='true' visible="{=${path: '/SOtoDeliv'} !== '' &amp;&amp;   ${path: '/SOtoDeliv'} !== undefined}">
 				<headerToolbar>
