@@ -15,12 +15,12 @@
 						text="{ path : '/TCI_order_no', formatter:'.formatter.removeLeadingZero' }"/>
 					<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Line}" text="{ path : '/TCI_itemNo', formatter:'.formatter.removeLeadingZero'}" />
 					<!--changes by swetha for DMND0003688 on 15/11/2022   start -->
-					<ObjectAttribute title="{i18n>Label.CheckOrder.Stop.Sales.Code}" text="{/stop_sales_code}"/><!--changes by swetha for DMND0003688 on 15/11/2022 end-->
+					<ObjectAttribute  class = "CLattributetext" title="{i18n>Label.CheckOrder.Ship.From}" text="{/ship_from}"/>
 					<!--<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Line}"  text="{ path : '/TCI_itemNo', formatter:'.formatter.removeLeadingZero'}**"-->
 					<!--	tooltip="{/rejectionReason} {/rejectionDescription}" visible="{=${/quant_cancelled} !== '0'}" />-->
 					<ObjectAttribute title="{i18n>Label.CheckOrder.Creation.Date}"
 						text="{ path: '/erdat', type: 'sap.ui.model.type.Date', formatOptions: { style: 'long', source: { pattern: 'yyyy/MM/dd' } } }"/>
-					<ObjectAttribute  class = "CLattributetext" title="{i18n>Label.CheckOrder.Ship.From}" text="{/ship_from}"/>
+					<ObjectAttribute title="{i18n>Label.CheckOrder.Stop.Sales.Code}" text="{/stop_sales_code}"/><!--changes by swetha for DMND0003688 on 15/11/2022 end-->
 					
 				</attributes>
 				<statuses>
