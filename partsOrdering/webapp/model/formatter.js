@@ -342,7 +342,7 @@ sap.ui.define([], function () {
 		
 		color:function(value) //changes by Shriram for DMND0003688 to add color to PartNumber if status is Z9
 		{
-			if(value=="Z9")
+			if(value=="Z9" || value=="ZA" || value=="ZB")
 			{
 				return "Information";
 			}
