@@ -140,6 +140,38 @@ sap.ui.define([
 			if (appStateModel.getProperty('/userProfile').userType !== "National") {
 				this.init();
 			}
+			//code added by swetha for french and english language start
+			var oI18nModel = new sap.ui.model.resource.ResourceModel({ 
+				bundleUrl: "i18n/i18n.properties"
+			});
+			this.getView().setModel(oI18nModel, "i18n");
+			//  get the locale to determine the language. 
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				var sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				var sSelectedLocale = "EN"; // default is english 
+			}
+			if (sSelectedLocale == "fr") {
+				var i18nModel = new sap.ui.model.resource.ResourceModel({
+					bundleUrl: "i18n/i18n.properties",
+					bundleLocale: ("fr")
+				});
+				this.getView().setModel(i18nModel, "i18n");
+				this.sCurrentLocale = 'FR';
+			} else {
+				var i18nModel = new sap.ui.model.resource.ResourceModel({
+					bundleUrl: "i18n/i18n.properties",
+					bundleLocale: ("en")
+				});
+				this.getView().setModel(i18nModel, "i18n");
+				this.sCurrentLocale = 'EN';
+			}
+
+			var oModeli18n = this.getView().getModel("i18n");
+			this._oResourceBundle = oModeli18n.getResourceBundle();
+
+			//code added by swetha for french and english language end
 
 		},
 
