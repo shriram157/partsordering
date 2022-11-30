@@ -1561,6 +1561,10 @@ sap.ui.define([
 				}
 
 			}
+			//  Passing user language to backend
+             var aLanFilter = new sap.ui.model.Filter("Language", sap.ui.model.FilterOperator.EQ,sap.ui.getCore().getConfiguration().getLanguage());
+					oFilter.push(aLanFilter);
+			// Passing user language to backend
 
 			bModel.read('/find_soSet', {
 				urlParameters: {

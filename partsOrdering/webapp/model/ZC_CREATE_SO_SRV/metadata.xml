@@ -236,8 +236,7 @@
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="quant_back_ordered" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:unicode="false" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="quant_being_delivered" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:unicode="false"
 					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="est_deliv_date" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Language" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Language"
-					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><NavigationProperty Name="SOtoDeliv" Relationship="ZC_CREATE_SO_SRV.SO_to_deliv" FromRole="FromRole_SO_to_deliv" ToRole="ToRole_SO_to_deliv"/></EntityType>
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><NavigationProperty Name="SOtoDeliv" Relationship="ZC_CREATE_SO_SRV.SO_to_deliv" FromRole="FromRole_SO_to_deliv" ToRole="ToRole_SO_to_deliv"/></EntityType>
 			<Association Name="HeaderToItems" sap:content-version="1"><End Type="ZC_CREATE_SO_SRV.zc_so_header" Multiplicity="1" Role="FromRole_HeaderToItems"/><End Type="ZC_CREATE_SO_SRV.zc_so_items" Multiplicity="*" Role="ToRole_HeaderToItems"/>
 				<ReferentialConstraint>
 					<Principal Role="FromRole_HeaderToItems"><PropertyRef Name="PurchNoC"/></Principal>
