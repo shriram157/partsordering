@@ -276,8 +276,8 @@
 			</Association>
 			<Association Name="SO_to_deliv" sap:content-version="1"><End Type="ZC_CREATE_SO_SRV.find_so" Multiplicity="1" Role="FromRole_SO_to_deliv"/><End Type="ZC_CREATE_SO_SRV.find_deliv" Multiplicity="*" Role="ToRole_SO_to_deliv"/>
 				<ReferentialConstraint>
-					<Principal Role="FromRole_SO_to_deliv"><PropertyRef Name="dealer_code"/><PropertyRef Name="erdat"/></Principal>
-					<Dependent Role="ToRole_SO_to_deliv"><PropertyRef Name="dealer_code"/><PropertyRef Name="erdat"/></Dependent>
+					<Principal Role="FromRole_SO_to_deliv"><PropertyRef Name="dealer_code"/><PropertyRef Name="erdat"/><PropertyRef Name="Language"/></Principal>
+					<Dependent Role="ToRole_SO_to_deliv"><PropertyRef Name="dealer_code"/><PropertyRef Name="erdat"/><PropertyRef Name="Language"/></Dependent>
 				</ReferentialConstraint>
 			</Association>
 			<Association Name="draftSO_header_item" sap:content-version="1"><End Type="ZC_CREATE_SO_SRV.draft_soHeader" Multiplicity="1" Role="FromRole_draftSO_header_item"/><End Type="ZC_CREATE_SO_SRV.draft_soItem" Multiplicity="*" Role="ToRole_draftSO_header_item"/>
