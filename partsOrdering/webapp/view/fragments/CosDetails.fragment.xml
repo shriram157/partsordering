@@ -1,7 +1,7 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic">
 	<Dialog contentWidth="1152px" contentHeight="70%" afterClose='cleanUpDialog' afterOpen='afterDialogOpen'
 		title="{path : '/doc_type', formatter:'.formatter.orderTypeD'} : {/dealer_orderNo}" verticalScrolling='true' horizontalScrolling = 'false' resizable="true"
-		draggable="true"><!--displayBlock = "true", horizontalScrolling='false' contentwidth="1127px" is added-->
+		draggable="true" class="CLHeader"><!--displayBlock = "true", horizontalScrolling='false' contentwidth="1127px" is added-->
 		<beginButton>
 			<Button text="{i18n>Label.CheckOrder.Button.Close}" press='onDialogClose'/>
 		</beginButton>

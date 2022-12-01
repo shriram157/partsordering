@@ -176,7 +176,6 @@
     white-space: pre-wrap;
     word-wrap: break-word;
     text-overflow: clip;
-    width: 1302px;
 }
 .sapUiFormTitleH5 {
     line-height: 0!important;
@@ -186,5 +185,8 @@
 
 .clDisableStatus .sapMSLI:nth-child(5) {
     display: none;
+}
+.CLHeader {
+	width:1302px;
 }
 /* Enter your custom styles here */
