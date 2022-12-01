@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic">
-	<Dialog contentWidth="1160px" contentHeight="70%" afterClose='cleanUpDialog' afterOpen='afterDialogOpen'
+	<Dialog contentWidth="1500px" contentHeight="70%" afterClose='cleanUpDialog' afterOpen='afterDialogOpen'
 		title="{path : '/doc_type', formatter:'.formatter.orderTypeD'} : {/dealer_orderNo}" verticalScrolling='true' horizontalScrolling = 'false' resizable="true"
 		draggable="true"><!--displayBlock = "true", horizontalScrolling='false' contentwidth="1127px" is added-->
 		<beginButton>
@@ -35,7 +35,7 @@
 			<Table items="{ path: '/SOtoDeliv/results' }" showNoData='true' visible="{=${path: '/SOtoDeliv'} !== '' &amp;&amp;   ${path: '/SOtoDeliv'} !== undefined}">
 				<headerToolbar>
 					<Toolbar>
-						<VBox width='76px'>
+						<VBox width='90px'>
 							<Label text="{i18n>Header.Quantity.Ordered}"></Label>
 							<ObjectNumber number="{path : '/quant_ordered', formatter:'.formatter.round2dec'}" state="None"/>
 						</VBox>
@@ -65,7 +65,7 @@
 							<ObjectStatus text="{= ${/bom_kit_part} === 'X' ? '0' : ${path:'/quant_back_ordered'}}" state="Error" />
 						</VBox>
 						<ToolbarSeparator/>
-						<VBox width='90px'>
+						<VBox width='100px'>
 							<Label text="{i18n>Header.Quantity.Open}"></Label>
 							<!--<ObjectNumber number="{path : '/open_qty', formatter:'.formatter.round2dec'}" state="None"/>-->
 							<ObjectStatus text="{= ${/bom_kit_part} === 'X' ? '0' : ${path:'/open_qty'}}" state="None"/>
