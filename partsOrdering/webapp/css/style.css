@@ -172,10 +172,11 @@
     font-size: 10rem;
 }
 
-.sapMOHR .sapMOHRAttr .CLattributetext .sapMObjectAttributeText {
+.sapMOHR .sapMOHRAttr .CLattributetext .sapMObjectAttributeText.sapMOHRBgTransparent {
     white-space: pre-wrap;
     word-wrap: break-word;
     text-overflow: clip;
+    width: 1302px;
 }
 .sapUiFormTitleH5 {
     line-height: 0!important;
