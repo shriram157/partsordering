@@ -177,6 +177,8 @@
     word-wrap: break-word;
     text-overflow: clip;
     width: 1302px;
+    max-width:1302px;
+    
 }
 .sapUiFormTitleH5 {
     line-height: 0!important;
