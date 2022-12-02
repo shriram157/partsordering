@@ -176,8 +176,7 @@
     white-space: pre-wrap;
     word-wrap: break-word;
     text-overflow: clip;
-    width: 1302px;
-    max-width:1302px;
+    max-width:60%;
     
 }
 .sapUiFormTitleH5 {
