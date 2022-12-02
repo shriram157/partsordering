@@ -188,7 +188,7 @@
 .clDisableStatus .sapMSLI:nth-child(5) {
     display: none;
 }
-.CLHeader .sapMOHR .sapMOHRBgTransparent {
-	width:1302px;
+span#__attribute0-title {
+    max-width: 60%;
 }
 /* Enter your custom styles here */
