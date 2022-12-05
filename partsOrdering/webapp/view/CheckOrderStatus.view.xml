@@ -103,7 +103,7 @@
 				<content>
 					<Table id="idProductsTable" growing='true' growingThreshold='20' growingScrollToLoad='true' alternateRowColors="true"
 						mode="SingleSelectMaster" updateFinished="onUpdateFinished" selectionChange="onMasterSelected" items="{ path: 'viewModel>/orders' }"
-						sticky="{['sap.m.Sticky.ColumnHeaders', 'sap.m.Sticky.HeaderToolbar','sap.m.Sticky.InfoToolbar']}">
+						sticky="HeaderToolbar,InfoToolbar,ColumnHeaders">
 						<columns>
 							<Column width="9rem">
 								<Text text="{i18n>Label.CheckOrder.PartNumber} "/>
