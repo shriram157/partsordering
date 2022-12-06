@@ -688,7 +688,7 @@ sap.ui.define([
 		 */
 		// Material related  
 		getProductModel: function () {
-			return this.getOwnerComponent().getModel("MD_PRODUCT_FS_SRV");
+			return this.getOwnerComponent().getModel("MD_PRODUCT_OP_SRV");
 		},
 
 		getZProductModel: function () {
@@ -731,7 +731,7 @@ sap.ui.define([
 			return this.getOwnerComponent().getModel("Z_SEARCH_HELPS_SRV");
 		},
 
-		// Start -- MD_PRODUCT_FS_SRV model related
+		// Start -- MD_PRODUCT_OP_SRV model related
 		getMaterialDesc: function (material, index, callback) {
 			var bModel = this.getProductModel();
 			var lan = this.getSapLangugaeFromLocal();
@@ -776,9 +776,9 @@ sap.ui.define([
 				}
 			});
 		},
-		// End -- MD_PRODUCT_FS_SRV model related
+		// End -- MD_PRODUCT_OP_SRV model related
 
-		// Start -- ZMD_PRODUCT_FS_SRV model related
+		// Start -- ZMD_PRODUCT_OP_SRV model related
 		getRoundingprofileOFVendor: function (id, saleOrg, disChannel, callback) {
 			var bModel = this.getZProductModel();
 			var key = bModel.createKey('/zc_PriceSet', {
@@ -844,7 +844,7 @@ sap.ui.define([
 				}
 			});
 		},
-		// End -- ZMD_PRODUCT_FS_SRV model related			
+		// End -- ZMD_PRODUCT_OP_SRV model related			
 
 		// Start -- API_PRODUCT_SRV model related			
 		getPartsInfoById: function (id, callback) {

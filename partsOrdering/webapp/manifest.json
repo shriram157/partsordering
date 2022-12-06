@@ -34,12 +34,12 @@
 					"localUri": "model/API_PURCHASEORDER_PROCESS_SRV/metadata.xml"
 				}
 			},
-			"MD_PRODUCT_FS_SRV": {
-				"uri": "/sap/opu/odata/sap/MD_PRODUCT_FS_SRV/",
+			"MD_PRODUCT_OP_SRV": {
+				"uri": "/sap/opu/odata/sap/MD_PRODUCT_OP_SRV/",
 				"type": "OData",
 				"settings": {
 					"odataVersion": "2.0",
-					"localUri": "model/MD_PRODUCT_FS_SRV/metadata.xml"
+					"localUri": "model/MD_PRODUCT_OP_SRV/metadata.xml"
 				}
 			},
 			"ZMD_PRODUCT_FS_V2_SRV": {
@@ -191,8 +191,8 @@
 				"dataSource": "API_PRODUCT_SRV",
 				"preload": false
 			},
-			"MD_PRODUCT_FS_SRV": {
-				"uri": "/sap/opu/odata/sap/MD_PRODUCT_FS_SRV/",
+			"MD_PRODUCT_OP_SRV": {
+				"uri": "/sap/opu/odata/sap/MD_PRODUCT_OP_SRV/",
 				"type": "sap.ui.model.odata.v2.ODataModel",
 				"settings": {
 					"defaultOperationMode": "Server",
@@ -204,7 +204,7 @@
 						"X-Requested-With": "XMLHttpRequest"
 					}
 				},
-				"dataSource": "MD_PRODUCT_FS_SRV",
+				"dataSource": "MD_PRODUCT_OP_SRV",
 				"preload": false
 			},
 			"ZC_CREATE_SO_SRV": {

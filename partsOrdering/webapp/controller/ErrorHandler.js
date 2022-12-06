@@ -31,7 +31,7 @@ sap.ui.define([
 			this._oRemoteModelList.push(lv_model);
 			lv_model = oComponent.getModel("API_PRODUCT_SRV");
 			this._oRemoteModelList.push(lv_model);
-			lv_model = oComponent.getModel("MD_PRODUCT_FS_SRV");
+			lv_model = oComponent.getModel("MD_PRODUCT_OP_SRV");
 			this._oRemoteModelList.push(lv_model);
 			lv_model = oComponent.getModel("ZMD_PRODUCT_FS_V2_SRV");
 			this._oRemoteModelList.push(lv_model);

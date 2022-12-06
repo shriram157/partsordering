@@ -42,7 +42,7 @@ sap.ui.define([], function () {
 		},
 
 		getProductModel: function () {
-			return _ownerComponent.getModel("MD_PRODUCT_FS_SRV");
+			return _ownerComponent.getModel("MD_PRODUCT_OP_SRV");
 		},
 
 		getZProductModel: function () {

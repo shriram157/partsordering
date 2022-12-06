@@ -1,7 +1,7 @@
 <edmx:Edmx xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
 	xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData" Version="1.0">
 	<edmx:DataServices m:DataServiceVersion="2.0">
-		<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="ZMD_PRODUCT_FS_SRV" xml:lang="en" sap:schema-version="1">
+		<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="ZMD_PRODUCT_OP_SRV" xml:lang="en" sap:schema-version="1">
 			<EntityType Name="zc_ForwSuper" sap:content-version="1">
 				<Key><PropertyRef Name="Matnr"/><PropertyRef Name="SalesOrg"/><PropertyRef Name="DisChannel"/><PropertyRef Name="Division"/><PropertyRef Name="Customer"/><PropertyRef Name="SalesDocType"/><PropertyRef Name="LanguageKey"/><PropertyRef Name="Plant"/></Key><Property Name="Matnr" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Material" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="SalesOrg" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Sales Org." sap:creatable="false"
@@ -22,7 +22,7 @@
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="LastUpdDate" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Date" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false"/></EntityType>
 			<EntityType Name="zc_BackSuper" sap:content-version="1">
-				<Key><PropertyRef Name="Customer"/><PropertyRef Name="DisChannel"/><PropertyRef Name="Division"/><PropertyRef Name="LanguageKey"/><PropertyRef Name="Matnr"/><PropertyRef Name="Plant"/><PropertyRef Name="SalesDocType"/><PropertyRef Name="SalesOrg"/></Key><Property Name="BackPartsSuper" Type="ZMD_PRODUCT_FS_SRV.zc_PartsSuper" Nullable="false"/><Property Name="Customer" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Customer" sap:creatable="false"
+				<Key><PropertyRef Name="Customer"/><PropertyRef Name="DisChannel"/><PropertyRef Name="Division"/><PropertyRef Name="LanguageKey"/><PropertyRef Name="Matnr"/><PropertyRef Name="Plant"/><PropertyRef Name="SalesDocType"/><PropertyRef Name="SalesOrg"/></Key><Property Name="BackPartsSuper" Type="ZMD_PRODUCT_OP_SRV.zc_PartsSuper" Nullable="false"/><Property Name="Customer" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Customer" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false"/><Property Name="DisChannel" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Distr. Channel"
 					sap:creatable="false" sap:updatable="false" sap:sortable="false"/><Property Name="Division" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Division" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false"/><Property Name="LanguageKey" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Language" sap:creatable="false"
@@ -30,7 +30,7 @@
 					sap:updatable="false" sap:sortable="false"/><Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Plant" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false"/><Property Name="SalesDocType" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Sales doc. type"
 					sap:creatable="false" sap:updatable="false" sap:sortable="false"/><Property Name="SalesOrg" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Sales Org." sap:creatable="false"
-					sap:updatable="false" sap:sortable="false"/><NavigationProperty Name="toForwSuper" Relationship="ZMD_PRODUCT_FS_SRV.BackToForw" FromRole="FromRole_BackToForw"
+					sap:updatable="false" sap:sortable="false"/><NavigationProperty Name="toForwSuper" Relationship="ZMD_PRODUCT_OP_SRV.BackToForw" FromRole="FromRole_BackToForw"
 					ToRole="ToRole_BackToForw"/></EntityType>
 			<EntityType Name="zc_Quantity" sap:content-version="1">
 				<Key><PropertyRef Name="Matnr"/></Key><Property Name="Matnr" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Material" sap:creatable="false"
@@ -45,7 +45,7 @@
 					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Denominator" Type="Edm.Decimal" Nullable="false" Precision="5" Scale="0" sap:unicode="false" sap:label="Denominator"
 					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
 			<EntityType Name="zc_Price" sap:content-version="1">
-				<Key><PropertyRef Name="AddlData"/><PropertyRef Name="Customer"/><PropertyRef Name="DisChannel"/><PropertyRef Name="Division"/><PropertyRef Name="LanguageKey"/><PropertyRef Name="Matnr"/><PropertyRef Name="Plant"/><PropertyRef Name="SalesDocType"/><PropertyRef Name="SalesOrg"/></Key><Property Name="Item" Type="ZMD_PRODUCT_FS_SRV.Item" Nullable="false"/><Property Name="ZPartsPricing" Type="ZMD_PRODUCT_FS_SRV.ZPartsPricing" Nullable="false"/><Property Name="AddlData" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="INd.: Additional data present"
+				<Key><PropertyRef Name="AddlData"/><PropertyRef Name="Customer"/><PropertyRef Name="DisChannel"/><PropertyRef Name="Division"/><PropertyRef Name="LanguageKey"/><PropertyRef Name="Matnr"/><PropertyRef Name="Plant"/><PropertyRef Name="SalesDocType"/><PropertyRef Name="SalesOrg"/></Key><Property Name="Item" Type="ZMD_PRODUCT_OP_SRV.Item" Nullable="false"/><Property Name="ZPartsPricing" Type="ZMD_PRODUCT_OP_SRV.ZPartsPricing" Nullable="false"/><Property Name="AddlData" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="INd.: Additional data present"
 					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Customer" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Customer" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="DisChannel" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Distr. Channel"
 					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Division" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Division" sap:creatable="false"
@@ -126,20 +126,20 @@
 				sap:updatable="false" sap:sortable="false" sap:filterable="false"/></ComplexType>
 			<ComplexType Name="ZPartsPricing"><Property Name="Subrc" Type="Edm.Int32" Nullable="false" sap:label="Return Code" sap:creatable="false" sap:updatable="false"
 				sap:sortable="false" sap:filterable="false"/></ComplexType>
-			<Association Name="BackToForw" sap:content-version="1"><End Type="ZMD_PRODUCT_FS_SRV.zc_BackSuper" Multiplicity="0..1" Role="FromRole_BackToForw"/><End Type="ZMD_PRODUCT_FS_SRV.zc_ForwSuper" Multiplicity="*" Role="ToRole_BackToForw"/>
+			<Association Name="BackToForw" sap:content-version="1"><End Type="ZMD_PRODUCT_OP_SRV.zc_BackSuper" Multiplicity="0..1" Role="FromRole_BackToForw"/><End Type="ZMD_PRODUCT_OP_SRV.zc_ForwSuper" Multiplicity="*" Role="ToRole_BackToForw"/>
 				<ReferentialConstraint>
 					<Principal Role="FromRole_BackToForw"><PropertyRef Name="SalesOrg"/><PropertyRef Name="SalesDocType"/><PropertyRef Name="Plant"/><PropertyRef Name="Matnr"/><PropertyRef Name="LanguageKey"/><PropertyRef Name="Division"/><PropertyRef Name="DisChannel"/><PropertyRef Name="Customer"/></Principal>
 					<Dependent Role="ToRole_BackToForw"><PropertyRef Name="SalesOrg"/><PropertyRef Name="SalesDocType"/><PropertyRef Name="Plant"/><PropertyRef Name="Matnr"/><PropertyRef Name="LanguageKey"/><PropertyRef Name="Division"/><PropertyRef Name="DisChannel"/><PropertyRef Name="Customer"/></Dependent>
 				</ReferentialConstraint>
 			</Association>
-			<EntityContainer Name="ZMD_PRODUCT_FS_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx"><EntitySet Name="zc_BackSuperSet" EntityType="ZMD_PRODUCT_FS_SRV.zc_BackSuper" sap:creatable="false" sap:updatable="false"
-				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="zc_QuantitySet" EntityType="ZMD_PRODUCT_FS_SRV.zc_Quantity" sap:creatable="false" sap:updatable="false"
-				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="zc_AlternateuomSet" EntityType="ZMD_PRODUCT_FS_SRV.zc_Alternateuom" sap:creatable="false" sap:updatable="false"
-				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="zc_PriceSet" EntityType="ZMD_PRODUCT_FS_SRV.zc_Price" sap:creatable="false" sap:updatable="false" sap:deletable="false"
-				sap:pageable="false" sap:content-version="1"/><EntitySet Name="zc_ForwSuperSet" EntityType="ZMD_PRODUCT_FS_SRV.zc_ForwSuper" sap:creatable="false" sap:updatable="false"
+			<EntityContainer Name="ZMD_PRODUCT_OP_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx"><EntitySet Name="zc_BackSuperSet" EntityType="ZMD_PRODUCT_OP_SRV.zc_BackSuper" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="zc_QuantitySet" EntityType="ZMD_PRODUCT_OP_SRV.zc_Quantity" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="zc_AlternateuomSet" EntityType="ZMD_PRODUCT_OP_SRV.zc_Alternateuom" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="zc_PriceSet" EntityType="ZMD_PRODUCT_OP_SRV.zc_Price" sap:creatable="false" sap:updatable="false" sap:deletable="false"
+				sap:pageable="false" sap:content-version="1"/><EntitySet Name="zc_ForwSuperSet" EntityType="ZMD_PRODUCT_OP_SRV.zc_ForwSuper" sap:creatable="false" sap:updatable="false"
 				sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
-				<AssociationSet Name="BackToForwSet" Association="ZMD_PRODUCT_FS_SRV.BackToForw" sap:creatable="false" sap:updatable="false"
+				<AssociationSet Name="BackToForwSet" Association="ZMD_PRODUCT_OP_SRV.BackToForw" sap:creatable="false" sap:updatable="false"
 					sap:deletable="false" sap:content-version="1"><End EntitySet="zc_BackSuperSet" Role="FromRole_BackToForw"/><End EntitySet="zc_ForwSuperSet" Role="ToRole_BackToForw"/></AssociationSet>
-			</EntityContainer><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="./sap/ZMD_PRODUCT_FS_SRV/$metadata"/><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version" href="./sap/ZMD_PRODUCT_FS_SRV/$metadata"/></Schema>
+			</EntityContainer><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="./sap/ZMD_PRODUCT_OP_SRV/$metadata"/><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version" href="./sap/ZMD_PRODUCT_OP_SRV/$metadata"/></Schema>
 	</edmx:DataServices>
 </edmx:Edmx>
