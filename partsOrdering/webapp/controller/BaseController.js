@@ -1093,9 +1093,7 @@ sap.ui.define([
 			var bModel = this.getApiBPModel();
 			bModel.read('/A_BusinessPartner', {
 				filters: oFilter,
-				  headers:{
-						 "Accept-Encoding": "gzip,deflate"
-						 },
+				
 				urlParameters: {
 					// "$select": "BusinessPartnerType,BusinessPartner,BusinessPartnerName"
 					"$expand": "to_Customer"
