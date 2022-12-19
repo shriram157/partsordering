@@ -153,7 +153,8 @@
 					"json": true,
 					"useBatch": true,
 					"headers": {
-						"X-Requested-With": "XMLHttpRequest"
+						"X-Requested-With": "XMLHttpRequest",
+						"Accept-Encoding": "gzip,deflate"
 					}
 				},
 				"dataSource": "API_BUSINESS_PARTNER",
