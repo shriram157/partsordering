@@ -13,8 +13,9 @@ instance.first.use((req, res, next) => {
 		req.loggingContext.enableNetworkLog(res);
 	}
 	console.log("Headers Before"+ JSON.stringify(req.headers));
-	if(req.headers["Accept-Encoding"].includes(", br")){
-		req.headers["Accept-Encoding"].replace(", br","");
+	
+	if(req.headers["accept-encoding"] && req.headers["accept-encoding"].includes(", br")){
+		req.headers["accept-encoding"].replace(", br","");
 		
 	}
 	console.log("Headers After"+ JSON.stringify(req.headers));
