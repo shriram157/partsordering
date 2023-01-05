@@ -95,8 +95,11 @@ sap.ui.define([], function () {
 
 		getMaterialById: function (id, callback) {
 			var bModel = this.getProductModel();
-			var key = bModel.createKey('/C_Product_Fs', {
-				'Material': id
+			var DraftId="00000000-0000-0000-0000-000000000000"; // added by ReddyVi - defect #17564
+			var key = bModel.createKey('/C_Product', {
+				'Product': id,
+				"DraftUUID": "guid"+ DraftId,
+				"IsActiveEntity":true
 			});
 			bModel.read(key, {
 				urlParameters: {

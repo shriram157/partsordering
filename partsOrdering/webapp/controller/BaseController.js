@@ -735,15 +735,17 @@ sap.ui.define([
 		getMaterialDesc: function (material, index, callback) {
 			var bModel = this.getProductModel();
 			var lan = this.getSapLangugaeFromLocal();
-			var key = bModel.createKey('/I_MaterialText', {
-				'Material': material,
-				"Language": lan
+			var DraftId="00000000-0000-0000-0000-000000000000"; // added by ReddyVi - defect #17564
+			var key = bModel.createKey('/C_Product', {
+				'Product': material,
+				"DraftUUID": "guid"+ DraftId,
+				"IsActiveEntity":true
 			});
 			bModel.read(key, {
 				urlParameters: {},
 				success: function (oData, oResponse) {
 					if (!!oData) {
-						callback(index, oData.MaterialName);
+						callback(index, oData.ProductDescription);
 					} else {
 						callback(index, null);
 					}
@@ -756,8 +758,11 @@ sap.ui.define([
 
 		getMaterialById: function (id, callback) {
 			var bModel = this.getProductModel();
-			var key = bModel.createKey('/C_Product_Fs', {
-				'Material': id
+			var DraftId="00000000-0000-0000-0000-000000000000"; // added by ReddyVi - defect #17564
+			var key = bModel.createKey('/C_Product', {
+				'Product': id,
+				"DraftUUID": "guid"+ DraftId,
+				"IsActiveEntity":true
 			});
 			bModel.read(key, {
 				urlParameters: {
@@ -823,9 +828,12 @@ sap.ui.define([
 
 		getZMaterialById: function (id, callback) {
 			var bModel = this.getZProductModel();
+			var DraftId="00000000-0000-0000-0000-000000000000"; // added by ReddyVi - defect #17564
 			var oFilter = new Array();
-			var key = bModel.createKey('/C_Product_Fs', {
-				'Material': id
+			var key = bModel.createKey('/ C_Product', {
+				'Product': id,
+				"DraftUUID": "guid"+ DraftId,
+				"IsActiveEntity":true
 			});
 			bModel.read(key, {
 				urlParameters: {
@@ -2258,7 +2266,7 @@ sap.ui.define([
 								// step one if finished 
 								stepsContorl[2] = true;
 								if (!!data) {
-									cacheDataItem.partDesc = data.MaterialName;
+									cacheDataItem.partDesc = data.ProductDescription;
 
 									if ('ZLOC' === lv_orderType) {
 										var infoRecord = null;
@@ -2461,7 +2469,7 @@ sap.ui.define([
 						stepsContorl[0] = true;
 						if (!!data) {
 							cacheDataItem.division = data.Division;
-							cacheDataItem.partDesc = data.MaterialName;
+							cacheDataItem.partDesc = data.ProductDescription;
 
 							// find the infoReord
 							var infoRecord = null;

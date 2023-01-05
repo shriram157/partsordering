@@ -426,13 +426,19 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 				aFilters.push(new sap.ui.model.Filter("Material", sap.ui.model.FilterOperator.Contains, sTerm));
 				//aFilters.push(new sap.ui.model.Filter("LanguageKey", sap.ui.model.FilterOperator.EQ, this.sLang));
+				/* ReddyVi - defect #17564 start of changes */
+				var sFilters=[];
+				sFilters.push(new sap.ui.model.Filter("Product", sap.ui.model.FilterOperator.StartsWith, sTerm));
+	            sFilters.push( new sap.ui.model.Filter("IsActiveEntity", sap.ui.model.FilterOperator.EQ, true)); 
+            	/* ReddyVi - defect #17564 end of changes */
 
 				var bModel = this.getProductModel();
 
-				bModel.read("/I_MaterialText", {
-					urlParameters: {
-						"$filter": "startswith(Material," + "'" + (sTerm) + "')"
-					},
+				bModel.read("/C_Product", {
+					// urlParameters: {
+					// 	"$filter": "startswith(Material," + "'" + (sTerm) + "')"
+					// },
+					filters:sFilters,
 					success: $.proxy(function (oData) {
 						var Matsuggestions = [];
 						sap.ui.core.BusyIndicator.hide();
@@ -440,12 +446,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						//set the model materialSuggestionModel
 
 						$.each(oData.results, function (i, item) {
-							if (item.Language == language) {
+							// if (item.Language == language) { //ReddyVi Defect #17564 changes
 								Matsuggestions.push({
-									"Material": item.Material,
-									"MaterialName": item.MaterialName
+									"Material": item.Product,
+									"MaterialName": item.ProductDescription
 								});
-							}
+							// }
 						});
 
 						this._materialSuggestionModel.setProperty("/Matsuggestions", Matsuggestions);
