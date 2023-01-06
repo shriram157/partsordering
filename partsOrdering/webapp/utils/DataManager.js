@@ -98,7 +98,7 @@ sap.ui.define([], function () {
 			var DraftId="00000000-0000-0000-0000-000000000000"; // added by ReddyVi - defect #17564
 			var key = bModel.createKey('/C_Product', {
 				'Product': id,
-				"DraftUUID": "guid"+ DraftId,
+				"DraftUUID": DraftId,
 				"IsActiveEntity":true
 			});
 			bModel.read(key, {
