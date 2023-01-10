@@ -2,8 +2,8 @@
 	<Bar class="sapUiSmallPaddingBeginEnd clCustomHeaderBg">
 		<contentLeft>
 			<!--<Image id="idLogo" src="images/Lexus_EN.png" width="100px"/>-->
-		<Image id="idLogo" src="{/userProfile/logoImage}" width="100px"/>
-			<Text text="|" class="sapUiTinyMarginBeginEnd"/>
+		<!--<Image id="idLogo" src="{/userProfile/logoImage}" width="100px"/>-->
+		<!--	<Text text="|" class="sapUiTinyMarginBeginEnd"/>--><!-- changes by swetha for U42 replication same as QA-->
 			<Text class="clCustomFont" text="{i18n>appTitle}"/>
 		</contentLeft>
 	</Bar>	
