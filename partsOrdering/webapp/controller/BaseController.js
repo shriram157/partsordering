@@ -1571,8 +1571,8 @@ sap.ui.define([
 
 			}
 			// //changes by swetha for U42 replication as same as QA
-			// var aLanFilter = new sap.ui.model.Filter("Language", sap.ui.model.FilterOperator.EQ,sap.ui.getCore().getConfiguration().getLanguage());
-			// 		oFilter.push(aLanFilter); // changes by ReddyVi -- for defect #17564 for avoiding date range issue
+			 var aLanFilter = new sap.ui.model.Filter("Language", sap.ui.model.FilterOperator.EQ,sap.ui.getCore().getConfiguration().getLanguage());
+			 		oFilter.push(aLanFilter); // changes by ReddyVi -- for defect #17564 for avoiding date range issue
 			bModel.read('/find_soSet', {
 				urlParameters: {
 					//     		 			"$select": "PurchasingOrganization,PurchasingGroup,Supplier,PurchaseOrderType,ZZ1_DealerCode_PDH,ZZ1_DealerOrderNum_PDH,DraftUUID,DraftEntityCreationDateTime,DraftEntityLastChangeDateTime,to_PurchaseOrderItemTP",
