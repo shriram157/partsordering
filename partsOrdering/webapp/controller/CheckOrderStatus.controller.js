@@ -791,11 +791,16 @@ sap.ui.define([
 
 					if (month < 10) {
 						month = "0" + month;
+					}else
+					{
+						month=""+month;
 					}
 					var day = date.getDate();
 
 					if (day < 10) {
 						day = "0" + day;
+					}else{
+							day = "" + day;
 					}
 					conditions.toOrderDate = year + month + day;
 					viewModel.setProperty("/filters/toOrderDate", year + month + day);
@@ -804,7 +809,10 @@ sap.ui.define([
 
 					if (month < 10) {
 						month = "0" + month;
-					};
+					}else
+					{
+						month=""+month;
+					}
 					year = date.getFullYear();
 					conditions.fromOrderDate = year + month + day;
 					viewModel.setProperty("/filters/fromOrderDate", year + month + day);
