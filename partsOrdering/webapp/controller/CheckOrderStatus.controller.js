@@ -787,7 +787,7 @@ sap.ui.define([
 				} else if (conditions.fromOrderDate === "" && conditions.toOrderDate === "") {
 					var date = new Date();
 					var year = date.getFullYear();
-					var month = date.getMonth();
+					var month = date.getMonth()+1;
 
 					if (month < 10) {
 						month = "0" + month;
@@ -801,7 +801,7 @@ sap.ui.define([
 					} else {//INC0226537 start
 						day = "" + day;
 					}//INC0226537 end
-					conditions.toOrderDate = year +(month+1) + day;
+					conditions.toOrderDate = year + month + day;
 					viewModel.setProperty("/filters/toOrderDate", year + month + day);
 				//	date.setMonth(month - 3);
 				//	month = date.getMonth();
@@ -819,7 +819,7 @@ sap.ui.define([
 					// 	month = "" + month;
 					// }//INC0226537 end
 					year = date.getFullYear();
-					conditions.fromOrderDate = year + (month+1) + day;
+					conditions.fromOrderDate = year + month + day;
 					viewModel.setProperty("/filters/fromOrderDate", year + month + day);
 
 				}
