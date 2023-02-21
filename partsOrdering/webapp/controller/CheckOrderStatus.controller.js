@@ -791,28 +791,33 @@ sap.ui.define([
 
 					if (month < 10) {
 						month = "0" + month;
-					}else
-					{
-						month=""+month;
-					}
+					} else {//INC0226537 	Parts Order Status - Default To date is not in the correct format after a search  Shriram 9-Feb-2023 Start
+						month = "" + month;
+					}//INC0226537 End
 					var day = date.getDate();
 
 					if (day < 10) {
 						day = "0" + day;
-					}else{
-							day = "" + day;
-					}
+					} else {//INC0226537 start
+						day = "" + day;
+					}//INC0226537 end
 					conditions.toOrderDate = year + month + day;
 					viewModel.setProperty("/filters/toOrderDate", year + month + day);
-					date.setMonth(month - 3);
-					month = date.getMonth();
+				//	date.setMonth(month - 3);
+				//	month = date.getMonth();
+			    	date.setDate(date.getDate() - 15);
+					day = date.getDate();
+						if (day < 10) {
+						day = "0" + day;
+					} else {//INC0226537 start
+						day = "" + day;
+					}//INC0226537 end
 
-					if (month < 10) {
-						month = "0" + month;
-					}else
-					{
-						month=""+month;
-					}
+					// if (month < 10) {
+					// 	month = "0" + month;
+					// } else {//INC0226537 start
+					// 	month = "" + month;
+					// }//INC0226537 end
 					year = date.getFullYear();
 					conditions.fromOrderDate = year + month + day;
 					viewModel.setProperty("/filters/fromOrderDate", year + month + day);
