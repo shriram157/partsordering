@@ -787,7 +787,7 @@ sap.ui.define([
 				} else if (conditions.fromOrderDate === "" && conditions.toOrderDate === "") {
 					var date = new Date();
 					var year = date.getFullYear();
-					var month = date.getMonth()+1;
+					var month = date.getMonth()+1;// INC0226537  Since in UI always show one month less,+1 added here    changes by shriram
 
 					if (month < 10) {
 						month = "0" + month;
@@ -803,7 +803,7 @@ sap.ui.define([
 					}//INC0226537 end
 					conditions.toOrderDate = year + month + day;
 					viewModel.setProperty("/filters/toOrderDate", year + month + day);
-				//	date.setMonth(month - 3);
+				//	date.setMonth(month - 3);// INC0226537  Functionals want only 15 days difference, not 3 months
 				//	month = date.getMonth();
 			    	date.setDate(date.getDate() - 15);
 					day = date.getDate();
