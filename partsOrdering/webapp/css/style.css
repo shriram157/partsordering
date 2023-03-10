@@ -172,10 +172,11 @@
     font-size: 10rem;
 }
 
-.sapMOHR .sapMOHRAttr .CLattributetext .sapMObjectAttributeText {
+.sapMOHR .sapMOHRBgTransparent .sapMOHRAttr .CLattributetext .sapMObjectAttributeText {
     white-space: pre-wrap;
     word-wrap: break-word;
     text-overflow: clip;
+    max-width:60%;
 }
 .sapUiFormTitleH5 {
     line-height: 0!important;
@@ -185,5 +186,8 @@
 
 .clDisableStatus .sapMSLI:nth-child(5) {
     display: none;
+}
+span#__attribute0-title {
+    max-width: 60%;
 }
 /* Enter your custom styles here */
