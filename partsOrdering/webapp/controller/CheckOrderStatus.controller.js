@@ -819,14 +819,14 @@ sap.ui.define([
 					// 	month = "" + month;
 					// }//INC0226537 end
 					year = date.getFullYear();
-					conditions.fromOrderDate = year + month + day;
+				//	conditions.fromOrderDate = year + month + day;
 					var nowDate = new Date();
 					var timelong = nowDate.getTime() - (15 * 1000 * 60 * 60 * 24);
 					var fromDate = new Date(timelong);
 					var dateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
 						pattern: "yyyyMMdd"
 					});
-
+                    conditions.fromOrderDate = dateFormat.format(fromDate);
 					viewModel.setProperty("/filters/fromOrderDate", dateFormat.format(fromDate));
 					//	viewModel.setProperty("/filters/fromOrderDate", year + month + day);
 
