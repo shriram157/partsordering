@@ -787,31 +787,31 @@ sap.ui.define([
 				} else if (conditions.fromOrderDate === "" && conditions.toOrderDate === "") {
 					var date = new Date();
 					var year = date.getFullYear();
-					var month = date.getMonth()+1;// INC0226537  Since in UI always show one month less,+1 added here    changes by shriram
+					var month = date.getMonth() + 1; // INC0226537  Since in UI always show one month less,+1 added here    changes by shriram
 
 					if (month < 10) {
 						month = "0" + month;
-					} else {//INC0226537 	Parts Order Status - Default To date is not in the correct format after a search  Shriram 9-Feb-2023 Start
+					} else { //INC0226537 	Parts Order Status - Default To date is not in the correct format after a search  Shriram 9-Feb-2023 Start
 						month = "" + month;
-					}//INC0226537 End
+					} //INC0226537 End
 					var day = date.getDate();
 
 					if (day < 10) {
 						day = "0" + day;
-					} else {//INC0226537 start
+					} else { //INC0226537 start
 						day = "" + day;
-					}//INC0226537 end
+					} //INC0226537 end
 					conditions.toOrderDate = year + month + day;
 					viewModel.setProperty("/filters/toOrderDate", year + month + day);
-				//	date.setMonth(month - 3);// INC0226537  Functionals want only 15 days difference, not 3 months
-				//	month = date.getMonth();
-			    	date.setDate(date.getDate() - 15);
+					//	date.setMonth(month - 3);// INC0226537  Functionals want only 15 days difference, not 3 months
+					//	month = date.getMonth();
+					date.setDate(date.getDate() - 15);
 					day = date.getDate();
-						if (day < 10) {
+					if (day < 10) {
 						day = "0" + day;
-					} else {//INC0226537 start
+					} else { //INC0226537 start
 						day = "" + day;
-					}//INC0226537 end
+					} //INC0226537 end
 
 					// if (month < 10) {
 					// 	month = "0" + month;
@@ -819,8 +819,16 @@ sap.ui.define([
 					// 	month = "" + month;
 					// }//INC0226537 end
 					year = date.getFullYear();
-					conditions.fromOrderDate = year + month + day;
-					viewModel.setProperty("/filters/fromOrderDate", year + month + day);
+				//	conditions.fromOrderDate = year + month + day;
+					var nowDate = new Date();
+					var timelong = nowDate.getTime() - (15 * 1000 * 60 * 60 * 24);
+					var fromDate = new Date(timelong);
+					var dateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
+						pattern: "yyyyMMdd"
+					});
+                    conditions.fromOrderDate = dateFormat.format(fromDate);
+					viewModel.setProperty("/filters/fromOrderDate", dateFormat.format(fromDate));
+					//	viewModel.setProperty("/filters/fromOrderDate", year + month + day);
 
 				}
 
