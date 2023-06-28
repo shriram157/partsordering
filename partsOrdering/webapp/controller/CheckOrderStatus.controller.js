@@ -27,7 +27,7 @@ sap.ui.define([
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			oRouter.getRoute("CheckOrderStatus").attachPatternMatched(this._onObjectMatched, this);
 
-			// default mode
+			//default mode
 			// var appStateModel = this.getStateModel();
 			// this.getView().setModel(appStateModel);
 			// default mode
