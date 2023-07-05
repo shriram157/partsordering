@@ -294,7 +294,7 @@ sap.ui.define([
 			sap.ui.getCore().setModel(model, "UserTypesSelectionModel");
 		},
 
-		// parts section 
+		//parts section 
 		getPartCacheData: function () {
 			var model = this.getOwnerComponent().getModel(CONST_PARTS_CACHE);
 			if (!!model) {
