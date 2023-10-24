@@ -1,4 +1,4 @@
-/*global history */
+/* global history */
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/ui/core/routing/History",
@@ -294,7 +294,7 @@ sap.ui.define([
 			sap.ui.getCore().setModel(model, "UserTypesSelectionModel");
 		},
 
-		// parts section 
+		//parts section 
 		getPartCacheData: function () {
 			var model = this.getOwnerComponent().getModel(CONST_PARTS_CACHE);
 			if (!!model) {
