@@ -3244,6 +3244,7 @@ sap.ui.define([
 
 			oFilter[0] = new sap.ui.model.Filter("dealer_code", sap.ui.model.FilterOperator.EQ, dealerCode);
 			if (!!exactMode) {
+				oFilter.push(new sap.ui.model.Filter("erdat", sap.ui.model.FilterOperator.BT, conditions.fromOrderDate, conditions.toOrderDate));//changes by swetha for INC0242808 on 27th Oct
 				if (!!conditions.tciOrderNumber) {
 					oFilter.push(new sap.ui.model.Filter("TCI_order_no", sap.ui.model.FilterOperator.EQ, conditions.tciOrderNumber.padStart(10,
 						'0')));
@@ -3296,8 +3297,7 @@ sap.ui.define([
 					oFilter.push(aFilter);
 				}
 			}
-			var aLanFilter = new sap.ui.model.Filter("Language", sap.ui.model.FilterOperator.EQ,sap.ui.getCore().getConfiguration().getLanguage());
-			 		oFilter.push(aLanFilter);                            //changes by Swetha on 27th Oct, 2023 for date range
+			
 			bModel.read('/find_poSet', {
 				urlParameters: {
 					//		"$select": "PurchaseOrder,CompanyCode,PurchasingOrganization,PurchasingGroup,Supplier,DocumentCurrency,PurchaseOrderStatus,PurchaseOrderNetAmount,PurchaseOrderType,CreationDate,ZZ1_DealerCode_PDH,ZZ1_AppSource_PDH,ZZ1_DealerOrderNum_PDH,CreatedByUser",
