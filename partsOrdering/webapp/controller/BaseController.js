@@ -3302,7 +3302,7 @@ sap.ui.define([
 				urlParameters: {
 					//		"$select": "PurchaseOrder,CompanyCode,PurchasingOrganization,PurchasingGroup,Supplier,DocumentCurrency,PurchaseOrderStatus,PurchaseOrderNetAmount,PurchaseOrderType,CreationDate,ZZ1_DealerCode_PDH,ZZ1_AppSource_PDH,ZZ1_DealerOrderNum_PDH,CreatedByUser",
 					"$expand": "POtoDeliv",
-					"$orderby": "erdat,deliv_no"       //changes by swetha for INC0242808 on 2nd Nov, 2023
+					"$orderby": "erdat"       //changes by swetha for INC0242808 on 2nd Nov, 2023
 				},
 				filters: oFilter,
 				success: function (oData, oResponse) {
