@@ -23,7 +23,11 @@ xmlns:core="sap.ui.core"  xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout" xm
 									}">
 									<!-->sorter: { path: 'name' }</-->
 									<core:Item key="{orderTypeListModel>code}" text="{orderTypeListModel>name}" />
-								</Select>									
+								</Select>
+								<!-- changes by Swetha for DMND0004095 for CPOR checkbox on 21st Dec, 2023   Start-->
+								<Label text="{i18n>CPORCB}"/>
+								<CheckBox select='toggleSelect' id="CPORCB" wrapping="false" selected="" visible="false" enabled="false" class="sapUiNoContentPadding"/>
+								<!-- changes by Swetha for DMND0004095 for CPOR checkbox on 21st Dec, 2023   End-->
 								<Label text="{i18n>Label.StartOrdering.Order.ID}" labelFor='orderNumberInput' />
 								<Input  width="100%" required="true" type='Text' id='orderNumberInput'
 									value="{

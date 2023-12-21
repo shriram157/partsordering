@@ -100,12 +100,17 @@ sap.ui.define([
 						var dlrFlag = that.getOwnerComponent().getModel("LocalDataModel").getProperty("/salesdocData/dealercheckflag");
 						if(dlrFlag === "X"){
 							that.getView().getModel().setProperty("/selectedOrderMeta/typeB", false);
+							
 						}else{
 							that.getView().getModel().setProperty('/selectedOrderMeta/typeB', true);
 						}
 					
 					}
-
+					//changes by swetha for DMND0004095 CPOR Check box
+					if (dealerType=="04" || zGroup=="Z004"){
+						that.getView().byId("CPORCB").setvisible(false);
+					}
+					//changes by swetha for DMND0004095 CPOR Check box
 					// get the user type
 					//Debugging
 					//userProfile.userType = "Dealer";
