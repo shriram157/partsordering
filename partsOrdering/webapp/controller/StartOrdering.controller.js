@@ -108,7 +108,7 @@ sap.ui.define([
 					}
 					//changes by swetha for DMND0004095 CPOR Check box
 					if (dealerType=="04" || zGroup=="Z004"){
-						that.byId("CPORCB").setvisible(false);
+						that.byId("CPORCB").setVisible(false);
 					}
 					//changes by swetha for DMND0004095 CPOR Check box
 					// get the user type
