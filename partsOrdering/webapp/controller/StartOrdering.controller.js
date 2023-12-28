@@ -227,7 +227,8 @@ sap.ui.define([
 
 			var orderNumber = vModel.getProperty('/selectedOrderMeta/order_id');
 			var orderType = vModel.getProperty('/selectedOrderMeta/order_type');
-	
+			
+			var CPORCB = event.getParameter("selected");	
 
 			var hasError = false;
 			//				if (!!!orderNumber || orderNumber.length < 5 || orderNumber.length >40){
@@ -245,8 +246,8 @@ sap.ui.define([
 				return false;
 			} 
 			//changes by swetha for DMND0004095 on 28th Dec, 2023 start
-			else if (event.getParameter("selected")==true) {
-				if (orderType=="1" || orderType=="2") {
+			else if ( orderType=="1" || orderType=="2") {
+				if (CPORCB==true) {
 					if (!this._oDialog) {
 						this._oDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.StandardRustCPOR", this);
 						this.getView().addDependent(this._oDialog);
