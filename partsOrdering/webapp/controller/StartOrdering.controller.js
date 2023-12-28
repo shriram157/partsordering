@@ -243,14 +243,42 @@ sap.ui.define([
 			}
 			if (hasError) {
 				return false;
-			} else {
+			} 
+			//changes by swetha for DMND0004095 on 28th Dec, 2023 start
+			else if (event.getParameter("selected")==true) {
+				if (orderType=="1" || orderType=="2") {
+					if (!this._oDialog) {
+						this._oDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.StandardRustCPOR", this);
+						this.getView().addDependent(this._oDialog);
+					}
+				} else {
+					if (!this._oDialog) {
+						this._oDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.CampaignCPOR", this);
+						this.getView().addDependent(this._oDialog);
+					}
+				}
+				
+			} 
+			//changes by swetha for DMND0004095 on 28th Dec, 2023 end
+			else{
 				sap.ui.getCore().getMessageManager().removeAllMessages();
 				
 				this.getRouter().navTo("CreateOrder", {
 					orderNum: orderNumber,
 					orderType: orderType
-				});
+				});	
 			}
 		}
+		//changes by swetha for DMND0004095 on 28th Dec, 2023 Start
+		// onCheck: function(oCheck){
+		// 	var vModel = this.getView().getModel();
+
+		// 	var orderNumber = vModel.getProperty('/selectedOrderMeta/order_id');
+		// 	var orderType = vModel.getProperty('/selectedOrderMeta/order_type');
+		// 	if(oCheck.getParameter("selected")==true){
+		// 		if (orderType=="1" || orderType=="2")
+		// 	}
+		// }
+		//changes by swetha for DMND0004095 on 28th Dec, 2023 End
 	});
 });
