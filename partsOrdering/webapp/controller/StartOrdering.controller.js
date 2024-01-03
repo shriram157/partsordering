@@ -252,17 +252,18 @@ sap.ui.define([
 					if (!this._oDialog) {
 						this._oDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.StandardRushCPOR", this);
 						this.getView().addDependent(this._oDialog);
+						this._oDialog.open();
 					}
-				} else {
-					if (!this._oDialog) {
-						this._oDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.CampaignCPOR", this);
-						this.getView().addDependent(this._oDialog);
-					}
-				}
+				// 	else {
+				// 	if (!this._oDialog) {
+				// 		this._oDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.CampaignCPOR", this);
+				// 		this.getView().addDependent(this._oDialog);
+				// 	}
+				// }
 				
 			} 
 			//changes by swetha for DMND0004095 on 28th Dec, 2023 end
-			else{
+			} else{
 				sap.ui.getCore().getMessageManager().removeAllMessages();
 				
 				this.getRouter().navTo("CreateOrder", {
