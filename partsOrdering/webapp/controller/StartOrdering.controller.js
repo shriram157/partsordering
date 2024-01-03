@@ -96,18 +96,18 @@ sap.ui.define([
 					appStateModel.setProperty('/selectedBP/bpType', dealerType);
 					appStateModel.setProperty('/selectedBP/bpGroup', zGroup);
 					//DMND0003534 changes done by Minakshi
-					if(dealerType == "04"){
+					if (dealerType == "04") {
 						var dlrFlag = that.getOwnerComponent().getModel("LocalDataModel").getProperty("/salesdocData/dealercheckflag");
-						if(dlrFlag === "X"){
+						if (dlrFlag === "X") {
 							that.getView().getModel().setProperty("/selectedOrderMeta/typeB", false);
-							
-						}else{
+
+						} else {
 							that.getView().getModel().setProperty('/selectedOrderMeta/typeB', true);
 						}
-					
+
 					}
 					//changes by swetha for DMND0004095 CPOR Check box
-					if (dealerType=="04" || zGroup=="Z004"){
+					if (dealerType == "04" || zGroup == "Z004") {
 						that.byId("CPORCB").setVisible(false);
 					}
 					//changes by swetha for DMND0004095 CPOR Check box
@@ -222,66 +222,60 @@ sap.ui.define([
 		},
 
 		onCreateOrder: function (event) {
-			var resourceBundle = this.getResourceBundle();
-			var vModel = this.getView().getModel();
+				var resourceBundle = this.getResourceBundle();
+				var vModel = this.getView().getModel();
 
-			var orderNumber = vModel.getProperty('/selectedOrderMeta/order_id');
-			var orderType = vModel.getProperty('/selectedOrderMeta/order_type');
-			
-		//	var CPORCB = event.getParameter("selected");	
+				var orderNumber = vModel.getProperty('/selectedOrderMeta/order_id');
+				var orderType = vModel.getProperty('/selectedOrderMeta/order_type');
 
-			var hasError = false;
-			var CPORCB = this.getView().byId("CPORCB").getSelected();
-			//				if (!!!orderNumber || orderNumber.length < 5 || orderNumber.length >40){
-			if (!!!orderNumber) {
-				this.orderNumberField.setValue(" ");
-				hasError = true;
-			}
+				//	var CPORCB = event.getParameter("selected");	
 
-			if (!!!orderType) {
-				this.orderTypeField.setValueState(sap.ui.core.ValueState.Error);
-				this.orderTypeField.setValueStateText(resourceBundle.getText('Error.noOrderType'));
-				hasError = true;
-			}
-			if (hasError) {
-				return false;
-			} 
-			//changes by swetha for DMND0004095 on 28th Dec, 2023 start
-			else if (orderType=="1" || orderType=="2") {
-				if (CPORCB==true) {
-					if (!this._oDialog) {
-						this._oDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.StandardRushCPOR", this);
-						this.getView().addDependent(this._oDialog);
-						this._oDialog.open();
+				var hasError = false;
+				var CPORCB = this.getView().byId("CPORCB").getSelected();
+				//				if (!!!orderNumber || orderNumber.length < 5 || orderNumber.length >40){
+				if (!!!orderNumber) {
+					this.orderNumberField.setValue(" ");
+					hasError = true;
+				}
+
+				if (!!!orderType) {
+					this.orderTypeField.setValueState(sap.ui.core.ValueState.Error);
+					this.orderTypeField.setValueStateText(resourceBundle.getText('Error.noOrderType'));
+					hasError = true;
+				}
+				if (hasError) {
+					return false;
+				}
+				//changes by swetha for DMND0004095 on 28th Dec, 2023 start
+				else if (CPORCB == true) {
+					if (orderType == "1" || orderType == "2") {
+						if (!this._oDialog) {
+							this._oDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.StandardRushCPOR", this);
+							this.getView().addDependent(this._oDialog);
+							this._oDialog.open();
+						} else {
+							if (!this._oDialog) {
+								this._oDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.CampaignCPOR", this);
+								this.getView().addDependent(this._oDialog);
+							}
+						}
+
 					}
-				// 	else {
-				// 	if (!this._oDialog) {
-				// 		this._oDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.CampaignCPOR", this);
-				// 		this.getView().addDependent(this._oDialog);
-				// 	}
-				// }
-				
-			} 
-			//changes by swetha for DMND0004095 on 28th Dec, 2023 end
-			} else{
-				sap.ui.getCore().getMessageManager().removeAllMessages();
-				
-				this.getRouter().navTo("CreateOrder", {
-					orderNum: orderNumber,
-					orderType: orderType
-				});	
-			}
-		}
-		//changes by swetha for DMND0004095 on 28th Dec, 2023 Start
-		// onCheck: function(oCheck){
-		// 	var vModel = this.getView().getModel();
+					
+				} else {
+					sap.ui.getCore().getMessageManager().removeAllMessages();
 
-		// 	var orderNumber = vModel.getProperty('/selectedOrderMeta/order_id');
-		// 	var orderType = vModel.getProperty('/selectedOrderMeta/order_type');
-		// 	if(oCheck.getParameter("selected")==true){
-		// 		if (orderType=="1" || orderType=="2")
-		// 	}
-		// }
+					this.getRouter().navTo("CreateOrder", {
+						orderNum: orderNumber,
+						orderType: orderType
+					});
+				}
+			},
+			onDialogClose: function (oEvent) {
+				this._oDialog.close();
+			},
+			//changes by swetha for DMND0004095 on 28th Dec, 2023 Start
+			
 		//changes by swetha for DMND0004095 on 28th Dec, 2023 End
 	});
 });

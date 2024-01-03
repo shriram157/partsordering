@@ -1,0 +1,6 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<Dialog title="Campaign CPOR" contentWidth="1152px" contentHeight="70%" verticalScrolling='true' resizable="true"
+		draggable="true" horizontalScrolling = 'true'>
+		<Button text="Close" press='onDialogClose'/>
+	</Dialog>
+</core:FragmentDefinition>
