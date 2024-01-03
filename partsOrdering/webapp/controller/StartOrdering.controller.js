@@ -250,7 +250,7 @@ sap.ui.define([
 			else if (orderType=="1" || orderType=="2") {
 				if (CPORCB==true) {
 					if (!this._oDialog) {
-						this._oDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.StandardRustCPOR", this);
+						this._oDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.StandardRushCPOR", this);
 						this.getView().addDependent(this._oDialog);
 					}
 				} else {
