@@ -254,9 +254,10 @@ sap.ui.define([
 							this.getView().addDependent(this._oDialog);
 							this._oDialog.open();
 						} else {
-							if (!this._oDialog) {
-								this._oDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.CampaignCPOR", this);
-								this.getView().addDependent(this._oDialog);
+							if (!this._iDialog) {
+								this._iDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.CampaignCPOR", this);
+								this.getView().addDependent(this._iDialog);
+								this._iDialog.open();
 							}
 						}
 
@@ -273,6 +274,9 @@ sap.ui.define([
 			},
 			onDialogClose: function (oEvent) {
 				this._oDialog.close();
+			},
+			CDialogClose: function (oEvent) {
+				this._iDialog.close();
 			},
 			//changes by swetha for DMND0004095 on 28th Dec, 2023 Start
 			
