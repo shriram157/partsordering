@@ -8,7 +8,7 @@
 				columnsL="1" columnsM="1" singleContainerFullSize="false">
 				<f:content>
 					
-						<items>
+						<!--<items>-->
 							<!--<HBox>-->
 						<Label text="VIN"/>
 						<Input id="name" value=""/>
@@ -17,7 +17,7 @@
 						<Input value=" "/>
 						<!--<Button text="Add"/>-->
 							<!--</HBox>-->
-						</items>
+						<!--</items>-->
 				
 				</f:content>
 			</f:SimpleForm>
