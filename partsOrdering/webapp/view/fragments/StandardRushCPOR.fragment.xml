@@ -4,16 +4,16 @@
 		<content>
 			<f:SimpleForm>
 				<f:content>
-					<Table>
-						<columns>
-							<column>
-								<Text text="{i18n>VIN}"/>
-							</column>
-							<column>
+					<!--<Table>-->
+					<!--	<columns>-->
+					<!--		<column>-->
+								<Label text="{i18n>VIN}"/>
+							<!--</column>-->
+							<!--<column>-->
 								<Text text="{i18n>CampaignCode}"/>
-							</column>
-						</columns>
-					</Table>
+					<!--		</column>-->
+					<!--	</columns>-->
+					<!--</Table>-->
 					
 				</f:content>	
 			</f:SimpleForm>

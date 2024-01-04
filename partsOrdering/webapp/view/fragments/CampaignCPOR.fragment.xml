@@ -1,16 +1,18 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
 	<Dialog title="Campaign CPOR" contentWidth="1152px" contentHeight="70%" verticalScrolling='true' resizable="true" draggable="true"
 		horizontalScrolling='true'>
+			<VBox>
 		<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="Address" labelSpanXL="3" labelSpanL="3"
 			labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1"
 			columnsL="1" columnsM="1" singleContainerFullSize="false">
 			<f:content>
+			
 				<Hbox>
 					<Label text="VIN"/>
 					<Input id="name" value=""/>
 						<core:Title text=" " />
 					<Label text="Campaign Code"/>
-					<Input value=" "/><Button text"Add"/>
+					<Input value=" "/><Button text="Add"/>
 				</Hbox>
 			</f:content>
 		</f:SimpleForm>
@@ -41,6 +43,7 @@
 					</ColumnListItem>
 				</items>
 			</Table>
+			</VBox>
 			<Button text="Close" press='CDialogClose'/>
 			<Bar>
 				<!--<contentLeft>-->
