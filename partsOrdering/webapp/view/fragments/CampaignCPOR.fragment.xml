@@ -7,14 +7,14 @@
 			columnsL="1" columnsM="1" singleContainerFullSize="false">
 			<f:content>
 			
-				<Hbox>
+				<HBox>
 					<Label text="VIN"/>
 					<Input id="name" value=""/>
 						<core:Title text=" " />
 					<Label text="Campaign Code"/>
 					<Input value=" "/>
 					<!--<Button text="Add"/>-->
-				</Hbox>
+				</HBox>
 			</f:content>
 		</f:SimpleForm>
 		<Table id="idProductsTable" inset="false" items="{ path: '/ProductCollection', sorter: { path: 'Name' } }">
