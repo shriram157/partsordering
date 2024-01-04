@@ -3,7 +3,6 @@
 		horizontalScrolling='true'>
 		<content>
 		<VBox>
-			<items>
 			<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="Address" labelSpanXL="3" labelSpanL="3"
 				labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1"
 				columnsL="1" columnsM="1" singleContainerFullSize="false">
@@ -21,7 +20,7 @@
 				</f:content>
 			</f:SimpleForm>
 			<Table id="idProductsTable" inset="false" items="{ path: '/ProductCollection', sorter: { path: 'Name' } }">
-				<headerToolbar>
+				<headerToolbar/>
 					<columns>
 						<Column width="12em">
 							<Text text=" "/>
@@ -47,7 +46,6 @@
 						</ColumnListItem>
 					</items>
 				</Table>
-			</items>
 			</VBox>
 			<!--<Button text="Close" press='CDialogClose'/>-->
 			<!--<Bar>-->

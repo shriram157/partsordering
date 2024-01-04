@@ -16,10 +16,10 @@
 					<!--</Table>-->
 				</f:content>
 			</f:SimpleForm>
-			<endButton>
+		</content>
+		<endButton>
 				<Button text="{i18n>Button.Back}" press="onDialogClose"></Button>
 				<Button text="{i18n>CPOR}" press="onCloseDialog"></Button>
-			</endButton>
-		</content>
+		</endButton>
 	</Dialog>
 </core:FragmentDefinition>
