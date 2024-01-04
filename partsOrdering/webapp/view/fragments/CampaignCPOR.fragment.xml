@@ -12,7 +12,8 @@
 					<Input id="name" value=""/>
 						<core:Title text=" " />
 					<Label text="Campaign Code"/>
-					<Input value=" "/><Button text="Add"/>
+					<Input value=" "/>
+					<!--<Button text="Add"/>-->
 				</Hbox>
 			</f:content>
 		</f:SimpleForm>
@@ -44,7 +45,7 @@
 				</items>
 			</Table>
 			</VBox>
-			<Button text="Close" press='CDialogClose'/>
+			<!--<Button text="Close" press='CDialogClose'/>-->
 			<Bar>
 				<!--<contentLeft>-->
 				<!--	<Label text="Bar cannot really handle overflow it just cuts the content."/>-->
