@@ -1,49 +1,48 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
 	<Dialog title="Campaign CPOR" contentWidth="1152px" contentHeight="70%" verticalScrolling='true' resizable="true" draggable="true"
 		horizontalScrolling='true'>
-			<VBox>
-		<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="Address" labelSpanXL="3" labelSpanL="3"
-			labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1"
-			columnsL="1" columnsM="1" singleContainerFullSize="false">
-			<f:content>
-			
-				<HBox>
-					<Label text="VIN"/>
-					<Input id="name" value=""/>
-						<core:Title text=" " />
-					<Label text="Campaign Code"/>
-					<Input value=" "/>
-					<!--<Button text="Add"/>-->
-				</HBox>
-			</f:content>
-		</f:SimpleForm>
-		<Table id="idProductsTable" inset="false" items="{ path: '/ProductCollection', sorter: { path: 'Name' } }">
-			<headerToolbar>
-				<columns>
-					<Column width="12em">
-						<Text text=" "/>
-					</Column>
-					<Column minScreenWidth="Tablet" demandPopin="true">
-						<Text text="VIN"/>
-					</Column>
-					<Column minScreenWidth="Desktop" demandPopin="true" hAlign="End">
-						<Text text="Campaign Code"/>
-					</Column>
-					<Column minScreenWidth="Desktop" demandPopin="true" hAlign="Center">
-						<Text text="Weight"/>
-					</Column>
-				</columns>
-				<items>
-					<ColumnListItem>
-						<cells>
-							<CheckBox text="ColumnHeaders" select="onSelect"/>
-							<Input value="{orderModel>partDesc}" enabled='false' valueState="None" tooltip="{orderModel>partDesc}" width="211px"/>
-							<Input value="{orderModel>partDesc}" enabled='false' valueState="None" tooltip="{orderModel>partDesc}" width="211px"/>
-							<Input value="{orderModel>partDesc}" enabled='false' valueState="None" tooltip="{orderModel>partDesc}" width="211px"/>
-						</cells>
-					</ColumnListItem>
-				</items>
-			</Table>
+		<VBox>
+			<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="Address" labelSpanXL="3" labelSpanL="3"
+				labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1"
+				columnsL="1" columnsM="1" singleContainerFullSize="false">
+				<f:content>
+					<HBox>
+						<Label text="VIN"/>
+						<Input id="name" value=""/>
+						<core:Title text=" "/>
+						<Label text="Campaign Code"/>
+						<Input value=" "/>
+						<!--<Button text="Add"/>-->
+					</HBox>
+				</f:content>
+			</f:SimpleForm>
+			<Table id="idProductsTable" inset="false" items="{ path: '/ProductCollection', sorter: { path: 'Name' } }">
+				<headerToolbar>
+					<columns>
+						<Column width="12em">
+							<Text text=" "/>
+						</Column>
+						<Column minScreenWidth="Tablet" demandPopin="true">
+							<Text text="VIN"/>
+						</Column>
+						<Column minScreenWidth="Desktop" demandPopin="true" hAlign="End">
+							<Text text="Campaign Code"/>
+						</Column>
+						<Column minScreenWidth="Desktop" demandPopin="true" hAlign="Center">
+							<Text text="Weight"/>
+						</Column>
+					</columns>
+					<items>
+						<ColumnListItem>
+							<cells>
+								<CheckBox text="ColumnHeaders" select="onSelect"/>
+								<Input value="{orderModel>partDesc}" enabled='false' valueState="None" tooltip="{orderModel>partDesc}" width="211px"/>
+								<Input value="{orderModel>partDesc}" enabled='false' valueState="None" tooltip="{orderModel>partDesc}" width="211px"/>
+								<Input value="{orderModel>partDesc}" enabled='false' valueState="None" tooltip="{orderModel>partDesc}" width="211px"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
 			</VBox>
 			<!--<Button text="Close" press='CDialogClose'/>-->
 			<Bar>
