@@ -26,7 +26,7 @@ xmlns:core="sap.ui.core"  xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout" xm
 								</Select>
 								<!-- changes by Swetha for DMND0004095 for CPOR checkbox on 21st Dec, 2023   Start-->
 								<Label></Label>
-								<CheckBox text="{i18n>CPORCB}" id="CPORCB" width="100%"/>
+								<CheckBox text="{i18n>CPORCB}" id="CPORCB"/>
 								<!-- changes by Swetha for DMND0004095 for CPOR checkbox on 21st Dec, 2023   End-->
 								<Label text="{i18n>Label.StartOrdering.Order.ID}" labelFor='orderNumberInput' />
 								<Input  width="100%" required="true" type='Text' id='orderNumberInput'

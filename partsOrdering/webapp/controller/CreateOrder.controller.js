@@ -141,7 +141,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var 
 			CONTRACT_NUM = sap.ui.getCore().getModel("APP_STATE_MODEL").getProperty("/selectedOrderMeta/contract_num");
 			//Changes by shriram
-			if(oEvent.getParameter("arguments").CPORCB= true)
+			if(oEvent.getParameter("arguments").CPORCB==true)
 			{
 				if (orderType == "1" || orderType == "2") {
 						if (!this._oDialog) {
