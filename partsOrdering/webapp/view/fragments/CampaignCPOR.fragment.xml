@@ -50,18 +50,18 @@
 			</items>
 			</VBox>
 			<!--<Button text="Close" press='CDialogClose'/>-->
-			<Bar>
+			<!--<Bar>-->
 				<!--<contentLeft>-->
 				<!--	<Label text="Bar cannot really handle overflow it just cuts the content."/>-->
 				<!--</contentLeft>-->
-				<contentEnd>
-					<Button text="Accept" type="Accept"/>
+			<!--	<contentEnd>-->
+			<!--		<Button text="Accept" type="Accept"/>-->
 					<!--<Label text="Bar is not very performant."/>-->
-					<Button text="Reject" type="Reject" press='CDialogClose'/>
+			<!--		<Button text="Reject" type="Reject" press='CDialogClose'/>-->
 					<!--<Button text="Edit" />-->
 					<!--<Button text="Big Big Big Big Big Big Big Big Button" />-->
-				</contentEnd>
-			</Bar>
+			<!--	</contentEnd>-->
+			<!--</Bar>-->
 			</content>
 		</Dialog>
 	</core:FragmentDefinition>
