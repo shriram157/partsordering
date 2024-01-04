@@ -7,16 +7,18 @@
 				labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1"
 				columnsL="1" columnsM="1" singleContainerFullSize="false">
 				<f:content>
-					<HBox>
+					
 						<items>
+							<!--<HBox>-->
 						<Label text="VIN"/>
 						<Input id="name" value=""/>
 						<core:Title text=" "/>
 						<Label text="Campaign Code"/>
 						<Input value=" "/>
 						<!--<Button text="Add"/>-->
+							<!--</HBox>-->
 						</items>
-					</HBox>
+				
 				</f:content>
 			</f:SimpleForm>
 			<Table id="idProductsTable" inset="false" items="{ path: '/ProductCollection', sorter: { path: 'Name' } }">
