@@ -138,7 +138,31 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			// load the model ... 
 			var orderType = oEvent.getParameter("arguments").orderType;
 			var orderNum = oEvent.getParameter("arguments").orderNum;
+			var 
 			CONTRACT_NUM = sap.ui.getCore().getModel("APP_STATE_MODEL").getProperty("/selectedOrderMeta/contract_num");
+			//Changes by shriram
+			if(oEvent.getParameter("arguments").CPORCB= true)
+			{
+				if (orderType == "1" || orderType == "2") {
+						if (!this._oDialog) {
+							this._oDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.StandardRushCPOR", this);
+							this.getView().addDependent(this._oDialog);
+						}
+							this._oDialog.open();
+						
+					} else {
+						if (!this._iDialog) {
+							this._iDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.CampaignCPOR", this);
+							this.getView().addDependent(this._iDialog);
+						}
+							this._iDialog.open();
+							
+						}
+			}
+			
+			//Changes by shriram
+			
+			
 
 			//				var orderData = { typeB: false, typeD:false };
 			var orderData = this.initLocalModels(orderType, orderNum.trim(), CONTRACT_NUM);
@@ -299,6 +323,13 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			that.toggleSubmitDraftButton();
 
 		},
+		
+			onDialogClose: function (oEvent) {
+				this._oDialog.close();
+			},
+			CDialogClose: function (oEvent) {
+				this._iDialog.close();
+			},
 
 		initLocalModels: function (orderType, orderNum, contractNum) {
 			// default mode

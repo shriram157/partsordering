@@ -246,30 +246,31 @@ sap.ui.define([
 				if (hasError) {
 					return false;
 				}
-				//changes by swetha for DMND0004095 on 28th Dec, 2023 start
-				if (CPORCB == true) {
-					if (orderType == "1" || orderType == "2") {
-						if (!this._oDialog) {
-							this._oDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.StandardRushCPOR", this);
-							this.getView().addDependent(this._oDialog);
-							this._oDialog.open();
-						}
-					} else {
-						if (!this._iDialog) {
-							this._iDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.CampaignCPOR", this);
-							this.getView().addDependent(this._iDialog);
-							this._iDialog.open();
-							}
-						}
+				// //changes by swetha for DMND0004095 on 28th Dec, 2023 start
+				// if (CPORCB == true) {
+				// 	if (orderType == "1" || orderType == "2") {
+				// 		if (!this._oDialog) {
+				// 			this._oDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.StandardRushCPOR", this);
+				// 			this.getView().addDependent(this._oDialog);
+				// 			this._oDialog.open();
+				// 		}
+				// 	} else {
+				// 		if (!this._iDialog) {
+				// 			this._iDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.CampaignCPOR", this);
+				// 			this.getView().addDependent(this._iDialog);
+				// 			this._iDialog.open();
+				// 			}
+				// 		}
 					
-				} else {
+				// } else {
 					sap.ui.getCore().getMessageManager().removeAllMessages();
 
 					this.getRouter().navTo("CreateOrder", {
 						orderNum: orderNumber,
-						orderType: orderType
+						orderType: orderType,
+						CPORCB:CPORCB
 					});
-				}
+				// }
 			},
 			onDialogClose: function (oEvent) {
 				this._oDialog.close();
