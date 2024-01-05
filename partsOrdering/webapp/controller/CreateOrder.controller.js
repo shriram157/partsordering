@@ -138,31 +138,28 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			// load the model ... 
 			var orderType = oEvent.getParameter("arguments").orderType;
 			var orderNum = oEvent.getParameter("arguments").orderNum;
-			var 
-			CONTRACT_NUM = sap.ui.getCore().getModel("APP_STATE_MODEL").getProperty("/selectedOrderMeta/contract_num");
+			var
+				CONTRACT_NUM = sap.ui.getCore().getModel("APP_STATE_MODEL").getProperty("/selectedOrderMeta/contract_num");
 			//Changes by shriram
-			if(oEvent.getParameter("arguments").CPORCB =="true")
-			{
+			if (oEvent.getParameter("arguments").CPORCB == "true") {
 				if (orderType == "1" || orderType == "2") {
-						if (!this._oDialog) {
-							this._oDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.StandardRushCPOR", this);
-							this.getView().addDependent(this._oDialog);
-						}
-							this._oDialog.open();
-						
-					} else {
-						if (!this._iDialog) {
-							this._iDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.CampaignCPOR", this);
-							this.getView().addDependent(this._iDialog);
-						}
-							this._iDialog.open();
-							
-						}
+					if (!this._oDialog) {
+						this._oDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.StandardRushCPOR", this);
+						this.getView().addDependent(this._oDialog);
+					}
+					this._oDialog.open();
+
+				} else {
+					if (!this._iDialog) {
+						this._iDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.CampaignCPOR", this);
+						this.getView().addDependent(this._iDialog);
+					}
+					this._iDialog.open();
+
+				}
 			}
-			
+
 			//Changes by shriram
-			
-			
 
 			//				var orderData = { typeB: false, typeD:false };
 			var orderData = this.initLocalModels(orderType, orderNum.trim(), CONTRACT_NUM);
@@ -323,13 +320,32 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			that.toggleSubmitDraftButton();
 
 		},
-		
-			onDialogClose: function (oEvent) {
-				this._oDialog.close();
-			},
-			CDialogClose: function (oEvent) {
-				this._iDialog.close();
-			},
+		addData: function (oEvent) {
+			var vinNum, CampaignCode, vinCampaignData[];
+			var obj = {};
+			var campaignModel = new sap.ui.model.json.JSONModel({
+				data: []
+			});
+			sap.ui.getCore().setModel(campaignModel, "campaignModel");
+			this.getView().setModel(campaignModel, "campaignModel");
+			obj.vinNum = sap.ui.getCore().byId("vinNum").getValue();
+			obj.CampaignCode = sap.ui.getCore().byId("campaignCode").getValue();
+
+			var arrleng = this.getView().getModel("campaignModel").getProperty("/data").length;
+			for (var i = 0; i < arrleng; i++) {
+				if (i == arrleng - 1) {
+					vinCampaignData[i + 1].push(obj);
+				}
+			}
+
+			this.getView().getModel("campaignModel").setProperty("/data",vinCampaignData)
+		},
+		onDialogClose: function (oEvent) {
+			this._oDialog.close();
+		},
+		CDialogClose: function (oEvent) {
+			this._iDialog.close();
+		},
 
 		initLocalModels: function (orderType, orderNum, contractNum) {
 			// default mode
@@ -458,10 +474,10 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				aFilters.push(new sap.ui.model.Filter("Material", sap.ui.model.FilterOperator.Contains, sTerm));
 				//aFilters.push(new sap.ui.model.Filter("LanguageKey", sap.ui.model.FilterOperator.EQ, this.sLang));
 				/* ReddyVi - defect #17564 start of changes */
-				var sFilters=[];
+				var sFilters = [];
 				sFilters.push(new sap.ui.model.Filter("Product", sap.ui.model.FilterOperator.StartsWith, sTerm));
-	            sFilters.push( new sap.ui.model.Filter("IsActiveEntity", sap.ui.model.FilterOperator.EQ, true)); 
-            	/* ReddyVi - defect #17564 end of changes */
+				sFilters.push(new sap.ui.model.Filter("IsActiveEntity", sap.ui.model.FilterOperator.EQ, true));
+				/* ReddyVi - defect #17564 end of changes */
 
 				var bModel = this.getProductModel();
 
@@ -469,7 +485,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					// urlParameters: {
 					// 	"$filter": "startswith(Material," + "'" + (sTerm) + "')"
 					// },
-					filters:sFilters,
+					filters: sFilters,
 					success: $.proxy(function (oData) {
 						var Matsuggestions = [];
 						sap.ui.core.BusyIndicator.hide();
@@ -478,10 +494,10 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 						$.each(oData.results, function (i, item) {
 							// if (item.Language == language) { //ReddyVi Defect #17564 changes
-								Matsuggestions.push({
-									"Material": item.Product,
-									"MaterialName": item.ProductDescription
-								});
+							Matsuggestions.push({
+								"Material": item.Product,
+								"MaterialName": item.ProductDescription
+							});
 							// }
 						});
 

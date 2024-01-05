@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
-	<Dialog title="Campaign CPOR" contentWidth="1152px" contentHeight="70%" verticalScrolling='true' resizable="true" draggable="true"
+	<Dialog title="Campaign CPOR" contentWidth="80%" contentHeight="70%" verticalScrolling='true' resizable="true" draggable="true"
 		horizontalScrolling='true'>
 		<content>
 		<VBox>
@@ -9,18 +9,18 @@
 					
 							<!--<HBox>-->
 						<Label text="VIN"/>
-						<Input id="name" value="" width="50%"/>
+						<Input id="vinNum" value="" width="50%" height="60%"/>
 						<core:Title text=" "/>
 						<Label text="Campaign Code" />
 						<HBox>
-						<Input value=" " width="50%"/>
-						<Button text="Add"/>
+						<Input id="campaignCode" value=" " width="70%" height="60%"/>
+						<Button text="Add" press='addData'/>
 							</HBox>
 						
 				
 				</f:content>
 			</f:SimpleForm>
-			<Table id="idProductsTable" inset="false" items="{ path: '/ProductCollection', sorter: { path: 'Name' } }">
+			<Table id="idProductsTable" inset="false" items="{'campaignModel>/data' }">
 				<headerToolbar/>
 					<columns>
 						<Column width="12em">
@@ -40,28 +40,21 @@
 						<ColumnListItem>
 							<cells>
 								<CheckBox text="" select="onSelect"/>
-								<Input value="{orderModel>partDesc}" enabled='false' valueState="None" tooltip="{orderModel>partDesc}" width="211px"/>
-								<Input value="{orderModel>partDesc}" enabled='false' valueState="None" tooltip="{orderModel>partDesc}" width="211px"/>
-								<Input value="{orderModel>partDesc}" enabled='false' valueState="None" tooltip="{orderModel>partDesc}" width="211px"/>
+								<Input value="{campaignModel>vinNum}" enabled='false' valueState="None" tooltip="{campaignModel>vinNum}" width="211px"/>
+								<Input value="{campaignModel>CampaignCode}" enabled='false' valueState="None" tooltip="{campaignModel>CampaignCode}" width="211px"/>
+								<Input value="{campaignModel>CampaignCode}" enabled='false' valueState="None" tooltip="{campaignModel>CampaignCode}" width="211px"/>
 							</cells>
 						</ColumnListItem>
 					</items>
 				</Table>
 			</VBox>
-			<!--<Button text="Close" press='CDialogClose'/>-->
-			<!--<Bar>-->
-				<!--<contentLeft>-->
-				<!--	<Label text="Bar cannot really handle overflow it just cuts the content."/>-->
-				<!--</contentLeft>-->
-				<!--<contentEnd>-->
-					
-					<!--<Button text="Edit" />-->
-					<!--<Button text="Big Big Big Big Big Big Big Big Button" />-->
-				<!--</contentEnd>-->
-			<!--</Bar>-->
+		
 			</content>
+			<Buttons>
+				<Button text="Accept" type="Accept"/>
+			</Buttons>
 			<endButton>
-					<Button text="Accept" type="Accept"/>
+					
 					<!--<Label text="Bar is not very performant."/>-->
 					<Button text="Reject" type="Reject" press='CDialogClose'/>
 				</endButton>
