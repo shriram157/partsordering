@@ -3,12 +3,13 @@
 		horizontalScrolling='true'>
 		<content>
 			<VBox>
-				<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="">
+				<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="4" labelSpanL="4" labelSpanM="12"
+					labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="1"
+					singleContainerFullSize="false">
 					<f:content>
-					
 						<core:Title text=" "/>
 						<Label text="VIN"/>
-						<Input id="vinNum" value="" width="25%" height="60%"/>
+						<Input id="vinNum" value="" width="15%" height="60%"/>
 						<core:Title text=" "/>
 						<Label text="Campaign Code"/>
 						<HBox>

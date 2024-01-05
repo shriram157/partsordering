@@ -332,14 +332,15 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			obj.vinNum = sap.ui.getCore().byId("vinNum").getValue();
 			obj.CampaignCode = sap.ui.getCore().byId("campaignCode").getValue();
 
-			var arrleng = this.getView().getModel("campaignModel").getProperty("/data").length;
-			for (var i = 0; i <= arrleng; i++) {
-				if (i == arrleng) {
-					vinCampaignData[i].push(obj);
-				}
-			}
+			var arrleng = this.getView().getModel("campaignModel").getProperty("/data");
+			arrleng.push(obj);
+			// for (var i = 0; i <= arrleng; i++) {
+			// 	if (i == arrleng) {
+			// 		vinCampaignData[i].push(obj);
+			// 	}
+			// }
 
-			this.getView().getModel("campaignModel").setProperty("/data",vinCampaignData);
+			this.getView().getModel("campaignModel").setProperty("/data",arrleng);
 		},
 		onDialogClose: function (oEvent) {
 			this._oDialog.close();
