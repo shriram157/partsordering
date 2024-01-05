@@ -2,38 +2,31 @@
 	<Dialog title="Campaign CPOR" contentWidth="80%" contentHeight="70%" verticalScrolling='true' resizable="true" draggable="true"
 		horizontalScrolling='true'>
 		<content>
-		<VBox>
-			<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="">
-				<f:content>
-					
-					
-							<!--<HBox>-->
+			<VBox>
+				<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="">
+					<f:content>
+						<!--<HBox>-->
+						<core:Title text=" "/>
 						<Label text="VIN"/>
 						<Input id="vinNum" value="" width="25%" height="60%"/>
 						<core:Title text=" "/>
-						<Label text="Campaign Code" />
+						<Label text="Campaign Code"/>
 						<HBox>
-						<Input id="campaignCode" value=" " width="30%" height="60%"/>
-						<Button text="Add" press='addData'/>
-							</HBox>
-						
-				
-				</f:content>
-			</f:SimpleForm>
-			<Table id="idProductsTable" inset="false" items="{'campaignModel>/data'}">
-			
+							<Input id="campaignCode" value=" " width="60%" height="60%"/>
+							<Button text="Add" press='addData'/>
+						</HBox>
+					</f:content>
+				</f:SimpleForm>
+				<Table id="idProductsTable" inset="false" items="{'campaignModel>/data'}">
 					<headerToolbar>
-			<OverflowToolbar>
-				<content>
-					<Title text="Campaign" level="H2"/>
-					<ToolbarSpacer />
-					
-					<ToggleButton id="toggleInfoToolbar"
-						text="Delete"
-						press="" />
-				</content>
-			</OverflowToolbar>
-		</headerToolbar>
+						<OverflowToolbar>
+							<content>
+								<Title text="Campaign" level="H2"/>
+								<ToolbarSpacer/>
+								<ToggleButton id="toggleInfoToolbar" text="Delete" press=""/>
+							</content>
+						</OverflowToolbar>
+					</headerToolbar>
 					<columns>
 						<Column width="12em">
 							<Text text="CheckBok "/>
@@ -60,12 +53,10 @@
 					</items>
 				</Table>
 			</VBox>
-		
-			</content>
-			<buttons>
-					<Button text="Accept" type="Accept"/>
-					<Button text="Reject" type="Reject" press='CDialogClose'/>
-			</buttons>
-		
-		</Dialog>
-	</core:FragmentDefinition>
+		</content>
+		<buttons>
+			<Button text="Accept" type="Accept"/>
+			<Button text="Reject" type="Reject" press='CDialogClose'/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>
