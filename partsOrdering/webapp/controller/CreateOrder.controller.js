@@ -321,10 +321,11 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 		},
 		addData: function (oEvent) {
-			var vinNum, CampaignCode, vinCampaignData[];
+			var vinNum, CampaignCode;
+			var vinCampaignData=[];
 			var obj = {};
 			var campaignModel = new sap.ui.model.json.JSONModel({
-				data: []
+				"data": []
 			});
 			sap.ui.getCore().setModel(campaignModel, "campaignModel");
 			this.getView().setModel(campaignModel, "campaignModel");
@@ -338,7 +339,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				}
 			}
 
-			this.getView().getModel("campaignModel").setProperty("/data",vinCampaignData)
+			this.getView().getModel("campaignModel").setProperty("/data",vinCampaignData);
 		},
 		onDialogClose: function (oEvent) {
 			this._oDialog.close();

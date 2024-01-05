@@ -20,7 +20,7 @@
 				
 				</f:content>
 			</f:SimpleForm>
-			<Table id="idProductsTable" inset="false" items="{'campaignModel>/data' }">
+			<Table id="idProductsTable" inset="false" items="{'campaignModel>/data'}">
 				<headerToolbar/>
 					<columns>
 						<Column width="12em">
