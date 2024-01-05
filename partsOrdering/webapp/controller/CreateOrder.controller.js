@@ -134,6 +134,13 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 			var appStateModel = this.getStateModel();
 			appStateModel.setProperty('/tabKey', 'CO');
+			
+				var campaignModel = new sap.ui.model.json.JSONModel({
+				"data": []
+			});
+			sap.ui.getCore().setModel(campaignModel, "campaignModel");
+			this.getView().setModel(campaignModel, "campaignModel");
+			
 
 			// load the model ... 
 			var orderType = oEvent.getParameter("arguments").orderType;
@@ -324,11 +331,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var vinNum, CampaignCode;
 			var vinCampaignData=[];
 			var obj = {};
-			var campaignModel = new sap.ui.model.json.JSONModel({
-				"data": []
-			});
-			sap.ui.getCore().setModel(campaignModel, "campaignModel");
-			this.getView().setModel(campaignModel, "campaignModel");
 			obj.vinNum = sap.ui.getCore().byId("vinNum").getValue();
 			obj.CampaignCode = sap.ui.getCore().byId("campaignCode").getValue();
 
