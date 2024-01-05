@@ -2,29 +2,28 @@
 	<Dialog title="{i18n>Stan/RushCPOR}" contentWidth="1152px" contentHeight="70%" verticalScrolling='true' resizable="true" draggable="true"
 		horizontalScrolling='true'>
 		<content>
-			<VBox>
-				<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="4" labelSpanL="4" labelSpanM="12"
-					labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="1"
-					singleContainerFullSize="false">
-					<f:content>
-						<core:Title text=" "/>
-						<Label text="{i18n>VIN}"/>
-						<Input id="vinNum1" value=""/>
-						<core:Title text=" "/>
-						<Label text="{i18n>CampaingnCode}"/>
-						<HBox>
-							<Input id="CampaignCode1" value=" "/>
-							<Button text="Add" press='add1Data'/>
-						</HBox>
-					</f:content>
-				</f:SimpleForm>
+				<!--<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="4" labelSpanL="4" labelSpanM="12"-->
+				<!--	labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="1"-->
+				<!--	singleContainerFullSize="false">-->
+				<!--	<f:content>-->
+				<!--		<core:Title text=" "/>-->
+				<!--		<Label text="{i18n>VIN}"/>-->
+				<!--		<Input id="vinNum1" value=""/>-->
+				<!--		<core:Title text=" "/>-->
+				<!--		<Label text="{i18n>CampaingnCode}"/>-->
+				<!--		<Input id="CampaignCode1" value=" "/>-->
+				<!--		<core:Title text=" "/>-->
+				<!--		<Button text="Add" press='add1Data'/>-->
+				<!--	</f:content>-->
+				<!--</f:SimpleForm>-->
 				<Table id="idProductsTable" inset="false" items="{stanrushModel>/data}">
 					<headerToolbar>
 						<OverflowToolbar>
 							<content>
-								<Title text="Standard/Rush" level="H2"/>
+								<Button type='Reject' icon="sap-icon://delete" tooltip="{i18n>ToolTip.CreateOrder.Delete.LineItem}" class="size2" press='handleDeletePart'
+										visible="true"/>
 								<ToolbarSpacer/>
-								<ToggleButton id="toggleInfoToolbar" text="Delete" press=""/>
+								<!--<ToggleButton id="toggleInfoToolbar" text="Delete" press=""/>-->
 							</content>
 						</OverflowToolbar>
 					</headerToolbar>
@@ -38,6 +37,9 @@
 						<Column minScreenWidth="Desktop" demandPopin="true">
 							<Text text="{i18n>CampaingnCode}"/>
 						</Column>
+						<Column>
+							<Button type="Accept" tooltip="Add" class="size1" icon="sap-icon://add" press='handleAddPart' visible="{= ${orderModel>line} === 0  &amp;&amp; ${orderModel>addIcon} === true}"></Button>
+						</Column>
 					</columns>
 					<items>
 						<ColumnListItem>
@@ -49,7 +51,6 @@
 						</ColumnListItem>
 					</items>
 				</Table>
-			</VBox>
 		</content>
 		<buttons>
 			<Button text="{i18n>Back}" press='onPressBack'/>

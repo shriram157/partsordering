@@ -358,8 +358,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var vinNum, CampaignCode;
 			var vinCampaignData=[];
 			var obj = {};
-			obj.vinNum1 = sap.ui.getCore().byId("vinNum").getValue();
-			obj.CampaignCode = sap.ui.getCore().byId("CampaignCode").getValue();
+			obj.vinNum1 = sap.ui.getCore().byId("vinNum1").getValue();
+			obj.CampaignCode = sap.ui.getCore().byId("CampaignCode1").getValue();
 			var arrleng = this.getView().getModel("stanrushModel").getProperty("/data");
 			arrleng.push(obj);
 			this.getView().getModel("stanrushModel").setProperty("/data",arrleng);	
