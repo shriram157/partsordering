@@ -121,7 +121,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		},
 
 		_onObjectMatched: function (oEvent) {
-			// clear all the other message 
+			// clear all the other message. 
 
 			var that = this;
 			this.submitError = null;
