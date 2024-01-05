@@ -9,16 +9,16 @@
 					<f:content>
 						<core:Title text=" "/>
 						<Label text="VIN"/>
-						<Input id="vinNum" value="" width="15%" height="60%"/>
+						<Input id="vinNum" value=""/>
 						<core:Title text=" "/>
 						<Label text="Campaign Code"/>
 						<HBox>
-							<Input id="campaignCode" value=" " width="60%" height="60%"/>
+							<Input id="campaignCode" value=" "/>
 							<Button text="Add" press='addData'/>
 						</HBox>
 					</f:content>
 				</f:SimpleForm>
-				<Table id="idProductsTable" inset="false" items="{'campaignModel>/data'}">
+				<Table id="idProductsTable" inset="false" items="{campaignModel>/data}">
 					<headerToolbar>
 						<OverflowToolbar>
 							<content>
