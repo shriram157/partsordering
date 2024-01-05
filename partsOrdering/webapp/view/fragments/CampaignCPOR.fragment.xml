@@ -50,10 +50,13 @@
 			</VBox>
 		
 			</content>
-			<Buttons>
+			<buttons>
+					<Button text="Accept" type="Accept"/>
+			</buttons>
+			<beginButton>
 				<Button text="Accept" type="Accept"/>
-			</Buttons>
-			<endButton>
+			</beginButton>
+					<endButton>
 					
 					<!--<Label text="Bar is not very performant."/>-->
 					<Button text="Reject" type="Reject" press='CDialogClose'/>
