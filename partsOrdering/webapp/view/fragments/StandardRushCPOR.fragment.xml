@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
-	<Dialog title="Campaign CPOR" contentWidth="1152px" contentHeight="70%" verticalScrolling='true' resizable="true" draggable="true"
+	<Dialog title="{i18n>Stan/RushCPOR}" contentWidth="1152px" contentHeight="70%" verticalScrolling='true' resizable="true" draggable="true"
 		horizontalScrolling='true'>
 		<content>
 			<VBox>
