@@ -15,7 +15,7 @@
 						<HBox>
 						<Input value=" " width="50%"/>
 						<Button text="Add"/>
-							<!--</HBox>-->
+							</HBox>
 						
 				
 				</f:content>
