@@ -333,9 +333,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			obj.CampaignCode = sap.ui.getCore().byId("campaignCode").getValue();
 
 			var arrleng = this.getView().getModel("campaignModel").getProperty("/data").length;
-			for (var i = 0; i < arrleng; i++) {
-				if (i == arrleng - 1) {
-					vinCampaignData[i + 1].push(obj);
+			for (var i = 0; i <= arrleng; i++) {
+				if (i == arrleng) {
+					vinCampaignData[i].push(obj);
 				}
 			}
 
