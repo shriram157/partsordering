@@ -1,25 +1,59 @@
-<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns:tnt="sap.tnt">
-	<Dialog title="Standard/Rush CPOR" contentWidth="1152px" contentHeight="70%" verticalScrolling='true' resizable="true" draggable="true"
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
+	<Dialog title="Campaign CPOR" contentWidth="1152px" contentHeight="70%" verticalScrolling='true' resizable="true" draggable="true"
 		horizontalScrolling='true'>
 		<content>
-			<f:SimpleForm>
-				<f:content>
-					<!--<Table>-->
-					<!--	<columns>-->
-					<!--		<column>-->
-					<Label text="{i18n>VIN}"/>
-					<!--</column>-->
-					<!--<column>-->
-					<Text text="{i18n>CampaignCode}"/>
-					<!--		</column>-->
-					<!--	</columns>-->
-					<!--</Table>-->
-				</f:content>
-			</f:SimpleForm>
+			<VBox>
+				<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="4" labelSpanL="4" labelSpanM="12"
+					labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="1"
+					singleContainerFullSize="false">
+					<f:content>
+						<core:Title text=" "/>
+						<Label text="{i18n>VIN}"/>
+						<Input id="vinNum" value=""/>
+						<core:Title text=" "/>
+						<Label text="{i18n>CampaingnCode}"/>
+						<HBox>
+							<Input id="CampaignCode" value=" "/>
+							<Button text="Add" press='add1Data'/>
+						</HBox>
+					</f:content>
+				</f:SimpleForm>
+				<Table id="idProductsTable" inset="false" items="{stanrushModel>/data}">
+					<headerToolbar>
+						<OverflowToolbar>
+							<content>
+								<Title text="Campaign" level="H2"/>
+								<ToolbarSpacer/>
+								<ToggleButton id="toggleInfoToolbar" text="Delete" press=""/>
+							</content>
+						</OverflowToolbar>
+					</headerToolbar>
+					<columns>
+						<Column width="12em">
+							<Text text="CheckBok"/>
+						</Column>
+						<Column minScreenWidth="Tablet" demandPopin="true">
+							<Text text="{i18n>VIN}"/>
+						</Column>
+						<Column minScreenWidth="Desktop" demandPopin="true">
+							<Text text="{i18n>CampaingnCode}"/>
+						</Column>
+					</columns>
+					<items>
+						<ColumnListItem>
+							<cells>
+								<CheckBox text="" select="onSelect"/>
+								<Input value="{stanrushModel>vinNum}" enabled='false' valueState="None" tooltip="{stanrushModel>vinNum}" width="211px"/>
+								<Input value="{stanrushModel>CampaignCode}" enabled='false' valueState="None" tooltip="{stanrushModel>CampaignCode}" width="211px"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+			</VBox>
 		</content>
-		<endButton>
-				<Button text="{i18n>Button.Back}" press="onDialogClose"></Button>
-				<Button text="{i18n>CPOR}" press="onCloseDialog"></Button>
-		</endButton>
+		<buttons>
+			<Button text="{i18n>Back}" press='onPressBack'/>
+			<Button text="{i18n>CPOR}" press='onDialogClose'/>
+		</buttons>
 	</Dialog>
 </core:FragmentDefinition>

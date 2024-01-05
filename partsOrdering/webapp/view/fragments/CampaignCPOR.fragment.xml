@@ -8,12 +8,15 @@
 					singleContainerFullSize="false">
 					<f:content>
 						<core:Title text=" "/>
-						<Label text="VIN"/>
+						<Label text="{i18n>VIN}"/>
 						<Input id="vinNum" value=""/>
 						<core:Title text=" "/>
-						<Label text="Campaign Code"/>
+						<Label text="{i18n>CampaingnCode}"/>
+						<Input id="campaignCode" value=" "/>
+						<core:Title text=""/>
+						<Label text="{i18n>OpCode}"/>
 						<HBox>
-							<Input id="campaignCode" value=" "/>
+							<Input id="OperationCode" value=" "/>
 							<Button text="Add" press='addData'/>
 						</HBox>
 					</f:content>
@@ -30,16 +33,16 @@
 					</headerToolbar>
 					<columns>
 						<Column width="12em">
-							<Text text="CheckBok "/>
+							<Text text="CheckBok"/>
 						</Column>
 						<Column minScreenWidth="Tablet" demandPopin="true">
-							<Text text="VIN"/>
+							<Text text="{i18n>VIN}"/>
 						</Column>
 						<Column minScreenWidth="Desktop" demandPopin="true">
-							<Text text="Campaign Code"/>
+							<Text text="{i18n>CampaingnCode}"/>
 						</Column>
 						<Column minScreenWidth="Desktop" demandPopin="true">
-							<Text text="Weight"/>
+							<Text text="{i18n>OpCode}"/>
 						</Column>
 					</columns>
 					<items>
@@ -48,7 +51,7 @@
 								<CheckBox text="" select="onSelect"/>
 								<Input value="{campaignModel>vinNum}" enabled='false' valueState="None" tooltip="{campaignModel>vinNum}" width="211px"/>
 								<Input value="{campaignModel>CampaignCode}" enabled='false' valueState="None" tooltip="{campaignModel>CampaignCode}" width="211px"/>
-								<Input value="{campaignModel>CampaignCode}" enabled='false' valueState="None" tooltip="{campaignModel>CampaignCode}" width="211px"/>
+								<Input value="{campaignModel>OperationCode}" enabled='false' valueState="None" tooltip="{campaignModel>OperationCode}" width="211px"/>
 							</cells>
 						</ColumnListItem>
 					</items>
@@ -56,8 +59,8 @@
 			</VBox>
 		</content>
 		<buttons>
-			<Button text="Accept" type="Accept"/>
-			<Button text="Reject" type="Reject" press='CDialogClose'/>
+			<Button text="{i18n>Back}" press='onPressBack'/>
+			<Button text="{i18n>CPOR}" press='CDialogClose'/>
 		</buttons>
 	</Dialog>
 </core:FragmentDefinition>

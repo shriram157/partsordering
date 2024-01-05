@@ -135,12 +135,19 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var appStateModel = this.getStateModel();
 			appStateModel.setProperty('/tabKey', 'CO');
 			
-				var campaignModel = new sap.ui.model.json.JSONModel({
+			//changes by shriram for DMND0004095 on January 5th 2024   start
+			var campaignModel = new sap.ui.model.json.JSONModel({
 				"data": []
 			});
 			sap.ui.getCore().setModel(campaignModel, "campaignModel");
 			this.getView().setModel(campaignModel, "campaignModel");
-			
+			//changes by Swetha for DMND0004095 on 5th January, 2024 Start
+			var stanrushModel = new sap.ui.model.json.JSONModel({
+				"data": []
+			});
+			sap.ui.getCore().setModel(stanrushModel, "stanrushModel");
+			this.getView().setModel(stanrushModel, "stanrushModel");
+			//changes by Swetha for DMND0004095 on 5th January, 2024 End
 
 			// load the model ... 
 			var orderType = oEvent.getParameter("arguments").orderType;
@@ -327,12 +334,14 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			that.toggleSubmitDraftButton();
 
 		},
+		//changes by Shriram on 5th January, 2024 for DMND0004095   Start
 		addData: function (oEvent) {
-			var vinNum, CampaignCode;
+			var vinNum, CampaignCode, OperationCode;
 			var vinCampaignData=[];
 			var obj = {};
 			obj.vinNum = sap.ui.getCore().byId("vinNum").getValue();
 			obj.CampaignCode = sap.ui.getCore().byId("campaignCode").getValue();
+			obj.OperationCode = sap.ui.getCore().byId("OperationCode").getValue();
 
 			var arrleng = this.getView().getModel("campaignModel").getProperty("/data");
 			arrleng.push(obj);
@@ -344,12 +353,25 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 			this.getView().getModel("campaignModel").setProperty("/data",arrleng);
 		},
+		//changes by swetha for DMND0004095 on Jan 5th, 2024 ---Start
+		add1Data: function(oEvent){
+			var vinNum, CampaignCode;
+			var vinCampaignData=[];
+			var obj = {};
+			obj.vinNum = sap.ui.getCore().byId("vinNum").getValue();
+			obj.CampaignCode = sap.ui.getCore().byId("CampaignCode").getValue();
+			var arrleng = this.getView().getModel("stanrushModel").getProperty("/data");
+			arrleng.push(obj);
+			this.getView().getModel("stanrushModel").setProperty("/data",arrleng);	
+		},
+		//changes by swetha for DMND0004095 on Jan 5th, 2024 ---Start
 		onDialogClose: function (oEvent) {
 			this._oDialog.close();
 		},
 		CDialogClose: function (oEvent) {
 			this._iDialog.close();
 		},
+		//changes by Shriram on 5th January, 2024 for DMND0004095   Start
 
 		initLocalModels: function (orderType, orderNum, contractNum) {
 			// default mode
@@ -2562,7 +2584,13 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 			XLSX.writeFile(wb, "Order_" + oModel.getProperty("/tciOrderNumber") + ".xlsx");
 
+		},
+		//changes by Swetha for DMND0004095 on 5th January, 2024 Start
+		onPressBack: function() {
+			var that = this;
+			that.getRouter().navTo("StartOrdering", null, false);	
 		}
+		//changes by Swetha for DMND0004095 on 5th January, 2024 End
 
 	});
 });
