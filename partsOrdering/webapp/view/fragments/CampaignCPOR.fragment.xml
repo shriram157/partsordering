@@ -5,7 +5,7 @@
 			<VBox>
 				<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="">
 					<f:content>
-						<!--<HBox>-->
+					
 						<core:Title text=" "/>
 						<Label text="VIN"/>
 						<Input id="vinNum" value="" width="25%" height="60%"/>
