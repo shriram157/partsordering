@@ -16,7 +16,7 @@
 			<!--		<Button text="Add" press='add1Data'/>-->
 			<!--	</f:content>-->
 			<!--</f:SimpleForm>-->
-			<Table id="idProductsTable" inset="false" items="{stanrushModel>/data}">
+			<Table id="idProductsTable1" inset="false" items="{stanrushModel>/data}">
 				<headerToolbar>
 					<OverflowToolbar>
 						<content>
@@ -29,37 +29,39 @@
 				</headerToolbar>
 				<columns>
 					<Column width="12em">
-						<Text text="CheckBok"/>
-					</Column>
-					<Column minScreenWidth="Desktop" demandPopin="true">
-						<Label text="{i18n>VIN}"/>
-						<Input id="vinNum1" value=""/>
-					</Column>
-					<Column minScreenWidth="Desktop" demandPopin="true">
-						<Label text="{i18n>CampaingnCode}"/>
-						<Input id="CampaignCode1" value=" "/>
-					</Column>
-					<Column>
-						<VBox>
-							<Button type="Accept" tooltip="Add" class="size1" icon="sap-icon://add" press='handleAddPart'
-								visible="{= ${orderModel>line} === 0 &amp;&amp; ${orderModel>addIcon} === true}"></Button>
-						</VBox>
-					</Column>
-				</columns>
-				<items>
-					<ColumnListItem>
-						<cells>
-							<CheckBox text="" select="onSelect"/>
-							<Input value="{stanrushModel>vinNum1}" enabled='false' valueState="None" tooltip="{stanrushModel>vinNum1}" width="211px"/>
-							<Input value="{stanrushModel>CampaignCode1}" enabled='false' valueState="None" tooltip="{stanrushModel>CampaignCode1}" width="211px"/>
-						</cells>
-					</ColumnListItem>
-				</items>
-			</Table>
-		</content>
-		<buttons>
-			<Button text="{i18n>Back}" press='onPressBack'/>
-			<Button text="{i18n>CPOR}" press='onDialogClose'/>
-		</buttons>
-	</Dialog>
-</core:FragmentDefinition>
+						<Label text="#" visible="{= ${orderModel>line} === 0 || ${orderModel>line} ===''}"/>
+						<Column minScreenWidth="Desktop" demandPopin="true">
+							<Label text="{i18n>VIN}"/>
+							<Input id="vinNum1" value="" visible="{= ${orderModel>line} === 0 || ${orderModel>line} ===''}"/>
+						</Column>
+						<Column minScreenWidth="Desktop" demandPopin="true">
+							<Label text="{i18n>CampaingnCode}"/>
+							<Input id="CampaignCode1" value=" "/>
+						</Column>
+						<Column>
+							<VBox>
+								<Button type="Accept" tooltip="Add" class="size1" icon="sap-icon://add" press='handleAddPart'
+									visible="{= ${orderModel>line} === 0 &amp;&amp; ${orderModel>addIcon} === true}"></Button>
+								<core:Icon src="sap-icon://error" class="size1" color="#ff0000" visible='{= ${orderModel>line} === 0 ? false : ${orderModel>hasError}}'
+									activeColor="Negative" alt="Error" press="onError"/>
+								<ObjectMarker type="{orderModel>ItemStatus}" visible='{= ${orderModel>line} !== 0 &amp;&amp; ${orderModel>hasError} === false}'/>
+							</VBox>
+						</Column>
+					</columns>
+					<items>
+						<ColumnListItem>
+							<cells>
+								<CheckBox text="" select="onSelect"/>
+								<Input value="{stanrushModel>vinNum1}" enabled='false' valueState="None" tooltip="{stanrushModel>vinNum1}" width="211px"/>
+								<Input value="{stanrushModel>CampaignCode1}" enabled='false' valueState="None" tooltip="{stanrushModel>CampaignCode1}" width="211px"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+			</content>
+			<buttons>
+				<Button text="{i18n>Back}" press='onPressBack'/>
+				<Button text="{i18n>CPOR}" press='onDialogClose'/>
+			</buttons>
+		</Dialog>
+	</core:FragmentDefinition>
