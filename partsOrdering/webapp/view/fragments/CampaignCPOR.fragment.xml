@@ -49,18 +49,21 @@
 				</Table>
 			</VBox>
 			<!--<Button text="Close" press='CDialogClose'/>-->
-			<Bar>
+			<!--<Bar>-->
 				<!--<contentLeft>-->
 				<!--	<Label text="Bar cannot really handle overflow it just cuts the content."/>-->
 				<!--</contentLeft>-->
-				<contentEnd>
+				<!--<contentEnd>-->
+					
+					<!--<Button text="Edit" />-->
+					<!--<Button text="Big Big Big Big Big Big Big Big Button" />-->
+				<!--</contentEnd>-->
+			<!--</Bar>-->
+			</content>
+			<endButton>
 					<Button text="Accept" type="Accept"/>
 					<!--<Label text="Bar is not very performant."/>-->
 					<Button text="Reject" type="Reject" press='CDialogClose'/>
-					<!--<Button text="Edit" />-->
-					<!--<Button text="Big Big Big Big Big Big Big Big Button" />-->
-				</contentEnd>
-			</Bar>
-			</content>
+				</endButton>
 		</Dialog>
 	</core:FragmentDefinition>
