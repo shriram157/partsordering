@@ -9,11 +9,11 @@
 					
 							<!--<HBox>-->
 						<Label text="VIN"/>
-						<Input id="vinNum" value="" width="50%" height="60%"/>
+						<Input id="vinNum" value="" width="25%" height="60%"/>
 						<core:Title text=" "/>
 						<Label text="Campaign Code" />
 						<HBox>
-						<Input id="campaignCode" value=" " width="70%" height="60%"/>
+						<Input id="campaignCode" value=" " width="30%" height="60%"/>
 						<Button text="Add" press='addData'/>
 							</HBox>
 						
@@ -21,7 +21,19 @@
 				</f:content>
 			</f:SimpleForm>
 			<Table id="idProductsTable" inset="false" items="{'campaignModel>/data'}">
-				<headerToolbar/>
+			
+					<headerToolbar>
+			<OverflowToolbar>
+				<content>
+					<Title text="Campaign" level="H2"/>
+					<ToolbarSpacer />
+					
+					<ToggleButton id="toggleInfoToolbar"
+						text="Delete"
+						press="" />
+				</content>
+			</OverflowToolbar>
+		</headerToolbar>
 					<columns>
 						<Column width="12em">
 							<Text text="CheckBok "/>
@@ -52,14 +64,8 @@
 			</content>
 			<buttons>
 					<Button text="Accept" type="Accept"/>
-			</buttons>
-			<beginButton>
-				<Button text="Accept" type="Accept"/>
-			</beginButton>
-					<endButton>
-					
-					<!--<Label text="Bar is not very performant."/>-->
 					<Button text="Reject" type="Reject" press='CDialogClose'/>
-				</endButton>
+			</buttons>
+		
 		</Dialog>
 	</core:FragmentDefinition>
