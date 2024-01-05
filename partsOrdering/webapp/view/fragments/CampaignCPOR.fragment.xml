@@ -9,11 +9,12 @@
 					
 							<!--<HBox>-->
 						<Label text="VIN"/>
-						<Input id="name" value=""/>
+						<Input id="name" value="" width="50%"/>
 						<core:Title text=" "/>
-						<Label text="Campaign Code"/>
-						<Input value=" "/>
-						<!--<Button text="Add"/>-->
+						<Label text="Campaign Code" />
+						<HBox>
+						<Input value=" " width="50%"/>
+						<Button text="Add"/>
 							<!--</HBox>-->
 						
 				
@@ -23,22 +24,22 @@
 				<headerToolbar/>
 					<columns>
 						<Column width="12em">
-							<Text text=" "/>
+							<Text text="CheckBok "/>
 						</Column>
 						<Column minScreenWidth="Tablet" demandPopin="true">
 							<Text text="VIN"/>
 						</Column>
-						<Column minScreenWidth="Desktop" demandPopin="true" hAlign="End">
+						<Column minScreenWidth="Desktop" demandPopin="true">
 							<Text text="Campaign Code"/>
 						</Column>
-						<Column minScreenWidth="Desktop" demandPopin="true" hAlign="Center">
+						<Column minScreenWidth="Desktop" demandPopin="true">
 							<Text text="Weight"/>
 						</Column>
 					</columns>
 					<items>
 						<ColumnListItem>
 							<cells>
-								<CheckBox text="ColumnHeaders" select="onSelect"/>
+								<CheckBox text="" select="onSelect"/>
 								<Input value="{orderModel>partDesc}" enabled='false' valueState="None" tooltip="{orderModel>partDesc}" width="211px"/>
 								<Input value="{orderModel>partDesc}" enabled='false' valueState="None" tooltip="{orderModel>partDesc}" width="211px"/>
 								<Input value="{orderModel>partDesc}" enabled='false' valueState="None" tooltip="{orderModel>partDesc}" width="211px"/>
@@ -48,18 +49,18 @@
 				</Table>
 			</VBox>
 			<!--<Button text="Close" press='CDialogClose'/>-->
-			<!--<Bar>-->
+			<Bar>
 				<!--<contentLeft>-->
 				<!--	<Label text="Bar cannot really handle overflow it just cuts the content."/>-->
 				<!--</contentLeft>-->
-			<!--	<contentEnd>-->
-			<!--		<Button text="Accept" type="Accept"/>-->
+				<contentEnd>
+					<Button text="Accept" type="Accept"/>
 					<!--<Label text="Bar is not very performant."/>-->
-			<!--		<Button text="Reject" type="Reject" press='CDialogClose'/>-->
+					<Button text="Reject" type="Reject" press='CDialogClose'/>
 					<!--<Button text="Edit" />-->
 					<!--<Button text="Big Big Big Big Big Big Big Big Button" />-->
-			<!--	</contentEnd>-->
-			<!--</Bar>-->
+				</contentEnd>
+			</Bar>
 			</content>
 		</Dialog>
 	</core:FragmentDefinition>
