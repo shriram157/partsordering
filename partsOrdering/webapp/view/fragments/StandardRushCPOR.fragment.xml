@@ -9,11 +9,11 @@
 					<f:content>
 						<core:Title text=" "/>
 						<Label text="{i18n>VIN}"/>
-						<Input id="vinNum" value=""/>
+						<Input id="vinNum1" value=""/>
 						<core:Title text=" "/>
 						<Label text="{i18n>CampaingnCode}"/>
 						<HBox>
-							<Input id="CampaignCode" value=" "/>
+							<Input id="CampaignCode1" value=" "/>
 							<Button text="Add" press='add1Data'/>
 						</HBox>
 					</f:content>
@@ -22,7 +22,7 @@
 					<headerToolbar>
 						<OverflowToolbar>
 							<content>
-								<Title text="Campaign" level="H2"/>
+								<Title text="Standard/Rush" level="H2"/>
 								<ToolbarSpacer/>
 								<ToggleButton id="toggleInfoToolbar" text="Delete" press=""/>
 							</content>
@@ -43,8 +43,8 @@
 						<ColumnListItem>
 							<cells>
 								<CheckBox text="" select="onSelect"/>
-								<Input value="{stanrushModel>vinNum}" enabled='false' valueState="None" tooltip="{stanrushModel>vinNum}" width="211px"/>
-								<Input value="{stanrushModel>CampaignCode}" enabled='false' valueState="None" tooltip="{stanrushModel>CampaignCode}" width="211px"/>
+								<Input value="{stanrushModel>vinNum1}" enabled='false' valueState="None" tooltip="{stanrushModel>vinNum1}" width="211px"/>
+								<Input value="{stanrushModel>CampaignCode1}" enabled='false' valueState="None" tooltip="{stanrushModel>CampaignCode1}" width="211px"/>
 							</cells>
 						</ColumnListItem>
 					</items>
