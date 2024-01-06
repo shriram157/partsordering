@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
 	xmlns:form="sap.ui.layout.form" xmlns:layout="sap.ui.layout" displayBlock="true" xmlns="sap.m" xmlns:ui="sap.ui.table">
-	<Dialog title="S/RCPOR">
+	<Dialog title="CPOR" verticalScrolling='true' resizable="true" draggable="true"	horizontalScrolling='true'>
 		<content>
 			<ScrollContainer id='flexContainer' height="80%" width="100%" horizontal="true" vertical="true" focusable="true">
 				<ui:Table id="idProductsTable" alternateRowColors="false" showNoData="false" rows="{orderModel>/items}" visibleRowCount="16"
@@ -9,17 +9,8 @@
 					<ui:extension>
 						<Toolbar class="customToolBar">
 							<content>
-								<!--<Title id="title" text="Order" />-->
-								<!--<Button type='Reject' 	icon="sap-icon://sorting-ranking" tooltip="{i18n>Button.Error.Rows}" class="size2" press='handleSortError' visible="false" id="btnFilterError" />	-->
 								<Button type='Reject' icon="sap-icon://delete" tooltip="{i18n>ToolTip.CreateOrder.Delete.LineItem}" class="size2" press='handleDeletePart'
 									visible="true"/>
-								<ToolbarSpacer/>
-								<!--<Button type="Default" icon="sap-icon://sort" tooltip="{i18n>ToolTip.Sort.Error.Rows}" class="size2" press='handleSortError' visible="false"-->
-								<!--	id="btnSortError"/>-->
-								<!--<Button type="Transparent" icon="sap-icon://filter" tooltip="{i18n>ToolTip.Filter.Error.Rows}" class="size2" press='handleFilterError'-->
-								<!--	visible="false" id="btnFilterError"/>-->
-								<!--<Button type="Transparent" icon="sap-icon://clear-filter" tooltip="{i18n>ToolTip.ClearFilter.Error.Rows}" class="size2"-->
-								<!--	press='handleClearFilterError' visible="false" id="btnClearFilterError"/>-->
 							</content>
 						</Toolbar>
 					</ui:extension>
@@ -32,10 +23,8 @@
 							</ui:template>
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remLine}" sortProperty="line">
-							<!--<Label text="{i18n>Lable.CreateOrder.Line} #"/>-->
 							<Label text="#"/>
 							<ui:template>
-								<!--<Text text="{orderModel>line}" wrapping="false" visible="{= ${orderModel>line} === 0 ? false : true }"/>-->
 								<Text text="{orderModel>line}" wrapping="false" visible="{= ${orderModel>line} > 0}"/>
 							</ui:template>
 						</ui:Column>
@@ -59,106 +48,29 @@
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remPartDesc}">
 							<Label text="Campaign Code"/>
-							<!--<Label text="{i18n>Lable.CreateOrder.PartDesc}/{i18n>Lable.CreateOrder.Comment}"/>-->
-							<ui:template >
-								<!--<VBox>-->
+								<ui:template >
 								<Input value="{orderModel>partDesc}" enabled='false' valueState="None" tooltip="{orderModel>partDesc}" width="211px"/>
-								<!--<TextArea value="{orderModel>comment}" rows="1" placeholder="{i18n>Placeholder.comment}" width="100%"></TextArea>-->
-								<!--	</VBox>-->
 							</ui:template>
 						</ui:Column>
-						<!--<ui:Column width="{sizeModel>/remSPQ}">-->
-						<!--	<Label text="{i18n>Lable.CreateOrder.SPQ}"/>-->
-						<!--	<ui:template >-->
-								<!--	<Text text="{ path: 'orderModel>spq', formatter:'.formatter.spqFormat'}"/>-->
-						<!--		<Text text="{orderModel>spq}"/>-->
-						<!--	</ui:template>-->
-						<!--</ui:Column>-->
-						<!--<ui:Column width="{sizeModel>/remQty}">-->
-						<!--	<Label text="{i18n>Lable.CreateOrder.Order}*"/>-->
-						<!--	<ui:template>-->
-						<!--		<Input type="Number" valueStateText="{i18n>ValidationMessage.qty}" required='true'-->
-						<!--			value="{ path: 'orderModel>qty', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:7}' }" valueState="None"-->
-						<!--			change='onQtyChange' liveChange="checkQtyZero"/>-->
-						<!--	</ui:template>-->
-						<!--</ui:Column>-->
-						<!--<ui:Column width="{sizeModel>/remContractNo}" visible="{orderModel>/typeB}" id="ContractNo" sortProperty="ContractNo">-->
-						<!--	<Label text="{i18n>Lable.CreateOrder.ContractNumber}*" visible="{orderModel>/typeB}"/>-->
-						<!--	<ui:template>-->
-						<!--		<Input value="{ path : 'orderModel>contractNum', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:10}' }" type="Text"-->
-						<!--			valueStateText="{i18n>ValidationMessage.contractNum}" placeholder="{i18n>Placeholder.contractNum}" visible="{orderModel>/typeB}"-->
-						<!--			enabled="{orderModel>/typeB}" required='false' valueState="None" change='onContractChange'/>-->
-						<!--	</ui:template>-->
-						<!--</ui:Column>-->
-						<!--<ui:Column width="{sizeModel>/remCampaignNo}" visible="{orderModel>/typeD}" id="CampaigntNo" sortProperty="CampaignNo">-->
-						<!--	<Label text="{i18n>Lable.CreateOrder.CampaignNumber}*" visible="{orderModel>/typeD}"/>-->
-						<!--	<ui:template>-->
-						<!--		<Input value="{ path : 'orderModel>campaignNum', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:14}' }" type="Text"-->
-						<!--			valueStateText="{i18n>ValidationMessage.campainNum}" placeholder="{i18n>Placeholder.campainNum}" visible="{orderModel>/typeD}"-->
-						<!--			enabled="{orderModel>/typeD}" required='true' valueState="None" change='onCampOpVINChange'/>-->
-						<!--	</ui:template>-->
-						<!--</ui:Column>-->
-						<!--<ui:Column width="{sizeModel>/remOpCode}" visible="{orderModel>/typeD}" id="OperationCode" sortProperty="OperationCode">-->
-							<!--<ui:Column width="11rem" visible="{orderModel>/typeD}">-->
-						<!--	<Label text="{i18n>Lable.CreateOrder.OpCode}*" visible="{orderModel>/typeD}"/>-->
-							<!--		<Label text="{i18n>Lable.CreateOrder.OpCode}*" visible="{orderModel>/typeD}"/>-->
-						<!--	<ui:template>-->
-						<!--		<Input value="{ path : 'orderModel>opCode', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:10}' }" type="Text"-->
-						<!--			valueStateText="{i18n>ValidationMessage.opCode}" visible="{orderModel>/typeD}" placeholder="{i18n>Placeholder.opCode}"-->
-						<!--			enabled="{orderModel>/typeD}" required="true" valueState="None" change='onCampOpVINChange'/>-->
-						<!--	</ui:template>-->
-						<!--</ui:Column>-->
-						<!--<ui:Column width="{sizeModel>/remVin}" visible="{orderModel>/typeD}" id="Vin" sortProperty="Vin">-->
-							<!--<ui:Column width="11rem" visible="{orderModel>/typeD}">-->
-						<!--	<Label text="{i18n>Lable.CreateOrder.vin}*" visible="{orderModel>/typeD}"/>-->
-						<!--	<ui:template>-->
-						<!--		<Input type="Text" value="{ path: 'orderModel>vin', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:35}' }"-->
-						<!--			valueStateText="{i18n>ValidationMessage.vinNum}" placeholder="{i18n>Placeholder.vinNum}" visible="{orderModel>/typeD}"-->
-						<!--			enabled="{orderModel>/typeD}" required='true' valueState="None" change='onCampOpVINChange'/>-->
-						<!--	</ui:template>-->
-						<!--</ui:Column>-->
-						<!--<ui:Column width="{sizeModel>/remComments}">-->
-						<!--	<Label text="{i18n>Lable.CreateOrder.Comment}"/>-->
-						<!--	<ui:template>-->
-						<!--		<TextArea value="{orderModel>comment}" rows="1" placeholder="{i18n>Placeholder.comment}" tooltip="{orderModel>comment}"-->
-						<!--			width="{sizeModel>/remCommentsPx}" change="onCommentChange" maxLength="150"></TextArea>-->
-						<!--	</ui:template>-->
-						<!--</ui:Column>-->
+						
 						<ui:Column id="ErrorStatus" width="4.5rem">
 							<ui:template>
 								<VBox width="3.5rem">
 									<Button type="Accept" tooltip="Add" class="size1" icon="sap-icon://add" press='handleAddPart'
 										visible="{= ${orderModel>line} === 0 &amp;&amp; ${orderModel>addIcon} === true}"></Button>
-									<!--	<Button type='Reject' tooltip="Minus" class="size2" icon="sap-icon://less" press='handleDeletePart' visible="{orderModel>minusIcon}"></Button>-->
 									<core:Icon src="sap-icon://error" class="size1" color="#ff0000" visible='{= ${orderModel>line} === 0 ? false : ${orderModel>hasError}}'
 										activeColor="Negative" alt="Error" press="onError"/>
 									<ObjectMarker type="{orderModel>ItemStatus}" visible='{= ${orderModel>line} !== 0 &amp;&amp; ${orderModel>hasError} === false}'/>
-									<!--	<ObjectMarker type="Unsaved" visibility="IconOnly" visible='{= ${orderModel>line} !== 0 &amp;&amp; ${orderModel>hasError} === false}'/>-->
 								</VBox>
 							</ui:template>
 						</ui:Column>
 					</ui:columns>
 				</ui:Table>
 			</ScrollContainer>
-			<!--</HBox>-->
 		</content>
 		<buttons>
 			<Button text="{i18n>Back}" press='onPressBack'/>
 			<Button text="{i18n>CPOR}" press='CDialogClose'/>
 		</buttons>
-		<!--<footer>-->
-		<!--	<OverflowToolbar>-->
-		<!--		<Button type="Back" text="{i18n>Button.CreateOrder.Back}" press='onBack'/>-->
-				<!--<Button icon="sap-icon://message-popup" text="{=${message>/}.length}" visible="{=${message>/}.length > 0}" type="Emphasized"
-		<!--			press="handleMessagePopoverPress"/>-->
-		<!--		<ToolbarSpacer/>-->
-				<!--	<DraftIndicator id='draftInd'/>-->
-				<!--<Button type="Transparent" text="{i18n>Button.CreateOrder.ImportOrder}" class="size2" press='onImport'/>-->
-				<!--<Button type="Transparent" text="{i18n>Button.CreateOrder.ExportOrder}" class="size2" press='onExport'/>-->
-				<!--<Button type="Reject" text="{i18n>Button.CreateOrder.DeleteOrder}" class="size2" press='onDelete'/>-->
-				<!--<Button type="Accept" text="{i18n>Button.CreateOrder.SubmitOrder}" class="size2" press='onActivate' id="btnSubmit" visible="false"/>-->
-				<!--<Button type="Default" text="{i18n>Button.CreateOrder.SaveDraft}" class="size2" press='onSaveDraft' id="btnDraft"/>-->
-		<!--	</OverflowToolbar>-->
-		<!--</footer>-->
 	</Dialog>
 </core:FragmentDefinition >
