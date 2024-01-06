@@ -28,14 +28,13 @@
 								<Text text="{orderModel>line}" wrapping="false" visible="{= ${orderModel>line} > 0}"/>
 							</ui:template>
 						</ui:Column>
-						<ui:Column width="{sizeModel>/remPartNo}" id="Material" sortProperty="Material">
+						<ui:Column id="Material" sortProperty="Material">
 							<Label text="Part Number"/>
 							<ui:template>
 								<VBox>
 									<Input value="{orderModel>partNumber}" type="Text" textFormatMode="Key" showSuggestion='true' suggest="handleSuggest"
 										suggestionItemSelected="handleSuggestionItemSelected" change='handleProductChange' startSuggestion="3"
-										suggestionItems="{path: 'materialSuggestionModel>/Matsuggestions', templateShareable:true}" maxSuggestionWidth='500px' width="340px"
-										required="true" tooltip="{orderModel>partNumber}" visible="{= ${orderModel>line} === 0 || ${orderModel>line} ===''}">
+										suggestionItems="{path: 'materialSuggestionModel>/Matsuggestions', templateShareable:true}" tooltip="{orderModel>partNumber}" visible="{= ${orderModel>line} === 0 || ${orderModel>line} ===''}">
 										<suggestionItems>
 											<core:ListItem key="{materialSuggestionModel>Material}" text="{materialSuggestionModel>Material}"
 												additionalText="{materialSuggestionModel>MaterialName}"/>
@@ -46,12 +45,14 @@
 								</VBox>
 							</ui:template>
 						</ui:Column>
-						<ui:Column width="{sizeModel>/remPartDesc}">
-							<Label text="Campaign Code"/>
-								<ui:template >
-								<Input value="{orderModel>partDesc}" enabled='false' valueState="None" tooltip="{orderModel>partDesc}" width="211px"/>
-							</ui:template>
-						</ui:Column>
+						<ui:Column id="CampaigntNo" sortProperty="CampaignNo">
+								<Label text="{i18n>Lable.CreateOrder.CampaignNumber}*"/>
+								<ui:template>
+									<Input value="{ path : 'orderModel>campaignNum', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:14}' }" type="Text"
+										valueStateText="{i18n>ValidationMessage.campainNum}" placeholder="{i18n>Placeholder.campainNum}"
+										valueState="None" change='onCampOpVINChange' />
+								</ui:template>
+							</ui:Column>
 						
 						<ui:Column id="ErrorStatus" width="4.5rem">
 							<ui:template>
