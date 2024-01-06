@@ -142,19 +142,23 @@
 			</ScrollContainer>
 			<!--</HBox>-->
 		</content>
-		<footer>
-			<OverflowToolbar>
-				<Button type="Back" text="{i18n>Button.CreateOrder.Back}" press='onBack'/>
+		<buttons>
+			<Button text="{i18n>Back}" press='onPressBack'/>
+			<Button text="{i18n>CPOR}" press='CDialogClose'/>
+		</buttons>
+		<!--<footer>-->
+		<!--	<OverflowToolbar>-->
+		<!--		<Button type="Back" text="{i18n>Button.CreateOrder.Back}" press='onBack'/>-->
 				<!--<Button icon="sap-icon://message-popup" text="{=${message>/}.length}" visible="{=${message>/}.length > 0}" type="Emphasized"
-					press="handleMessagePopoverPress"/>-->
-				<ToolbarSpacer/>
+		<!--			press="handleMessagePopoverPress"/>-->
+		<!--		<ToolbarSpacer/>-->
 				<!--	<DraftIndicator id='draftInd'/>-->
 				<!--<Button type="Transparent" text="{i18n>Button.CreateOrder.ImportOrder}" class="size2" press='onImport'/>-->
 				<!--<Button type="Transparent" text="{i18n>Button.CreateOrder.ExportOrder}" class="size2" press='onExport'/>-->
 				<!--<Button type="Reject" text="{i18n>Button.CreateOrder.DeleteOrder}" class="size2" press='onDelete'/>-->
 				<!--<Button type="Accept" text="{i18n>Button.CreateOrder.SubmitOrder}" class="size2" press='onActivate' id="btnSubmit" visible="false"/>-->
 				<!--<Button type="Default" text="{i18n>Button.CreateOrder.SaveDraft}" class="size2" press='onSaveDraft' id="btnDraft"/>-->
-			</OverflowToolbar>
-		</footer>
+		<!--	</OverflowToolbar>-->
+		<!--</footer>-->
 	</Dialog>
 </core:FragmentDefinition >
