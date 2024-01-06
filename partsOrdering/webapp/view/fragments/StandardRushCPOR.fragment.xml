@@ -1,18 +1,6 @@
-<core:FragmentDefinition xmlns:html="http://www.w3.org/1999/xhtml" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
 	xmlns:form="sap.ui.layout.form" xmlns:layout="sap.ui.layout" displayBlock="true" xmlns="sap.m" xmlns:ui="sap.ui.table">
-	<Dialog title="S/RCPOR" showNavButton="false" floatingFooter="false" enableScrolling='false'>
-		<!--<customHeader>-->
-		<!--	<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.TopHeader" type="XML"/>-->
-		<!--</customHeader>-->
-		<!--<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.ToolHeader" type="XML"/>-->
-		<!--<ObjectHeader binding="{orderModel>/}" responsive="true" title="{orderModel>orderTypeName} -- {orderModel>/tciOrderNumber}"-->
-		<!--	number="{orderModel>/totalLines}" numberUnit="{i18n>Lable.CreateOrder.OrderLines}">-->
-		<!--	<statuses></statuses>-->
-		<!--	<attributes>-->
-		<!--		<ObjectAttribute title="{i18n>Lable.CreateOrder.CreateDate}" text="{path : 'orderModel>createDate', formatter:'.formatter.shortDate'}"/>-->
-		<!--		<ObjectAttribute title="{i18n>Lable.CreateOrder.ModifiedOn}" text="{path : 'orderModel>modifiedOn', formatter:'.formatter.shortDate'}"/>-->
-		<!--	</attributes>-->
-		<!--</ObjectHeader>-->
+	<Dialog title="S/RCPOR">
 		<content>
 			<ScrollContainer id='flexContainer' height="80%" width="100%" horizontal="true" vertical="true" focusable="true">
 				<ui:Table id="idProductsTable" alternateRowColors="false" showNoData="false" rows="{orderModel>/items}" visibleRowCount="16"
@@ -161,7 +149,6 @@
 					press="handleMessagePopoverPress"/>-->
 				<ToolbarSpacer/>
 				<!--	<DraftIndicator id='draftInd'/>-->
-				<ToolbarSpacer/>
 				<!--<Button type="Transparent" text="{i18n>Button.CreateOrder.ImportOrder}" class="size2" press='onImport'/>-->
 				<!--<Button type="Transparent" text="{i18n>Button.CreateOrder.ExportOrder}" class="size2" press='onExport'/>-->
 				<!--<Button type="Reject" text="{i18n>Button.CreateOrder.DeleteOrder}" class="size2" press='onDelete'/>-->
