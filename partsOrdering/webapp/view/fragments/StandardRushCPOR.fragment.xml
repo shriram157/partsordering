@@ -73,4 +73,4 @@
 			<Button text="{i18n>CPOR}" press='CDialogClose'/>
 		</buttons>
 	</Dialog>
-</core:FragmentDefinition >
+</core:FragmentDefinition>
