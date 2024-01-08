@@ -746,6 +746,101 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oSource.setBusy(false);
 			}
 		},
+		handleAddPart1: function (oEvent) {
+			var that = this;
+			var oSource = oEvent.getSource() || null;
+			var oOrderData = this.oOrderModel.getData();
+			//this.itemTable.setBusy(true);
+			if (oSource) {
+				oSource.setEnabled(false);
+				oSource.setBusy(true);
+			}
+			var newAddedLineData = oOrderData.items[0];
+			var sIndex = oOrderData.items.filter(ind => ind.partNumber == newAddedLineData.partNumber && ind.opCode == newAddedLineData.opCode &&
+				ind.campaignNum == newAddedLineData.campaignNum && ind.vin == newAddedLineData.vin).length;
+
+			if (oOrderData.items[0].hasError || oOrderData.items[0].partNumber.toString().trim() === "") {
+				if (oSource) {
+					oSource.setEnabled(true);
+					oSource.setBusy(false);
+				}
+				oOrderData.items[0].qty = "";
+				oOrderData.items[0].contractNum = "";
+				oOrderData.items[0].campaignNum = "";
+				oOrderData.items[0].comment = "";
+				that.oOrderModel.setData(oOrderData);
+				return;
+			} else if (sIndex > 1 && oOrderData.orderTypeId == "3") {
+				var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
+				MessageBox.error(sInValid, {
+					actions: [MessageBox.Action.CLOSE],
+					styleClass: that.getOwnerComponent().getContentDensityClass()
+
+				});
+				if (oSource) {
+					oSource.setEnabled(true);
+					oSource.setBusy(false);
+				}
+				oOrderData.items[0].qty = "";
+				oOrderData.items[0].contractNum = "";
+				oOrderData.items[0].campaignNum = "";
+				oOrderData.items[0].comment = "";
+				oOrderData.items[0].partNumber = "";
+				oOrderData.items[0].opCode = "";
+				oOrderData.items[0].vin = "";
+				oOrderData.items[0].spq = "";
+				oOrderData.items[0].partDesc = "";
+				that.oOrderModel.setData(oOrderData);
+				return;
+			}
+			var oItem = JSON.parse(JSON.stringify(oOrderData.items[0]));
+			oItem.addIcon = false;
+			oItem.hasError = false;
+			var lv_orderType = oItem.OrderType;
+			oOrderData.items[0] = oItem;
+			oOrderData.items[0].line = oOrderData.totalLines + 1;
+			oOrderData.items[0].addIcon = false;
+			oOrderData.items[0].selected = false;
+			oOrderData.items[0]["ItemStatus"] = "Unsaved";
+			oOrderData.items.splice(oOrderData.items.length, 0, oOrderData.items[0]);
+			this.aCreateItems.push(oOrderData.items[0]);
+			this.toggleSubmitDraftButton();
+			oOrderData.items.splice(0, 1);
+			var that = this;
+			//code by Minakshi for duplicate vin, ops, camp and partnum
+			// if (oOrderData.orderTypeId == 3) {
+			// 	oOrderData.items = oOrderData.items.reduce((unique, o) => {
+			// 		if (!unique.some(obj => obj.partNumber === o.partNumber && obj.campaignNum === o.campaignNum && obj.opCode === o.opCode && obj.vin ===
+			// 				o.vin)) {
+			// 			// var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
+			// 			// MessageBox.error(sInValid, {
+			// 			// 	actions: [MessageBox.Action.CLOSE],
+			// 			// 	styleClass: that.getOwnerComponent().getContentDensityClass()
+
+			// 			// });
+			// 			unique.push(o);
+			// 		}
+			// 		return unique;
+			// 	}, []);
+			// }
+
+			//code by Minakshi for duplicate vin, ops, camp and partnum
+
+			oOrderData.items.splice(0, 0, that._getNewItem());
+			//rData.newline = [that._getNewLine()];
+			oOrderData.totalLines = oOrderData.items.length - 1;
+			if (oOrderData.totalLines >= 16) {
+				this.itemTable.setVisibleRowCount(oOrderData.items.length + 2);
+			}
+			// ---to save some newwork traffic
+			oOrderData.modifiedOn = new Date();
+			that.oOrderModel.setData(oOrderData);
+			DataManager.setOrderData(oOrderData);
+			if (oSource) {
+				oSource.setEnabled(true);
+				oSource.setBusy(false);
+			}
+		}
 
 		onSaveDraft: function (oEvent) {
 			var that = this;
@@ -1668,6 +1763,160 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			that.toggleSubmitDraftButton();
 
 		},
+		handleDeletePart1: function (oEvent) {
+			var that = this;
+			var model = this.getModel(CONT_ORDER_MODEL);
+
+			var todoList = [];
+			var deletedList = {};
+			deletedList.count = 0;
+			var failedList = {};
+			failedList.count = 0;
+
+			var rData = model.getData();
+			var items = rData.items;
+			var newItems = [];
+			var isSalesOrder = model.getProperty('/isSalesOrder');
+			var Deletelines = [];
+			var rows = that.itemTable.getRows();
+
+			if (!!items && items.length > 0) {
+
+				sap.ui.core.BusyIndicator.show(0);
+
+				for (var i = 1; i < items.length; i++) {
+					if (items[i].selected) {
+						Deletelines.push(items[i].line);
+						if (items[i].uuid) {
+							//this.draftInd.showDraftSaving();
+							todoList.push(items[i].uuid);
+							this.deleteOrderDraftItem([items[i].uuid, items[i].line, items[i].parentUuid], isSalesOrder, function (keys, isOk, messages) {
+								// only failed record will be returning message. message of good one will be ignored
+								if (isOk) {
+									deletedList[keys[0]] = keys;
+									deletedList.count = deletedList.count + 1;
+
+								} else {
+									failedList[keys[0]] = messages;
+									failedList.count = failedList.count + 1;
+								}
+
+								if (todoList.length <= (deletedList.count + failedList.count)) {
+									// create new items 
+									for (var y = 0; y < items.length; y++) {
+										var Index = Deletelines.indexOf(y);
+										if (Index >= 0) {
+											for (var c = 0; c < that.aCreateItems.length; c++) {
+												if (that.aCreateItems[c].line === y) {
+													var rowCells = rows[y].getCells();
+													var cellsLen = rowCells.length;
+
+													for (var y1 = 5; y1 < cellsLen; y1++) {
+														if (rowCells[y1].getMetadata()._sClassName === "sap.m.Input") {
+
+															rowCells[y1].setValueStateText("");
+															rowCells[y1].setValueState("None");
+
+														}
+													}
+													that.aCreateItems.splice(c, 1);
+												}
+
+											}
+											for (var u = 0; u < that.aUpdateItems.length; c++) {
+												if (that.aUpdateItems[u].line === y) {
+													var rowCells = rows[y].getCells();
+													var cellsLen = rowCells.length;
+
+													for (var y1 = 5; y1 < cellsLen; y1++) {
+														if (rowCells[y1].getMetadata()._sClassName === "sap.m.Input") {
+
+															rowCells[y1].setValueStateText("");
+															rowCells[y1].setValueState("None");
+
+														}
+													}
+													that.aUpdateItems.splice(u, 1);
+												}
+											}
+											//items.splice(y, 1);
+
+										}
+										if (items[y].uuid && (!!deletedList[items[y].uuid])) { // n 
+										} else {
+											if (Index === -1) {
+												newItems.push(items[y]);
+											}
+										}
+									}
+
+									//newItems = items;
+									for (var z = 1; z < newItems.length; z++) {
+										newItems[z].line = z;
+										if (!!failedList[newItems[z].uuid]) {
+											newItems[z].messages = newItems[z].messages.concat(newItems[z].messages);
+										}
+									}
+
+									rData.items = newItems;
+									rData.totalLines = rData.items.length - 1;
+									// ---to save some newwork traffic
+									rData.modifiedOn = new Date();
+									model.setData(rData);
+									//that.draftInd.showDraftSaved();
+								}
+							});
+						}
+						// if uuid 
+
+					}
+				}
+				if (todoList.length === 0) {
+					for (var y = 0; y < items.length; y++) {
+						var Index = Deletelines.indexOf(y);
+						if (Index >= 0) {
+							for (var c = 0; c < that.aCreateItems.length; c++) {
+								if (that.aCreateItems[c].line === y) {
+									var rowCells = rows[y].getCells();
+									var cellsLen = rowCells.length;
+
+									for (var y1 = 5; y1 < cellsLen; y1++) {
+										if (rowCells[y1].getMetadata()._sClassName === "sap.m.Input") {
+
+											rowCells[y1].setValueStateText("");
+											rowCells[y1].setValueState("None");
+
+										}
+									}
+									that.aCreateItems.splice(c, 1);
+								}
+							}
+							//items.splice(y, 1);
+						} else {
+							newItems.push(items[y]);
+						}
+
+					}
+					for (var y = 0; y < newItems.length; y++) {
+						newItems[y].line = y;
+					}
+					rData.items = newItems;
+					rData.totalLines = rData.items.length - 1;
+					if (rData.totalLines >= 16) {
+						this.itemTable.setVisibleRowCount(rData.totalLines + 2);
+					}
+					// ---to save some newwork traffic
+					rData.modifiedOn = new Date();
+					model.setData(rData);
+					//that.itemTableTable().getBinding("rows").getModel().refresh();
+
+				}
+				sap.ui.core.BusyIndicator.hide();
+			}
+
+			that.toggleSubmitDraftButton();
+
+		}
 
 		onBack: function (oEvent) {
 			var that = this;
