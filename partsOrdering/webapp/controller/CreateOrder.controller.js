@@ -137,7 +137,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			
 			//changes by shriram for DMND0004095 on January 5th 2024   start
 			var campaignModel = new sap.ui.model.json.JSONModel({
-				"data": []
+				"data": [{vinNum:" "},{CampaignCode:" "},{OperationCode:" "}]
 			});
 			sap.ui.getCore().setModel(campaignModel, "campaignModel");
 			this.getView().setModel(campaignModel, "campaignModel");
