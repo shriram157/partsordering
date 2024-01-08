@@ -753,7 +753,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var campaignModelItems= this.getView().getModel("campaignModel").getData();
 			//campaignModelItems.data[i]
 			var aCampaignData=this.getView().getModel("campaignModel").getProperty("/data");
-			    aCampaignData.push(campaignModelItems.data[i]);
+			    aCampaignData.push(campaignModelItems.data[0]);
+			    this.getView().getModel("campaignModel").setProperty("/data",aCampaignData);
+			    
 			    this.getView().getModel("campaignModel").refresh();
 			    
 			    
