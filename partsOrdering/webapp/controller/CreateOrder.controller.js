@@ -1916,7 +1916,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 			that.toggleSubmitDraftButton();
 
-		}
+		},
 
 		onBack: function (oEvent) {
 			var that = this;
