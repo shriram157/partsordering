@@ -12,7 +12,7 @@
 							<content>
 								<!--<Title id="title" text="Order" />-->
 								<!--<Button type='Reject' 	icon="sap-icon://sorting-ranking" tooltip="{i18n>Button.Error.Rows}" class="size2" press='handleSortError' visible="false" id="btnFilterError" />	-->
-								<Button type='Reject' icon="sap-icon://delete" tooltip="{i18n>ToolTip.CreateOrder.Delete.LineItem}" class="size2" press='handleDeletePart'
+								<Button type='Reject' icon="sap-icon://delete" tooltip="{i18n>ToolTip.CreateOrder.Delete.LineItem}" class="size2" press='handleDeletePart1'
 									visible="true"/>
 								<ToolbarSpacer/>
 								<Button type="Default" icon="sap-icon://sort" tooltip="{i18n>ToolTip.Sort.Error.Rows}" class="size2" press='handleSortError' visible="false"
@@ -28,8 +28,9 @@
 						<ui:Column width="2rem">
 							<Label text=""/>
 							<ui:template>
-								<CheckBox select='toggleSelect' wrapping="false" selected="{orderModel>selected}" visible="{= ${orderModel>line} > 0}"
-									class="sapUiNoContentPadding"/>
+								<!--<CheckBox select='toggleSelect' wrapping="false" selected="{orderModel>selected}" visible="{= ${orderModel>line} > 0}"-->
+								<!--	class="sapUiNoContentPadding"/>-->
+								<CheckBox visible="true" selected="{campaignModel>selected}"/>
 							</ui:template>
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remLine}" sortProperty="line">

@@ -134,10 +134,15 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 			var appStateModel = this.getStateModel();
 			appStateModel.setProperty('/tabKey', 'CO');
-			
+
 			//changes by shriram for DMND0004095 on January 5th 2024   start
 			var campaignModel = new sap.ui.model.json.JSONModel({
-				"data": [{vinNum:" ",CampaignCode:" ",OperationCode:" "}]
+				"data": [{
+					selected:false,
+					vinNum: " ",
+					CampaignCode: " ",
+					OperationCode: " "
+				}]
 			});
 			sap.ui.getCore().setModel(campaignModel, "campaignModel");
 			this.getView().setModel(campaignModel, "campaignModel");
@@ -336,7 +341,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		//changes by Shriram on 5th January, 2024 for DMND0004095   Start
 		addData: function (oEvent) {
 			var vinNum, CampaignCode, OperationCode;
-			var vinCampaignData=[];
+			var vinCampaignData = [];
 			var obj = {};
 			obj.vinNum = sap.ui.getCore().byId("vinNum").getValue();
 			obj.CampaignCode = sap.ui.getCore().byId("campaignCode").getValue();
@@ -350,18 +355,18 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			// 	}
 			// }
 
-			this.getView().getModel("campaignModel").setProperty("/data",arrleng);
+			this.getView().getModel("campaignModel").setProperty("/data", arrleng);
 		},
 		//changes by swetha for DMND0004095 on Jan 5th, 2024 ---Start
-		add1Data: function(oEvent){
+		add1Data: function (oEvent) {
 			var vinNum, CampaignCode;
-			var vinCampaignData=[];
+			var vinCampaignData = [];
 			var obj = {};
 			obj.vinNum1 = sap.ui.getCore().byId("vinNum1").getValue();
 			obj.CampaignCode = sap.ui.getCore().byId("CampaignCode1").getValue();
 			var arrleng = this.getView().getModel("stanrushModel").getProperty("/data");
 			arrleng.push(obj);
-			this.getView().getModel("stanrushModel").setProperty("/data",arrleng);	
+			this.getView().getModel("stanrushModel").setProperty("/data", arrleng);
 		},
 		//changes by swetha for DMND0004095 on Jan 5th, 2024 ---Start
 		onDialogClose: function (oEvent) {
@@ -745,21 +750,23 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oSource.setBusy(false);
 			}
 		},
-		
+
 		//  Shriram changes for the DMND0004095
 		handleAddPart1: function (oEvent) {
 			var that = this;
-			
-			var campaignModelItems= this.getView().getModel("campaignModel").getData();
+
+			var campaignModelItems = this.getView().getModel("campaignModel").getData();
 			//campaignModelItems.data[i]
-			var aCampaignData=this.getView().getModel("campaignModel").getProperty("/data");
-			    aCampaignData.push(campaignModelItems.data[0]);
-			    this.getView().getModel("campaignModel").setProperty("/data",aCampaignData);
-			    
-			    this.getView().getModel("campaignModel").refresh();
-			    
-			    
-			
+			var aCampaignData = this.getView().getModel("campaignModel").getProperty("/data");
+			aCampaignData.push(campaignModelItems.data[0]);
+			this.getView().getModel("campaignModel").setProperty("/data["+0+"]".selected,false);
+			this.getView().getModel("campaignModel").setProperty("/data["+0+"]".vinNum," ");
+			this.getView().getModel("campaignModel").setProperty("/data["+0+"]".CampaignCode," ");
+			this.getView().getModel("campaignModel").setProperty("/data["+0+"]".OperationCode," ");
+			this.getView().getModel("campaignModel").setProperty("/data", aCampaignData);
+
+			this.getView().getModel("campaignModel").refresh();
+
 			// var oSource = oEvent.getSource() || null;
 			// var oOrderData = this.oOrderModel.getData();
 			// //this.itemTable.setBusy(true);
@@ -1777,156 +1784,173 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		},
 		handleDeletePart1: function (oEvent) {
 			var that = this;
-			var model = this.getModel(CONT_ORDER_MODEL);
 
-			var todoList = [];
-			var deletedList = {};
-			deletedList.count = 0;
-			var failedList = {};
-			failedList.count = 0;
+			var aDeleteData = this.getView().getModel("campaignModel").getProperty("/data");
+			var iDataLength = aDeleteData.length();
 
-			var rData = model.getData();
-			var items = rData.items;
-			var newItems = [];
-			var isSalesOrder = model.getProperty('/isSalesOrder');
-			var Deletelines = [];
-			var rows = that.itemTable.getRows();
+			for (var i = 0; i < iDataLength; i++) {
+				var checkStatus = this.getView().getModel("campaignModel").getProperty("/data[" + i + "]/selected");
 
-			if (!!items && items.length > 0) {
-
-				sap.ui.core.BusyIndicator.show(0);
-
-				for (var i = 1; i < items.length; i++) {
-					if (items[i].selected) {
-						Deletelines.push(items[i].line);
-						if (items[i].uuid) {
-							//this.draftInd.showDraftSaving();
-							todoList.push(items[i].uuid);
-							this.deleteOrderDraftItem([items[i].uuid, items[i].line, items[i].parentUuid], isSalesOrder, function (keys, isOk, messages) {
-								// only failed record will be returning message. message of good one will be ignored
-								if (isOk) {
-									deletedList[keys[0]] = keys;
-									deletedList.count = deletedList.count + 1;
-
-								} else {
-									failedList[keys[0]] = messages;
-									failedList.count = failedList.count + 1;
-								}
-
-								if (todoList.length <= (deletedList.count + failedList.count)) {
-									// create new items 
-									for (var y = 0; y < items.length; y++) {
-										var Index = Deletelines.indexOf(y);
-										if (Index >= 0) {
-											for (var c = 0; c < that.aCreateItems.length; c++) {
-												if (that.aCreateItems[c].line === y) {
-													var rowCells = rows[y].getCells();
-													var cellsLen = rowCells.length;
-
-													for (var y1 = 5; y1 < cellsLen; y1++) {
-														if (rowCells[y1].getMetadata()._sClassName === "sap.m.Input") {
-
-															rowCells[y1].setValueStateText("");
-															rowCells[y1].setValueState("None");
-
-														}
-													}
-													that.aCreateItems.splice(c, 1);
-												}
-
-											}
-											for (var u = 0; u < that.aUpdateItems.length; c++) {
-												if (that.aUpdateItems[u].line === y) {
-													var rowCells = rows[y].getCells();
-													var cellsLen = rowCells.length;
-
-													for (var y1 = 5; y1 < cellsLen; y1++) {
-														if (rowCells[y1].getMetadata()._sClassName === "sap.m.Input") {
-
-															rowCells[y1].setValueStateText("");
-															rowCells[y1].setValueState("None");
-
-														}
-													}
-													that.aUpdateItems.splice(u, 1);
-												}
-											}
-											//items.splice(y, 1);
-
-										}
-										if (items[y].uuid && (!!deletedList[items[y].uuid])) { // n 
-										} else {
-											if (Index === -1) {
-												newItems.push(items[y]);
-											}
-										}
-									}
-
-									//newItems = items;
-									for (var z = 1; z < newItems.length; z++) {
-										newItems[z].line = z;
-										if (!!failedList[newItems[z].uuid]) {
-											newItems[z].messages = newItems[z].messages.concat(newItems[z].messages);
-										}
-									}
-
-									rData.items = newItems;
-									rData.totalLines = rData.items.length - 1;
-									// ---to save some newwork traffic
-									rData.modifiedOn = new Date();
-									model.setData(rData);
-									//that.draftInd.showDraftSaved();
-								}
-							});
-						}
-						// if uuid 
-
-					}
+				if (checkStatus == "true") {
+					aDeleteData.splice(i, 1);
 				}
-				if (todoList.length === 0) {
-					for (var y = 0; y < items.length; y++) {
-						var Index = Deletelines.indexOf(y);
-						if (Index >= 0) {
-							for (var c = 0; c < that.aCreateItems.length; c++) {
-								if (that.aCreateItems[c].line === y) {
-									var rowCells = rows[y].getCells();
-									var cellsLen = rowCells.length;
 
-									for (var y1 = 5; y1 < cellsLen; y1++) {
-										if (rowCells[y1].getMetadata()._sClassName === "sap.m.Input") {
-
-											rowCells[y1].setValueStateText("");
-											rowCells[y1].setValueState("None");
-
-										}
-									}
-									that.aCreateItems.splice(c, 1);
-								}
-							}
-							//items.splice(y, 1);
-						} else {
-							newItems.push(items[y]);
-						}
-
-					}
-					for (var y = 0; y < newItems.length; y++) {
-						newItems[y].line = y;
-					}
-					rData.items = newItems;
-					rData.totalLines = rData.items.length - 1;
-					if (rData.totalLines >= 16) {
-						this.itemTable.setVisibleRowCount(rData.totalLines + 2);
-					}
-					// ---to save some newwork traffic
-					rData.modifiedOn = new Date();
-					model.setData(rData);
-					//that.itemTableTable().getBinding("rows").getModel().refresh();
-
-				}
-				sap.ui.core.BusyIndicator.hide();
 			}
+			
+			this.getView().getModel("campaignModel").setProperty("/data",aDeleteData);
+			this.getView().getModel("campaignModel").refresh()
+			
 
-			that.toggleSubmitDraftButton();
+			// var model = this.getModel(CONT_ORDER_MODEL);
+
+			// var todoList = [];
+			// var deletedList = {};
+			// deletedList.count = 0;
+			// var failedList = {};
+			// failedList.count = 0;
+
+			// var rData = model.getData();
+			// var items = rData.items;
+			// var newItems = [];
+			// var isSalesOrder = model.getProperty('/isSalesOrder');
+			// var Deletelines = [];
+			// var rows = that.itemTable.getRows();
+
+			// if (!!items && items.length > 0) {
+
+			// 	sap.ui.core.BusyIndicator.show(0);
+
+			// 	for (var i = 1; i < items.length; i++) {
+			// 		if (items[i].selected) {
+			// 			Deletelines.push(items[i].line);
+			// 			if (items[i].uuid) {
+			// 				//this.draftInd.showDraftSaving();
+			// 				todoList.push(items[i].uuid);
+			// 				this.deleteOrderDraftItem([items[i].uuid, items[i].line, items[i].parentUuid], isSalesOrder, function (keys, isOk, messages) {
+			// 					// only failed record will be returning message. message of good one will be ignored
+			// 					if (isOk) {
+			// 						deletedList[keys[0]] = keys;
+			// 						deletedList.count = deletedList.count + 1;
+
+			// 					} else {
+			// 						failedList[keys[0]] = messages;
+			// 						failedList.count = failedList.count + 1;
+			// 					}
+
+			// 					if (todoList.length <= (deletedList.count + failedList.count)) {
+			// 						// create new items 
+			// 						for (var y = 0; y < items.length; y++) {
+			// 							var Index = Deletelines.indexOf(y);
+			// 							if (Index >= 0) {
+			// 								for (var c = 0; c < that.aCreateItems.length; c++) {
+			// 									if (that.aCreateItems[c].line === y) {
+			// 										var rowCells = rows[y].getCells();
+			// 										var cellsLen = rowCells.length;
+
+			// 										for (var y1 = 5; y1 < cellsLen; y1++) {
+			// 											if (rowCells[y1].getMetadata()._sClassName === "sap.m.Input") {
+
+			// 												rowCells[y1].setValueStateText("");
+			// 												rowCells[y1].setValueState("None");
+
+			// 											}
+			// 										}
+			// 										that.aCreateItems.splice(c, 1);
+			// 									}
+
+			// 								}
+			// 								for (var u = 0; u < that.aUpdateItems.length; c++) {
+			// 									if (that.aUpdateItems[u].line === y) {
+			// 										var rowCells = rows[y].getCells();
+			// 										var cellsLen = rowCells.length;
+
+			// 										for (var y1 = 5; y1 < cellsLen; y1++) {
+			// 											if (rowCells[y1].getMetadata()._sClassName === "sap.m.Input") {
+
+			// 												rowCells[y1].setValueStateText("");
+			// 												rowCells[y1].setValueState("None");
+
+			// 											}
+			// 										}
+			// 										that.aUpdateItems.splice(u, 1);
+			// 									}
+			// 								}
+			// 								//items.splice(y, 1);
+
+			// 							}
+			// 							if (items[y].uuid && (!!deletedList[items[y].uuid])) { // n 
+			// 							} else {
+			// 								if (Index === -1) {
+			// 									newItems.push(items[y]);
+			// 								}
+			// 							}
+			// 						}
+
+			// 						//newItems = items;
+			// 						for (var z = 1; z < newItems.length; z++) {
+			// 							newItems[z].line = z;
+			// 							if (!!failedList[newItems[z].uuid]) {
+			// 								newItems[z].messages = newItems[z].messages.concat(newItems[z].messages);
+			// 							}
+			// 						}
+
+			// 						rData.items = newItems;
+			// 						rData.totalLines = rData.items.length - 1;
+			// 						// ---to save some newwork traffic
+			// 						rData.modifiedOn = new Date();
+			// 						model.setData(rData);
+			// 						//that.draftInd.showDraftSaved();
+			// 					}
+			// 				});
+			// 			}
+			// 			// if uuid 
+
+			// 		}
+			// 	}
+			// 	if (todoList.length === 0) {
+			// 		for (var y = 0; y < items.length; y++) {
+			// 			var Index = Deletelines.indexOf(y);
+			// 			if (Index >= 0) {
+			// 				for (var c = 0; c < that.aCreateItems.length; c++) {
+			// 					if (that.aCreateItems[c].line === y) {
+			// 						var rowCells = rows[y].getCells();
+			// 						var cellsLen = rowCells.length;
+
+			// 						for (var y1 = 5; y1 < cellsLen; y1++) {
+			// 							if (rowCells[y1].getMetadata()._sClassName === "sap.m.Input") {
+
+			// 								rowCells[y1].setValueStateText("");
+			// 								rowCells[y1].setValueState("None");
+
+			// 							}
+			// 						}
+			// 						that.aCreateItems.splice(c, 1);
+			// 					}
+			// 				}
+			// 				//items.splice(y, 1);
+			// 			} else {
+			// 				newItems.push(items[y]);
+			// 			}
+
+			// 		}
+			// 		for (var y = 0; y < newItems.length; y++) {
+			// 			newItems[y].line = y;
+			// 		}
+			// 		rData.items = newItems;
+			// 		rData.totalLines = rData.items.length - 1;
+			// 		if (rData.totalLines >= 16) {
+			// 			this.itemTable.setVisibleRowCount(rData.totalLines + 2);
+			// 		}
+			// 		// ---to save some newwork traffic
+			// 		rData.modifiedOn = new Date();
+			// 		model.setData(rData);
+			// 		//that.itemTableTable().getBinding("rows").getModel().refresh();
+
+			// 	}
+			// 	sap.ui.core.BusyIndicator.hide();
+			// }
+
+			// that.toggleSubmitDraftButton();
 
 		},
 
@@ -2847,11 +2871,11 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 		},
 		//changes by Swetha for DMND0004095 on 5th January, 2024 Start
-		onPressBack: function() {
-			var that = this;
-			that.getRouter().navTo("StartOrdering", null, false);	
-		}
-		//changes by Swetha for DMND0004095 on 5th January, 2024 End
+		onPressBack: function () {
+				var that = this;
+				that.getRouter().navTo("StartOrdering", null, false);
+			}
+			//changes by Swetha for DMND0004095 on 5th January, 2024 End
 
 	});
 });
