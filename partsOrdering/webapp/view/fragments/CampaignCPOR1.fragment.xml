@@ -81,7 +81,7 @@
 						<ui:Column id="ErrorStatus" width="4.5rem">
 							<ui:template>
 								<VBox width="3.5rem">
-									<Button  type="Accept" tooltip="Add" class="size1" icon="sap-icon://add" press="handleAddPart1"/>
+									<Button  type="Accept" tooltip="Add" class="size1" icon="sap-icon://add" press="handleAddPart2"/>
 									<!--<Button type="Accept" tooltip="Add" class="size1" icon="sap-icon://add" press='handleAddPart1'-->
 									<!--	visible="{= ${orderModel>line} === 0 &amp;&amp; ${orderModel>addIcon} === true}"></Button>-->
 									<!--	<Button type='Reject' tooltip="Minus" class="size2" icon="sap-icon://less" press='handleDeletePart' visible="{orderModel>minusIcon}"></Button>-->
