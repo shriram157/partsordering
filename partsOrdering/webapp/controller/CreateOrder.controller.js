@@ -840,7 +840,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oSource.setEnabled(true);
 				oSource.setBusy(false);
 			}
-		}
+		},
 
 		onSaveDraft: function (oEvent) {
 			var that = this;
