@@ -69,7 +69,7 @@
 								<!--	</VBox>-->
 							</ui:template>
 						</ui:Column>
-						<ui:Column width="{sizeModel>/remSPQ}">
+						<ui:Column width="{sizeModel>/remPartDesc}">
 							<Label text="{i18n>OpCode}"/>
 							<ui:template >
 								<!--	<Text text="{ path: 'orderModel>spq', formatter:'.formatter.spqFormat'}"/>-->

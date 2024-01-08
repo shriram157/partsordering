@@ -137,7 +137,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			
 			//changes by shriram for DMND0004095 on January 5th 2024   start
 			var campaignModel = new sap.ui.model.json.JSONModel({
-				"data": [{vinNum:" "},{CampaignCode:" "},{OperationCode:" "}]
+				"data": [{vinNum:" ",CampaignCode:" ",OperationCode:" "}]
 			});
 			sap.ui.getCore().setModel(campaignModel, "campaignModel");
 			this.getView().setModel(campaignModel, "campaignModel");
@@ -152,8 +152,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			// load the model ... 
 			var orderType = oEvent.getParameter("arguments").orderType;
 			var orderNum = oEvent.getParameter("arguments").orderNum;
-			var
-				CONTRACT_NUM = sap.ui.getCore().getModel("APP_STATE_MODEL").getProperty("/selectedOrderMeta/contract_num");
+			var CONTRACT_NUM = sap.ui.getCore().getModel("APP_STATE_MODEL").getProperty("/selectedOrderMeta/contract_num");
 			//Changes by shriram
 			if (oEvent.getParameter("arguments").CPORCB == "true") {
 				if (orderType == "1" || orderType == "2") {
@@ -746,100 +745,111 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oSource.setBusy(false);
 			}
 		},
+		
+		//  Shriram changes for the DMND0004095
 		handleAddPart1: function (oEvent) {
 			var that = this;
-			var oSource = oEvent.getSource() || null;
-			var oOrderData = this.oOrderModel.getData();
-			//this.itemTable.setBusy(true);
-			if (oSource) {
-				oSource.setEnabled(false);
-				oSource.setBusy(true);
-			}
-			var newAddedLineData = oOrderData.items[0];
-			var sIndex = oOrderData.items.filter(ind => ind.partNumber == newAddedLineData.partNumber && ind.opCode == newAddedLineData.opCode &&
-				ind.campaignNum == newAddedLineData.campaignNum && ind.vin == newAddedLineData.vin).length;
-
-			if (oOrderData.items[0].hasError || oOrderData.items[0].partNumber.toString().trim() === "") {
-				if (oSource) {
-					oSource.setEnabled(true);
-					oSource.setBusy(false);
-				}
-				oOrderData.items[0].qty = "";
-				oOrderData.items[0].contractNum = "";
-				oOrderData.items[0].campaignNum = "";
-				oOrderData.items[0].comment = "";
-				that.oOrderModel.setData(oOrderData);
-				return;
-			} else if (sIndex > 1 && oOrderData.orderTypeId == "3") {
-				var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
-				MessageBox.error(sInValid, {
-					actions: [MessageBox.Action.CLOSE],
-					styleClass: that.getOwnerComponent().getContentDensityClass()
-
-				});
-				if (oSource) {
-					oSource.setEnabled(true);
-					oSource.setBusy(false);
-				}
-				oOrderData.items[0].qty = "";
-				oOrderData.items[0].contractNum = "";
-				oOrderData.items[0].campaignNum = "";
-				oOrderData.items[0].comment = "";
-				oOrderData.items[0].partNumber = "";
-				oOrderData.items[0].opCode = "";
-				oOrderData.items[0].vin = "";
-				oOrderData.items[0].spq = "";
-				oOrderData.items[0].partDesc = "";
-				that.oOrderModel.setData(oOrderData);
-				return;
-			}
-			var oItem = JSON.parse(JSON.stringify(oOrderData.items[0]));
-			oItem.addIcon = false;
-			oItem.hasError = false;
-			var lv_orderType = oItem.OrderType;
-			oOrderData.items[0] = oItem;
-			oOrderData.items[0].line = oOrderData.totalLines + 1;
-			oOrderData.items[0].addIcon = false;
-			oOrderData.items[0].selected = false;
-			oOrderData.items[0]["ItemStatus"] = "Unsaved";
-			oOrderData.items.splice(oOrderData.items.length, 0, oOrderData.items[0]);
-			this.aCreateItems.push(oOrderData.items[0]);
-			this.toggleSubmitDraftButton();
-			oOrderData.items.splice(0, 1);
-			var that = this;
-			//code by Minakshi for duplicate vin, ops, camp and partnum
-			// if (oOrderData.orderTypeId == 3) {
-			// 	oOrderData.items = oOrderData.items.reduce((unique, o) => {
-			// 		if (!unique.some(obj => obj.partNumber === o.partNumber && obj.campaignNum === o.campaignNum && obj.opCode === o.opCode && obj.vin ===
-			// 				o.vin)) {
-			// 			// var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
-			// 			// MessageBox.error(sInValid, {
-			// 			// 	actions: [MessageBox.Action.CLOSE],
-			// 			// 	styleClass: that.getOwnerComponent().getContentDensityClass()
-
-			// 			// });
-			// 			unique.push(o);
-			// 		}
-			// 		return unique;
-			// 	}, []);
+			
+			var campaignModelItems= this.getView().getModel("campaignModel").getData();
+			//campaignModelItems.data[i]
+			var aCampaignData=this.getView().getModel("campaignModel").getProperty("/data");
+			    aCampaignData.push(campaignModelItems.data[i]);
+			    this.getView().getModel("campaignModel").refresh();
+			    
+			    
+			
+			// var oSource = oEvent.getSource() || null;
+			// var oOrderData = this.oOrderModel.getData();
+			// //this.itemTable.setBusy(true);
+			// if (oSource) {
+			// 	oSource.setEnabled(false);
+			// 	oSource.setBusy(true);
 			// }
+			// var newAddedLineData = oOrderData.items[0];
+			// var sIndex = oOrderData.items.filter(ind => ind.partNumber == newAddedLineData.partNumber && ind.opCode == newAddedLineData.opCode &&
+			// 	ind.campaignNum == newAddedLineData.campaignNum && ind.vin == newAddedLineData.vin).length;
 
-			//code by Minakshi for duplicate vin, ops, camp and partnum
+			// if (oOrderData.items[0].hasError || oOrderData.items[0].partNumber.toString().trim() === "") {
+			// 	if (oSource) {
+			// 		oSource.setEnabled(true);
+			// 		oSource.setBusy(false);
+			// 	}
+			// 	oOrderData.items[0].qty = "";
+			// 	oOrderData.items[0].contractNum = "";
+			// 	oOrderData.items[0].campaignNum = "";
+			// 	oOrderData.items[0].comment = "";
+			// 	that.oOrderModel.setData(oOrderData);
+			// 	return;
+			// } else if (sIndex > 1 && oOrderData.orderTypeId == "3") {
+			// 	var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
+			// 	MessageBox.error(sInValid, {
+			// 		actions: [MessageBox.Action.CLOSE],
+			// 		styleClass: that.getOwnerComponent().getContentDensityClass()
 
-			oOrderData.items.splice(0, 0, that._getNewItem());
-			//rData.newline = [that._getNewLine()];
-			oOrderData.totalLines = oOrderData.items.length - 1;
-			if (oOrderData.totalLines >= 16) {
-				this.itemTable.setVisibleRowCount(oOrderData.items.length + 2);
-			}
-			// ---to save some newwork traffic
-			oOrderData.modifiedOn = new Date();
-			that.oOrderModel.setData(oOrderData);
-			DataManager.setOrderData(oOrderData);
-			if (oSource) {
-				oSource.setEnabled(true);
-				oSource.setBusy(false);
-			}
+			// 	});
+			// 	if (oSource) {
+			// 		oSource.setEnabled(true);
+			// 		oSource.setBusy(false);
+			// 	}
+			// 	oOrderData.items[0].qty = "";
+			// 	oOrderData.items[0].contractNum = "";
+			// 	oOrderData.items[0].campaignNum = "";
+			// 	oOrderData.items[0].comment = "";
+			// 	oOrderData.items[0].partNumber = "";
+			// 	oOrderData.items[0].opCode = "";
+			// 	oOrderData.items[0].vin = "";
+			// 	oOrderData.items[0].spq = "";
+			// 	oOrderData.items[0].partDesc = "";
+			// 	that.oOrderModel.setData(oOrderData);
+			// 	return;
+			// }
+			// var oItem = JSON.parse(JSON.stringify(oOrderData.items[0]));
+			// oItem.addIcon = false;
+			// oItem.hasError = false;
+			// var lv_orderType = oItem.OrderType;
+			// oOrderData.items[0] = oItem;
+			// oOrderData.items[0].line = oOrderData.totalLines + 1;
+			// oOrderData.items[0].addIcon = false;
+			// oOrderData.items[0].selected = false;
+			// oOrderData.items[0]["ItemStatus"] = "Unsaved";
+			// oOrderData.items.splice(oOrderData.items.length, 0, oOrderData.items[0]);
+			// this.aCreateItems.push(oOrderData.items[0]);
+			// this.toggleSubmitDraftButton();
+			// oOrderData.items.splice(0, 1);
+			// var that = this;
+			// //code by Minakshi for duplicate vin, ops, camp and partnum
+			// // if (oOrderData.orderTypeId == 3) {
+			// // 	oOrderData.items = oOrderData.items.reduce((unique, o) => {
+			// // 		if (!unique.some(obj => obj.partNumber === o.partNumber && obj.campaignNum === o.campaignNum && obj.opCode === o.opCode && obj.vin ===
+			// // 				o.vin)) {
+			// // 			// var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
+			// // 			// MessageBox.error(sInValid, {
+			// // 			// 	actions: [MessageBox.Action.CLOSE],
+			// // 			// 	styleClass: that.getOwnerComponent().getContentDensityClass()
+
+			// // 			// });
+			// // 			unique.push(o);
+			// // 		}
+			// // 		return unique;
+			// // 	}, []);
+			// // }
+
+			// //code by Minakshi for duplicate vin, ops, camp and partnum
+
+			// oOrderData.items.splice(0, 0, that._getNewItem());
+			// //rData.newline = [that._getNewLine()];
+			// oOrderData.totalLines = oOrderData.items.length - 1;
+			// if (oOrderData.totalLines >= 16) {
+			// 	this.itemTable.setVisibleRowCount(oOrderData.items.length + 2);
+			// }
+			// // ---to save some newwork traffic
+			// oOrderData.modifiedOn = new Date();
+			// that.oOrderModel.setData(oOrderData);
+			// DataManager.setOrderData(oOrderData);
+			// if (oSource) {
+			// 	oSource.setEnabled(true);
+			// 	oSource.setBusy(false);
+			// }
 		},
 
 		onSaveDraft: function (oEvent) {
