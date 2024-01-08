@@ -165,7 +165,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 				} else {
 					if (!this._iDialog) {
-						this._iDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.CampaignCPOR", this);
+						this._iDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.CampaignCPOR1", this);
 						this.getView().addDependent(this._iDialog);
 					}
 					this._iDialog.open();

@@ -1,0 +1,191 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:form="sap.ui.layout.form"
+	xmlns:layout="sap.ui.layout" displayBlock="true" xmlns:ui="sap.ui.table">
+	<Dialog title=" {i18n>CampaignCPOR}"
+	contentWidth="1152px" contentHeight="70%" verticalScrolling='true' resizable="true" draggable="true" horizontalScrolling='true'>
+	<content>
+		<!--<VBox>-->
+		<!--	<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="4" labelSpanL="4" labelSpanM="12"-->
+		<!--		labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="1"-->
+		<!--		singleContainerFullSize="false">-->
+		<!--		<f:content>-->
+		<!--			<core:Title text=" "/>-->
+		<!--			<Label text="{i18n>VIN}"/>-->
+		<!--			<Input id="vinNum" value=""/>-->
+		<!--			<core:Title text=" "/>-->
+		<!--			<Label text="{i18n>CampaingnCode}"/>-->
+		<!--			<Input id="campaignCode" value=" "/>-->
+		<!--			<core:Title text=""/>-->
+		<!--			<Label text="{i18n>OpCode}"/>-->
+		<!--			<HBox>-->
+		<!--				<Input id="OperationCode" value=" "/>-->
+		<!--				<Button text="Add" press='addData'/>-->
+		<!--			</HBox>-->
+		<!--		</f:content>-->
+		<!--	</f:SimpleForm>-->
+		<!--	<Table id="idProductsTable" inset="false" items="{campaignModel>/data}">-->
+		<!--		<headerToolbar>-->
+		<!--			<OverflowToolbar>-->
+		<!--				<content>-->
+		<!--					<Title text="Campaign" level="H2"/>-->
+		<!--					<ToolbarSpacer/>-->
+		<!--					<ToggleButton id="toggleInfoToolbar" text="Delete" press=""/>-->
+		<!--				</content>-->
+		<!--			</OverflowToolbar>-->
+		<!--		</headerToolbar>-->
+		<!--		<columns>-->
+		<!--			<Column width="12em">-->
+		<!--				<Text text="CheckBok"/>-->
+		<!--			</Column>-->
+		<!--			<Column minScreenWidth="Tablet" demandPopin="true">-->
+		<!--				<Text text="{i18n>VIN}"/>-->
+		<!--			</Column>-->
+		<!--			<Column minScreenWidth="Desktop" demandPopin="true">-->
+		<!--				<Text text="{i18n>CampaingnCode}"/>-->
+		<!--			</Column>-->
+		<!--			<Column minScreenWidth="Desktop" demandPopin="true">-->
+		<!--				<Text text="{i18n>OpCode}"/>-->
+		<!--			</Column>-->
+		<!--		</columns>-->
+		<!--		<items>-->
+		<!--			<ColumnListItem>-->
+		<!--				<cells>-->
+		<!--					<CheckBox text="" select="onSelect"/>-->
+		<!--					<Input value="{campaignModel>vinNum}" enabled='false' valueState="None" tooltip="{campaignModel>vinNum}" width="211px"/>-->
+		<!--					<Input value="{campaignModel>CampaignCode}" enabled='false' valueState="None" tooltip="{campaignModel>CampaignCode}" width="211px"/>-->
+		<!--					<Input value="{campaignModel>OperationCode}" enabled='false' valueState="None" tooltip="{campaignModel>OperationCode}" width="211px"/>-->
+		<!--				</cells>-->
+		<!--			</ColumnListItem>-->
+		<!--		</items>-->
+		<!--	</Table>-->
+		<!--</VBox>-->
+		<Page showNavButton="false" floatingFooter="false" enableScrolling='false'>
+			<!--<customHeader>-->
+			<!--	<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.TopHeader" type="XML"/>-->
+			<!--</customHeader>-->
+			<!--<core:Fragment fragmentName="tci.wave2.ui.parts.ordering.view.fragments.ToolHeader" type="XML"/>-->
+			<!--<ObjectHeader binding="{orderModel>/}" responsive="true" title="{orderModel>orderTypeName} -- {orderModel>/tciOrderNumber}"-->
+			<!--	number="{orderModel>/totalLines}" numberUnit="{i18n>Lable.CreateOrder.OrderLines}">-->
+			<!--	<statuses></statuses>-->
+			<!--	<attributes>-->
+			<!--		<ObjectAttribute title="{i18n>Lable.CreateOrder.CreateDate}" text="{path : 'orderModel>createDate', formatter:'.formatter.shortDate'}"/>-->
+			<!--		<ObjectAttribute title="{i18n>Lable.CreateOrder.ModifiedOn}" text="{path : 'orderModel>modifiedOn', formatter:'.formatter.shortDate'}"/>-->
+			<!--	</attributes>-->
+			<!--</ObjectHeader>-->
+			<content>
+				<!--	<ui:Table id="idProductsTable" alternateRowColors="true" showNoData="false"
+				rows="{ path: 'orderModel/items/', sorter: [{ path: 'partNumber', descending: false }, { path: 'line', descending: false }] }"
+				selectionMode="MultiToggle" ariaLabelledBy="title" class="sapUiNoMarginTop sapUiNoMarginEnd">-->
+				<!--	<HBox class="customStyleBox">-->
+				<ScrollContainer id='flexContainer1' height="80%" width="100%" horizontal="true" vertical="true" focusable="true">
+					<ui:Table id="idProductsTable1" alternateRowColors="false" showNoData="false" rows="{orderModel>/items}" visibleRowCount="16"
+						selectionMode="None" ariaLabelledBy="title" class="sapUiSizeCompact sapUiNoMarginTop sapUiNoMarginEnd" rowHeight="25px"
+						sort="handleSortColumn">
+						<ui:extension>
+							<Toolbar class="customToolBar">
+								<content>
+									<!--<Title id="title" text="Order" />-->
+									<!--<Button type='Reject' 	icon="sap-icon://sorting-ranking" tooltip="{i18n>Button.Error.Rows}" class="size2" press='handleSortError' visible="false" id="btnFilterError" />	-->
+									<Button type='Reject' icon="sap-icon://delete" tooltip="{i18n>ToolTip.CreateOrder.Delete.LineItem}" class="size2" press='handleDeletePart'
+										visible="true"/>
+									<ToolbarSpacer/>
+									<Button type="Default" icon="sap-icon://sort" tooltip="{i18n>ToolTip.Sort.Error.Rows}" class="size2" press='handleSortError' visible="false"
+										id="btnSortError"/>
+									<Button type="Transparent" icon="sap-icon://filter" tooltip="{i18n>ToolTip.Filter.Error.Rows}" class="size2" press='handleFilterError'
+										visible="false" id="btnFilterError"/>
+									<Button type="Transparent" icon="sap-icon://clear-filter" tooltip="{i18n>ToolTip.ClearFilter.Error.Rows}" class="size2"
+										press='handleClearFilterError' visible="false" id="btnClearFilterError"/>
+								</content>
+							</Toolbar>
+						</ui:extension>
+						<ui:columns>
+							<ui:Column width="2rem">
+								<Label text=""/>
+								<ui:template>
+									<CheckBox select='toggleSelect' wrapping="false" selected="{orderModel>selected}" visible="{= ${orderModel>line} > 0}"
+										class="sapUiNoContentPadding"/>
+								</ui:template>
+							</ui:Column>
+							<ui:Column width="{sizeModel>/remLine}" sortProperty="line">
+								<!--<Label text="{i18n>Lable.CreateOrder.Line} #"/>-->
+								<Label text="#"/>
+								<ui:template>
+									<!--<Text text="{orderModel>line}" wrapping="false" visible="{= ${orderModel>line} === 0 ? false : true }"/>-->
+									<Text text="{orderModel>line}" wrapping="false" visible="{= ${orderModel>line} > 0}"/>
+								</ui:template>
+							</ui:Column>
+							<ui:Column width="{sizeModel>/remPartNo}" id="Material" sortProperty="Material">
+								<Label text="{i18n>VIN}*"/>
+								<ui:template>
+									<VBox>
+										<Input value="{orderModel>partNumber}" type="Text" textFormatMode="Key" showSuggestion='true' suggest="handleSuggest"
+											suggestionItemSelected="handleSuggestionItemSelected" change='handleProductChange' startSuggestion="3"
+											suggestionItems="{path: 'materialSuggestionModel>/Matsuggestions', templateShareable:true}" maxSuggestionWidth='500px' width="340px"
+											required="true" tooltip="{orderModel>partNumber}" visible="{= ${orderModel>line} === 0 || ${orderModel>line} ===''}">
+											<suggestionItems>
+												<core:ListItem key="{materialSuggestionModel>Material}" text="{materialSuggestionModel>Material}"
+													additionalText="{materialSuggestionModel>MaterialName}"/>
+											</suggestionItems>
+										</Input>
+										<ObjectIdentifier title="{ path : 'orderModel>partNumber'}" titleActive='true' titlePress='showPartAvailabilityInfo'
+											visible="{= ${orderModel>line} > 0}"/>
+									</VBox>
+								</ui:template>
+							</ui:Column>
+							<ui:Column width="{sizeModel>/remPartDesc}">
+								<Label text="{i18n>CampaignCode}"/>
+								<!--<Label text="{i18n>Lable.CreateOrder.PartDesc}/{i18n>Lable.CreateOrder.Comment}"/>-->
+								<ui:template >
+									<!--<VBox>-->
+									<Input value="{orderModel>partDesc}" enabled='false' valueState="None" tooltip="{orderModel>partDesc}" width="211px"/>
+									<!--<TextArea value="{orderModel>comment}" rows="1" placeholder="{i18n>Placeholder.comment}" width="100%"></TextArea>-->
+									<!--	</VBox>-->
+								</ui:template>
+							</ui:Column>
+							<ui:Column width="{sizeModel>/remSPQ}">
+								<Label text="{i18n>OpCode}"/>
+								<ui:template >
+									<!--	<Text text="{ path: 'orderModel>spq', formatter:'.formatter.spqFormat'}"/>-->
+									<Text text="{orderModel>spq}"/>
+								</ui:template>
+							</ui:Column>
+							<ui:Column id="ErrorStatus" width="4.5rem">
+								<ui:template>
+									<VBox width="3.5rem">
+										<Button type="Accept" tooltip="Add" class="size1" icon="sap-icon://add" press='handleAddPart'
+											visible="{= ${orderModel>line} === 0 &amp;&amp; ${orderModel>addIcon} === true}"></Button>
+										<!--	<Button type='Reject' tooltip="Minus" class="size2" icon="sap-icon://less" press='handleDeletePart' visible="{orderModel>minusIcon}"></Button>-->
+										<core:Icon src="sap-icon://error" class="size1" color="#ff0000" visible='{= ${orderModel>line} === 0 ? false : ${orderModel>hasError}}'
+											activeColor="Negative" alt="Error" press="onError"/>
+										<ObjectMarker type="{orderModel>ItemStatus}" visible='{= ${orderModel>line} !== 0 &amp;&amp; ${orderModel>hasError} === false}'/>
+										<!--	<ObjectMarker type="Unsaved" visibility="IconOnly" visible='{= ${orderModel>line} !== 0 &amp;&amp; ${orderModel>hasError} === false}'/>-->
+									</VBox>
+								</ui:template>
+							</ui:Column>
+						</ui:columns>
+					</ui:Table>
+				</ScrollContainer>
+				<!--</HBox>-->
+			</content>
+			<footer>
+				<OverflowToolbar>
+					<Button type="Back" text="{i18n>Button.CreateOrder.Back}" press='onBack'/>
+					<!--<Button icon="sap-icon://message-popup" text="{=${message>/}.length}" visible="{=${message>/}.length > 0}" type="Emphasized"
+					press="handleMessagePopoverPress"/>-->
+					<ToolbarSpacer/>
+					<!--	<DraftIndicator id='draftInd'/>-->
+					<ToolbarSpacer/>
+					<Button type="Transparent" text="{i18n>Button.CreateOrder.ImportOrder}" class="size2" press='onImport'/>
+					<Button type="Transparent" text="{i18n>Button.CreateOrder.ExportOrder}" class="size2" press='onExport'/>
+					<Button type="Reject" text="{i18n>Button.CreateOrder.DeleteOrder}" class="size2" press='onDelete'/>
+					<Button type="Accept" text="{i18n>Button.CreateOrder.SubmitOrder}" class="size2" press='onActivate' id="btnSubmit1" visible="false"/>
+					<Button type="Default" text="{i18n>Button.CreateOrder.SaveDraft}" class="size2" press='onSaveDraft' id="btnDraft1"/>
+				</OverflowToolbar>
+			</footer>
+		</Page>
+	</content>
+	<buttons>
+		<Button text="{i18n>Back}" press='onPressBack'/>
+		<Button text="{i18n>CPOR}" press='CDialogClose'/>
+	</buttons>
+</Dialog>
+</core:FragmentDefinition>
