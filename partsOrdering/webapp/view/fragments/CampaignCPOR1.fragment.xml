@@ -44,7 +44,7 @@
 							<Label text="{i18n>VIN}"/>
 							<ui:template>
 								<VBox>
-									<Input value="{campaignModel>vinNum}" type="Text" textFormatMode="Key" required="true" tooltip="{orderModel>partNumber}" enabled="true"/>
+									<Input value="{campaignModel>vinNum}" type="Text" textFormatMode="Key" required="true" tooltip="{orderModel>partNumber}" enabled="true" editable="true"/>
 									<!--<Input value="{orderModel>partNumber}" type="Text" textFormatMode="Key" showSuggestion='true' suggest="handleSuggest"-->
 									<!--	suggestionItemSelected="handleSuggestionItemSelected" change='handleProductChange' startSuggestion="3"-->
 									<!--	suggestionItems="{path: 'materialSuggestionModel>/Matsuggestions', templateShareable:true}" maxSuggestionWidth='500px' width="340px"-->
@@ -64,7 +64,7 @@
 							<!--<Label text="{i18n>Lable.CreateOrder.PartDesc}/{i18n>Lable.CreateOrder.Comment}"/>-->
 							<ui:template >
 								<!--<VBox>-->
-								<Input value="{campaignModel>CampaignCode}" enabled='true' valueState="None" tooltip="{i18n>CampaignCode}" width="211px" required="true"/>
+								<Input value="{campaignModel>CampaignCode}" enabled='true' valueState="None" tooltip="{i18n>CampaignCode}" width="211px" required="true" editable="true"/>
 								<!--<TextArea value="{orderModel>comment}" rows="1" placeholder="{i18n>Placeholder.comment}" width="100%"></TextArea>-->
 								<!--	</VBox>-->
 							</ui:template>
@@ -73,15 +73,16 @@
 							<Label text="{i18n>OpCode}"/>
 							<ui:template >
 								<!--	<Text text="{ path: 'orderModel>spq', formatter:'.formatter.spqFormat'}"/>-->
-								<Input value="{campaignModel>OperationCode}" enabled='true' valueState="None" tooltip="{i18n>OpCode}" width="211px" required="true"/>
+								<Input value="{campaignModel>OperationCode}" enabled='true' valueState="None" tooltip="{i18n>OpCode}" width="211px" required="true" editable="true"/>
 								<!--<Text text="{orderModel>spq}"/>-->
 							</ui:template>
 						</ui:Column>
 						<ui:Column id="ErrorStatus" width="4.5rem">
 							<ui:template>
 								<VBox width="3.5rem">
-									<Button type="Accept" tooltip="Add" class="size1" icon="sap-icon://add" press='handleAddPart1'
-										visible="{= ${orderModel>line} === 0 &amp;&amp; ${orderModel>addIcon} === true}"></Button>
+									<Button  type="Accept" tooltip="Add" class="size1" icon="sap-icon://add" press="handleAddPart1"/>
+									<!--<Button type="Accept" tooltip="Add" class="size1" icon="sap-icon://add" press='handleAddPart1'-->
+									<!--	visible="{= ${orderModel>line} === 0 &amp;&amp; ${orderModel>addIcon} === true}"></Button>-->
 									<!--	<Button type='Reject' tooltip="Minus" class="size2" icon="sap-icon://less" press='handleDeletePart' visible="{orderModel>minusIcon}"></Button>-->
 									<!--<core:Icon src="sap-icon://error" class="size1" color="#ff0000" visible='{= ${orderModel>line} === 0 ? false : ${orderModel>hasError}}'-->
 									<!--	activeColor="Negative" alt="Error" press="onError"/>-->
