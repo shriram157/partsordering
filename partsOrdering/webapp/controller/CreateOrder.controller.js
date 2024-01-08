@@ -138,7 +138,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			//changes by shriram for DMND0004095 on January 5th 2024   start
 			var campaignModel = new sap.ui.model.json.JSONModel({
 				"data": [{
-					selected:false,
+					selected: false,
 					vinNum: " ",
 					CampaignCode: " ",
 					OperationCode: " "
@@ -759,11 +759,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			//campaignModelItems.data[i]
 			var aCampaignData = this.getView().getModel("campaignModel").getProperty("/data");
 			aCampaignData.push(campaignModelItems.data[0]);
-			this.getView().getModel("campaignModel").setProperty("/data["+0+"]".selected,false);
-			this.getView().getModel("campaignModel").setProperty("/data["+0+"]".vinNum," ");
-			this.getView().getModel("campaignModel").setProperty("/data["+0+"]".CampaignCode," ");
-			this.getView().getModel("campaignModel").setProperty("/data["+0+"]".OperationCode," ");
+
 			this.getView().getModel("campaignModel").setProperty("/data", aCampaignData);
+			this.getView().getModel("campaignModel").setProperty("/data[" + 0 + "]/selected", false);
+			this.getView().getModel("campaignModel").setProperty("/data[" + 0 + "]/vinNum", " ");
+			this.getView().getModel("campaignModel").setProperty("/data[" + 0 + "]/CampaignCode", " ");
+			this.getView().getModel("campaignModel").setProperty("/data[" + 0 + "]/OperationCode", " ");
 
 			this.getView().getModel("campaignModel").refresh();
 
@@ -1786,7 +1787,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var that = this;
 
 			var aDeleteData = this.getView().getModel("campaignModel").getProperty("/data");
-			var iDataLength = aDeleteData.length();
+			var iDataLength = aDeleteData.length;
 
 			for (var i = 0; i < iDataLength; i++) {
 				var checkStatus = this.getView().getModel("campaignModel").getProperty("/data[" + i + "]/selected");
@@ -1796,10 +1797,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				}
 
 			}
-			
-			this.getView().getModel("campaignModel").setProperty("/data",aDeleteData);
+
+			this.getView().getModel("campaignModel").setProperty("/data", aDeleteData);
 			this.getView().getModel("campaignModel").refresh()
-			
 
 			// var model = this.getModel(CONT_ORDER_MODEL);
 
