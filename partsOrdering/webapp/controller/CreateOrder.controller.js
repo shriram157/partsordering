@@ -1972,7 +1972,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 			} else {
 				var oOrderData = this.getView().getModel("campaignModel").getProperty("/data")
-				oOrderData.data.splice(0, 1, {
+				oOrderData.splice(0, 1, {
 					checkVisible: false,
 					vinEnable: true,
 					selected: false,
@@ -1983,8 +1983,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 				});
 
-				this.getView().getModel("campaignModel").setData(oOrderData);
-				this.getView().getModel("stanrushModel").refresh();
+				this.getView().getModel("campaignModel").setProperty("/data",oOrderData);
+				this.getView().getModel("campaignModel").refresh();
 
 			}
 
@@ -1998,22 +1998,25 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var iDataLength = aDeleteData.length
 
 			if (iDataLength > 1) {
+				
+				
+				var sIndex = aDeleteData.filter(ind => ind.selected == false);
 
-				for (var i = 0; i < iDataLength; i++) {
-					var checkStatus = this.getView().getModel("stanrushModel").getProperty("/data/" + i + "/selected");
+				// for (var i = 0; i < iDataLength; i++) {
+				// 	var checkStatus = this.getView().getModel("stanrushModel").getProperty("/data/" + i + "/selected");
 
-					if (checkStatus == true) {
-						aDeleteData.splice(i, 1);
-					}
-					//oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
-				}
+				// 	if (checkStatus == true) {
+				// 		aDeleteData.splice(i, 1);
+				// 	}
+				// 	//oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
+				// }
 
-				this.getView().getModel("stanrushModel").setProperty("/data", aDeleteData);
+				this.getView().getModel("stanrushModel").setProperty("/data", sIndex);
 				this.getView().getModel("stanrushModel").refresh();
 
 			} else {
 				var oOrderData = this.getView().getModel("stanrushModel").getProperty("/data")
-				oOrderData.data.splice(0, 1, {
+				oOrderData.splice(0, 1, {
 					checkVisible: false,
 					vinEnable: true,
 					selected: false,
