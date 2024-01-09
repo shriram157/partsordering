@@ -765,14 +765,37 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			}
 			var newAddedLineData = oOrderData.data[0];
 
-			if (oOrderData.data[0].vinNum == " " || oOrderData.data[0].CampaignCode == " " || oOrderData.data[0].OperationCode == " ")
-			 {
+			if (oOrderData.data[0].vinNum == " " || oOrderData.data[0].CampaignCode == " " || oOrderData.data[0].OperationCode == " ") {
 				var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
 				MessageBox.error(sInValid, {
 					actions: [MessageBox.Action.CLOSE],
 					styleClass: that.getOwnerComponent().getContentDensityClass()
 
 				});
+				if (oOrderData.data[0].vinNum == " ") {
+					oOrderData.data.splice(0, 0, {
+						checkVisible: false,
+						vinEnable: false,
+						selected: false,
+						vinNum: """",
+						CampaignCode: " ",
+						OperationCode: " ",
+						addButtonVisible: true
+
+					});
+				} else {
+					oOrderData.data.splice(0, 0, {
+						checkVisible: false,
+						vinEnable: false,
+						selected: false,
+						vinNum: oOrderData.data[0].vinNum,
+						CampaignCode: " ",
+						OperationCode: " ",
+						addButtonVisible: true
+
+					});
+
+				}
 
 			} else {
 
@@ -786,8 +809,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				// oOrderData.items[0].selected = false;
 				// oOrderData.items[0]["ItemStatus"] = "Unsaved";
 				oOrderData.data[0].checkVisible = true;
-				oOrderData.data[0].vinEnable= false;
-				oOrderData.data[0].addButtonVisible= false;
+				oOrderData.data[0].vinEnable = false;
+				oOrderData.data[0].addButtonVisible = false;
 
 				oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
 				this.aCreateItems.push(oOrderData.data[0]);
@@ -1718,6 +1741,13 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				this.toggleSubmitDraftButton();
 			}
 		},
+		
+		// handleDeletePart2:function(oEvent)
+		// {
+		// 	var oOrderData=this.getView().getModel("campaignModel").getData()
+		// 	var sIndex = oOrderData.data.filter(ind => ind.selected == "true").length;
+			
+		// }
 
 		handleDeletePart: function (oEvent) {
 			var that = this;
@@ -1880,12 +1910,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var iDataLength = aDeleteData.length;
 
 			for (var i = 0; i < iDataLength; i++) {
-				var checkStatus = this.getView().getModel("campaignModel").getProperty("/data[" + i + "]/selected");
+				var checkStatus = this.getView().getModel("campaignModel").getProperty("/data/" + i + "/selected");
 
 				if (checkStatus == "true") {
 					aDeleteData.splice(i, 1);
 				}
-
+//oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
 			}
 
 			this.getView().getModel("campaignModel").setProperty("/data", aDeleteData);
