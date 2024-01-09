@@ -1919,7 +1919,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			}
 
 			this.getView().getModel("campaignModel").setProperty("/data", aDeleteData);
-			this.getView().getModel("campaignModel").refresh()
+			this.getView().getModel("campaignModel").refresh();
 
 			// var model = this.getModel(CONT_ORDER_MODEL);
 
