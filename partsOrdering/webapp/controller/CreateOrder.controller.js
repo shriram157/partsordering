@@ -817,7 +817,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					checkVisible: false,
 					vinEnable: false,
 					selected: false,
-					vinNum: oOrderData.data[1].vinNum,
+					vinNum: oOrderData.data[0].vinNum,
 					CampaignCode: " ",
 					OperationCode: " ",
 					addButtonVisible: true
