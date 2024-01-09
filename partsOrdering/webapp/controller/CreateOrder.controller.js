@@ -1956,7 +1956,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			if (iDataLength > 1) {
 				
 				// var newAddedLineData = aDeleteData.items[0];
-			var sIndex = aDeleteData.data.filter(ind => ind.selected == false);
+			var sIndex = aDeleteData.filter(ind => ind.selected == false);
 
 				// for (var i = 0; i < iDataLength; i++) {
 				// 	var checkStatus = this.getView().getModel("campaignModel").getProperty("/data/" + i + "/selected");
