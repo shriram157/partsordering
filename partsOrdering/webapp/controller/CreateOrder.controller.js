@@ -140,6 +140,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				"data": [{
 					checkVisible: false,
 					vinEnable: true,
+					camEnable: true,
+					opCodeEnable: true,
 					selected: false,
 					vinNum: " ",
 					CampaignCode: " ",
@@ -154,6 +156,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				"data": [{
 					checkVisible: false,
 					vinEnable: true,
+					camEnable:true,
 					selected: false,
 					vinNum: " ",
 					CampaignCode: " ",
@@ -808,6 +811,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 				oOrderData.data[0].checkVisible = true;
 				oOrderData.data[0].vinEnable = false;
+				oOrderData.data[0].camEnable = false;
 				oOrderData.data[0].addButtonVisible = false;
 
 				oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
@@ -819,6 +823,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oOrderData.data.splice(0, 0, {
 					checkVisible: false,
 					vinEnable: false,
+					camEnable:true,
 					selected: false,
 					vinNum: oOrderData.data[0].vinNum,
 					CampaignCode: " ",
@@ -886,6 +891,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 				oOrderData.data[0].checkVisible = true;
 				oOrderData.data[0].vinEnable = false;
+				oOrderData.data[0].camEnable = false;
+				oOrderData.data[0].opCodeEnable = false;
 				oOrderData.data[0].addButtonVisible = false;
 
 				oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
@@ -897,6 +904,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oOrderData.data.splice(0, 0, {
 					checkVisible: false,
 					vinEnable: false,
+					camEnable: true,
+					opCodeEnable: true,
 					selected: false,
 					vinNum: oOrderData.data[0].vinNum,
 					CampaignCode: " ",
@@ -1954,9 +1963,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var iDataLength = aDeleteData.length;
 
 			if (iDataLength > 1) {
-				
+
 				// var newAddedLineData = aDeleteData.items[0];
-			var sIndex = aDeleteData.filter(ind => ind.selected == false);
+				var sIndex = aDeleteData.filter(ind => ind.selected == false);
 
 				// for (var i = 0; i < iDataLength; i++) {
 				// 	var checkStatus = this.getView().getModel("campaignModel").getProperty("/data/" + i + "/selected");
@@ -1975,6 +1984,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oOrderData.splice(0, 1, {
 					checkVisible: false,
 					vinEnable: true,
+					camEnable:true,
+					opCodeEnable:true,
 					selected: false,
 					vinNum: "",
 					CampaignCode: " ",
@@ -1983,12 +1994,10 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 				});
 
-				this.getView().getModel("campaignModel").setProperty("/data",oOrderData);
+				this.getView().getModel("campaignModel").setProperty("/data", oOrderData);
 				this.getView().getModel("campaignModel").refresh();
 
 			}
-
-			
 
 		},
 		handleDeletePart2: function (oEvent) {
@@ -1998,8 +2007,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var iDataLength = aDeleteData.length
 
 			if (iDataLength > 1) {
-				
-				
+
 				var sIndex = aDeleteData.filter(ind => ind.selected == false);
 
 				// for (var i = 0; i < iDataLength; i++) {
@@ -2019,6 +2027,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oOrderData.splice(0, 1, {
 					checkVisible: false,
 					vinEnable: true,
+					camEnable:true,
 					selected: false,
 					vinNum: "",
 					CampaignCode: " ",

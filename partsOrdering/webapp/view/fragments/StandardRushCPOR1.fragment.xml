@@ -55,7 +55,7 @@
 							<!--<Label text="{i18n>Lable.CreateOrder.PartDesc}/{i18n>Lable.CreateOrder.Comment}"/>-->
 							<ui:template >
 								<!--<VBox>-->
-								<Input value="{stanrushModel>CampaignCode}" enabled='true' valueState="None" tooltip="{i18n>CampaignCode}" width="211px" required="true" editable="true"/>
+								<Input value="{stanrushModel>CampaignCode}" enabled='{stanrushModel>camEnable}' valueState="None" tooltip="{i18n>CampaignCode}" width="211px" required="true" editable="true"/>
 								<!--<TextArea value="{orderModel>comment}" rows="1" placeholder="{i18n>Placeholder.comment}" width="100%"></TextArea>-->
 								<!--	</VBox>-->
 							</ui:template>
