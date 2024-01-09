@@ -45,7 +45,7 @@
 							<Label text="{i18n>VIN}"/>
 							<ui:template>
 								<VBox>
-									<Input value="{campaignModel>vinNum}" type="Text" textFormatMode="Key" required="true" tooltip="{orderModel>partNumber}" enabled="{orderModel>vinEnable}" editable="true"/>
+									<Input value="{campaignModel>vinNum}" type="Text" textFormatMode="Key" required="true" tooltip="{orderModel>partNumber}" enabled="{campaignModel>vinEnable}" editable="true"/>
 									<!--<Input value="{orderModel>partNumber}" type="Text" textFormatMode="Key" showSuggestion='true' suggest="handleSuggest"-->
 									<!--	suggestionItemSelected="handleSuggestionItemSelected" change='handleProductChange' startSuggestion="3"-->
 									<!--	suggestionItems="{path: 'materialSuggestionModel>/Matsuggestions', templateShareable:true}" maxSuggestionWidth='500px' width="340px"-->
