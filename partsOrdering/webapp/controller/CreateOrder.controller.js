@@ -777,7 +777,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						checkVisible: false,
 						vinEnable: false,
 						selected: false,
-						vinNum: """",
+						vinNum:	"",
 						CampaignCode: " ",
 						OperationCode: " ",
 						addButtonVisible: true
@@ -1741,12 +1741,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				this.toggleSubmitDraftButton();
 			}
 		},
-		
+
 		// handleDeletePart2:function(oEvent)
 		// {
 		// 	var oOrderData=this.getView().getModel("campaignModel").getData()
 		// 	var sIndex = oOrderData.data.filter(ind => ind.selected == "true").length;
-			
+
 		// }
 
 		handleDeletePart: function (oEvent) {
@@ -1915,7 +1915,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				if (checkStatus == true) {
 					aDeleteData.splice(i, 1);
 				}
-//oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
+				//oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
 			}
 
 			this.getView().getModel("campaignModel").setProperty("/data", aDeleteData);
