@@ -4,7 +4,7 @@
 		horizontalScrolling='true'>
 		<content>
 			<ScrollContainer id='flexContainer1' height="80%" width="100%" horizontal="true" vertical="true" focusable="true">
-				<ui:Table id="idProductsTable1" alternateRowColors="false" showNoData="false" rows="{campaignModel>/data}" visibleRowCount="16"
+				<ui:Table id="idProductsTable2" alternateRowColors="false" showNoData="false" rows="{stanrushModel>/data}" visibleRowCount="16"
 					selectionMode="None" ariaLabelledBy="title" class="sapUiSizeCompact sapUiNoMarginTop sapUiNoMarginEnd" rowHeight="25px"
 					sort="handleSortColumn">
 					<ui:extension>
