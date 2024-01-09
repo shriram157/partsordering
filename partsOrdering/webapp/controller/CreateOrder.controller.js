@@ -151,7 +151,14 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			this.getView().setModel(campaignModel, "campaignModel");
 			//changes by Swetha for DMND0004095 on 5th January, 2024 Start
 			var stanrushModel = new sap.ui.model.json.JSONModel({
-				"data": []
+				"data": [{
+					checkVisible: false,
+					vinEnable: true,
+					selected: false,
+					vinNum: " ",
+					CampaignCode: " ",
+					addButtonVisible: true
+				}]
 			});
 			sap.ui.getCore().setModel(stanrushModel, "stanrushModel");
 			this.getView().setModel(stanrushModel, "stanrushModel");
@@ -165,7 +172,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			if (oEvent.getParameter("arguments").CPORCB == "true") {
 				if (orderType == "1" || orderType == "2") {
 					if (!this._oDialog) {
-						this._oDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.StandardRushCPOR", this);
+						this._oDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.StandardRushCPOR1", this);
 						this.getView().addDependent(this._oDialog);
 					}
 					this._oDialog.open();
@@ -753,6 +760,112 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oSource.setBusy(false);
 			}
 		},
+		handleAddPart3: function (oEvent) {
+			var that = this;
+			var oSource = oEvent.getSource() || null;
+			var oOrderData = this.getView().getModel("stanrushModel").getData();
+			//this.itemTable.setBusy(true);
+			if (oSource) {
+				oSource.setEnabled(false);
+				oSource.setBusy(true);
+			}
+			var newAddedLineData = oOrderData.data[0];
+
+			if (oOrderData.data[0].vinNum == " " || oOrderData.data[0].CampaignCode == " ") {
+				var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
+				MessageBox.error(sInValid, {
+					actions: [MessageBox.Action.CLOSE],
+					styleClass: that.getOwnerComponent().getContentDensityClass()
+
+				});
+				if (oOrderData.data[0].vinNum == " ") {
+					oOrderData.data.splice(0, 0, {
+						checkVisible: false,
+						vinEnable: false,
+						selected: false,
+						vinNum: "",
+						CampaignCode: " ",
+						addButtonVisible: true
+
+					});
+				} else {
+					oOrderData.data.splice(0, 0, {
+						checkVisible: false,
+						vinEnable: false,
+						selected: false,
+						vinNum: oOrderData.data[0].vinNum,
+						CampaignCode: " ",
+						addButtonVisible: true
+
+					});
+
+				}
+
+			} else {
+
+				var oItem = JSON.parse(JSON.stringify(oOrderData.data[0]));
+				// oItem.addIcon = false;
+				// oItem.hasError = false;
+				// var lv_orderType = oItem.OrderType;
+				// oOrderData.items[0] = oItem;
+				// oOrderData.items[0].line = oOrderData.totalLines + 1;
+				// oOrderData.items[0].addIcon = false;
+				// oOrderData.items[0].selected = false;
+				// oOrderData.items[0]["ItemStatus"] = "Unsaved";
+				oOrderData.data[0].checkVisible = true;
+				oOrderData.data[0].vinEnable = false;
+				oOrderData.data[0].addButtonVisible = false;
+
+				oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
+				this.aCreateItems.push(oOrderData.data[0]);
+				// this.toggleSubmitDraftButton();
+				oOrderData.data.splice(0, 1);
+				var that = this;
+				//code by Minakshi for duplicate vin, ops, camp and partnum
+				// if (oOrderData.orderTypeId == 3) {
+				// 	oOrderData.items = oOrderData.items.reduce((unique, o) => {
+				// 		if (!unique.some(obj => obj.partNumber === o.partNumber && obj.campaignNum === o.campaignNum && obj.opCode === o.opCode && obj.vin ===
+				// 				o.vin)) {
+				// 			// var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
+				// 			// MessageBox.error(sInValid, {
+				// 			// 	actions: [MessageBox.Action.CLOSE],
+				// 			// 	styleClass: that.getOwnerComponent().getContentDensityClass()
+
+				// 			// });
+				// 			unique.push(o);
+				// 		}
+				// 		return unique;
+				// 	}, []);
+				// }
+
+				//code by Minakshi for duplicate vin, ops, camp and partnum
+
+				oOrderData.data.splice(0, 0, {
+					checkVisible: false,
+					vinEnable: false,
+					selected: false,
+					vinNum: oOrderData.data[0].vinNum,
+					CampaignCode: " ",
+					addButtonVisible: true
+
+				});
+				//rData.newline = [that._getNewLine()];
+				// oOrderData.totalLines = oOrderData.items.length - 1;
+				// if (oOrderData.totalLines >= 16) {
+				// 	this.itemTable.setVisibleRowCount(oOrderData.items.length + 2);
+				// }
+				// ---to save some newwork traffic
+				// oOrderData.modifiedOn = new Date();
+				// that.oOrderModel.setData(oOrderData);campaignModel
+				this.getView().getModel("stanrushModel").setData(oOrderData);
+				DataManager.setOrderData(oOrderData);
+				if (oSource) {
+					oSource.setEnabled(true);
+					oSource.setBusy(false);
+				}
+
+			} //else end
+		},
 
 		handleAddPart2: function (oEvent) {
 			var that = this;
@@ -777,7 +890,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						checkVisible: false,
 						vinEnable: false,
 						selected: false,
-						vinNum:	"",
+						vinNum: "",
 						CampaignCode: " ",
 						OperationCode: " ",
 						addButtonVisible: true
@@ -1742,13 +1855,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			}
 		},
 
-		// handleDeletePart2:function(oEvent)
-		// {
-		// 	var oOrderData=this.getView().getModel("campaignModel").getData()
-		// 	var sIndex = oOrderData.data.filter(ind => ind.selected == "true").length;
-
-		// }
-
 		handleDeletePart: function (oEvent) {
 			var that = this;
 			var model = this.getModel(CONT_ORDER_MODEL);
@@ -2073,8 +2179,27 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			// that.toggleSubmitDraftButton();
 
 		},
+		handleDeletePart2: function (oEvent) {
+			var that = this;
 
-		onBack: function (oEvent) {
+			var aDeleteData = this.getView().getModel("stanrushModel").getProperty("/data");
+			var iDataLength = aDeleteData.length;
+
+			for (var i = 0; i < iDataLength; i++) {
+				var checkStatus = this.getView().getModel("stanrushModel").getProperty("/data/" + i + "/selected");
+
+				if (checkStatus == true) {
+					aDeleteData.splice(i, 1);
+				}
+				//oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
+			}
+
+			this.getView().getModel("stanrushModel").setProperty("/data", aDeleteData);
+			this.getView().getModel("stanrushModel").refresh();
+
+		},
+
+			onBack: function (oEvent) {
 			var that = this;
 			this.draftInd.clearDraftState();
 			that.getRouter().navTo("FindOrder", null, false);
