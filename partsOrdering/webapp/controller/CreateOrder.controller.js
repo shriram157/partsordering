@@ -772,46 +772,40 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var newAddedLineData = oOrderData.data[0];
 
 			if (oOrderData.data[0].vinNum == " " || oOrderData.data[0].CampaignCode == " ") {
-				var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
+				var sInValid = that.oResourceBundle.getText("Create.Order.PleaseEnterAllValues");
 				MessageBox.error(sInValid, {
 					actions: [MessageBox.Action.CLOSE],
 					styleClass: that.getOwnerComponent().getContentDensityClass()
 
 				});
-				if (oOrderData.data[0].vinNum == " ") {
-					oOrderData.data.splice(0, 0, {
-						checkVisible: false,
-						vinEnable: false,
-						selected: false,
-						vinNum: "",
-						CampaignCode: " ",
-						addButtonVisible: true
+				return;
+				// if (oOrderData.data[0].vinNum == " ") {
+				// 	oOrderData.data.splice(0, 0, {
+				// 		checkVisible: false,
+				// 		vinEnable: false,
+				// 		selected: false,
+				// 		vinNum: "",
+				// 		CampaignCode: " ",
+				// 		addButtonVisible: true
 
-					});
-				} else {
-					oOrderData.data.splice(0, 0, {
-						checkVisible: false,
-						vinEnable: false,
-						selected: false,
-						vinNum: oOrderData.data[0].vinNum,
-						CampaignCode: " ",
-						addButtonVisible: true
+				// 	});
+				// } else {
+				// 	oOrderData.data.splice(0, 0, {
+				// 		checkVisible: false,
+				// 		vinEnable: false,
+				// 		selected: false,
+				// 		vinNum: oOrderData.data[0].vinNum,
+				// 		CampaignCode: " ",
+				// 		addButtonVisible: true
 
-					});
+				// 	});
 
-				}
+				// }
 
 			} else {
 
 				var oItem = JSON.parse(JSON.stringify(oOrderData.data[0]));
-				// oItem.addIcon = false;
-				// oItem.hasError = false;
-				// var lv_orderType = oItem.OrderType;
-				// oOrderData.items[0] = oItem;
-				// oOrderData.items[0].line = oOrderData.totalLines + 1;
-				// oOrderData.items[0].addIcon = false;
-				// oOrderData.items[0].selected = false;
-				// oOrderData.items[0]["ItemStatus"] = "Unsaved";
+
 				oOrderData.data[0].checkVisible = true;
 				oOrderData.data[0].vinEnable = false;
 				oOrderData.data[0].addButtonVisible = false;
@@ -821,24 +815,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				// this.toggleSubmitDraftButton();
 				oOrderData.data.splice(0, 1);
 				var that = this;
-				//code by Minakshi for duplicate vin, ops, camp and partnum
-				// if (oOrderData.orderTypeId == 3) {
-				// 	oOrderData.items = oOrderData.items.reduce((unique, o) => {
-				// 		if (!unique.some(obj => obj.partNumber === o.partNumber && obj.campaignNum === o.campaignNum && obj.opCode === o.opCode && obj.vin ===
-				// 				o.vin)) {
-				// 			// var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
-				// 			// MessageBox.error(sInValid, {
-				// 			// 	actions: [MessageBox.Action.CLOSE],
-				// 			// 	styleClass: that.getOwnerComponent().getContentDensityClass()
-
-				// 			// });
-				// 			unique.push(o);
-				// 		}
-				// 		return unique;
-				// 	}, []);
-				// }
-
-				//code by Minakshi for duplicate vin, ops, camp and partnum
 
 				oOrderData.data.splice(0, 0, {
 					checkVisible: false,
@@ -849,14 +825,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					addButtonVisible: true
 
 				});
-				//rData.newline = [that._getNewLine()];
-				// oOrderData.totalLines = oOrderData.items.length - 1;
-				// if (oOrderData.totalLines >= 16) {
-				// 	this.itemTable.setVisibleRowCount(oOrderData.items.length + 2);
-				// }
-				// ---to save some newwork traffic
-				// oOrderData.modifiedOn = new Date();
-				// that.oOrderModel.setData(oOrderData);campaignModel
+
 				this.getView().getModel("stanrushModel").setData(oOrderData);
 				DataManager.setOrderData(oOrderData);
 				if (oSource) {
@@ -879,48 +848,42 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var newAddedLineData = oOrderData.data[0];
 
 			if (oOrderData.data[0].vinNum == " " || oOrderData.data[0].CampaignCode == " " || oOrderData.data[0].OperationCode == " ") {
-				var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
+				var sInValid = that.oResourceBundle.getText("Create.Order.PleaseEnterAllValues");
 				MessageBox.error(sInValid, {
 					actions: [MessageBox.Action.CLOSE],
 					styleClass: that.getOwnerComponent().getContentDensityClass()
 
 				});
-				if (oOrderData.data[0].vinNum == " ") {
-					oOrderData.data.splice(0, 0, {
-						checkVisible: false,
-						vinEnable: false,
-						selected: false,
-						vinNum: "",
-						CampaignCode: " ",
-						OperationCode: " ",
-						addButtonVisible: true
+				return;
+				// if (oOrderData.data[0].vinNum == " ") {
+				// 	oOrderData.data.splice(0, 0, {
+				// 		checkVisible: false,
+				// 		vinEnable: false,
+				// 		selected: false,
+				// 		vinNum: "",
+				// 		CampaignCode: " ",
+				// 		OperationCode: " ",
+				// 		addButtonVisible: true
 
-					});
-				} else {
-					oOrderData.data.splice(0, 0, {
-						checkVisible: false,
-						vinEnable: false,
-						selected: false,
-						vinNum: oOrderData.data[0].vinNum,
-						CampaignCode: " ",
-						OperationCode: " ",
-						addButtonVisible: true
+				// 	});
+				// } else {
+				// 	oOrderData.data.splice(0, 0, {
+				// 		checkVisible: false,
+				// 		vinEnable: false,
+				// 		selected: false,
+				// 		vinNum: oOrderData.data[0].vinNum,
+				// 		CampaignCode: " ",
+				// 		OperationCode: " ",
+				// 		addButtonVisible: true
 
-					});
+				// 	});
 
-				}
+				// }
 
 			} else {
 
 				var oItem = JSON.parse(JSON.stringify(oOrderData.data[0]));
-				// oItem.addIcon = false;
-				// oItem.hasError = false;
-				// var lv_orderType = oItem.OrderType;
-				// oOrderData.items[0] = oItem;
-				// oOrderData.items[0].line = oOrderData.totalLines + 1;
-				// oOrderData.items[0].addIcon = false;
-				// oOrderData.items[0].selected = false;
-				// oOrderData.items[0]["ItemStatus"] = "Unsaved";
+
 				oOrderData.data[0].checkVisible = true;
 				oOrderData.data[0].vinEnable = false;
 				oOrderData.data[0].addButtonVisible = false;
@@ -930,24 +893,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				// this.toggleSubmitDraftButton();
 				oOrderData.data.splice(0, 1);
 				var that = this;
-				//code by Minakshi for duplicate vin, ops, camp and partnum
-				// if (oOrderData.orderTypeId == 3) {
-				// 	oOrderData.items = oOrderData.items.reduce((unique, o) => {
-				// 		if (!unique.some(obj => obj.partNumber === o.partNumber && obj.campaignNum === o.campaignNum && obj.opCode === o.opCode && obj.vin ===
-				// 				o.vin)) {
-				// 			// var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
-				// 			// MessageBox.error(sInValid, {
-				// 			// 	actions: [MessageBox.Action.CLOSE],
-				// 			// 	styleClass: that.getOwnerComponent().getContentDensityClass()
-
-				// 			// });
-				// 			unique.push(o);
-				// 		}
-				// 		return unique;
-				// 	}, []);
-				// }
-
-				//code by Minakshi for duplicate vin, ops, camp and partnum
 
 				oOrderData.data.splice(0, 0, {
 					checkVisible: false,
@@ -959,14 +904,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					addButtonVisible: true
 
 				});
-				//rData.newline = [that._getNewLine()];
-				// oOrderData.totalLines = oOrderData.items.length - 1;
-				// if (oOrderData.totalLines >= 16) {
-				// 	this.itemTable.setVisibleRowCount(oOrderData.items.length + 2);
-				// }
-				// ---to save some newwork traffic
-				// oOrderData.modifiedOn = new Date();
-				// that.oOrderModel.setData(oOrderData);campaignModel
+
 				this.getView().getModel("campaignModel").setData(oOrderData);
 				DataManager.setOrderData(oOrderData);
 				if (oSource) {
@@ -2015,191 +1953,81 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var aDeleteData = this.getView().getModel("campaignModel").getProperty("/data");
 			var iDataLength = aDeleteData.length;
 
-			for (var i = 0; i < iDataLength; i++) {
-				var checkStatus = this.getView().getModel("campaignModel").getProperty("/data/" + i + "/selected");
+			if (iDataLength > 1) {
 
-				if (checkStatus == true) {
-					aDeleteData.splice(i, 1);
+				for (var i = 0; i < iDataLength; i++) {
+					var checkStatus = this.getView().getModel("campaignModel").getProperty("/data/" + i + "/selected");
+
+					if (checkStatus == true) {
+						aDeleteData.splice(i, 1);
+					}
+					//oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
 				}
-				//oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
+
+				this.getView().getModel("campaignModel").setProperty("/data", aDeleteData);
+				this.getView().getModel("campaignModel").refresh();
+
+			} else {
+				var oOrderData = this.getView().getModel("campaignModel").getProperty("/data")
+				oOrderData.data.splice(0, 0, {
+					checkVisible: false,
+					vinEnable: true,
+					selected: false,
+					vinNum: "",
+					CampaignCode: " ",
+					OperationCode: " ",
+					addButtonVisible: true
+
+				});
+
+				this.getView().getModel("campaignModel").setData(oOrderData);
+				this.getView().getModel("stanrushModel").refresh();
+
 			}
 
-			this.getView().getModel("campaignModel").setProperty("/data", aDeleteData);
-			this.getView().getModel("campaignModel").refresh();
-
-			// var model = this.getModel(CONT_ORDER_MODEL);
-
-			// var todoList = [];
-			// var deletedList = {};
-			// deletedList.count = 0;
-			// var failedList = {};
-			// failedList.count = 0;
-
-			// var rData = model.getData();
-			// var items = rData.items;
-			// var newItems = [];
-			// var isSalesOrder = model.getProperty('/isSalesOrder');
-			// var Deletelines = [];
-			// var rows = that.itemTable.getRows();
-
-			// if (!!items && items.length > 0) {
-
-			// 	sap.ui.core.BusyIndicator.show(0);
-
-			// 	for (var i = 1; i < items.length; i++) {
-			// 		if (items[i].selected) {
-			// 			Deletelines.push(items[i].line);
-			// 			if (items[i].uuid) {
-			// 				//this.draftInd.showDraftSaving();
-			// 				todoList.push(items[i].uuid);
-			// 				this.deleteOrderDraftItem([items[i].uuid, items[i].line, items[i].parentUuid], isSalesOrder, function (keys, isOk, messages) {
-			// 					// only failed record will be returning message. message of good one will be ignored
-			// 					if (isOk) {
-			// 						deletedList[keys[0]] = keys;
-			// 						deletedList.count = deletedList.count + 1;
-
-			// 					} else {
-			// 						failedList[keys[0]] = messages;
-			// 						failedList.count = failedList.count + 1;
-			// 					}
-
-			// 					if (todoList.length <= (deletedList.count + failedList.count)) {
-			// 						// create new items 
-			// 						for (var y = 0; y < items.length; y++) {
-			// 							var Index = Deletelines.indexOf(y);
-			// 							if (Index >= 0) {
-			// 								for (var c = 0; c < that.aCreateItems.length; c++) {
-			// 									if (that.aCreateItems[c].line === y) {
-			// 										var rowCells = rows[y].getCells();
-			// 										var cellsLen = rowCells.length;
-
-			// 										for (var y1 = 5; y1 < cellsLen; y1++) {
-			// 											if (rowCells[y1].getMetadata()._sClassName === "sap.m.Input") {
-
-			// 												rowCells[y1].setValueStateText("");
-			// 												rowCells[y1].setValueState("None");
-
-			// 											}
-			// 										}
-			// 										that.aCreateItems.splice(c, 1);
-			// 									}
-
-			// 								}
-			// 								for (var u = 0; u < that.aUpdateItems.length; c++) {
-			// 									if (that.aUpdateItems[u].line === y) {
-			// 										var rowCells = rows[y].getCells();
-			// 										var cellsLen = rowCells.length;
-
-			// 										for (var y1 = 5; y1 < cellsLen; y1++) {
-			// 											if (rowCells[y1].getMetadata()._sClassName === "sap.m.Input") {
-
-			// 												rowCells[y1].setValueStateText("");
-			// 												rowCells[y1].setValueState("None");
-
-			// 											}
-			// 										}
-			// 										that.aUpdateItems.splice(u, 1);
-			// 									}
-			// 								}
-			// 								//items.splice(y, 1);
-
-			// 							}
-			// 							if (items[y].uuid && (!!deletedList[items[y].uuid])) { // n 
-			// 							} else {
-			// 								if (Index === -1) {
-			// 									newItems.push(items[y]);
-			// 								}
-			// 							}
-			// 						}
-
-			// 						//newItems = items;
-			// 						for (var z = 1; z < newItems.length; z++) {
-			// 							newItems[z].line = z;
-			// 							if (!!failedList[newItems[z].uuid]) {
-			// 								newItems[z].messages = newItems[z].messages.concat(newItems[z].messages);
-			// 							}
-			// 						}
-
-			// 						rData.items = newItems;
-			// 						rData.totalLines = rData.items.length - 1;
-			// 						// ---to save some newwork traffic
-			// 						rData.modifiedOn = new Date();
-			// 						model.setData(rData);
-			// 						//that.draftInd.showDraftSaved();
-			// 					}
-			// 				});
-			// 			}
-			// 			// if uuid 
-
-			// 		}
-			// 	}
-			// 	if (todoList.length === 0) {
-			// 		for (var y = 0; y < items.length; y++) {
-			// 			var Index = Deletelines.indexOf(y);
-			// 			if (Index >= 0) {
-			// 				for (var c = 0; c < that.aCreateItems.length; c++) {
-			// 					if (that.aCreateItems[c].line === y) {
-			// 						var rowCells = rows[y].getCells();
-			// 						var cellsLen = rowCells.length;
-
-			// 						for (var y1 = 5; y1 < cellsLen; y1++) {
-			// 							if (rowCells[y1].getMetadata()._sClassName === "sap.m.Input") {
-
-			// 								rowCells[y1].setValueStateText("");
-			// 								rowCells[y1].setValueState("None");
-
-			// 							}
-			// 						}
-			// 						that.aCreateItems.splice(c, 1);
-			// 					}
-			// 				}
-			// 				//items.splice(y, 1);
-			// 			} else {
-			// 				newItems.push(items[y]);
-			// 			}
-
-			// 		}
-			// 		for (var y = 0; y < newItems.length; y++) {
-			// 			newItems[y].line = y;
-			// 		}
-			// 		rData.items = newItems;
-			// 		rData.totalLines = rData.items.length - 1;
-			// 		if (rData.totalLines >= 16) {
-			// 			this.itemTable.setVisibleRowCount(rData.totalLines + 2);
-			// 		}
-			// 		// ---to save some newwork traffic
-			// 		rData.modifiedOn = new Date();
-			// 		model.setData(rData);
-			// 		//that.itemTableTable().getBinding("rows").getModel().refresh();
-
-			// 	}
-			// 	sap.ui.core.BusyIndicator.hide();
-			// }
-
-			// that.toggleSubmitDraftButton();
+			
 
 		},
 		handleDeletePart2: function (oEvent) {
 			var that = this;
 
 			var aDeleteData = this.getView().getModel("stanrushModel").getProperty("/data");
-			var iDataLength = aDeleteData.length;
+			var iDataLength = aDeleteData.length
 
-			for (var i = 0; i < iDataLength; i++) {
-				var checkStatus = this.getView().getModel("stanrushModel").getProperty("/data/" + i + "/selected");
+			if (iDataLength > 1) {
 
-				if (checkStatus == true) {
-					aDeleteData.splice(i, 1);
+				for (var i = 0; i < iDataLength; i++) {
+					var checkStatus = this.getView().getModel("stanrushModel").getProperty("/data/" + i + "/selected");
+
+					if (checkStatus == true) {
+						aDeleteData.splice(i, 1);
+					}
+					//oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
 				}
-				//oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
-			}
 
-			this.getView().getModel("stanrushModel").setProperty("/data", aDeleteData);
-			this.getView().getModel("stanrushModel").refresh();
+				this.getView().getModel("stanrushModel").setProperty("/data", aDeleteData);
+				this.getView().getModel("stanrushModel").refresh();
+
+			} else {
+				var oOrderData = this.getView().getModel("stanrushModel").getProperty("/data")
+				oOrderData.data.splice(0, 0, {
+					checkVisible: false,
+					vinEnable: true,
+					selected: false,
+					vinNum: "",
+					CampaignCode: " ",
+					addButtonVisible: true
+
+				});
+
+				this.getView().getModel("stanrushModel").setData(oOrderData);
+				this.getView().getModel("stanrushModel").refresh();
+
+			}
 
 		},
 
-			onBack: function (oEvent) {
+		onBack: function (oEvent) {
 			var that = this;
 			this.draftInd.clearDraftState();
 			that.getRouter().navTo("FindOrder", null, false);

@@ -3,7 +3,7 @@
 	<Dialog title=" {i18n>CampaignCPOR}" contentWidth="1152px" contentHeight="70%" verticalScrolling='true' resizable="true" draggable="true"
 		horizontalScrolling='true'>
 		<content>
-			<ScrollContainer id='flexContainer1' height="80%" width="100%" horizontal="true" vertical="true" focusable="true">
+			<ScrollContainer id='flexContainer2' height="80%" width="100%" horizontal="true" vertical="true" focusable="true">
 				<ui:Table id="idProductsTable2" alternateRowColors="false" showNoData="false" rows="{stanrushModel>/data}" visibleRowCount="16"
 					selectionMode="None" ariaLabelledBy="title" class="sapUiSizeCompact sapUiNoMarginTop sapUiNoMarginEnd" rowHeight="25px"
 					sort="handleSortColumn">
@@ -16,11 +16,11 @@
 									visible="true"/>
 								<ToolbarSpacer/>
 								<Button type="Default" icon="sap-icon://sort" tooltip="{i18n>ToolTip.Sort.Error.Rows}" class="size2" press='handleSortError' visible="false"
-									id="btnSortError"/>
+									id="btnSortError2"/>
 								<Button type="Transparent" icon="sap-icon://filter" tooltip="{i18n>ToolTip.Filter.Error.Rows}" class="size2" press='handleFilterError'
-									visible="false" id="btnFilterError"/>
+									visible="false" id="btnFilterError2"/>
 								<Button type="Transparent" icon="sap-icon://clear-filter" tooltip="{i18n>ToolTip.ClearFilter.Error.Rows}" class="size2"
-									press='handleClearFilterError' visible="false" id="btnClearFilterError"/>
+									press='handleClearFilterError' visible="false" id="btnClearFilterError2"/>
 							</content>
 						</Toolbar>
 					</ui:extension>
@@ -41,7 +41,7 @@
 								<Text text="{orderModel>line}" wrapping="false" visible="{= ${orderModel>line} > 0}"/>
 							</ui:template>
 						</ui:Column>
-						<ui:Column width="{sizeModel>/remPartNo}" id="Material" sortProperty="Material">
+						<ui:Column width="{sizeModel>/remPartNo}" id="Material2" sortProperty="Material">
 							<Label text="{i18n>VIN}"/>
 							<ui:template>
 								<VBox>
@@ -61,7 +61,7 @@
 							</ui:template>
 						</ui:Column>
 					
-						<ui:Column id="ErrorStatus" width="4.5rem">
+						<ui:Column id="ErrorStatus2" width="4.5rem">
 							<ui:template>
 								<VBox width="3.5rem">
 									<Button  type="Accept" tooltip="Add" class="size1" icon="sap-icon://add" press="handleAddPart3" visible="{stanrushModel>addButtonVisible}"/>
