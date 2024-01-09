@@ -765,8 +765,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			}
 			var newAddedLineData = oOrderData.data[0];
 
-			if (oOrderData.data[0].vinNum == " " || oOrderData.data[0].CampaignCode == " " || oOrderData.data[0].OperationCode == " "
-			} {
+			if (oOrderData.data[0].vinNum == " " || oOrderData.data[0].CampaignCode == " " || oOrderData.data[0].OperationCode == " ")
+			 {
 				var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
 				MessageBox.error(sInValid, {
 					actions: [MessageBox.Action.CLOSE],
