@@ -138,10 +138,13 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			//changes by shriram for DMND0004095 on January 5th 2024   start
 			var campaignModel = new sap.ui.model.json.JSONModel({
 				"data": [{
+					checkVisible: false,
+					vinEnable: true,
 					selected: false,
 					vinNum: " ",
 					CampaignCode: " ",
-					OperationCode: " "
+					OperationCode: " ",
+					addButtonVisible: true
 				}]
 			});
 			sap.ui.getCore().setModel(campaignModel, "campaignModel");
@@ -753,7 +756,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 		handleAddPart2: function (oEvent) {
 			var that = this;
-			var oSource = oEvent.getSource() || null; 
+			var oSource = oEvent.getSource() || null;
 			var oOrderData = this.getView().getModel("campaignModel").getData();
 			//this.itemTable.setBusy(true);
 			if (oSource) {
@@ -761,60 +764,81 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oSource.setBusy(true);
 			}
 			var newAddedLineData = oOrderData.data[0];
-			
-			var oItem = JSON.parse(JSON.stringify(oOrderData.data[0]));
-			// oItem.addIcon = false;
-			// oItem.hasError = false;
-			// var lv_orderType = oItem.OrderType;
-			// oOrderData.items[0] = oItem;
-			// oOrderData.items[0].line = oOrderData.totalLines + 1;
-			// oOrderData.items[0].addIcon = false;
-			// oOrderData.items[0].selected = false;
-			// oOrderData.items[0]["ItemStatus"] = "Unsaved";
-			oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
-			this.aCreateItems.push(oOrderData.data[0]);
-			// this.toggleSubmitDraftButton();
-			oOrderData.data.splice(0, 1);
-			var that = this;
-			//code by Minakshi for duplicate vin, ops, camp and partnum
-			// if (oOrderData.orderTypeId == 3) {
-			// 	oOrderData.items = oOrderData.items.reduce((unique, o) => {
-			// 		if (!unique.some(obj => obj.partNumber === o.partNumber && obj.campaignNum === o.campaignNum && obj.opCode === o.opCode && obj.vin ===
-			// 				o.vin)) {
-			// 			// var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
-			// 			// MessageBox.error(sInValid, {
-			// 			// 	actions: [MessageBox.Action.CLOSE],
-			// 			// 	styleClass: that.getOwnerComponent().getContentDensityClass()
 
-			// 			// });
-			// 			unique.push(o);
-			// 		}
-			// 		return unique;
-			// 	}, []);
-			// }
+			if (oOrderData.data[0].vinNum == " " || oOrderData.data[0].CampaignCode == " " || oOrderData.data[0].OperationCode == " "
+			} {
+				var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
+				MessageBox.error(sInValid, {
+					actions: [MessageBox.Action.CLOSE],
+					styleClass: that.getOwnerComponent().getContentDensityClass()
 
-			//code by Minakshi for duplicate vin, ops, camp and partnum
-
-			oOrderData.data.splice(0, 0, {
-					selected: false,
-					vinNum: " ",
-					CampaignCode: " ",
-					OperationCode: " "
 				});
-			//rData.newline = [that._getNewLine()];
-			// oOrderData.totalLines = oOrderData.items.length - 1;
-			// if (oOrderData.totalLines >= 16) {
-			// 	this.itemTable.setVisibleRowCount(oOrderData.items.length + 2);
-			// }
-			// ---to save some newwork traffic
-			// oOrderData.modifiedOn = new Date();
-			// that.oOrderModel.setData(oOrderData);campaignModel
-			this.getView().getModel("campaignModel").setData(oOrderData);
-			DataManager.setOrderData(oOrderData);
-			if (oSource) {
-				oSource.setEnabled(true);
-				oSource.setBusy(false);
-			}
+
+			} else {
+
+				var oItem = JSON.parse(JSON.stringify(oOrderData.data[0]));
+				// oItem.addIcon = false;
+				// oItem.hasError = false;
+				// var lv_orderType = oItem.OrderType;
+				// oOrderData.items[0] = oItem;
+				// oOrderData.items[0].line = oOrderData.totalLines + 1;
+				// oOrderData.items[0].addIcon = false;
+				// oOrderData.items[0].selected = false;
+				// oOrderData.items[0]["ItemStatus"] = "Unsaved";
+				oOrderData.data[0].checkVisible = true;
+				oOrderData.data[0].vinEnable: false;
+				oOrderData.data[0].addButtonVisible: false;
+
+				oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
+				this.aCreateItems.push(oOrderData.data[0]);
+				// this.toggleSubmitDraftButton();
+				oOrderData.data.splice(0, 1);
+				var that = this;
+				//code by Minakshi for duplicate vin, ops, camp and partnum
+				// if (oOrderData.orderTypeId == 3) {
+				// 	oOrderData.items = oOrderData.items.reduce((unique, o) => {
+				// 		if (!unique.some(obj => obj.partNumber === o.partNumber && obj.campaignNum === o.campaignNum && obj.opCode === o.opCode && obj.vin ===
+				// 				o.vin)) {
+				// 			// var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
+				// 			// MessageBox.error(sInValid, {
+				// 			// 	actions: [MessageBox.Action.CLOSE],
+				// 			// 	styleClass: that.getOwnerComponent().getContentDensityClass()
+
+				// 			// });
+				// 			unique.push(o);
+				// 		}
+				// 		return unique;
+				// 	}, []);
+				// }
+
+				//code by Minakshi for duplicate vin, ops, camp and partnum
+
+				oOrderData.data.splice(0, 0, {
+					checkVisible: false
+					vinEnable: false
+					selected: false,
+					vinNum: oOrderData.data[1].vinNum,
+					CampaignCode: " ",
+					OperationCode: " ",
+					addButtonVisible: true
+
+				});
+				//rData.newline = [that._getNewLine()];
+				// oOrderData.totalLines = oOrderData.items.length - 1;
+				// if (oOrderData.totalLines >= 16) {
+				// 	this.itemTable.setVisibleRowCount(oOrderData.items.length + 2);
+				// }
+				// ---to save some newwork traffic
+				// oOrderData.modifiedOn = new Date();
+				// that.oOrderModel.setData(oOrderData);campaignModel
+				this.getView().getModel("campaignModel").setData(oOrderData);
+				DataManager.setOrderData(oOrderData);
+				if (oSource) {
+					oSource.setEnabled(true);
+					oSource.setBusy(false);
+				}
+
+			} //else end
 		},
 		//  Shriram changes for the DMND0004095
 		handleAddPart1: function (oEvent) {
@@ -823,14 +847,14 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var campaignModelItems = this.getView().getModel("campaignModel").getData();
 			//campaignModelItems.data[i]
 			var aCampaignData = this.getView().getModel("campaignModel").getProperty("/data");
-			var newLineItem= oEvent.getSource().getBindingContext("campaignModel").getObject();
+			var newLineItem = oEvent.getSource().getBindingContext("campaignModel").getObject();
 			aCampaignData.push(newLineItem);
 
 			this.getView().getModel("campaignModel").setProperty("/data", aCampaignData);
-			this.getView().getModel("campaignModel").setProperty("/data/" + 0 + "/selected",false);
-			this.getView().getModel("campaignModel").setProperty("/data/" + 0 + "/vinNum"," ");
-			this.getView().getModel("campaignModel").setProperty("/data/" + 0 + "/CampaignCode"," ");
-			this.getView().getModel("campaignModel").setProperty("/data/" + 0 + "/OperationCode"," ");
+			this.getView().getModel("campaignModel").setProperty("/data/" + 0 + "/selected", false);
+			this.getView().getModel("campaignModel").setProperty("/data/" + 0 + "/vinNum", " ");
+			this.getView().getModel("campaignModel").setProperty("/data/" + 0 + "/CampaignCode", " ");
+			this.getView().getModel("campaignModel").setProperty("/data/" + 0 + "/OperationCode", " ");
 
 			this.getView().getModel("campaignModel").refresh();
 

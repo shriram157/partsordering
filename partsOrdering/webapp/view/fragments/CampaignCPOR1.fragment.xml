@@ -30,7 +30,7 @@
 							<ui:template>
 								<!--<CheckBox select='toggleSelect' wrapping="false" selected="{orderModel>selected}" visible="{= ${orderModel>line} > 0}"-->
 								<!--	class="sapUiNoContentPadding"/>-->
-								<CheckBox visible="true" selected="{campaignModel>selected}"/>
+								<CheckBox visible="true" selected="{campaignModel>selected}" visible="{campaignModel>checkVisible}"/>
 							</ui:template>
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remLine}" sortProperty="line">
@@ -45,7 +45,7 @@
 							<Label text="{i18n>VIN}"/>
 							<ui:template>
 								<VBox>
-									<Input value="{campaignModel>vinNum}" type="Text" textFormatMode="Key" required="true" tooltip="{orderModel>partNumber}" enabled="true" editable="true"/>
+									<Input value="{campaignModel>vinNum}" type="Text" textFormatMode="Key" required="true" tooltip="{orderModel>partNumber}" enabled="{orderModel>vinEnable}" editable="true"/>
 									<!--<Input value="{orderModel>partNumber}" type="Text" textFormatMode="Key" showSuggestion='true' suggest="handleSuggest"-->
 									<!--	suggestionItemSelected="handleSuggestionItemSelected" change='handleProductChange' startSuggestion="3"-->
 									<!--	suggestionItems="{path: 'materialSuggestionModel>/Matsuggestions', templateShareable:true}" maxSuggestionWidth='500px' width="340px"-->
@@ -81,7 +81,7 @@
 						<ui:Column id="ErrorStatus" width="4.5rem">
 							<ui:template>
 								<VBox width="3.5rem">
-									<Button  type="Accept" tooltip="Add" class="size1" icon="sap-icon://add" press="handleAddPart2"/>
+									<Button  type="Accept" tooltip="Add" class="size1" icon="sap-icon://add" press="handleAddPart2" visible="{campaignModel>addButtonVisible}"/>
 									<!--<Button type="Accept" tooltip="Add" class="size1" icon="sap-icon://add" press='handleAddPart1'-->
 									<!--	visible="{= ${orderModel>line} === 0 &amp;&amp; ${orderModel>addIcon} === true}"></Button>-->
 									<!--	<Button type='Reject' tooltip="Minus" class="size2" icon="sap-icon://less" press='handleDeletePart' visible="{orderModel>minusIcon}"></Button>-->
