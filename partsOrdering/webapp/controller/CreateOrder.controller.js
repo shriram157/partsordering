@@ -1969,7 +1969,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 			} else {
 				var oOrderData = this.getView().getModel("campaignModel").getProperty("/data")
-				oOrderData.data.splice(0, 0, {
+				oOrderData.data.splice(0, 1, {
 					checkVisible: false,
 					vinEnable: true,
 					selected: false,
@@ -2010,7 +2010,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 			} else {
 				var oOrderData = this.getView().getModel("stanrushModel").getProperty("/data")
-				oOrderData.data.splice(0, 0, {
+				oOrderData.data.splice(0, 1, {
 					checkVisible: false,
 					vinEnable: true,
 					selected: false,
