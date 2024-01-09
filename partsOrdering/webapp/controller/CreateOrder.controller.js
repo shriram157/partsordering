@@ -1954,17 +1954,20 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var iDataLength = aDeleteData.length;
 
 			if (iDataLength > 1) {
+				
+				// var newAddedLineData = aDeleteData.items[0];
+			var sIndex = aDeleteData.data.filter(ind => ind.selected == false);
 
-				for (var i = 0; i < iDataLength; i++) {
-					var checkStatus = this.getView().getModel("campaignModel").getProperty("/data/" + i + "/selected");
+				// for (var i = 0; i < iDataLength; i++) {
+				// 	var checkStatus = this.getView().getModel("campaignModel").getProperty("/data/" + i + "/selected");
 
-					if (checkStatus == true) {
-						aDeleteData.splice(i, 1);
-					}
-					//oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
-				}
+				// 	if (checkStatus == true) {
+				// 		aDeleteData.splice(i, 1);
+				// 	}
+				// 	//oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
+				// }
 
-				this.getView().getModel("campaignModel").setProperty("/data", aDeleteData);
+				this.getView().getModel("campaignModel").setProperty("/data", sIndex);
 				this.getView().getModel("campaignModel").refresh();
 
 			} else {
