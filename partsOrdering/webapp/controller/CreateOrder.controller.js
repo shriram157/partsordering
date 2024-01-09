@@ -786,8 +786,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				// oOrderData.items[0].selected = false;
 				// oOrderData.items[0]["ItemStatus"] = "Unsaved";
 				oOrderData.data[0].checkVisible = true;
-				oOrderData.data[0].vinEnable: false;
-				oOrderData.data[0].addButtonVisible: false;
+				oOrderData.data[0].vinEnable= false;
+				oOrderData.data[0].addButtonVisible= false;
 
 				oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
 				this.aCreateItems.push(oOrderData.data[0]);
@@ -814,8 +814,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				//code by Minakshi for duplicate vin, ops, camp and partnum
 
 				oOrderData.data.splice(0, 0, {
-					checkVisible: false
-					vinEnable: false
+					checkVisible: false,
+					vinEnable: false,
 					selected: false,
 					vinNum: oOrderData.data[1].vinNum,
 					CampaignCode: " ",
