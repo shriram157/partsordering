@@ -919,7 +919,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							aCreateItems.push(oOrderData.data[0]);
 							// this.toggleSubmitDraftButton();
 							oOrderData.data.splice(0, 1);
-							var that = this;
+						//	var that = this;
 
 							oOrderData.data.splice(0, 0, {
 								checkVisible: false,
