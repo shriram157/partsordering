@@ -882,7 +882,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				// Message
 				// Msg_flag
 				var bModel = this.getSalesOrderModel();
-				oFilter=new Array();
+				var oFilter=new Array();
 				oFilter= new sap.ui.model.Filter("VIN_NO", sap.ui.model.FilterOperator.EQ, obj.VIN_NO);
 				oFilter= new sap.ui.model.Filter("OP_CODE", sap.ui.model.FilterOperator.EQ, obj.OP_CODE);
 				oFilter= new sap.ui.model.Filter("CAMP_CODE", sap.ui.model.FilterOperator.EQ, obj.CAMP_CODE);
