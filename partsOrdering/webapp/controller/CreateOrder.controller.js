@@ -900,12 +900,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					//?$filter=VIN_NO eq '"+VIN_NO+ "'and OP_CODE eq '"+OP_CODE+"'and CAMP_CODE eq '"+CAMP_CODE+"'", {
 					filters: InputFilter.aFilters,
 					success: function (oData, oResponse) {
-
-						console.log("Inside success function");
-						console.log(oData);
-
-						MessageToast.show("success");
-						if (oData.results[0].MSG_FLAG != "E") {
+						if (oData.results[0].MSG_FLAG == "E") {
 							if (oSource) {
 								oSource.setEnabled(false);
 								oSource.setBusy(true);
@@ -951,9 +946,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						}
 					},
 					error: function (oError) {
-						var err = oError;
-						console.log("Inside error function");
-						console.log(oError);
 						MessageToast.show(oError);
 					}
 				});
