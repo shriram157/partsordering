@@ -68,6 +68,13 @@
 							<ObjectStatus text="{= ${/bom_kit_part} === 'X' ? '0' : ${path:'/open_qty'}}" state="None"/>
 						</VBox>
 						<ToolbarSeparator/>
+						<!--changes by Swetha for DMND0003930 added Close button-->
+						<ToolbarSeparator/>
+						<VBox width='120px'>
+							<Button text="{i18n>Close}" id="idClose" width="150px"/>
+						</VBox>
+						<ToolbarSeparator/>
+						<!--changes by Swetha for DMND0003930 added Close button-->
 					</Toolbar>
 				</headerToolbar>
 				<columns>
