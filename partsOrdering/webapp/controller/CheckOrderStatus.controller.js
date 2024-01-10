@@ -258,37 +258,7 @@ sap.ui.define([
 				});
 
 			}
-			//changes by Swetha for DMND003930 for close button validation
-			// var that = this;
-			// var bModel = this.getSalesOrderModel();
-			// var oFilter = new Array();
-			// //var dealerCode = conditions.dealerCode;
-			// var dealerCode = conditions.bpCode;
-
-			// oFilter[0] = new sap.ui.model.Filter("dealer_code", sap.ui.model.FilterOperator.EQ, dealerCode);
-			// bModel.read('/find_soSet', {
-			// 	urlParameters: {
-			// 		"$expand": "SOtoDeliv",
-			// 		"$orderby": "TCI_order_no,TCI_itemNo"
-			// 	},
-			// 	filters: oFilter,
-			// 	success: function (oData, oResponse) {
-			// 		if (!!oData && !!oData.results) {
-			// 			if(oData.Flag!=""){
-			// 				this.getView().byId("idClose").setVisible(false);
-			// 			} else {
-			// 				this.getView().byId("idClose").setVisible(true);
-			// 			}
-			// 			callback(oData.results);
-			// 		} else {
-			// 			callback(null);
-			// 		}
-			// 	},
-			// 	error: function (err) {
-			// 		callback(null);
-			// 	}
-			// });
-			//changes by Swetha for DMND003930 for close button validation
+			
 		},
 
 		getDealersForTCIUser: function () {
@@ -690,6 +660,37 @@ sap.ui.define([
 				jQuery.sap.syncStyleClass("sapUiSizeCompact", that.getView(), that._oDetailDialog);
 				that._oDetailDialog.open();
 			});
+			//changes by Swetha for DMND003930 for close button validation
+			 var that = this;
+			 var bModel = this.getSalesOrderModel();
+			// var oFilter = new Array();
+			// //var dealerCode = conditions.dealerCode;
+			// var dealerCode = conditions.bpCode;
+
+			// oFilter[0] = new sap.ui.model.Filter("dealer_code", sap.ui.model.FilterOperator.EQ, dealerCode);
+			bModel.read('/find_soSet', {
+				// urlParameters: {
+				// 	"$expand": "SOtoDeliv",
+				// 	"$orderby": "TCI_order_no,TCI_itemNo"
+				// },
+				// filters: oFilter,
+				success: function (oData, oResponse) {
+					if (!!oData && !!oData.results) {
+						if(oData.Flag!=""){
+							this.getView().byId("idClose").setVisible(false);
+						} else {
+							this.getView().byId("idClose").setVisible(true);
+						}
+						callback(oData.results);
+					} else {
+						callback(null);
+					}
+				},
+				error: function (err) {
+					callback(null);
+				}
+			});
+			//changes by Swetha for DMND003930 for close button validation
 
 		},
 
