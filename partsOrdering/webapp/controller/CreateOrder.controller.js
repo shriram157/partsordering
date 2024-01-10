@@ -893,23 +893,68 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						new sap.ui.model.Filter("OP_CODE", sap.ui.model.FilterOperator.EQ, OP_CODE),
 						new sap.ui.model.Filter("CAMP_CODE", sap.ui.model.FilterOperator.EQ, CAMP_CODE)
 					],
-					and: true                       
+					and: true
 				});
 
-				bModel.read("/ZC_Vin_ValidationSet",{
-				//?$filter=VIN_NO eq '"+VIN_NO+ "'and OP_CODE eq '"+OP_CODE+"'and CAMP_CODE eq '"+CAMP_CODE+"'", {
+				bModel.read("/ZC_Vin_ValidationSet", {
+					//?$filter=VIN_NO eq '"+VIN_NO+ "'and OP_CODE eq '"+OP_CODE+"'and CAMP_CODE eq '"+CAMP_CODE+"'", {
 					filters: InputFilter.aFilters,
 					success: function (oData, oResponse) {
 
 						console.log("Inside success function");
 						console.log(oData);
+
 						MessageToast.show("success");
+						if (oData.results.MSG_FLAG != "E") {
+							if (oSource) {
+								oSource.setEnabled(false);
+								oSource.setBusy(true);
+							}
+
+							var oItem = JSON.parse(JSON.stringify(oOrderData.data[0]));
+
+							oOrderData.data[0].checkVisible = true;
+							oOrderData.data[0].vinEnable = false;
+							oOrderData.data[0].camEnable = false;
+							oOrderData.data[0].opCodeEnable = false;
+							oOrderData.data[0].addButtonVisible = false;
+							oOrderData.data[0].line = oOrderData.data.length;
+
+							oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
+							this.aCreateItems.push(oOrderData.data[0]);
+							// this.toggleSubmitDraftButton();
+							oOrderData.data.splice(0, 1);
+							var that = this;
+
+							oOrderData.data.splice(0, 0, {
+								checkVisible: false,
+								vinEnable: false,
+								camEnable: true,
+								opCodeEnable: true,
+								selected: false,
+								vinNum: oOrderData.data[0].vinNum,
+								CampaignCode: " ",
+								OperationCode: " ",
+								addButtonVisible: true,
+								line: 0
+
+							});
+
+							this.getView().getModel("campaignModel").setData(oOrderData);
+							DataManager.setOrderData(oOrderData);
+							if (oSource) {
+								oSource.setEnabled(true);
+								oSource.setBusy(false);
+							}
+						} else {
+							MessageBox.error(oData.results.MESSAGE);
+						}
 					},
 					error: function (oError) {
 						var err = oError;
 						console.log("Inside error function");
 						console.log(oError);
-						MessageToast.show("Please enter valid number");
+						MessageToast.show(oError);
 					}
 				});
 				// 	var url = bModel + "/ZC_Vin_Validation?$filter=VIN_NO eq'"+obj.VIN_NO+ "'and OP_CODE eq'"+obj.OP_CODE+"'and CAMP_CODE eq '"+obj.CAMP_CODE+"'";
@@ -928,46 +973,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				// 	}
 				// });
 				//this.itemTable.setBusy(true);
-				if (oSource) {
-					oSource.setEnabled(false);
-					oSource.setBusy(true);
-				}
-
-				var oItem = JSON.parse(JSON.stringify(oOrderData.data[0]));
-
-				oOrderData.data[0].checkVisible = true;
-				oOrderData.data[0].vinEnable = false;
-				oOrderData.data[0].camEnable = false;
-				oOrderData.data[0].opCodeEnable = false;
-				oOrderData.data[0].addButtonVisible = false;
-				oOrderData.data[0].line = oOrderData.data.length;
-
-				oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
-				this.aCreateItems.push(oOrderData.data[0]);
-				// this.toggleSubmitDraftButton();
-				oOrderData.data.splice(0, 1);
-				var that = this;
-
-				oOrderData.data.splice(0, 0, {
-					checkVisible: false,
-					vinEnable: false,
-					camEnable: true,
-					opCodeEnable: true,
-					selected: false,
-					vinNum: oOrderData.data[0].vinNum,
-					CampaignCode: " ",
-					OperationCode: " ",
-					addButtonVisible: true,
-					line: 0
-
-				});
-
-				this.getView().getModel("campaignModel").setData(oOrderData);
-				DataManager.setOrderData(oOrderData);
-				if (oSource) {
-					oSource.setEnabled(true);
-					oSource.setBusy(false);
-				}
 
 			} //else end
 		},
