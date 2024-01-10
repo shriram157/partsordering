@@ -852,7 +852,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 		handleAddPart2: function (oEvent) {
 			var that = this;
-
+            var oOrderData = this.getView().getModel("campaignModel").getData();
 			var newAddedLineData = oOrderData.data[0];
 
 			if (oOrderData.data[0].vinNum == " " || oOrderData.data[0].CampaignCode == " " || oOrderData.data[0].OperationCode == " ") {
@@ -872,7 +872,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			} else {
 
 				var oSource = oEvent.getSource() || null;
-				var oOrderData = this.getView().getModel("campaignModel").getData();
+				
 				var obj = {};
 
 				obj.VIN_no = oOrderData.data[0].vinNum;
