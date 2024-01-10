@@ -905,7 +905,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						console.log(oData);
 
 						MessageToast.show("success");
-						if (oData.results.MSG_FLAG != "E") {
+						if (oData.results[0].MSG_FLAG != "E") {
 							if (oSource) {
 								oSource.setEnabled(false);
 								oSource.setBusy(true);
@@ -947,7 +947,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								oSource.setBusy(false);
 							}
 						} else {
-							MessageBox.error(oData.results.MESSAGE);
+							MessageBox.error(oData.results[0].MESSAGE);
 						}
 					},
 					error: function (oError) {
