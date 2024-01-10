@@ -38,7 +38,7 @@
 							<Label text="#"/>
 							<ui:template>
 								<!--<Text text="{orderModel>line}" wrapping="false" visible="{= ${orderModel>line} === 0 ? false : true }"/>-->
-								<Text text="{orderModel>line}" wrapping="false" visible="{= ${orderModel>line} > 0}"/>
+								<Text text="{stanrushModel>line}" wrapping="false" visible="{= ${stanrushModel>line} > 0}"/>
 							</ui:template>
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remPartNo}" id="Material2" sortProperty="Material">
@@ -82,6 +82,7 @@
 		</content>
 		<buttons>
 			<Button text="{i18n>Back}" press='onPressBack'/>
+			<Button text="{i18n>Button.CreateOrder.Cancel}" press='onDialogClose'/>
 			<Button text="{i18n>CPOR}" press='onDialogClose'/>
 		</buttons>
 	</Dialog>

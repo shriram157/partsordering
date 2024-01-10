@@ -38,7 +38,7 @@
 							<Label text="#"/>
 							<ui:template>
 								<!--<Text text="{orderModel>line}" wrapping="false" visible="{= ${orderModel>line} === 0 ? false : true }"/>-->
-								<Text text="{orderModel>line}" wrapping="false" visible="{= ${orderModel>line} > 0}"/>
+								<Text text="{campaignModel>line}" wrapping="false" visible="{= ${campaignModel>line} > 0}"/>
 							</ui:template>
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remPartNo}" id="Material" sortProperty="Material">
@@ -89,6 +89,7 @@
 		</content>
 		<buttons>
 			<Button text="{i18n>Back}" press='onPressBack'/>
+			<Button text="{i18n>Button.CreateOrder.Cancel}" press='CDialogClose'/>
 			<Button text="{i18n>CPOR}" press='CDialogClose'/>
 		</buttons>
 	</Dialog>

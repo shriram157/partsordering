@@ -146,7 +146,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					vinNum: " ",
 					CampaignCode: " ",
 					OperationCode: " ",
-					addButtonVisible: true
+					addButtonVisible: true,
+					line:0 
 				}]
 			});
 			sap.ui.getCore().setModel(campaignModel, "campaignModel");
@@ -160,7 +161,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					selected: false,
 					vinNum: " ",
 					CampaignCode: " ",
-					addButtonVisible: true
+					addButtonVisible: true,
+					line:0
 				}]
 			});
 			sap.ui.getCore().setModel(stanrushModel, "stanrushModel");
@@ -776,11 +778,16 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 			if (oOrderData.data[0].vinNum == " " || oOrderData.data[0].CampaignCode == " ") {
 				var sInValid = that.oResourceBundle.getText("Create.Order.PleaseEnterAllValues");
-				MessageBox.error(sInValid, {
-					actions: [MessageBox.Action.CLOSE],
-					styleClass: that.getOwnerComponent().getContentDensityClass()
+				// MessageBox.error(sInValid, {
+				// 	actions: [MessageBox.Action.CLOSE],
+				// 	styleClass: that.getOwnerComponent().getContentDensityClass()
 
-				});
+				// });
+				MessageToast.show(sInValid);
+					if (oSource) {
+					oSource.setEnabled(true);
+					oSource.setBusy(false);
+				}
 				return;
 				// if (oOrderData.data[0].vinNum == " ") {
 				// 	oOrderData.data.splice(0, 0, {
@@ -813,6 +820,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oOrderData.data[0].vinEnable = false;
 				oOrderData.data[0].camEnable = false;
 				oOrderData.data[0].addButtonVisible = false;
+				oOrderData.data[0].line = oOrderData.data.length;
 
 				oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
 				this.aCreateItems.push(oOrderData.data[0]);
@@ -827,7 +835,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					selected: false,
 					vinNum: oOrderData.data[0].vinNum,
 					CampaignCode: " ",
-					addButtonVisible: true
+					addButtonVisible: true,
+					line:0
 
 				});
 
@@ -854,12 +863,16 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 			if (oOrderData.data[0].vinNum == " " || oOrderData.data[0].CampaignCode == " " || oOrderData.data[0].OperationCode == " ") {
 				var sInValid = that.oResourceBundle.getText("Create.Order.PleaseEnterAllValues");
+				if (oSource) {
+					oSource.setEnabled(true);
+					oSource.setBusy(false);
+				}
 				// MessageBox.error(sInValid, {
 				// 	actions: [MessageBox.Action.CLOSE],
 				// 	styleClass: that.getOwnerComponent().getContentDensityClass(),
 				// });
-					MessageToast.show(sInValid);
-		
+				MessageToast.show(sInValid);
+
 				return;
 				// if (oOrderData.data[0].vinNum == " ") {
 				// 	oOrderData.data.splice(0, 0, {
@@ -895,6 +908,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oOrderData.data[0].camEnable = false;
 				oOrderData.data[0].opCodeEnable = false;
 				oOrderData.data[0].addButtonVisible = false;
+				oOrderData.data[0].line=oOrderData.data.length;
 
 				oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
 				this.aCreateItems.push(oOrderData.data[0]);
@@ -911,7 +925,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					vinNum: oOrderData.data[0].vinNum,
 					CampaignCode: " ",
 					OperationCode: " ",
-					addButtonVisible: true
+					addButtonVisible: true,
+					line:0
 
 				});
 
@@ -1967,6 +1982,13 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 				// var newAddedLineData = aDeleteData.items[0];
 				var sIndex = aDeleteData.filter(ind => ind.selected == false);
+				var sIndexFinal=sIndex;
+				this.getView().getModel("campaignModel").setProperty("/data", sIndex);
+				
+				for(i=0;i<sIndex.length;i++)
+				{
+					this.getView().getModel("campaignModel").setProperty("/data/"+i+"/line",i+1);
+				}
 
 				// for (var i = 0; i < iDataLength; i++) {
 				// 	var checkStatus = this.getView().getModel("campaignModel").getProperty("/data/" + i + "/selected");
