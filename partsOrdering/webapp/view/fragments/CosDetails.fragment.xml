@@ -70,8 +70,8 @@
 						<ToolbarSeparator/>
 						<!--changes by Swetha for DMND0003930 added Close button-->
 						<ToolbarSeparator/>
-						<VBox width='120px'>
-							<Button text="{i18n>Close}" id="idClose" width="150px"/>
+						<VBox width='62px'>
+							<Button text="{i18n>Close}" id="idClose" width="65px"/>
 						</VBox>
 						<ToolbarSeparator/>
 						<!--changes by Swetha for DMND0003930 added Close button-->
