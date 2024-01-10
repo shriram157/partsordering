@@ -854,7 +854,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var that = this;
 			var oOrderData = this.getView().getModel("campaignModel").getData();
 			var newAddedLineData = oOrderData.data[0];
-			var aCreateItems=[];
 
 			if (oOrderData.data[0].vinNum == " " || oOrderData.data[0].CampaignCode == " " || oOrderData.data[0].OperationCode == " ") {
 				var sInValid = that.oResourceBundle.getText("Create.Order.PleaseEnterAllValues");
@@ -922,7 +921,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							oOrderData.data[0].line = oOrderData.data.length;
 
 							oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
-							this.aCreateItems.push(oOrderData.data[0]);
+							that.aCreateItems.push(oOrderData.data[0]);
 							// this.toggleSubmitDraftButton();
 							oOrderData.data.splice(0, 1);
 							var that = this;
