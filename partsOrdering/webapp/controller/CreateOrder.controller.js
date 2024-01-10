@@ -852,34 +852,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 		handleAddPart2: function (oEvent) {
 			var that = this;
-			var oSource = oEvent.getSource() || null;
-			var oOrderData = this.getView().getModel("campaignModel").getData();
-			var obj = {};
 
-			obj.VIN_no=	oOrderData.data[0].vinNum;
-			obj.Op_code=oOrderData.data[0].OperationCode;
-			obj.Camp_code=oOrderData.data[0].CampaignCode;
-			// VIN_no
-			// Message
-			// Msg_flag
-			this.getView().getModel("ZC_CREATE_SO_SRV").create('/ZC_Vin_Validation', obj, {
-				success: function (oResponse, obj, oDraftItem) {
-
-					console.log("Inside error function" + oResponse);
-					MessageToast.show("success");
-				},
-				error: function (oError) {
-					var err = oError;
-					console.log("Inside error function" + oError);
-					MessageToast.show("error");
-				}
-			});
-
-			//this.itemTable.setBusy(true);
-			if (oSource) {
-				oSource.setEnabled(false);
-				oSource.setBusy(true);
-			}
 			var newAddedLineData = oOrderData.data[0];
 
 			if (oOrderData.data[0].vinNum == " " || oOrderData.data[0].CampaignCode == " " || oOrderData.data[0].OperationCode == " ") {
@@ -897,6 +870,37 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				return;
 
 			} else {
+
+				var oSource = oEvent.getSource() || null;
+				var oOrderData = this.getView().getModel("campaignModel").getData();
+				var obj = {};
+
+				obj.VIN_no = oOrderData.data[0].vinNum;
+				obj.Op_code = oOrderData.data[0].OperationCode;
+				obj.Camp_code = oOrderData.data[0].CampaignCode;
+				// VIN_no
+				// Message
+				// Msg_flag
+				var bModel = this.getProductModel();
+
+				// bModel.create('/ZC_Vin_Validation', obj, {
+				// 	success: function (oResponse, obj, oDraftItem) {
+
+				// 		console.log("Inside success function" + oResponse);
+				// 		MessageToast.show("success");
+				// 	},
+				// 	error: function (oError) {
+				// 		var err = oError;
+				// 		console.log("Inside error function" + oError);
+				// 		MessageToast.show("Please enter valid number");
+				// 	}
+				// });
+
+				//this.itemTable.setBusy(true);
+				if (oSource) {
+					oSource.setEnabled(false);
+					oSource.setBusy(true);
+				}
 
 				var oItem = JSON.parse(JSON.stringify(oOrderData.data[0]));
 
@@ -1869,11 +1873,10 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				// var newAddedLineData = aDeleteData.items[0];
 				var sIndex = aDeleteData.filter(ind => ind.selected == false);
 				var sIndexFinal = sIndex;
-				
 
-				for (i = 0; i < sIndex.length; i++) {
-				//	this.getView().getModel("campaignModel").setProperty("/data/" + i + "/line", i + 1);
-				sIndex[i].line=i+1;
+				for (var i = 0; i < sIndex.length; i++) {
+					//	this.getView().getModel("campaignModel").setProperty("/data/" + i + "/line", i + 1);
+					sIndex[i].line = i + 1;
 				}
 
 				// for (var i = 0; i < iDataLength; i++) {
@@ -1940,7 +1943,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					selected: false,
 					vinNum: "",
 					CampaignCode: " ",
-					addButtonVisible: true
+					addButtonVisible: true,
+					line: 0
 
 				});
 
