@@ -669,10 +669,10 @@ sap.ui.define([
 
 			// oFilter[0] = new sap.ui.model.Filter("dealer_code", sap.ui.model.FilterOperator.EQ, dealerCode);
 			bModel.read('/find_soSet', {
-				// urlParameters: {
-				// 	"$expand": "SOtoDeliv",
-				// 	"$orderby": "TCI_order_no,TCI_itemNo"
-				// },
+				 urlParameters: {
+				 	"$expand": "SOtoDeliv",
+				 	"$orderby": "TCI_order_no,TCI_itemNo"
+				 },
 				// filters: oFilter,
 				success: function (oData, oResponse) {
 					if (!!oData && !!oData.results) {
@@ -681,13 +681,12 @@ sap.ui.define([
 						} else {
 							this.getView().byId("idClose").setVisible(true);
 						}
-						callback(oData.results);
 					} else {
-						callback(null);
+						console.log("error");
 					}
 				},
 				error: function (err) {
-					callback(null);
+					console.log("error");
 				}
 			});
 			//changes by Swetha for DMND003930 for close button validation
