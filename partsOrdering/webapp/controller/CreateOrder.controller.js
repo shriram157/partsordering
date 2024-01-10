@@ -875,9 +875,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 				//var obj = {};
 
-				VIN_NO = oOrderData.data[0].vinNum;
-				OP_CODE = oOrderData.data[0].OperationCode;
-				CAMP_CODE = oOrderData.data[0].CampaignCode;
+			var	VIN_NO = oOrderData.data[0].vinNum;
+			var	OP_CODE = oOrderData.data[0].OperationCode;
+			var	CAMP_CODE = oOrderData.data[0].CampaignCode;
 				// VIN_no
 				// Message
 				// Msg_flag
