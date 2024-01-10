@@ -852,7 +852,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 		handleAddPart2: function (oEvent) {
 			var that = this;
-            var oOrderData = this.getView().getModel("campaignModel").getData();
+			var oOrderData = this.getView().getModel("campaignModel").getData();
 			var newAddedLineData = oOrderData.data[0];
 
 			if (oOrderData.data[0].vinNum == " " || oOrderData.data[0].CampaignCode == " " || oOrderData.data[0].OperationCode == " ") {
@@ -872,7 +872,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			} else {
 
 				var oSource = oEvent.getSource() || null;
-				
+
 				var obj = {};
 
 				obj.VIN_NO = oOrderData.data[0].vinNum;
@@ -883,33 +883,34 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				// Msg_flag
 				var bModel = this.getProductModel();
 
-				// bModel.read('/ZC_Vin_Validation', obj, {
-				// 	success: function (oResponse, obj, oDraftItem) {
+				bModel.read("/ZC_Vin_Validation(VIN_NO eq'" + obj.VIN_NO + "'and OP_CODE eq'" + obj.OP_CODE + "'and CAMP_CODE eq '" + obj.CAMP_CODE +
+					"')", {
+						success: function (oData,oResponse, oDraftItem) {
 
+							console.log("Inside success function" + oResponse);
+							MessageToast.show("success");
+						},
+						error: function (oError) {
+							var err = oError;
+							console.log("Inside error function" + oError);
+							MessageToast.show("Please enter valid number");
+						}
+					});
+				// 	var url = bModel + "/ZC_Vin_Validation?$filter=VIN_NO eq'"+obj.VIN_NO+ "'and OP_CODE eq'"+obj.OP_CODE+"'and CAMP_CODE eq '"+obj.CAMP_CODE+"'";
+				// 	$.ajax({
+				// 	url: url,
+				// 	method: "GET",
+				// 	async: false,
+				// 	dataType: "json",
+				// 	success: function (oData, oResponse) {
 				// 		console.log("Inside success function" + oResponse);
 				// 		MessageToast.show("success");
 				// 	},
-				// 	error: function (oError) {
-				// 		var err = oError;
-				// 		console.log("Inside error function" + oError);
-				// 		MessageToast.show("Please enter valid number");
+				// 	error: function (oData, oResponse) {
+				// 		console.log("Inside error function");
+				// 	    MessageToast.show("Please enter valid number");
 				// 	}
 				// });
-				var url = bModel + "/ZC_Vin_Validation?$filter=VIN_NO eq '" + obj.VIN_NO + "'and OP_CODE eq'"+obj.OP_CODE+"'and CAMP_CODE eq '"+obj.CAMP_CODE+"'";
-				$.ajax({
-				url: url,
-				method: "GET",
-				async: false,
-				dataType: "json",
-				success: function (data, textStatus, jqXHR) {
-					console.log("Inside success function" + data);
-					MessageToast.show("success");
-				},
-				error: function (jqXHR, textStatus, errorThrown) {
-					console.log("Inside error function");
-				    MessageToast.show("Please enter valid number");
-				}
-			});
 				//this.itemTable.setBusy(true);
 				if (oSource) {
 					oSource.setEnabled(false);
@@ -1901,7 +1902,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				// 	}
 				// 	//oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
 				// }
-			//	this.getView().getModel("campaignModel").setProperty("/data", sIndex);
+				//	this.getView().getModel("campaignModel").setProperty("/data", sIndex);
 				this.getView().getModel("campaignModel").setProperty("/data", sIndex);
 				this.getView().getModel("campaignModel").refresh();
 
@@ -1917,7 +1918,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					CampaignCode: " ",
 					OperationCode: " ",
 					addButtonVisible: true,
-					line:""
+					line: ""
 
 				});
 
@@ -1945,7 +1946,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				// 	}
 				// 	//oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
 				// }
-					for (var i = 0; i < sIndex.length; i++) {
+				for (var i = 0; i < sIndex.length; i++) {
 					//	this.getView().getModel("campaignModel").setProperty("/data/" + i + "/line", i + 1);
 					sIndex[i].line = i;
 				}
