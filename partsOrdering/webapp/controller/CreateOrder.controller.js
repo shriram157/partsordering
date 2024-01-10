@@ -900,7 +900,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					//?$filter=VIN_NO eq '"+VIN_NO+ "'and OP_CODE eq '"+OP_CODE+"'and CAMP_CODE eq '"+CAMP_CODE+"'", {
 					filters: InputFilter.aFilters,
 					success: function (oData, oResponse) {
-						if (oData.results[0].MSG_FLAG == "E") {
+						if (oData.results[0].MSG_FLAG != "E") {
 							if (oSource) {
 								oSource.setEnabled(false);
 								oSource.setBusy(true);
