@@ -935,7 +935,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 							});
 
-							this.getView().getModel("campaignModel").setData(oOrderData);
+							that.getView().getModel("campaignModel").setData(oOrderData);
 							DataManager.setOrderData(oOrderData);
 							if (oSource) {
 								oSource.setEnabled(true);
