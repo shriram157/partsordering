@@ -882,18 +882,23 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				// Message
 				// Msg_flag
 				var bModel = this.getSalesOrderModel();
-				var oFilter = new Array();
-			//	var tfilter = [];
-				oFilter[0] = new sap.ui.model.Filter("VIN_NO", sap.ui.model.FilterOperator.EQ, VIN_NO);
-				oFilter[1] = new sap.ui.model.Filter("OP_CODE", sap.ui.model.FilterOperator.EQ, OP_CODE);
-				oFilter[2] = new sap.ui.model.Filter("CAMP_CODE", sap.ui.model.FilterOperator.EQ, CAMP_CODE);
+				// 	var oFilter = new Array();
+				// //	var tfilter = [];
+				// 	oFilter[0] = new sap.ui.model.Filter("VIN_NO", sap.ui.model.FilterOperator.EQ, VIN_NO);
+				// 	oFilter[1] = new sap.ui.model.Filter("OP_CODE", sap.ui.model.FilterOperator.EQ, OP_CODE);
+				// 	oFilter[2] = new sap.ui.model.Filter("CAMP_CODE", sap.ui.model.FilterOperator.EQ, CAMP_CODE);
+				var InputFilter = new sap.ui.model.Filter({
+					filters: [
+						new sap.ui.model.Filter("VIN_NO", sap.ui.model.FilterOperator.EQ, VIN_NO),
+						new sap.ui.model.Filter("OP_CODE", sap.ui.model.FilterOperator.EQ, OP_CODE),
+						new sap.ui.model.Filter("CAMP_CODE", sap.ui.model.FilterOperator.EQ, CAMP_CODE)
+					],
+					and: true
+				});
 
 				bModel.read("/ZC_Vin_Validation", {
-					filters: new Array(new sap.ui.model.Filter({
-						filters: oFilter,
-						and: true
-					})),
-					success: function (oData, oResponse, oDraftItem) {
+					filters: InputFilter,
+					success: function (oData, oResponse) {
 
 						console.log("Inside success function");
 						console.log(oData);
