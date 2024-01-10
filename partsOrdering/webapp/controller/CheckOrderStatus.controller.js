@@ -258,7 +258,30 @@ sap.ui.define([
 				});
 
 			}
-
+			//changes by Swetha for DMND003930 for close button validation
+			bModel.read('/find_soSet', {
+				urlParameters: {
+					"$expand": "SOtoDeliv",
+					"$orderby": "TCI_order_no,TCI_itemNo"
+				},
+				filters: oFilter,
+				success: function (oData, oResponse) {
+					if (!!oData && !!oData.results) {
+						if(oData.Flag!=""){
+							this.getView().byId("idClose").setVisible(false);
+						} else {
+							this.getView().byId("idClose").setVisible(true);
+						}
+						callback(oData.results);
+					} else {
+						callback(null);
+					}
+				},
+				error: function (err) {
+					callback(null);
+				}
+			});
+			//changes by Swetha for DMND003930 for close button validation
 		},
 
 		getDealersForTCIUser: function () {
