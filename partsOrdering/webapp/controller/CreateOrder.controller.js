@@ -873,22 +873,21 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 				var oSource = oEvent.getSource() || null;
 
-				var obj = {};
+				//var obj = {};
 
-				obj.VIN_NO = oOrderData.data[0].vinNum;
-				obj.OP_CODE = oOrderData.data[0].OperationCode;
-				obj.CAMP_CODE = oOrderData.data[0].CampaignCode;
+				VIN_NO = oOrderData.data[0].vinNum;
+				OP_CODE = oOrderData.data[0].OperationCode;
+				CAMP_CODE = oOrderData.data[0].CampaignCode;
 				// VIN_no
 				// Message
 				// Msg_flag
 				var bModel = this.getSalesOrderModel();
-				var oFilter=new Array();
-				oFilter= new sap.ui.model.Filter("VIN_NO", sap.ui.model.FilterOperator.EQ, obj.VIN_NO);
-				oFilter= new sap.ui.model.Filter("OP_CODE", sap.ui.model.FilterOperator.EQ, obj.OP_CODE);
-				oFilter= new sap.ui.model.Filter("CAMP_CODE", sap.ui.model.FilterOperator.EQ, obj.CAMP_CODE);
+				// var oFilter=new Array();
+				// oFilter= new sap.ui.model.Filter("VIN_NO", sap.ui.model.FilterOperator.EQ, VIN_NO);
+				// oFilter= new sap.ui.model.Filter("OP_CODE", sap.ui.model.FilterOperator.EQ, OP_CODE);
+				// oFilter= new sap.ui.model.Filter("CAMP_CODE", sap.ui.model.FilterOperator.EQ, CAMP_CODE);
 
-				bModel.read("/ZC_Vin_Validation",{
-						filters: oFilter,
+				bModel.read("/ZC_Vin_Validation(VIN_NO eq'"+VIN_NO+ "'and OP_CODE eq'"+OP_CODE+"'and CAMP_CODE eq '"+CAMP_CODE+"',"{
 						success: function (oData,oResponse, oDraftItem) {
 
 							console.log("Inside success function" + oResponse);
