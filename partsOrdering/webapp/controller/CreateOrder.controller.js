@@ -887,7 +887,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				// oFilter= new sap.ui.model.Filter("OP_CODE", sap.ui.model.FilterOperator.EQ, OP_CODE);
 				// oFilter= new sap.ui.model.Filter("CAMP_CODE", sap.ui.model.FilterOperator.EQ, CAMP_CODE);
 
-				bModel.read("/ZC_Vin_Validation(VIN_NO eq'"+VIN_NO+ "'and OP_CODE eq'"+OP_CODE+"'and CAMP_CODE eq '"+CAMP_CODE+"',"{
+				bModel.read("/ZC_Vin_Validation(VIN_NO eq'"+VIN_NO+ "'and OP_CODE eq'"+OP_CODE+"'and CAMP_CODE eq '"+CAMP_CODE+"')",{
 						success: function (oData,oResponse, oDraftItem) {
 
 							console.log("Inside success function" + oResponse);
