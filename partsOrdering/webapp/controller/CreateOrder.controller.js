@@ -883,19 +883,33 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				// Msg_flag
 				var bModel = this.getProductModel();
 
-				bModel.read('/ZC_Vin_Validation', obj, {
-					success: function (oResponse, obj, oDraftItem) {
+				// bModel.read('/ZC_Vin_Validation', obj, {
+				// 	success: function (oResponse, obj, oDraftItem) {
 
-						console.log("Inside success function" + oResponse);
-						MessageToast.show("success");
-					},
-					error: function (oError) {
-						var err = oError;
-						console.log("Inside error function" + oError);
-						MessageToast.show("Please enter valid number");
-					}
-				});
-
+				// 		console.log("Inside success function" + oResponse);
+				// 		MessageToast.show("success");
+				// 	},
+				// 	error: function (oError) {
+				// 		var err = oError;
+				// 		console.log("Inside error function" + oError);
+				// 		MessageToast.show("Please enter valid number");
+				// 	}
+				// });
+				var url = bModel + "/ZC_Vin_Validation?$filter=VIN_NO eq '" + obj.VIN_NO + "'and OP_CODE eq'"+obj.OP_CODE+"'and CAMP_CODE eq '"+obj.CAMP_CODE"'";
+				$.ajax({
+				url: url,
+				method: "GET",
+				async: false,
+				dataType: "json",
+				success: function (data, textStatus, jqXHR) {
+					console.log("Inside success function" + data);
+					MessageToast.show("success");
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					console.log("Inside error function");
+				    MessageToast.show("Please enter valid number");
+				}
+			});
 				//this.itemTable.setBusy(true);
 				if (oSource) {
 					oSource.setEnabled(false);
