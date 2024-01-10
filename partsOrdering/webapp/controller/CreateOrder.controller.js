@@ -875,33 +875,37 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 				//var obj = {};
 
-			var	VIN_NO = oOrderData.data[0].vinNum;
-			var	OP_CODE = oOrderData.data[0].OperationCode;
-			var	CAMP_CODE = oOrderData.data[0].CampaignCode;
+				var VIN_NO = oOrderData.data[0].vinNum;
+				var OP_CODE = oOrderData.data[0].OperationCode;
+				var CAMP_CODE = oOrderData.data[0].CampaignCode;
 				// VIN_no
 				// Message
 				// Msg_flag
 				var bModel = this.getSalesOrderModel();
-				//var oFilter=[];
-				var tfilter=[];
-				tfilter.push(new sap.ui.model.Filter("VIN_NO", sap.ui.model.FilterOperator.EQ, VIN_NO));
-				tfilter.push(new sap.ui.model.Filter("OP_CODE", sap.ui.model.FilterOperator.EQ, OP_CODE));
-				tfilter.push(new sap.ui.model.Filter("CAMP_CODE", sap.ui.model.FilterOperator.EQ, CAMP_CODE));
-				//oFilter.push(tfilter);
+				var oFilter = new Array();
+			//	var tfilter = [];
+				oFilter[0] = new sap.ui.model.Filter("VIN_NO", sap.ui.model.FilterOperator.EQ, VIN_NO);
+				oFilter[1] = new sap.ui.model.Filter("OP_CODE", sap.ui.model.FilterOperator.EQ, OP_CODE);
+				oFilter[2] = new sap.ui.model.Filter("CAMP_CODE", sap.ui.model.FilterOperator.EQ, CAMP_CODE);
 
-				bModel.read("/ZC_Vin_Validation",{
-						filter:tfilter,
-						success: function (oData,oResponse, oDraftItem) {
+				bModel.read("/ZC_Vin_Validation", {
+					filters: new Array(new sap.ui.model.Filter({
+						filters: oFilter,
+						and: true
+					})),
+					success: function (oData, oResponse, oDraftItem) {
 
-							console.log("Inside success function" + oResponse);
-							MessageToast.show("success");
-						},
-						error: function (oError) {
-							var err = oError;
-							console.log("Inside error function" + oError);
-							MessageToast.show("Please enter valid number");
-						}
-					});
+						console.log("Inside success function");
+						console.log(oData);
+						MessageToast.show("success");
+					},
+					error: function (oError) {
+						var err = oError;
+						console.log("Inside error function");
+						console.log(oError);
+						MessageToast.show("Please enter valid number");
+					}
+				});
 				// 	var url = bModel + "/ZC_Vin_Validation?$filter=VIN_NO eq'"+obj.VIN_NO+ "'and OP_CODE eq'"+obj.OP_CODE+"'and CAMP_CODE eq '"+obj.CAMP_CODE+"'";
 				// 	$.ajax({
 				// 	url: url,
