@@ -875,26 +875,26 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				
 				var obj = {};
 
-				obj.VIN_no = oOrderData.data[0].vinNum;
-				obj.Op_code = oOrderData.data[0].OperationCode;
-				obj.Camp_code = oOrderData.data[0].CampaignCode;
+				obj.VIN_NO = oOrderData.data[0].vinNum;
+				obj.OP_CODE = oOrderData.data[0].OperationCode;
+				obj.CAMP_CODE = oOrderData.data[0].CampaignCode;
 				// VIN_no
 				// Message
 				// Msg_flag
 				var bModel = this.getProductModel();
 
-				// bModel.create('/ZC_Vin_Validation', obj, {
-				// 	success: function (oResponse, obj, oDraftItem) {
+				bModel.read('/ZC_Vin_Validation', obj, {
+					success: function (oResponse, obj, oDraftItem) {
 
-				// 		console.log("Inside success function" + oResponse);
-				// 		MessageToast.show("success");
-				// 	},
-				// 	error: function (oError) {
-				// 		var err = oError;
-				// 		console.log("Inside error function" + oError);
-				// 		MessageToast.show("Please enter valid number");
-				// 	}
-				// });
+						console.log("Inside success function" + oResponse);
+						MessageToast.show("success");
+					},
+					error: function (oError) {
+						var err = oError;
+						console.log("Inside error function" + oError);
+						MessageToast.show("Please enter valid number");
+					}
+				});
 
 				//this.itemTable.setBusy(true);
 				if (oSource) {
