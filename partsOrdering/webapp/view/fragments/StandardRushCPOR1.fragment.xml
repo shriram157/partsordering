@@ -45,7 +45,7 @@
 							<Label text="{i18n>VIN}"/>
 							<ui:template>
 								<VBox>
-									<Input value="{stanrushModel>vinNum}" type="Text" textFormatMode="Key" required="true" tooltip="{orderModel>partNumber}" enabled="{stanrushModel>vinEnable}" editable="true"/>
+									<Input value="{stanrushModel>vinNum}" type="Text" textFormatMode="Key" required="true" tooltip="{orderModel>partNumber}" enabled="true" editable="{stanrushModel>vinEnable}"/>
 									
 								</VBox>
 							</ui:template>
@@ -55,7 +55,7 @@
 							<!--<Label text="{i18n>Lable.CreateOrder.PartDesc}/{i18n>Lable.CreateOrder.Comment}"/>-->
 							<ui:template >
 								<!--<VBox>-->
-								<Input value="{stanrushModel>CampaignCode}" enabled='{stanrushModel>camEnable}' valueState="None" tooltip="{i18n>CampaignCode}" width="211px" required="true" editable="true"/>
+								<Input value="{stanrushModel>CampaignCode}" enabled='true' valueState="None" tooltip="{i18n>CampaignCode}" width="211px" required="true" editable="{stanrushModel>camEnable}"/>
 								<!--<TextArea value="{orderModel>comment}" rows="1" placeholder="{i18n>Placeholder.comment}" width="100%"></TextArea>-->
 								<!--	</VBox>-->
 							</ui:template>

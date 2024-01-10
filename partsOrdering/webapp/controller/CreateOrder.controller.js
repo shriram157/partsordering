@@ -156,7 +156,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				"data": [{
 					checkVisible: false,
 					vinEnable: true,
-					camEnable:true,
+					camEnable: true,
 					selected: false,
 					vinNum: " ",
 					CampaignCode: " ",
@@ -823,7 +823,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oOrderData.data.splice(0, 0, {
 					checkVisible: false,
 					vinEnable: false,
-					camEnable:true,
+					camEnable: true,
 					selected: false,
 					vinNum: oOrderData.data[0].vinNum,
 					CampaignCode: " ",
@@ -854,11 +854,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 			if (oOrderData.data[0].vinNum == " " || oOrderData.data[0].CampaignCode == " " || oOrderData.data[0].OperationCode == " ") {
 				var sInValid = that.oResourceBundle.getText("Create.Order.PleaseEnterAllValues");
-				MessageBox.error(sInValid, {
-					actions: [MessageBox.Action.CLOSE],
-					styleClass: that.getOwnerComponent().getContentDensityClass()
-
-				});
+				// MessageBox.error(sInValid, {
+				// 	actions: [MessageBox.Action.CLOSE],
+				// 	styleClass: that.getOwnerComponent().getContentDensityClass(),
+				// });
+					MessageToast.show(sInValid);
+		
 				return;
 				// if (oOrderData.data[0].vinNum == " ") {
 				// 	oOrderData.data.splice(0, 0, {
@@ -1984,8 +1985,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oOrderData.splice(0, 1, {
 					checkVisible: false,
 					vinEnable: true,
-					camEnable:true,
-					opCodeEnable:true,
+					camEnable: true,
+					opCodeEnable: true,
 					selected: false,
 					vinNum: "",
 					CampaignCode: " ",
@@ -2027,7 +2028,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oOrderData.splice(0, 1, {
 					checkVisible: false,
 					vinEnable: true,
-					camEnable:true,
+					camEnable: true,
 					selected: false,
 					vinNum: "",
 					CampaignCode: " ",

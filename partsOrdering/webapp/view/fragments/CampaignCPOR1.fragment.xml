@@ -45,7 +45,7 @@
 							<Label text="{i18n>VIN}"/>
 							<ui:template>
 								<VBox>
-									<Input value="{campaignModel>vinNum}" type="Text" textFormatMode="Key" required="true" tooltip="{orderModel>partNumber}" enabled="{campaignModel>vinEnable}" editable="true"/>
+									<Input value="{campaignModel>vinNum}" type="Text" textFormatMode="Key" required="true" tooltip="{orderModel>partNumber}" enabled="true" editable="{campaignModel>vinEnable}"/>
 									
 								</VBox>
 							</ui:template>
@@ -55,7 +55,7 @@
 							<!--<Label text="{i18n>Lable.CreateOrder.PartDesc}/{i18n>Lable.CreateOrder.Comment}"/>-->
 							<ui:template >
 								<!--<VBox>-->
-								<Input value="{campaignModel>CampaignCode}" enabled="{campaignModel>camEnable}" valueState="None" tooltip="{i18n>CampaignCode}" width="211px" required="true" editable="true"/>
+								<Input value="{campaignModel>CampaignCode}" enabled="true" valueState="None" tooltip="{i18n>CampaignCode}" width="211px" required="true" editable="{campaignModel>camEnable}"/>
 								<!--<TextArea value="{orderModel>comment}" rows="1" placeholder="{i18n>Placeholder.comment}" width="100%"></TextArea>-->
 								<!--	</VBox>-->
 							</ui:template>
@@ -64,7 +64,7 @@
 							<Label text="{i18n>OpCode}"/>
 							<ui:template >
 								<!--	<Text text="{ path: 'orderModel>spq', formatter:'.formatter.spqFormat'}"/>-->
-								<Input value="{campaignModel>OperationCode}" enabled='{campaignModel>opCodeEnable}' valueState="None" tooltip="{i18n>OpCode}" width="211px" required="true" editable="true"/>
+								<Input value="{campaignModel>OperationCode}" enabled='true' valueState="None" tooltip="{i18n>OpCode}" width="211px" required="true" editable="{campaignModel>camEnable}"/>
 								<!--<Text text="{orderModel>spq}"/>-->
 							</ui:template>
 						</ui:Column>
