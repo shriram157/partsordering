@@ -897,7 +897,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				});
 
 				bModel.read("/ZC_Vin_Validation", {
-					filters: InputFilter,
+					filters: InputFilter.aFilters,
 					success: function (oData, oResponse) {
 
 						console.log("Inside success function");
