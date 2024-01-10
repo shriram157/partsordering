@@ -147,7 +147,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					CampaignCode: " ",
 					OperationCode: " ",
 					addButtonVisible: true,
-					line:0 
+					line: 0
 				}]
 			});
 			sap.ui.getCore().setModel(campaignModel, "campaignModel");
@@ -162,7 +162,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					vinNum: " ",
 					CampaignCode: " ",
 					addButtonVisible: true,
-					line:0
+					line: 0
 				}]
 			});
 			sap.ui.getCore().setModel(stanrushModel, "stanrushModel");
@@ -784,7 +784,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 				// });
 				MessageToast.show(sInValid);
-					if (oSource) {
+				if (oSource) {
 					oSource.setEnabled(true);
 					oSource.setBusy(false);
 				}
@@ -818,7 +818,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 				oOrderData.data[0].checkVisible = true;
 				oOrderData.data[0].vinEnable = false;
-				oOrderData.data[0].camEnable = false;
+				oOrderData.data[0].camEnable = true;
 				oOrderData.data[0].addButtonVisible = false;
 				oOrderData.data[0].line = oOrderData.data.length;
 
@@ -836,7 +836,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					vinNum: oOrderData.data[0].vinNum,
 					CampaignCode: " ",
 					addButtonVisible: true,
-					line:0
+					line: 0
 
 				});
 
@@ -854,6 +854,27 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var that = this;
 			var oSource = oEvent.getSource() || null;
 			var oOrderData = this.getView().getModel("campaignModel").getData();
+			var obj = {};
+
+			obj.VIN_no=	oOrderData.data[0].vinNum;
+			obj.Op_code=oOrderData.data[0].OperationCode;
+			obj.Camp_code=oOrderData.data[0].CampaignCode;
+			// VIN_no
+			// Message
+			// Msg_flag
+			this.getView().getModel("ZC_CREATE_SO_SRV").create('/ZC_Vin_Validation', obj, {
+				success: function (oResponse, obj, oDraftItem) {
+
+					console.log("Inside error function" + oResponse);
+					MessageToast.show("success");
+				},
+				error: function (oError) {
+					var err = oError;
+					console.log("Inside error function" + oError);
+					MessageToast.show("error");
+				}
+			});
+
 			//this.itemTable.setBusy(true);
 			if (oSource) {
 				oSource.setEnabled(false);
@@ -874,30 +895,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				MessageToast.show(sInValid);
 
 				return;
-				// if (oOrderData.data[0].vinNum == " ") {
-				// 	oOrderData.data.splice(0, 0, {
-				// 		checkVisible: false,
-				// 		vinEnable: false,
-				// 		selected: false,
-				// 		vinNum: "",
-				// 		CampaignCode: " ",
-				// 		OperationCode: " ",
-				// 		addButtonVisible: true
-
-				// 	});
-				// } else {
-				// 	oOrderData.data.splice(0, 0, {
-				// 		checkVisible: false,
-				// 		vinEnable: false,
-				// 		selected: false,
-				// 		vinNum: oOrderData.data[0].vinNum,
-				// 		CampaignCode: " ",
-				// 		OperationCode: " ",
-				// 		addButtonVisible: true
-
-				// 	});
-
-				// }
 
 			} else {
 
@@ -908,7 +905,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oOrderData.data[0].camEnable = false;
 				oOrderData.data[0].opCodeEnable = false;
 				oOrderData.data[0].addButtonVisible = false;
-				oOrderData.data[0].line=oOrderData.data.length;
+				oOrderData.data[0].line = oOrderData.data.length;
 
 				oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
 				this.aCreateItems.push(oOrderData.data[0]);
@@ -926,7 +923,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					CampaignCode: " ",
 					OperationCode: " ",
 					addButtonVisible: true,
-					line:0
+					line: 0
 
 				});
 
@@ -938,117 +935,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				}
 
 			} //else end
-		},
-		//  Shriram changes for the DMND0004095
-		handleAddPart1: function (oEvent) {
-			var that = this;
-
-			var campaignModelItems = this.getView().getModel("campaignModel").getData();
-			//campaignModelItems.data[i]
-			var aCampaignData = this.getView().getModel("campaignModel").getProperty("/data");
-			var newLineItem = oEvent.getSource().getBindingContext("campaignModel").getObject();
-			aCampaignData.push(newLineItem);
-
-			this.getView().getModel("campaignModel").setProperty("/data", aCampaignData);
-			this.getView().getModel("campaignModel").setProperty("/data/" + 0 + "/selected", false);
-			this.getView().getModel("campaignModel").setProperty("/data/" + 0 + "/vinNum", " ");
-			this.getView().getModel("campaignModel").setProperty("/data/" + 0 + "/CampaignCode", " ");
-			this.getView().getModel("campaignModel").setProperty("/data/" + 0 + "/OperationCode", " ");
-
-			this.getView().getModel("campaignModel").refresh();
-
-			// var oSource = oEvent.getSource() || null;
-			// var oOrderData = this.oOrderModel.getData();
-			// //this.itemTable.setBusy(true);
-			// if (oSource) {
-			// 	oSource.setEnabled(false);
-			// 	oSource.setBusy(true);
-			// }
-			// var newAddedLineData = oOrderData.items[0];
-			// var sIndex = oOrderData.items.filter(ind => ind.partNumber == newAddedLineData.partNumber && ind.opCode == newAddedLineData.opCode &&
-			// 	ind.campaignNum == newAddedLineData.campaignNum && ind.vin == newAddedLineData.vin).length;
-
-			// if (oOrderData.items[0].hasError || oOrderData.items[0].partNumber.toString().trim() === "") {
-			// 	if (oSource) {
-			// 		oSource.setEnabled(true);
-			// 		oSource.setBusy(false);
-			// 	}
-			// 	oOrderData.items[0].qty = "";
-			// 	oOrderData.items[0].contractNum = "";
-			// 	oOrderData.items[0].campaignNum = "";
-			// 	oOrderData.items[0].comment = "";
-			// 	that.oOrderModel.setData(oOrderData);
-			// 	return;
-			// } else if (sIndex > 1 && oOrderData.orderTypeId == "3") {
-			// 	var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
-			// 	MessageBox.error(sInValid, {
-			// 		actions: [MessageBox.Action.CLOSE],
-			// 		styleClass: that.getOwnerComponent().getContentDensityClass()
-
-			// 	});
-			// 	if (oSource) {
-			// 		oSource.setEnabled(true);
-			// 		oSource.setBusy(false);
-			// 	}
-			// 	oOrderData.items[0].qty = "";
-			// 	oOrderData.items[0].contractNum = "";
-			// 	oOrderData.items[0].campaignNum = "";
-			// 	oOrderData.items[0].comment = "";
-			// 	oOrderData.items[0].partNumber = "";
-			// 	oOrderData.items[0].opCode = "";
-			// 	oOrderData.items[0].vin = "";
-			// 	oOrderData.items[0].spq = "";
-			// 	oOrderData.items[0].partDesc = "";
-			// 	that.oOrderModel.setData(oOrderData);
-			// 	return;
-			// }
-			// var oItem = JSON.parse(JSON.stringify(oOrderData.items[0]));
-			// oItem.addIcon = false;
-			// oItem.hasError = false;
-			// var lv_orderType = oItem.OrderType;
-			// oOrderData.items[0] = oItem;
-			// oOrderData.items[0].line = oOrderData.totalLines + 1;
-			// oOrderData.items[0].addIcon = false;
-			// oOrderData.items[0].selected = false;
-			// oOrderData.items[0]["ItemStatus"] = "Unsaved";
-			// oOrderData.items.splice(oOrderData.items.length, 0, oOrderData.items[0]);
-			// this.aCreateItems.push(oOrderData.items[0]);
-			// this.toggleSubmitDraftButton();
-			// oOrderData.items.splice(0, 1);
-			// var that = this;
-			// //code by Minakshi for duplicate vin, ops, camp and partnum
-			// // if (oOrderData.orderTypeId == 3) {
-			// // 	oOrderData.items = oOrderData.items.reduce((unique, o) => {
-			// // 		if (!unique.some(obj => obj.partNumber === o.partNumber && obj.campaignNum === o.campaignNum && obj.opCode === o.opCode && obj.vin ===
-			// // 				o.vin)) {
-			// // 			// var sInValid = that.oResourceBundle.getText("Create.Order.DuplicateCombination");
-			// // 			// MessageBox.error(sInValid, {
-			// // 			// 	actions: [MessageBox.Action.CLOSE],
-			// // 			// 	styleClass: that.getOwnerComponent().getContentDensityClass()
-
-			// // 			// });
-			// // 			unique.push(o);
-			// // 		}
-			// // 		return unique;
-			// // 	}, []);
-			// // }
-
-			// //code by Minakshi for duplicate vin, ops, camp and partnum
-
-			// oOrderData.items.splice(0, 0, that._getNewItem());
-			// //rData.newline = [that._getNewLine()];
-			// oOrderData.totalLines = oOrderData.items.length - 1;
-			// if (oOrderData.totalLines >= 16) {
-			// 	this.itemTable.setVisibleRowCount(oOrderData.items.length + 2);
-			// }
-			// // ---to save some newwork traffic
-			// oOrderData.modifiedOn = new Date();
-			// that.oOrderModel.setData(oOrderData);
-			// DataManager.setOrderData(oOrderData);
-			// if (oSource) {
-			// 	oSource.setEnabled(true);
-			// 	oSource.setBusy(false);
-			// }
 		},
 
 		onSaveDraft: function (oEvent) {
@@ -1982,12 +1868,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 				// var newAddedLineData = aDeleteData.items[0];
 				var sIndex = aDeleteData.filter(ind => ind.selected == false);
-				var sIndexFinal=sIndex;
-				this.getView().getModel("campaignModel").setProperty("/data", sIndex);
+				var sIndexFinal = sIndex;
 				
-				for(i=0;i<sIndex.length;i++)
-				{
-					this.getView().getModel("campaignModel").setProperty("/data/"+i+"/line",i+1);
+
+				for (i = 0; i < sIndex.length; i++) {
+				//	this.getView().getModel("campaignModel").setProperty("/data/" + i + "/line", i + 1);
+				sIndex[i].line=i+1;
 				}
 
 				// for (var i = 0; i < iDataLength; i++) {
@@ -1998,7 +1884,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				// 	}
 				// 	//oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
 				// }
-
+				this.getView().getModel("campaignModel").setProperty("/data", sIndex);
 				this.getView().getModel("campaignModel").setProperty("/data", sIndex);
 				this.getView().getModel("campaignModel").refresh();
 
@@ -2027,7 +1913,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var that = this;
 
 			var aDeleteData = this.getView().getModel("stanrushModel").getProperty("/data");
-			var iDataLength = aDeleteData.length
+			var iDataLength = aDeleteData.length;
 
 			if (iDataLength > 1) {
 
