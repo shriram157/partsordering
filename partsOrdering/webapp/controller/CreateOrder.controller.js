@@ -1876,7 +1876,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 				for (var i = 0; i < sIndex.length; i++) {
 					//	this.getView().getModel("campaignModel").setProperty("/data/" + i + "/line", i + 1);
-					sIndex[i].line = i + 1;
+					sIndex[i].line = i;
 				}
 
 				// for (var i = 0; i < iDataLength; i++) {
@@ -1887,7 +1887,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				// 	}
 				// 	//oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
 				// }
-				this.getView().getModel("campaignModel").setProperty("/data", sIndex);
+			//	this.getView().getModel("campaignModel").setProperty("/data", sIndex);
 				this.getView().getModel("campaignModel").setProperty("/data", sIndex);
 				this.getView().getModel("campaignModel").refresh();
 
@@ -1902,7 +1902,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					vinNum: "",
 					CampaignCode: " ",
 					OperationCode: " ",
-					addButtonVisible: true
+					addButtonVisible: true,
+					line:""
 
 				});
 
@@ -1930,6 +1931,10 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				// 	}
 				// 	//oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
 				// }
+					for (var i = 0; i < sIndex.length; i++) {
+					//	this.getView().getModel("campaignModel").setProperty("/data/" + i + "/line", i + 1);
+					sIndex[i].line = i;
+				}
 
 				this.getView().getModel("stanrushModel").setProperty("/data", sIndex);
 				this.getView().getModel("stanrushModel").refresh();
