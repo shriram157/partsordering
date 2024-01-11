@@ -416,7 +416,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					// console.log(data);
 					// sap.m.MessageBox.show("Successfully Request Created", sap.m.MessageBox.Icon.SUCCESS, "Success", sap.m.MessageBox.Action.OK,
 					// 	null, null);
-					Console.log("I am inside success function");
+					console.log("I am inside success function");
 					// if (data.d.ZzsoReqNo) {
 					// 	RSOA_controller.getOwnerComponent().getRouter().navTo("RSOView_ManageSoldOrder", {
 					// 		Soreq: data.d.ZzsoReqNo
@@ -424,7 +424,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				//	} //page 3
 				},
 				error: function (data) {
-					Console.log("I am inside error function");
+					console.log("I am inside error function");
 					// sap.m.MessageBox.show("Error occurred while sending data. Please try again later.", sap.m.MessageBox.Icon.ERROR, "Error", sap.m
 					// 	.MessageBox.Action.OK, null, null);
 				}
@@ -883,7 +883,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					line: 0
 
 				});
-
+                sap.ui.getCore().byId("standDelButVisible").setVisible(true);             
 				this.getView().getModel("stanrushModel").setData(oOrderData);
 				DataManager.setOrderData(oOrderData);
 				if (oSource) {
@@ -980,7 +980,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								line: 0
 
 							});
-
+                           sap.ui.getCore().byId("camDelButVisible").setVisible(true);
 							that.getView().getModel("campaignModel").setData(oOrderData);
 							DataManager.setOrderData(oOrderData);
 							if (oSource) {
@@ -1969,7 +1969,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					line: 0
 
 				});
-
+                sap.ui.getCore().byId("camDelButVisible").setVisible(false);
 				this.getView().getModel("campaignModel").setProperty("/data", oOrderData);
 				this.getView().getModel("campaignModel").refresh();
 
@@ -2003,7 +2003,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					line: 0
 
 				});
-
+                sap.ui.getCore().byId("standDelButVisible").setVisible(false);
 				this.getView().getModel("stanrushModel").setData(oOrderData);
 				this.getView().getModel("stanrushModel").refresh();
 
