@@ -147,7 +147,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					CampaignCode: "",
 					OperationCode: "",
 					addButtonVisible: true,
-					delButVisible:false,
+					delButVisible: false,
 					line: 0
 				}]
 			});
@@ -162,13 +162,15 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					selected: false,
 					vinNum: "",
 					CampaignCode: "",
-					delButVisible:false,
+					delButVisible: false,
 					addButtonVisible: true,
 					line: 0
 				}]
 			});
 			sap.ui.getCore().setModel(stanrushModel, "stanrushModel");
 			this.getView().setModel(stanrushModel, "stanrushModel");
+			sap.ui.getCore().byId("standDelButVisible").setEnabled(false);
+			sap.ui.getCore().byId("camDelButVisible").setEnabled(false);
 			//changes by Swetha for DMND0004095 on 5th January, 2024 End
 
 			// load the model ... 
@@ -407,8 +409,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				dataType: 'json',
 				headers: {
 					'accept': 'application/json',
-					'Authorization': 'Basic', 
-				    'x-ibm-client-secret': '10dd48f9-f090-4b06-bf4e-dc4d8817e25d',
+					'Authorization': 'Basic',
+					'x-ibm-client-secret': '10dd48f9-f090-4b06-bf4e-dc4d8817e25d',
 					'x-ibm-client-id': 'j418Q~d2kIVPnOZ.dkhq0ENlrzbBFHuWk~oxqb_1',
 					'content-type': 'application/json'
 				},
@@ -421,7 +423,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					// 	RSOA_controller.getOwnerComponent().getRouter().navTo("RSOView_ManageSoldOrder", {
 					// 		Soreq: data.d.ZzsoReqNo
 					// 	}, true);
-				//	} //page 3
+					//	} //page 3
 				},
 				error: function (data) {
 					console.log("I am inside error function");
@@ -862,7 +864,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oOrderData.data[0].vinEnable = false;
 				oOrderData.data[0].camEnable = true;
 				oOrderData.data[0].addButtonVisible = false;
-				oOrderData.data[0].delButVisible=true;
+				oOrderData.data[0].delButVisible = true;
 				oOrderData.data[0].line = oOrderData.data.length;
 
 				oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
@@ -878,12 +880,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					selected: false,
 					vinNum: oOrderData.data[0].vinNum,
 					CampaignCode: "",
-					delButVisible:true,
+					delButVisible: true,
 					addButtonVisible: true,
 					line: 0
 
 				});
-                sap.ui.getCore().byId("standDelButVisible").setVisible(true);             
+				sap.ui.getCore().byId("standDelButVisible").setEnabled(true);
 				this.getView().getModel("stanrushModel").setData(oOrderData);
 				DataManager.setOrderData(oOrderData);
 				if (oSource) {
@@ -957,7 +959,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							oOrderData.data[0].camEnable = false;
 							oOrderData.data[0].opCodeEnable = false;
 							oOrderData.data[0].addButtonVisible = false;
-							oOrderData.data[0].delButVisible=true;
+							oOrderData.data[0].delButVisible = true;
 							oOrderData.data[0].line = oOrderData.data.length;
 
 							oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
@@ -975,12 +977,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								vinNum: oOrderData.data[0].vinNum,
 								CampaignCode: "",
 								OperationCode: "",
-								delButVisible:true,
+								delButVisible: true,
 								addButtonVisible: true,
 								line: 0
 
 							});
-                           sap.ui.getCore().byId("camDelButVisible").setVisible(true);
+							sap.ui.getCore().byId("camDelButVisible").setEnabled(true);
 							that.getView().getModel("campaignModel").setData(oOrderData);
 							DataManager.setOrderData(oOrderData);
 							if (oSource) {
@@ -1964,12 +1966,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					vinNum: "",
 					CampaignCode: "",
 					OperationCode: "",
-					delButVisible:false,
+					delButVisible: false,
 					addButtonVisible: true,
 					line: 0
 
 				});
-                sap.ui.getCore().byId("camDelButVisible").setVisible(false);
+				sap.ui.getCore().byId("camDelButVisible").setEnabled(false);
 				this.getView().getModel("campaignModel").setProperty("/data", oOrderData);
 				this.getView().getModel("campaignModel").refresh();
 
@@ -1998,13 +2000,14 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					selected: false,
 					vinNum: "",
 					CampaignCode: "",
-					delButVisible:false,
+					delButVisible: false,
 					addButtonVisible: true,
 					line: 0
 
 				});
-                sap.ui.getCore().byId("standDelButVisible").setVisible(false);
-				this.getView().getModel("stanrushModel").setData(oOrderData);
+				sap.ui.getCore().byId("standDelButVisible").setEnabled(false);
+				this.getView().getModel("stanrushModel").setProperty("/data", oOrderData);
+				// this.getView().getModel("stanrushModel").setData(oOrderData);
 				this.getView().getModel("stanrushModel").refresh();
 
 			}
