@@ -147,6 +147,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					CampaignCode: "",
 					OperationCode: "",
 					addButtonVisible: true,
+					delButVisible:false,
 					line: 0
 				}]
 			});
@@ -161,6 +162,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					selected: false,
 					vinNum: "",
 					CampaignCode: "",
+					delButVisible:false,
 					addButtonVisible: true,
 					line: 0
 				}]
@@ -405,7 +407,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				dataType: 'json',
 				headers: {
 					'accept': 'application/json',
-					"Authorization": "Basic", 
+					'Authorization': 'Basic', 
 				    'x-ibm-client-secret': '10dd48f9-f090-4b06-bf4e-dc4d8817e25d',
 					'x-ibm-client-id': 'j418Q~d2kIVPnOZ.dkhq0ENlrzbBFHuWk~oxqb_1',
 					'content-type': 'application/json'
@@ -419,7 +421,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					// 	RSOA_controller.getOwnerComponent().getRouter().navTo("RSOView_ManageSoldOrder", {
 					// 		Soreq: data.d.ZzsoReqNo
 					// 	}, true);
-					} //page 3
+				//	} //page 3
 				},
 				error: function (data) {
 					Console.log("I am inside error function");
@@ -860,6 +862,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oOrderData.data[0].vinEnable = false;
 				oOrderData.data[0].camEnable = true;
 				oOrderData.data[0].addButtonVisible = false;
+				oOrderData.data[0].delButVisible=true;
 				oOrderData.data[0].line = oOrderData.data.length;
 
 				oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
@@ -875,6 +878,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					selected: false,
 					vinNum: oOrderData.data[0].vinNum,
 					CampaignCode: "",
+					delButVisible:true,
 					addButtonVisible: true,
 					line: 0
 
@@ -953,6 +957,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							oOrderData.data[0].camEnable = false;
 							oOrderData.data[0].opCodeEnable = false;
 							oOrderData.data[0].addButtonVisible = false;
+							oOrderData.data[0].delButVisible=true;
 							oOrderData.data[0].line = oOrderData.data.length;
 
 							oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
@@ -970,6 +975,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								vinNum: oOrderData.data[0].vinNum,
 								CampaignCode: "",
 								OperationCode: "",
+								delButVisible:true,
 								addButtonVisible: true,
 								line: 0
 
@@ -1958,6 +1964,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					vinNum: "",
 					CampaignCode: "",
 					OperationCode: "",
+					delButVisible:false,
 					addButtonVisible: true,
 					line: 0
 
@@ -1991,6 +1998,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					selected: false,
 					vinNum: "",
 					CampaignCode: "",
+					delButVisible:false,
 					addButtonVisible: true,
 					line: 0
 

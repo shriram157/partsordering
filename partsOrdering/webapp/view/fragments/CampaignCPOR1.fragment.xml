@@ -13,7 +13,7 @@
 								<!--<Title id="title" text="Order" />-->
 								<!--<Button type='Reject' 	icon="sap-icon://sorting-ranking" tooltip="{i18n>Button.Error.Rows}" class="size2" press='handleSortError' visible="false" id="btnFilterError" />	-->
 								<Button type='Reject' icon="sap-icon://delete" tooltip="{i18n>ToolTip.CreateOrder.Delete.LineItem}" class="size2" press='handleDeletePart1'
-									visible="true"/>
+									visible="{campaignModel>delButVisible}"/>
 								<ToolbarSpacer/>
 								<Button type="Default" icon="sap-icon://sort" tooltip="{i18n>ToolTip.Sort.Error.Rows}" class="size2" press='handleSortError' visible="false"
 									id="btnSortError"/>
@@ -89,8 +89,8 @@
 		</content>
 		<buttons>
 			<Button text="{i18n>Back}" press='onPressBack'/>
-			<Button text="{i18n>Button.CreateOrder.Cancel}" press='cporFunction'/>
-			<Button text="{i18n>CPOR}" press='CDialogClose'/>
+			<Button text="{i18n>Button.CreateOrder.Cancel}" press='CDialogClose'/>
+			<Button text="{i18n>CPOR}" press='cporFunction'/>
 		</buttons>
 	</Dialog>
 </core:FragmentDefinition>

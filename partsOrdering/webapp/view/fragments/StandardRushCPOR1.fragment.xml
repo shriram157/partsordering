@@ -13,7 +13,7 @@
 								<!--<Title id="title" text="Order" />-->
 								<!--<Button type='Reject' 	icon="sap-icon://sorting-ranking" tooltip="{i18n>Button.Error.Rows}" class="size2" press='handleSortError' visible="false" id="btnFilterError" />	-->
 								<Button type='Reject' icon="sap-icon://delete" tooltip="{i18n>ToolTip.CreateOrder.Delete.LineItem}" class="size2" press='handleDeletePart2'
-									visible="true"/>
+									visible="{stanrushModel>delButVisible}"/>
 								<ToolbarSpacer/>
 								<Button type="Default" icon="sap-icon://sort" tooltip="{i18n>ToolTip.Sort.Error.Rows}" class="size2" press='handleSortError' visible="false"
 									id="btnSortError2"/>
