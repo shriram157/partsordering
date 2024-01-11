@@ -53,6 +53,7 @@ modules:
    build-parameters:
       builder: grunt
    requires:
+    - name: hello-world-destination-service
     - name: application-logs_partsOrdering
     - name: uaa_partsOrdering
     - name: cf-drain
@@ -65,6 +66,13 @@ modules:
          timeout: 60000
 
 resources:
+ -  name: hello-world-destination-service
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-name: hello-world-destination-service
+      service-plan: lite
+      
  - name: application-logs_partsOrdering
    type: org.cloudfoundry.managed-service
    parameters:
