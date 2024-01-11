@@ -169,8 +169,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			});
 			sap.ui.getCore().setModel(stanrushModel, "stanrushModel");
 			this.getView().setModel(stanrushModel, "stanrushModel");
-			
-			
+
 			//changes by Swetha for DMND0004095 on 5th January, 2024 End
 
 			// load the model ... 
@@ -402,7 +401,11 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				"campaignCode": "20TA02",
 				"vins": ["5TFUU4EN0DX068703", "5TFJU4GN1CX0", "JTMBD31V075106213", "5TFUU4EN0DX068703", "4T1B11HK4KU759632", "JTMP1RFV7KJ001307"]
 			};
-			var oURL = "https://dev.api-int.naqp.toyota.com/naqp/campaign/parts-details/v1";
+			// var oURL = "https://dev.api-int.naqp.toyota.com/naqp/campaign/parts-details/v1";
+			// 'Authorization': 'Basic',
+			// 	'x-ibm-client-secret': '10dd48f9-f090-4b06-bf4e-dc4d8817e25d',
+			// 	'x-ibm-client-id': 'j418Q~d2kIVPnOZ.dkhq0ENlrzbBFHuWk~oxqb_1',
+			var oURL = "/TMNA/v1";
 			$.ajax({
 				type: 'POST',
 				url: oURL,
@@ -411,9 +414,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				dataType: 'json',
 				headers: {
 					'accept': 'application/json',
-					'Authorization': 'Basic',
-					'x-ibm-client-secret': '10dd48f9-f090-4b06-bf4e-dc4d8817e25d',
-					'x-ibm-client-id': 'j418Q~d2kIVPnOZ.dkhq0ENlrzbBFHuWk~oxqb_1',
 					'content-type': 'application/json'
 				},
 				success: function (data) {
@@ -1947,15 +1947,21 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 			if (iDataLength > 1) {
 				// var newAddedLineData = aDeleteData.items[0];
-				var sIndex = aDeleteData.filter(ind => ind.selected == false);
-				var sIndexFinal = sIndex;
+				var bSelectedNot = aDeleteData.filter(ind => ind.selected == true);
+				if (bSelectedNot.length > 0) {
 
-				for (var i = 0; i < sIndex.length; i++) {
-					//	this.getView().getModel("campaignModel").setProperty("/data/" + i + "/line", i + 1);
-					sIndex[i].line = i;
+					var sIndex = aDeleteData.filter(ind => ind.selected == false);
+					var sIndexFinal = sIndex;
+
+					for (var i = 0; i < sIndex.length; i++) {
+						//	this.getView().getModel("campaignModel").setProperty("/data/" + i + "/line", i + 1);
+						sIndex[i].line = i;
+					}
+					this.getView().getModel("campaignModel").setProperty("/data", sIndex);
+					this.getView().getModel("campaignModel").refresh();
+				} else {
+					MessageToast.show("Please select any row to delete ");
 				}
-				this.getView().getModel("campaignModel").setProperty("/data", sIndex);
-				this.getView().getModel("campaignModel").refresh();
 
 			} else {
 				var oOrderData = this.getView().getModel("campaignModel").getProperty("/data");
@@ -1985,13 +1991,21 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var aDeleteData = this.getView().getModel("stanrushModel").getProperty("/data");
 			var iDataLength = aDeleteData.length;
 			if (iDataLength > 1) {
-				var sIndex = aDeleteData.filter(ind => ind.selected == false);
-				for (var i = 0; i < sIndex.length; i++) {
-					//	this.getView().getModel("campaignModel").setProperty("/data/" + i + "/line", i + 1);
-					sIndex[i].line = i;
+
+				var bSelectedNot = aDeleteData.filter(ind => ind.selected == true);
+
+				if (bSelectedNot.length > 0) {
+
+					var sIndex = aDeleteData.filter(ind => ind.selected == false);
+					for (var i = 0; i < sIndex.length; i++) {
+						//	this.getView().getModel("campaignModel").setProperty("/data/" + i + "/line", i + 1);
+						sIndex[i].line = i;
+					}
+					this.getView().getModel("stanrushModel").setProperty("/data", sIndex);
+					this.getView().getModel("stanrushModel").refresh();
+				} else {
+                  MessageToast.show("Please select any row to delete ");
 				}
-				this.getView().getModel("stanrushModel").setProperty("/data", sIndex);
-				this.getView().getModel("stanrushModel").refresh();
 
 			} else {
 				var oOrderData = this.getView().getModel("stanrushModel").getProperty("/data");
