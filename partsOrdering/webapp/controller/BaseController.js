@@ -1582,6 +1582,15 @@ sap.ui.define([
 				filters: oFilter,
 				success: function (oData, oResponse) {
 					if (!!oData && !!oData.results) {
+						//changes by Swetha on 11th Jan, 2024 for DMND0003930 Start
+						for (var i=0;i<oData.results.length;i++) {
+							if(oData.results[i].Flag!="") {
+								this.getView().byId("idClose").setVisible(true);
+							} else {
+								this.getView().byId("idClose").setVisible(false);
+							}
+						}
+						//changes by Swetha on 11th Jan, 2024 for DMND0003930 End
 						callback(oData.results);
 					} else {
 						callback(null);

@@ -660,25 +660,25 @@ sap.ui.define([
 				jQuery.sap.syncStyleClass("sapUiSizeCompact", that.getView(), that._oDetailDialog);
 				that._oDetailDialog.open();
 			});
-			//changes by Swetha for DMND003930 for close button validation
-			 var bModel = this.getSalesOrderModel();
-			 bModel.read('/find_soSet', {
-				 success: function (oData, oResponse) {
-					if (!!oData && !!oData.results) {
-						if(oData.Flag!=""){
-							this.getView().byId("idClose").setVisible(true);
-						} else {
-							this.getView().byId("idClose").setVisible(false);
-						}
-					} else {
-						console.log("error");
-					}
-				},
-				error: function (err) {
-					console.log("error");
-				}
-			});
-			//changes by Swetha for DMND003930 for close button validation
+			// //changes by Swetha for DMND003930 for close button validation
+			//  var bModel = this.getSalesOrderModel();
+			//  bModel.read('/find_soSet', {
+			// 	 success: function (oData, oResponse) {
+			// 		if (!!oData && !!oData.results) {
+			// 			if(oData.Flag!=""){
+			// 				this.getView().byId("idClose").setVisible(true);
+			// 			} else {
+			// 				this.getView().byId("idClose").setVisible(false);
+			// 			}
+			// 		} else {
+			// 			console.log("error");
+			// 		}
+			// 	},
+			// 	error: function (err) {
+			// 		console.log("error");
+			// 	}
+			// });
+			// //changes by Swetha for DMND003930 for close button validation
 
 		},
 
