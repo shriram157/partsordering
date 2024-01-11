@@ -390,6 +390,46 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		CDialogClose: function (oEvent) {
 			this._iDialog.close();
 		},
+		cporFunction: function (oEvent) {
+
+			var dataString = {
+				"campaignCode": "20TA02",
+				"vins": ["5TFUU4EN0DX068703", "5TFJU4GN1CX0", "JTMBD31V075106213", "5TFUU4EN0DX068703", "4T1B11HK4KU759632", "JTMP1RFV7KJ001307"]
+			};
+			var oURL = "https://dev.api-int.naqp.toyota.com/naqp/campaign/parts-details/v1";
+			$.ajax({
+				type: 'POST',
+				url: oURL,
+				cache: false,
+				data: dataString,
+				dataType: 'json',
+				headers: {
+					'accept': 'application/json',
+					"Authorization": "Basic", 
+				    'x-ibm-client-secret': '10dd48f9-f090-4b06-bf4e-dc4d8817e25d',
+					'x-ibm-client-id': 'j418Q~d2kIVPnOZ.dkhq0ENlrzbBFHuWk~oxqb_1',
+					'content-type': 'application/json'
+				},
+				success: function (data) {
+					// console.log(data);
+					// sap.m.MessageBox.show("Successfully Request Created", sap.m.MessageBox.Icon.SUCCESS, "Success", sap.m.MessageBox.Action.OK,
+					// 	null, null);
+					Console.log("I am inside success function");
+					// if (data.d.ZzsoReqNo) {
+					// 	RSOA_controller.getOwnerComponent().getRouter().navTo("RSOView_ManageSoldOrder", {
+					// 		Soreq: data.d.ZzsoReqNo
+					// 	}, true);
+					} //page 3
+				},
+				error: function (data) {
+					Console.log("I am inside error function");
+					// sap.m.MessageBox.show("Error occurred while sending data. Please try again later.", sap.m.MessageBox.Icon.ERROR, "Error", sap.m
+					// 	.MessageBox.Action.OK, null, null);
+				}
+
+			});
+
+		},
 		//changes by Shriram on 5th January, 2024 for DMND0004095   Start
 
 		initLocalModels: function (orderType, orderNum, contractNum) {
@@ -854,7 +894,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var that = this;
 			var oOrderData = this.getView().getModel("campaignModel").getData();
 			var newAddedLineData = oOrderData.data[0];
-			var aCreateItems=[];
+			var aCreateItems = [];
 			if (oOrderData.data[0].vinNum == "" || oOrderData.data[0].CampaignCode == "" || oOrderData.data[0].OperationCode == "") {
 				var sInValid = that.oResourceBundle.getText("Create.Order.PleaseEnterAllValues");
 				if (oSource) {
@@ -919,7 +959,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							aCreateItems.push(oOrderData.data[0]);
 							// this.toggleSubmitDraftButton();
 							oOrderData.data.splice(0, 1);
-						//	var that = this;
+							//	var that = this;
 
 							oOrderData.data.splice(0, 0, {
 								checkVisible: false,
@@ -1919,7 +1959,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					CampaignCode: "",
 					OperationCode: "",
 					addButtonVisible: true,
-					line:0
+					line: 0
 
 				});
 

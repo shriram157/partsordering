@@ -89,7 +89,7 @@
 		</content>
 		<buttons>
 			<Button text="{i18n>Back}" press='onPressBack'/>
-			<!--<Button text="{i18n>Button.CreateOrder.Cancel}" press='CDialogClose'/>-->
+			<Button text="{i18n>Button.CreateOrder.Cancel}" press='cporFunction'/>
 			<Button text="{i18n>CPOR}" press='CDialogClose'/>
 		</buttons>
 	</Dialog>
