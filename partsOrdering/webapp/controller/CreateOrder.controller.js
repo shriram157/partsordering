@@ -169,8 +169,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			});
 			sap.ui.getCore().setModel(stanrushModel, "stanrushModel");
 			this.getView().setModel(stanrushModel, "stanrushModel");
-			sap.ui.getCore().byId("standDelButVisible").setEnabled(false);
-			sap.ui.getCore().byId("camDelButVisible").setEnabled(false);
+			
+			
 			//changes by Swetha for DMND0004095 on 5th January, 2024 End
 
 			// load the model ... 
@@ -184,6 +184,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						this._oDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.StandardRushCPOR1", this);
 						this.getView().addDependent(this._oDialog);
 					}
+					sap.ui.getCore().byId("standDelButVisible").setEnabled(false);
 					this._oDialog.open();
 
 				} else {
@@ -191,6 +192,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						this._iDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.CampaignCPOR1", this);
 						this.getView().addDependent(this._iDialog);
 					}
+					sap.ui.getCore().byId("camDelButVisible").setEnabled(false);
 					this._iDialog.open();
 
 				}
