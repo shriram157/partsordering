@@ -38,5 +38,13 @@
 			"$XSAPPNAME.Manage_Parts_Order",
 			"$XSAPPNAME.View_Parts_Order"
 		]
+	},{
+		"source": "/v1(.*)$",
+		"destination": "TMNA",
+		"csrfProtection": false,
+		"scope": [
+			"$XSAPPNAME.Manage_Parts_Order",
+			"$XSAPPNAME.View_Parts_Order"
+		]
 	}]
 }

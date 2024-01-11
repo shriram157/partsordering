@@ -405,7 +405,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			// 'Authorization': 'Basic',
 			// 	'x-ibm-client-secret': '10dd48f9-f090-4b06-bf4e-dc4d8817e25d',
 			// 	'x-ibm-client-id': 'j418Q~d2kIVPnOZ.dkhq0ENlrzbBFHuWk~oxqb_1',
-			var oURL = "/TMNA/v1";
+			var oURL = "/v1";
 			$.ajax({
 				type: 'POST',
 				url: oURL,
