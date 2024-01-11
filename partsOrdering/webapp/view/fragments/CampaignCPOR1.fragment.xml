@@ -42,7 +42,7 @@
 							</ui:template>
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remPartNo}" id="Material" sortProperty="Material">
-							<Label text="{i18n>VIN}"/>
+							<Label text="{i18n>VIN}" required="true"/>
 							<ui:template>
 								<VBox>
 									<Input value="{campaignModel>vinNum}" type="Text" textFormatMode="Key" required="true" tooltip="{orderModel>partNumber}" enabled="true" editable="{campaignModel>vinEnable}"/>
@@ -51,7 +51,7 @@
 							</ui:template>
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remPartDesc}">
-							<Label text="{i18n>CampaignCode}"/>
+							<Label text="{i18n>CampaignCode}" required="true"/>
 							<!--<Label text="{i18n>Lable.CreateOrder.PartDesc}/{i18n>Lable.CreateOrder.Comment}"/>-->
 							<ui:template >
 								<!--<VBox>-->
@@ -61,7 +61,7 @@
 							</ui:template>
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remPartDesc}">
-							<Label text="{i18n>OpCode}"/>
+							<Label text="{i18n>OpCode}" required="true"/>
 							<ui:template >
 								<!--	<Text text="{ path: 'orderModel>spq', formatter:'.formatter.spqFormat'}"/>-->
 								<Input value="{campaignModel>OperationCode}" enabled='true' valueState="None" tooltip="{i18n>OpCode}" width="211px" required="true" editable="{campaignModel>camEnable}"/>
@@ -89,7 +89,7 @@
 		</content>
 		<buttons>
 			<Button text="{i18n>Back}" press='onPressBack'/>
-			<Button text="{i18n>Button.CreateOrder.Cancel}" press='CDialogClose'/>
+			<!--<Button text="{i18n>Button.CreateOrder.Cancel}" press='CDialogClose'/>-->
 			<Button text="{i18n>CPOR}" press='CDialogClose'/>
 		</buttons>
 	</Dialog>

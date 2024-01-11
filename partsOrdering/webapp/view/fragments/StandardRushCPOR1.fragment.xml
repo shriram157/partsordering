@@ -42,7 +42,7 @@
 							</ui:template>
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remPartNo}" id="Material2" sortProperty="Material">
-							<Label text="{i18n>VIN}"/>
+							<Label text="{i18n>VIN}" required="true"/>
 							<ui:template>
 								<VBox>
 									<Input value="{stanrushModel>vinNum}" type="Text" textFormatMode="Key" required="true" tooltip="{orderModel>partNumber}" enabled="true" editable="{stanrushModel>vinEnable}"/>
@@ -51,7 +51,7 @@
 							</ui:template>
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remPartDesc}">
-							<Label text="{i18n>CampaignCode}"/>
+							<Label text="{i18n>CampaignCode}" required="true"/>
 							<!--<Label text="{i18n>Lable.CreateOrder.PartDesc}/{i18n>Lable.CreateOrder.Comment}"/>-->
 							<ui:template >
 								<!--<VBox>-->
@@ -82,7 +82,7 @@
 		</content>
 		<buttons>
 			<Button text="{i18n>Back}" press='onPressBack'/>
-			<Button text="{i18n>Button.CreateOrder.Cancel}" press='onDialogClose'/>
+			<!--<Button text="{i18n>Button.CreateOrder.Cancel}" press='onDialogClose'/>-->
 			<Button text="{i18n>CPOR}" press='onDialogClose'/>
 		</buttons>
 	</Dialog>

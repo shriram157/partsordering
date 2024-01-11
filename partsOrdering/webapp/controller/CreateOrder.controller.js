@@ -143,9 +143,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					camEnable: true,
 					opCodeEnable: true,
 					selected: false,
-					vinNum: " ",
-					CampaignCode: " ",
-					OperationCode: " ",
+					vinNum: "",
+					CampaignCode: "",
+					OperationCode: "",
 					addButtonVisible: true,
 					line: 0
 				}]
@@ -159,8 +159,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					vinEnable: true,
 					camEnable: true,
 					selected: false,
-					vinNum: " ",
-					CampaignCode: " ",
+					vinNum: "",
+					CampaignCode: "",
 					addButtonVisible: true,
 					line: 0
 				}]
@@ -776,7 +776,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			}
 			var newAddedLineData = oOrderData.data[0];
 
-			if (oOrderData.data[0].vinNum == " " || oOrderData.data[0].CampaignCode == " ") {
+			if (oOrderData.data[0].vinNum == "" || oOrderData.data[0].CampaignCode == "") {
 				var sInValid = that.oResourceBundle.getText("Create.Order.PleaseEnterAllValues");
 				// MessageBox.error(sInValid, {
 				// 	actions: [MessageBox.Action.CLOSE],
@@ -834,7 +834,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					camEnable: true,
 					selected: false,
 					vinNum: oOrderData.data[0].vinNum,
-					CampaignCode: " ",
+					CampaignCode: "",
 					addButtonVisible: true,
 					line: 0
 
@@ -855,7 +855,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var oOrderData = this.getView().getModel("campaignModel").getData();
 			var newAddedLineData = oOrderData.data[0];
 			var aCreateItems=[];
-			if (oOrderData.data[0].vinNum == " " || oOrderData.data[0].CampaignCode == " " || oOrderData.data[0].OperationCode == " ") {
+			if (oOrderData.data[0].vinNum == "" || oOrderData.data[0].CampaignCode == "" || oOrderData.data[0].OperationCode == "") {
 				var sInValid = that.oResourceBundle.getText("Create.Order.PleaseEnterAllValues");
 				if (oSource) {
 					oSource.setEnabled(true);
@@ -928,8 +928,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								opCodeEnable: true,
 								selected: false,
 								vinNum: oOrderData.data[0].vinNum,
-								CampaignCode: " ",
-								OperationCode: " ",
+								CampaignCode: "",
+								OperationCode: "",
 								addButtonVisible: true,
 								line: 0
 
@@ -1892,12 +1892,10 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		},
 		handleDeletePart1: function (oEvent) {
 			var that = this;
-
 			var aDeleteData = this.getView().getModel("campaignModel").getProperty("/data");
 			var iDataLength = aDeleteData.length;
 
 			if (iDataLength > 1) {
-
 				// var newAddedLineData = aDeleteData.items[0];
 				var sIndex = aDeleteData.filter(ind => ind.selected == false);
 				var sIndexFinal = sIndex;
@@ -1906,21 +1904,11 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					//	this.getView().getModel("campaignModel").setProperty("/data/" + i + "/line", i + 1);
 					sIndex[i].line = i;
 				}
-
-				// for (var i = 0; i < iDataLength; i++) {
-				// 	var checkStatus = this.getView().getModel("campaignModel").getProperty("/data/" + i + "/selected");
-
-				// 	if (checkStatus == true) {
-				// 		aDeleteData.splice(i, 1);
-				// 	}
-				// 	//oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
-				// }
-				//	this.getView().getModel("campaignModel").setProperty("/data", sIndex);
 				this.getView().getModel("campaignModel").setProperty("/data", sIndex);
 				this.getView().getModel("campaignModel").refresh();
 
 			} else {
-				var oOrderData = this.getView().getModel("campaignModel").getProperty("/data")
+				var oOrderData = this.getView().getModel("campaignModel").getProperty("/data");
 				oOrderData.splice(0, 1, {
 					checkVisible: false,
 					vinEnable: true,
@@ -1928,10 +1916,10 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					opCodeEnable: true,
 					selected: false,
 					vinNum: "",
-					CampaignCode: " ",
-					OperationCode: " ",
+					CampaignCode: "",
+					OperationCode: "",
 					addButtonVisible: true,
-					line: ""
+					line:0
 
 				});
 
@@ -1943,39 +1931,26 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		},
 		handleDeletePart2: function (oEvent) {
 			var that = this;
-
 			var aDeleteData = this.getView().getModel("stanrushModel").getProperty("/data");
 			var iDataLength = aDeleteData.length;
-
 			if (iDataLength > 1) {
-
 				var sIndex = aDeleteData.filter(ind => ind.selected == false);
-
-				// for (var i = 0; i < iDataLength; i++) {
-				// 	var checkStatus = this.getView().getModel("stanrushModel").getProperty("/data/" + i + "/selected");
-
-				// 	if (checkStatus == true) {
-				// 		aDeleteData.splice(i, 1);
-				// 	}
-				// 	//oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
-				// }
 				for (var i = 0; i < sIndex.length; i++) {
 					//	this.getView().getModel("campaignModel").setProperty("/data/" + i + "/line", i + 1);
 					sIndex[i].line = i;
 				}
-
 				this.getView().getModel("stanrushModel").setProperty("/data", sIndex);
 				this.getView().getModel("stanrushModel").refresh();
 
 			} else {
-				var oOrderData = this.getView().getModel("stanrushModel").getProperty("/data")
+				var oOrderData = this.getView().getModel("stanrushModel").getProperty("/data");
 				oOrderData.splice(0, 1, {
 					checkVisible: false,
 					vinEnable: true,
 					camEnable: true,
 					selected: false,
 					vinNum: "",
-					CampaignCode: " ",
+					CampaignCode: "",
 					addButtonVisible: true,
 					line: 0
 
