@@ -39,7 +39,7 @@
 			"$XSAPPNAME.View_Parts_Order"
 		]
 	}, {
-		"source": "/TMNA/(.*)$",
+		"source": "^TMNA/(.*)$",
 		"target": "$1",
 		"destination": "TMNA",
 		"csrfProtection": false,
