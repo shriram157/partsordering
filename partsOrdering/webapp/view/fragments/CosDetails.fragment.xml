@@ -1,7 +1,8 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic">
 	<Dialog contentWidth="1152px" contentHeight="70%" afterClose='cleanUpDialog' afterOpen='afterDialogOpen'
 		title="{path : '/doc_type', formatter:'.formatter.orderTypeD'} : {/dealer_orderNo}" verticalScrolling='true' resizable="true"
-		draggable="true" class="span#__attribute0-title" horizontalScrolling = 'false'><!--changes by swetha for U42 replication same as QA-->
+		draggable="true" class="span#__attribute0-title" horizontalScrolling='false'>
+		<!--changes by swetha for U42 replication same as QA-->
 		<beginButton>
 			<Button text="{i18n>Label.CheckOrder.Button.Close}" press='onDialogClose'/>
 		</beginButton>
@@ -13,13 +14,14 @@
 				<attributes>
 					<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Number}"
 						text="{ path : '/TCI_order_no', formatter:'.formatter.removeLeadingZero' }"/>
-					<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Line}" text="{ path : '/TCI_itemNo', formatter:'.formatter.removeLeadingZero'}" />
-					<ObjectAttribute title="{i18n>Label.CheckOrder.Stop.Sales.Code}" text="{/stop_sales_code}"/><!--changes by swetha for DMND0003688 U42 replication same as QA-->
+					<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Line}" text="{ path : '/TCI_itemNo', formatter:'.formatter.removeLeadingZero'}"/>
+					<ObjectAttribute title="{i18n>Label.CheckOrder.Stop.Sales.Code}" text="{/stop_sales_code}"/>
+					<!--changes by swetha for DMND0003688 U42 replication same as QA-->
 					<!--<ObjectAttribute title="{i18n>Label.CheckOrder.Tci.Order.Line}"  text="{ path : '/TCI_itemNo', formatter:'.formatter.removeLeadingZero'}**"-->
 					<!--	tooltip="{/rejectionReason} {/rejectionDescription}" visible="{=${/quant_cancelled} !== '0'}" />-->
 					<ObjectAttribute title="{i18n>Label.CheckOrder.Creation.Date}"
 						text="{ path: '/erdat', type: 'sap.ui.model.type.Date', formatOptions: { style: 'long', source: { pattern: 'yyyy/MM/dd' } } }"/>
-					<ObjectAttribute  class = "CLattributetext" title="{i18n>Label.CheckOrder.Ship.From}" text="{/ship_from}"/>
+					<ObjectAttribute class="CLattributetext" title="{i18n>Label.CheckOrder.Ship.From}" text="{/ship_from}"/>
 				</attributes>
 				<statuses>
 					<ObjectStatus text="{i18n>Label.CheckOrder.Substituted} : {/matnr}" state="Warning" visible='{/subs}'/>
@@ -29,7 +31,8 @@
 				</statuses>
 				<headerContainer></headerContainer>
 			</ObjectHeader>
-			<Table items="{ path: '/SOtoDeliv/results' }" showNoData='true' visible="{=${path: '/SOtoDeliv'} !== '' &amp;&amp;   ${path: '/SOtoDeliv'} !== undefined}">
+			<Table items="{ path: '/SOtoDeliv/results' }" showNoData='true'
+				visible="{=${path: '/SOtoDeliv'} !== '' &amp;&amp; ${path: '/SOtoDeliv'} !== undefined}">
 				<headerToolbar>
 					<Toolbar>
 						<VBox width='90px'>
@@ -53,13 +56,14 @@
 						<VBox width='76px'>
 							<Label text="{i18n>Header.Quantity.Cancelled}"></Label>
 							<!--<ObjectNumber number="{path : '/quant_cancelled', formatter:'.formatter.round2dec'}" state="Error" tooltip="{/rejectionReason} {/rejectionDescription}"/>-->
-							<ObjectStatus text="{= ${/bom_kit_part} === 'X' ? '0' : ${path:'/quant_cancelled'}}" state="Error" tooltip="{/rejectionReason} {/rejectionDescription}"/>
+							<ObjectStatus text="{= ${/bom_kit_part} === 'X' ? '0' : ${path:'/quant_cancelled'}}" state="Error"
+								tooltip="{/rejectionReason} {/rejectionDescription}"/>
 						</VBox>
 						<ToolbarSeparator/>
 						<VBox width='88px'>
 							<Label text="{i18n>Header.Quantity.Back.Ordered}"></Label>
 							<!--<ObjectNumber number="{path : '/quant_back_ordered', formatter:'.formatter.round2dec'}" state="Error"/>-->
-							<ObjectStatus text="{= ${/bom_kit_part} === 'X' ? '0' : ${path:'/quant_back_ordered'}}" state="Error" />
+							<ObjectStatus text="{= ${/bom_kit_part} === 'X' ? '0' : ${path:'/quant_back_ordered'}}" state="Error"/>
 						</VBox>
 						<ToolbarSeparator/>
 						<VBox width='120px'>
@@ -70,7 +74,7 @@
 						<ToolbarSeparator/>
 						<!--changes by Swetha for DMND0003930 added Cancel button-->
 						<VBox width='70px'>
-							<Button text="{i18n>Cancel}" id="idCancel" type="Emphasized" width="70px" visible="{=${path: '/Flag'}==''?false:true}"/>
+							<Button text="{i18n>Cancel}" id="idCancel" type="Emphasized" width="70px" visible="{=${/Flag} === '' ? false : true}"/>
 						</VBox>
 						<ToolbarSeparator/>
 						<!--changes by Swetha for DMND0003930 added Close button-->
@@ -118,7 +122,8 @@
 					</ColumnListItem>
 				</items>
 			</Table>
-			<Table items="{ path: '/POtoDeliv/results' }" showNoData='true' visible="{=${path: '/POtoDeliv'} !== ''  &amp;&amp; ${path: '/POtoDeliv'} !== undefined }">
+			<Table items="{ path: '/POtoDeliv/results' }" showNoData='true'
+				visible="{=${path: '/POtoDeliv'} !== '' &amp;&amp; ${path: '/POtoDeliv'} !== undefined }">
 				<headerToolbar>
 					<Toolbar>
 						<VBox width='76px'>
@@ -138,7 +143,8 @@
 						<ToolbarSeparator/>
 						<VBox width='76px'>
 							<Label text="{i18n>Header.Quantity.Cancelled}"></Label>
-							<ObjectNumber number="{path : '/quant_cancelled', formatter:'.formatter.round2dec'}" state="Error" tooltip="{/rejectionReason} {/rejectionDescription}"/>
+							<ObjectNumber number="{path : '/quant_cancelled', formatter:'.formatter.round2dec'}" state="Error"
+								tooltip="{/rejectionReason} {/rejectionDescription}"/>
 						</VBox>
 						<ToolbarSeparator/>
 						<VBox width='88px'>
