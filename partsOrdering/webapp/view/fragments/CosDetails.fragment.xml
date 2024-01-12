@@ -69,9 +69,8 @@
 						</VBox>
 						<ToolbarSeparator/>
 						<!--changes by Swetha for DMND0003930 added Cancel button-->
-						<ToolbarSeparator/>
-						<VBox width='62px'>
-							<Button text="{i18n>Cancel}" id="idCancel" type="Emphasized" width="65px"/>
+						<VBox width='70px'>
+							<Button text="{i18n>Cancel}" id="idCancel" type="Emphasized" width="70px" visible="{path : '/Flag'==='' ? false : true}"/>
 						</VBox>
 						<ToolbarSeparator/>
 						<!--changes by Swetha for DMND0003930 added Close button-->
