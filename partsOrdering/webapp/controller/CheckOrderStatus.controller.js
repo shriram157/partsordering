@@ -1160,7 +1160,7 @@ sap.ui.define([
 									if (oAction == "YES") {
 										console.log("Successful");
 									} else {
-										this._oDetailDialog.close();
+										this.onDialogClose();
 									}
 								}
 							});
