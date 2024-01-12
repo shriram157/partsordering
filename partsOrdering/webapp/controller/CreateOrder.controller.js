@@ -398,14 +398,23 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		_fetchToken: function () {
 			// var this._uploadToken;
 			var url = "https://login.microsoftonline.com/9107b728-2166-4e5d-8d13-d1ffdf0351ef/oauth2/token";
+			var body = {
+				grant_type: 'authorization_code',
+				client_id: '10dd48f9-f090-4b06-bf4e-dc4d8817e25d',
+				client_secret: 'j418Q~d2kIVPnOZ.dkhq0ENlrzbBFHuWk~oxqb_1'
+			};
 			$.ajax(url, {
-				type: "GET",
-				contentType: 'application/json',
+				type: "POST",
+				contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
 				async: false,
 				dataType: 'json',
+				data: body,
 				beforeSend: function (xhr) {
-					xhr.setRequestHeader('X-CSRF-Token', 'fetch');
+					xhr.setRequestHeader("Authorization", "Basic " + btoa(username + ":" + password));
 				},
+				// beforeSend: function (xhr) {
+				// 	xhr.setRequestHeader('X-CSRF-Token', 'fetch');
+				// },
 				complete: function (response) {
 					this._uploadToken = response.getResponseHeader('X-CSRF-Token');
 					return this._uploadToken;
@@ -429,12 +438,17 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				cache: false,
 				data: dataString,
 				dataType: 'json',
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader("Authorization", "Basic " + btoa('10dd48f9-f090-4b06-bf4e-dc4d8817e25d' + ":" +
+						'j418Q~d2kIVPnOZ.dkhq0ENlrzbBFHuWk~oxqb_1'));
+				},
+
 				headers: {
-					"X-CSRF-Token": this._fetchToken(),
+					// "X-CSRF-Token": this._fetchToken(),
 					'accept': 'application/json',
 					'content-type': 'application/json'
 				},
-				
+
 				success: function (data) {
 					// console.log(data);
 					// sap.m.MessageBox.show("Successfully Request Created", sap.m.MessageBox.Icon.SUCCESS, "Success", sap.m.MessageBox.Action.OK,
