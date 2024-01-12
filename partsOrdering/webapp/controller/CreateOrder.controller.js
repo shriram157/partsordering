@@ -395,6 +395,23 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		CDialogClose: function (oEvent) {
 			this._iDialog.close();
 		},
+		_fetchToken: function () {
+			// var this._uploadToken;
+			var url = "https://login.microsoftonline.com/9107b728-2166-4e5d-8d13-d1ffdf0351ef/oauth2/token";
+			$.ajax(url, {
+				type: "GET",
+				contentType: 'application/json',
+				async: false,
+				dataType: 'json',
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader('X-CSRF-Token', 'fetch');
+				},
+				complete: function (response) {
+					this._uploadToken = response.getResponseHeader('X-CSRF-Token');
+					return this._uploadToken;
+				}.bind(this)
+			});
+		},
 		cporFunction: function (oEvent) {
 
 			var dataString = {
@@ -413,9 +430,11 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				data: dataString,
 				dataType: 'json',
 				headers: {
+					"X-CSRF-Token": this._fetchToken(),
 					'accept': 'application/json',
 					'content-type': 'application/json'
 				},
+				
 				success: function (data) {
 					// console.log(data);
 					// sap.m.MessageBox.show("Successfully Request Created", sap.m.MessageBox.Icon.SUCCESS, "Success", sap.m.MessageBox.Action.OK,
@@ -2004,7 +2023,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					this.getView().getModel("stanrushModel").setProperty("/data", sIndex);
 					this.getView().getModel("stanrushModel").refresh();
 				} else {
-                  MessageToast.show("Please select any row to delete ");
+					MessageToast.show("Please select any row to delete ");
 				}
 
 			} else {
