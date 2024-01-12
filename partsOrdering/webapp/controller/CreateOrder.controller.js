@@ -441,8 +441,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				dataType: 'json',
 				content-type: 'application/json',
 				beforeSend: function (xhr) {
-					xhr.setRequestHeader("Authorization", "Basic " + btoa('10dd48f9-f090-4b06-bf4e-dc4d8817e25d' + ":" +
-						'j418Q~d2kIVPnOZ.dkhq0ENlrzbBFHuWk~oxqb_1'));
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("10dd48f9-f090-4b06-bf4e-dc4d8817e25d" + ":" +
+						"j418Q~d2kIVPnOZ.dkhq0ENlrzbBFHuWk~oxqb_1"));
 				},
 
 				headers: {
