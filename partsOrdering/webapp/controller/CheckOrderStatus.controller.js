@@ -1153,11 +1153,11 @@ sap.ui.define([
 					},
 					onCancel: function (oEvent) {
 						MessageBox.show("Are you sure you want to cancel?", {
-								icon: MessageBox.Icon.INFORMATION,
-								title: "",
+								// icon: MessageBox.Icon.INFORMATION,
+								// title: "",
 								actions: [MessageBox.Action.YES, MessageBox.Action.NO],
 								onClose: function (oAction) {
-									if (sAction == "YES") {
+									if (oAction == "YES") {
 										console.log("Successful");
 									} else {
 										this._oDetailDialog.close();
