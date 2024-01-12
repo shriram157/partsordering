@@ -924,7 +924,7 @@ sap.ui.define([
 						if(results[i].Flag!=""){
 							this.getView().byId("idClose").setVisible(true);
 						} else {
-							this.getView().byId("idClose").setVisible(false);	
+							sap.ui.getCore().byId('idClose').setVisible(false);	
 						}
 					}
 					//changes by swetha for DMND0003930 on 12th January, 2024 End
