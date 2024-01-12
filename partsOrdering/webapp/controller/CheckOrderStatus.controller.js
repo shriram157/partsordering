@@ -922,9 +922,9 @@ sap.ui.define([
 					//changes by swetha for DMND0003930 on 12th January, 2024 start
 					for (var i=0;i<results.length;i++){
 						if(results[i].Flag!=""){
-							that.getView().byId("idClose").setVisible(true);
+							this.getView().byId("idClose").setVisible(true);
 						} else {
-							that.getView().byId("idClose").setVisible(false);	
+							this.getView().byId("idClose").setVisible(false);	
 						}
 					}
 					//changes by swetha for DMND0003930 on 12th January, 2024 End
