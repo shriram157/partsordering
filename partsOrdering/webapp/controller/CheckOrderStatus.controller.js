@@ -3,6 +3,7 @@ sap.ui.define([
 			'sap/m/MessagePopover',
 			'sap/m/MessageItem',
 			'sap/m/MessageToast',
+			'sap/m/MessageBox',
 			'sap/m/Link',
 			'sap/ui/model/json/JSONModel',
 			"tci/wave2/ui/parts/ordering/model/formatter",
@@ -11,7 +12,7 @@ sap.ui.define([
 			"sap/ui/core/util/ExportTypeCSV",
 			"tci/wave2/ui/parts/ordering/utils/UIHelper",
 			"tci/wave2/ui/parts/ordering/utils/DataManager"
-		], function (BaseController, MessagePopover, MessageItem, MessageToast, Link, JSONModel, formatter, Sorter, Export, ExportTypeCSV,
+		], function (BaseController, MessagePopover, MessageItem, MessageToast, MessageBox, Link, JSONModel, formatter, Sorter, Export, ExportTypeCSV,
 			UIHelper, DataManager) {
 			"use strict";
 
