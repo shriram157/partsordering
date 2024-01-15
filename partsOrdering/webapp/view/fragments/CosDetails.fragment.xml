@@ -81,7 +81,7 @@
 							<Label text="{i18n>CancelReason}"/>
 							<!--<Text text="Success"/>-->
 							<ComboBox showSecondaryValues="true" required="true" fieldGroupIds="requiredField" filterSecondaryValues="true" visible="false" id="idCancelReason"
-								items="{path: 'CancelReasonModel>/DESCRIPTION'}"
+								items="{path: 'CancelReasonModel>/'}"
 								showValueStateMessage="false" textAlign="Begin" width="15%">
 								<core:ListItem key="{CancelReasonModel>DESCRIPTION}" text="{CancelReasonModel>DESCRIPTION}"></core:ListItem>
 							</ComboBox>

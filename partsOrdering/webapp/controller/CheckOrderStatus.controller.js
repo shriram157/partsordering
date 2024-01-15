@@ -1140,6 +1140,7 @@ sap.ui.define([
 			}
 		},
 		onCancel: function (oEvent) {
+			var that=this;
 			var bModel = this.getSalesOrderModel();
 			 var Lan =this.getSapLangugaeFromLocal();
 			// var oFilter = new Array();
@@ -1163,6 +1164,7 @@ sap.ui.define([
 									console.log(oData);
 									var CancelReasonModel = new JSONModel();
 									CancelReasonModel.setData(oData.results);
+									that.getView().setModel(CancelReasonModel);
 								} else {
 									console.log("error");
 								}
