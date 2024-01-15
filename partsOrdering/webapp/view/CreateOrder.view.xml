@@ -85,11 +85,11 @@
 									<!--	</VBox>-->
 								</ui:template>
 							</ui:Column>
-							<ui:Column width="{sizeModel>/remSPQ}">
-								<Label text="{i18n>Lable.CreateOrder.SPQ}"/>
+							<ui:Column width="{sizeModel>/remSPQ}" visible="{orderModel>/typeCPOR}">
+								<Label text="{i18n>Lable.CreateOrder.SPQ}"visible="{orderModel>/typeCPOR}"/>
 								<ui:template >
 								<!--	<Text text="{ path: 'orderModel>spq', formatter:'.formatter.spqFormat'}"/>-->
-								<Text text="{orderModel>spq}"/>
+								<Text text="{orderModel>spq}" visible="{orderModel>/typeCPOR}"/>
 								</ui:template>
 							</ui:Column>
 							<ui:Column width="{sizeModel>/remQty}">
@@ -109,11 +109,11 @@
 								</ui:template>
 							</ui:Column>
 							
-							<ui:Column width="{sizeModel>/remCampaignNo}" visible="{orderModel>/typeD}" id="CampaigntNo" sortProperty="CampaignNo">
-								<Label text="{i18n>Lable.CreateOrder.CampaignNumber}*" visible="{orderModel>/typeD}"/>
+							<ui:Column width="{sizeModel>/remCampaignNo}" visible="{= ${orderModel>/typeD} === 'true' ? 'true' : ${{orderModel>/typeCPOR1} === 'true' ? 'true' : 'false'}" id="CampaigntNo" sortProperty="CampaignNo">
+								<Label text="{i18n>Lable.CreateOrder.CampaignNumber}*" visible="{= ${orderModel>/typeD} === 'true' ? 'true' : ${{orderModel>/typeCPOR1} === 'true' ? 'true' : 'false'}"/>
 								<ui:template>
 									<Input value="{ path : 'orderModel>campaignNum', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:14}' }" type="Text"
-										valueStateText="{i18n>ValidationMessage.campainNum}" placeholder="{i18n>Placeholder.campainNum}" visible="{orderModel>/typeD}"
+										valueStateText="{i18n>ValidationMessage.campainNum}" placeholder="{i18n>Placeholder.campainNum}" visible="{= ${orderModel>/typeD} === 'true' ? 'true' : ${{orderModel>/typeCPOR1} === 'true' ? 'true' : 'false'}}"
 										enabled="{orderModel>/typeD}" required='true' valueState="None" change='onCampOpVINChange' />
 								</ui:template>
 							</ui:Column>
@@ -127,20 +127,21 @@
 										enabled="{orderModel>/typeD}" required="true" valueState="None" change='onCampOpVINChange'/>
 								</ui:template>
 							</ui:Column>
-							<ui:Column width="{sizeModel>/remVin}" visible="{orderModel>/typeD}" id="Vin" sortProperty="Vin">
+							<!--<Icon src="{= ${orderModel>/typeD} === 'true' ? 'true' : ${{orderModel>/typeCPOR1} === 'true' ? 'true' : 'false'}"/>-->
+							<ui:Column width="{sizeModel>/remVin}" visible="{= ${orderModel>/typeD} === 'true' ? 'true' : ${{orderModel>/typeCPOR1} === 'true' ? 'true' : 'false'}" id="Vin" sortProperty="Vin">
 								<!--<ui:Column width="11rem" visible="{orderModel>/typeD}">-->
-								<Label text="{i18n>Lable.CreateOrder.vin}*" visible="{orderModel>/typeD}"/>
+								<Label text="{i18n>Lable.CreateOrder.vin}*" visible="{= ${orderModel>/typeD} === 'true' ? 'true' : ${{orderModel>/typeCPOR1} === 'true' ? 'true' : 'false'}"/>
 								<ui:template>
 									<Input type="Text" value="{ path: 'orderModel>vin', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:35}' }"
-										valueStateText="{i18n>ValidationMessage.vinNum}" placeholder="{i18n>Placeholder.vinNum}" visible="{orderModel>/typeD}"
+										valueStateText="{i18n>ValidationMessage.vinNum}" placeholder="{i18n>Placeholder.vinNum}" visible="{= ${orderModel>/typeD} === 'true' ? 'true' : ${{orderModel>/typeCPOR1} === 'true' ? 'true' : 'false'}"
 										enabled="{orderModel>/typeD}" required='true' valueState="None" change='onCampOpVINChange'/>
 								</ui:template>
 							</ui:Column>
-							<ui:Column width="{sizeModel>/remComments}">
-								<Label text="{i18n>Lable.CreateOrder.Comment}"/>
+							<ui:Column width="{sizeModel>/remComments}" visible="{orderModel>/typeCPOR}">
+								<Label text="{i18n>Lable.CreateOrder.Comment}" visible="{orderModel>/typeCPOR}"/>
 								<ui:template>
 									<TextArea value="{orderModel>comment}" rows="1" placeholder="{i18n>Placeholder.comment}" tooltip="{orderModel>comment}"
-										width="{sizeModel>/remCommentsPx}" change="onCommentChange" maxLength="150"></TextArea>
+										width="{sizeModel>/remCommentsPx}" change="onCommentChange" maxLength="150"visible="{orderModel>/typeCPOR}" ></TextArea>
 								</ui:template>
 							</ui:Column>
 							<ui:Column id="ErrorStatus" width="4.5rem">
