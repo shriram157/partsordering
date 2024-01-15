@@ -78,12 +78,13 @@
 						</VBox>
 						<ToolbarSeparator/>
 						<VBox width='100px'>
-							<Label text="{i18n>CancelReason}"/>
+							<!--<Label text="{i18n>CancelReason}"/>-->
 							<!--<Text text="Success"/>-->
-							<ComboBox showSecondaryValues="true" required="true" fieldGroupIds="requiredField" filterSecondaryValues="true" visible="false" id="idCancelReason"
-								items="{path: 'CancelReasonModel>/'}"
-								showValueStateMessage="false" textAlign="Begin" width="15%">
+							<ComboBox showSecondaryValues="true" required="true" fieldGroupIds="requiredField" filterSecondaryValues="true" visible="true" id="idCancelReason"
+								items="{path: 'CancelReasonModel>/'}" showValueStateMessage="false" textAlign="Begin" width="150%" placeholder="Cancel Reason">
 								<core:ListItem key="{CancelReasonModel>DESCRIPTION}" text="{CancelReasonModel>DESCRIPTION}"></core:ListItem>
+								<!--<core:ListItem key="{CancelReasonModel>DESCRIPTION}" text="{CancelReasonModel>DESCRIPTION}"></core:ListItem>-->
+								<!--items="{path: 'CancelReasonModel>/'}"-->
 							</ComboBox>
 						</VBox>
 						<!--changes by Swetha for DMND0003930 added Cancel button-->
