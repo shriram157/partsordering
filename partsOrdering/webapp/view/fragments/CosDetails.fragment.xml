@@ -79,7 +79,13 @@
 						<ToolbarSeparator/>
 						<VBox width='100px'>
 							<Label text="{i18n>CancelReason}"/>
-							<Text text="Success"/>
+							<!--<Text text="Success"/>-->
+							<!--<ComboBox showSecondaryValues="true" required="true" fieldGroupIds="requiredField" filterSecondaryValues="true" visible="false" id="cb_filterDealer"-->
+							<!--	items="{path: 'BpDealerModel>/', sorter: { path: 'BusinessPartner' }, length:750 }" selectionChange="onBusinessPartnerSelected"-->
+							<!--	showValueStateMessage="false" textAlign="Begin" width="15%">-->
+							<!--	<core:ListItem key="{BpDealerModel>BusinessPartnerKey}" text="{BpDealerModel>BusinessPartner}"-->
+							<!--		additionalText="{BpDealerModel>BusinessPartnerName}"></core:ListItem>-->
+							<!--</ComboBox>-->
 						</VBox>
 						<!--changes by Swetha for DMND0003930 added Cancel button-->
 					</Toolbar>

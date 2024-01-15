@@ -1141,9 +1141,14 @@ sap.ui.define([
 		},
 		onCancel: function (oEvent) {
 			var bModel = this.getSalesOrderModel();
-			var Lan =this.getSapLangugaeFromLocal();
-			var oFilter = new Array();
-			oFilter[0] = new sap.ui.model.Filter("language", sap.ui.model.FilterOperator.EQ, Lan);
+			 var Lan =this.getSapLangugaeFromLocal();
+			// var oFilter = new Array();
+			//oFilter[0] = new sap.ui.model.Filter("LANGUAGE", sap.ui.model.FilterOperator.EQ, Lan);
+			var InputFilter = new sap.ui.model.Filter({
+					filters: [
+						new sap.ui.model.Filter("LANGUAGE", sap.ui.model.FilterOperator.EQ, Lan),
+					]
+				});
 			MessageBox.show("Are you sure you want to cancel?", {
 				// icon: MessageBox.Icon.INFORMATION,
 				// title: "",
@@ -1152,7 +1157,7 @@ sap.ui.define([
 					if (oAction == "YES") {
 						console.log("Successful");
 						bModel.read('/zc_cancel_reason', {
-							filters:oFilter,
+							filters:InputFilter.aFilters,
 							success: function (oData, oResponse) {
 								if (!!oData) {
 									console.log(oData);
