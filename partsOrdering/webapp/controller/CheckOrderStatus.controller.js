@@ -1161,6 +1161,8 @@ sap.ui.define([
 							success: function (oData, oResponse) {
 								if (!!oData) {
 									console.log(oData);
+									var CancelReasonModel = new JSONModel();
+									CancelReasonModel.setData(oData);
 								} else {
 									console.log("error");
 								}
