@@ -78,7 +78,7 @@
 						</VBox>
 						<ToolbarSeparator/>
 						<VBox width='100px'>
-							<Label text="{i18n>CancelReason"}/>
+							<Label text="{i18n>CancelReason}"/>
 							<Text text="Success"/>
 						</VBox>
 						<!--changes by Swetha for DMND0003930 added Cancel button-->
