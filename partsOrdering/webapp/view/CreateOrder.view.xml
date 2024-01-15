@@ -109,11 +109,11 @@
 								</ui:template>
 							</ui:Column>
 							
-							<ui:Column width="{sizeModel>/remCampaignNo}" visible="{= ${orderModel>/typeD} === 'true' ? 'true' : ${{orderModel>/typeCPOR1} === 'true' ? 'true' : 'false'}" id="CampaigntNo" sortProperty="CampaignNo">
-								<Label text="{i18n>Lable.CreateOrder.CampaignNumber}*" visible="{= ${orderModel>/typeD} === 'true' ? 'true' : ${{orderModel>/typeCPOR1} === 'true' ? 'true' : 'false'}"/>
+							<ui:Column width="{sizeModel>/remCampaignNo}" visible="{orderModel>/typeD}" id="CampaigntNo" sortProperty="CampaignNo">
+								<Label text="{i18n>Lable.CreateOrder.CampaignNumber}*" visible="{orderModel>/typeD}"/>
 								<ui:template>
 									<Input value="{ path : 'orderModel>campaignNum', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:14}' }" type="Text"
-										valueStateText="{i18n>ValidationMessage.campainNum}" placeholder="{i18n>Placeholder.campainNum}" visible="{= ${orderModel>/typeD} === 'true' ? 'true' : ${{orderModel>/typeCPOR1} === 'true' ? 'true' : 'false'}}"
+										valueStateText="{i18n>ValidationMessage.campainNum}" placeholder="{i18n>Placeholder.campainNum}" visible="{orderModel>/typeD}"
 										enabled="{orderModel>/typeD}" required='true' valueState="None" change='onCampOpVINChange' />
 								</ui:template>
 							</ui:Column>
@@ -128,12 +128,12 @@
 								</ui:template>
 							</ui:Column>
 							<!--<Icon src="{= ${orderModel>/typeD} === 'true' ? 'true' : ${{orderModel>/typeCPOR1} === 'true' ? 'true' : 'false'}"/>-->
-							<ui:Column width="{sizeModel>/remVin}" visible="{= ${orderModel>/typeD} === 'true' ? 'true' : ${{orderModel>/typeCPOR1} === 'true' ? 'true' : 'false'}" id="Vin" sortProperty="Vin">
+							<ui:Column width="{sizeModel>/remVin}" visible="{orderModel>/typeD}" id="Vin" sortProperty="Vin">
 								<!--<ui:Column width="11rem" visible="{orderModel>/typeD}">-->
-								<Label text="{i18n>Lable.CreateOrder.vin}*" visible="{= ${orderModel>/typeD} === 'true' ? 'true' : ${{orderModel>/typeCPOR1} === 'true' ? 'true' : 'false'}"/>
+								<Label text="{i18n>Lable.CreateOrder.vin}*" visible="{orderModel>/typeD}"/>
 								<ui:template>
 									<Input type="Text" value="{ path: 'orderModel>vin', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:35}' }"
-										valueStateText="{i18n>ValidationMessage.vinNum}" placeholder="{i18n>Placeholder.vinNum}" visible="{= ${orderModel>/typeD} === 'true' ? 'true' : ${{orderModel>/typeCPOR1} === 'true' ? 'true' : 'false'}"
+										valueStateText="{i18n>ValidationMessage.vinNum}" placeholder="{i18n>Placeholder.vinNum}" visible="{orderModel>/typeD}"
 										enabled="{orderModel>/typeD}" required='true' valueState="None" change='onCampOpVINChange'/>
 								</ui:template>
 							</ui:Column>
