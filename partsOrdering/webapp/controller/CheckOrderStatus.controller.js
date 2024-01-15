@@ -1162,7 +1162,7 @@ sap.ui.define([
 								if (!!oData) {
 									console.log(oData);
 									var CancelReasonModel = new JSONModel();
-									CancelReasonModel.setData(oData);
+									CancelReasonModel.setData(oData.results);
 								} else {
 									console.log("error");
 								}

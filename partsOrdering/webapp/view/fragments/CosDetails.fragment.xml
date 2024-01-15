@@ -81,10 +81,9 @@
 							<Label text="{i18n>CancelReason}"/>
 							<!--<Text text="Success"/>-->
 							<ComboBox showSecondaryValues="true" required="true" fieldGroupIds="requiredField" filterSecondaryValues="true" visible="false" id="idCancelReason"
-								items="{path: 'CancelReasonModel>/', sorter: { path: 'DESCRIPTION' }, length:750 }"
+								items="{path: 'CancelReasonModel>/DESCRIPTION'}"
 								showValueStateMessage="false" textAlign="Begin" width="15%">
-								<core:ListItem key="{CancelReasonModel>DESCRIPTION}" text="{CancelReasonModel>DESCRIPTION}"
-									additionalText="{CancelReasonModel>DESCRIPTION}"></core:ListItem>
+								<core:ListItem key="{CancelReasonModel>DESCRIPTION}" text="{CancelReasonModel>DESCRIPTION}"></core:ListItem>
 							</ComboBox>
 						</VBox>
 						<!--changes by Swetha for DMND0003930 added Cancel button-->
