@@ -176,8 +176,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var orderType = oEvent.getParameter("arguments").orderType;
 			var orderNum = oEvent.getParameter("arguments").orderNum;
 			var CONTRACT_NUM = sap.ui.getCore().getModel("APP_STATE_MODEL").getProperty("/selectedOrderMeta/contract_num");
-			this.getView().getModel("orderModel").getData().typeCPOR = true;
-			this.getView().getModel("orderModel").getData().typeCPOR1 = false;
+			// this.getView().getModel("orderModel").getData().typeCPOR = true;
+			// this.getView().getModel("orderModel").getData().typeCPOR1 = false;
 			//Changes by shriram
 			if (oEvent.getParameter("arguments").CPORCB == "true") {
 				if (orderType == "1" || orderType == "2") {
@@ -188,8 +188,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					sap.ui.getCore().byId("standDelButVisible").setEnabled(false);
 					this._oDialog.open();
 
-					this.getView().getModel("orderModel").getData().typeCPOR = false;
-					this.getView().getModel("orderModel").getData().typeCPOR1 = true;
+					// this.getView().getModel("orderModel").getData().typeCPOR = false;
+					// this.getView().getModel("orderModel").getData().typeCPOR1 = true;
 
 				} else {
 					if (!this._iDialog) {
@@ -198,7 +198,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					}
 					sap.ui.getCore().byId("camDelButVisible").setEnabled(false);
 					this._iDialog.open();
-					this.getView().getModel("orderModel").getData().typeCPOR = false;
+				//	this.getView().getModel("orderModel").getData().typeCPOR = false;
 				}
 			}
 
