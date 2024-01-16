@@ -1166,7 +1166,9 @@ sap.ui.define([
 									CancelReasonModel.setData(oData);
 									that.getView().setModel(CancelReasonModel,"CancelReasonModel");
 									sap.ui.getCore().setModel(CancelReasonModel,"CancelReasonModel");
+									that.getView().byId("idCancelReason").setVisible(true);
 								} else {
+									that.getView().byId("idCancelReason").setVisible(false);
 									console.log("error");
 								}
 							},
@@ -1175,7 +1177,8 @@ sap.ui.define([
 							}
 						});
 					} else {
-						this.onDialogClose();
+						that.getView().byId("idCancelReason").setVisible(false);
+						that.onDialogClose();
 					}
 				}
 			});
