@@ -107,11 +107,11 @@
 									enabled="{orderModel>/typeB}" required='false' valueState="None" change='onContractChange'/>
 							</ui:template>
 						</ui:Column>
-						<ui:Column width="{sizeModel>/remCampaignNo}" visible="{= ${orderModel>/typeD} === true || ${orderModel>/typrCPOR} ===true}" id="CampaigntNo" sortProperty="CampaignNo">
-							<Label text="{i18n>Lable.CreateOrder.CampaignNumber}*" visible="{= ${orderModel>/typeD} === true || ${orderModel>/typrCPOR} ===true}"/>
+						<ui:Column width="{sizeModel>/remCampaignNo}" visible="{= ${orderModel>/typeD} === true || ${orderModel>/typeCPOR} ===true}" id="CampaigntNo" sortProperty="CampaignNo">
+							<Label text="{i18n>Lable.CreateOrder.CampaignNumber}*" visible="{= ${orderModel>/typeD} === true || ${orderModel>/typeCPOR} ===true}"/>
 							<ui:template>
 								<Input value="{ path : 'orderModel>campaignNum', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:14}' }" type="Text"
-									valueStateText="{i18n>ValidationMessage.campainNum}" placeholder="{i18n>Placeholder.campainNum}" visible="{= ${orderModel>/typeD} === true || ${orderModel>/typrCPOR} ===true}"
+									valueStateText="{i18n>ValidationMessage.campainNum}" placeholder="{i18n>Placeholder.campainNum}" visible="{= ${orderModel>/typeD} === true || ${orderModel>/typeCPOR} ===true}"
 									enabled="{orderModel>/typeD}" required='true' valueState="None" change='onCampOpVINChange'/>
 							</ui:template>
 						</ui:Column>
