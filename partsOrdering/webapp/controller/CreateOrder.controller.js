@@ -187,7 +187,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					}
 					sap.ui.getCore().byId("standDelButVisible").setEnabled(false);
 					this._oDialog.open();
-
+					sap.ui.getCore().byId("remSPQ").setVisible(false);
+					sap.ui.getCore().byId("remComments").setVisible(false);
 					// this.getView().getModel("orderModel").getData().typeCPOR = false;
 					// this.getView().getModel("orderModel").getData().typeCPOR1 = true;
 
@@ -198,7 +199,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					}
 					sap.ui.getCore().byId("camDelButVisible").setEnabled(false);
 					this._iDialog.open();
-				//	this.getView().getModel("orderModel").getData().typeCPOR = false;
+					sap.ui.getCore().byId("remSPQ").setVisible(false);
+					sap.ui.getCore().byId("remComments").setVisible(false);
+					//	this.getView().getModel("orderModel").getData().typeCPOR = false;
 				}
 			}
 
