@@ -179,8 +179,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var CONTRACT_NUM = sap.ui.getCore().getModel("APP_STATE_MODEL").getProperty("/selectedOrderMeta/contract_num");
 			// this.getView().getModel("orderModel").getData().typeCPOR = true;
 			// this.getView().getModel("orderModel").getData().typeCPOR = false;
-			this.getView().byId("remSPQ").setVisible(true);
-			this.getView().byId("remComments").setVisible(true);
+			// this.getView().byId("remSPQ").setVisible(true);
+			// this.getView().byId("remComments").setVisible(true);
 				//				var orderData = { typeB: false, typeD:false };
 			var orderData = this.initLocalModels(orderType, orderNum.trim(), CONTRACT_NUM);
 			var model = new sap.ui.model.json.JSONModel();
@@ -201,8 +201,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					}
 					sap.ui.getCore().byId("standDelButVisible").setEnabled(false);
 					this._oDialog.open();
-					this.getView().byId("remSPQ").setVisible(false);
-					this.getView().byId("remComments").setVisible(false);
+					// this.getView().byId("remSPQ").setVisible(false);
+					// this.getView().byId("remComments").setVisible(false);
 					// this.getView().getModel("stanrushModel").setProperty("/typeCPOR",true);
 					this.getView().getModel("orderModel").getData().typeCPOR = true;
 					// this.getView().getModel("orderModel").getData().typeCPOR1 = true;
@@ -214,8 +214,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					}
 					sap.ui.getCore().byId("camDelButVisible").setEnabled(false);
 					this._iDialog.open();
-					this.getView().byId("remSPQ").setVisible(false);
-					this.getView().byId("remComments").setVisible(false);
+					// this.getView().byId("remSPQ").setVisible(false);
+					// this.getView().byId("remComments").setVisible(false);
 					//	this.getView().getModel("orderModel").getData().typeCPOR = false;
 				}
 			}
