@@ -84,7 +84,7 @@
 								<!--	</VBox>{orderModel>/typeCPOR}-->
 							</ui:template>
 						</ui:Column>
-						<ui:Column width="{sizeModel>/remSPQ} id="remSPQ">
+						<ui:Column width="{sizeModel>/remSPQ}" id="remSPQ">
 							<Label text="{i18n>Lable.CreateOrder.SPQ}"/>
 							<ui:template >
 								<!--	<Text text="{ path: 'orderModel>spq', formatter:'.formatter.spqFormat'}"/>-->
@@ -135,7 +135,7 @@
 									enabled="{orderModel>/typeD}" required='true' valueState="None" change='onCampOpVINChange'/>
 							</ui:template>
 						</ui:Column>
-						<ui:Column width="{sizeModel>/remComments} id="remComments">
+						<ui:Column width="{sizeModel>/remComments}" id="remComments">
 							<Label text="{i18n>Lable.CreateOrder.Comment}"/>
 							<ui:template>
 								<TextArea value="{orderModel>comment}" rows="1" placeholder="{i18n>Placeholder.comment}" tooltip="{orderModel>comment}"
