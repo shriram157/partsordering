@@ -192,7 +192,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					this._oDialog.open();
 					this.getView().byId("remSPQ").setVisible(false);
 					this.getView().byId("remComments").setVisible(false);
-					this.getView().getModel("stanrushModel").setProperty("typeCPOR",true);
+					this.getView().getModel("stanrushModel").setProperty("/typeCPOR",true);
 					// this.getView().getModel("orderModel").getData().typeCPOR = false;
 					// this.getView().getModel("orderModel").getData().typeCPOR1 = true;
 
