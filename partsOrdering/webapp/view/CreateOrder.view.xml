@@ -85,11 +85,11 @@
 									<!--	</VBox>{orderModel>/typeCPOR}-->
 								</ui:template>
 							</ui:Column>
-							<ui:Column width="{sizeModel>/remSPQ}" visible="">
-								<Label text="{i18n>Lable.CreateOrder.SPQ}" visible=""/>
+							<ui:Column width="{sizeModel>/remSPQ}">
+								<Label text="{i18n>Lable.CreateOrder.SPQ}"/>
 								<ui:template >
 								<!--	<Text text="{ path: 'orderModel>spq', formatter:'.formatter.spqFormat'}"/>-->
-								<Text text="{orderModel>spq}" visible=""/>
+								<Text text="{orderModel>spq}"/>
 								</ui:template>
 							</ui:Column>
 							<ui:Column width="{sizeModel>/remQty}">
@@ -137,11 +137,11 @@
 										enabled="{orderModel>/typeD}" required='true' valueState="None" change='onCampOpVINChange'/>
 								</ui:template>
 							</ui:Column>
-							<ui:Column width="{sizeModel>/remComments}" visible="">
-								<Label text="{i18n>Lable.CreateOrder.Comment}" visible=""/>
+							<ui:Column width="{sizeModel>/remComments}" >
+								<Label text="{i18n>Lable.CreateOrder.Comment}"/>
 								<ui:template>
 									<TextArea value="{orderModel>comment}" rows="1" placeholder="{i18n>Placeholder.comment}" tooltip="{orderModel>comment}"
-										width="{sizeModel>/remCommentsPx}" change="onCommentChange" maxLength="150" visible="{orderModel>/typeCPOR}" ></TextArea>
+										width="{sizeModel>/remCommentsPx}" change="onCommentChange" maxLength="150" ></TextArea>
 								</ui:template>
 							</ui:Column>
 							<ui:Column id="ErrorStatus" width="4.5rem">
