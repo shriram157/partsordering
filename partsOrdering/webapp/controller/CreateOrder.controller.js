@@ -445,8 +445,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			// 	'x-ibm-client-secret': '10dd48f9-f090-4b06-bf4e-dc4d8817e25d',
 			// 	'x-ibm-client-id': 'j418Q~d2kIVPnOZ.dkhq0ENlrzbBFHuWk~oxqb_1',
 			// var oURL = "/naqp/campaign/parts-details/v1/";
-			// var oURL = "TMNA/naqp/campaign/parts-details/v1/";
-			var oURL="https://dev.api-int.naqp.toyota.com/naqp/campaign/parts-details/v1";
+			var oURL = "TMNA/naqp/campaign/parts-details/v1/";
+			// var oURL="https://dev.api-int.naqp.toyota.com/naqp/campaign/parts-details/v1";
 			$.ajax({
 				type: 'POST',
 				url: oURL,
@@ -454,10 +454,10 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				data: JSON.stringify(dataString),
 				dataType: 'json',
 				//	content-type: 'application/json',
-				beforeSend: function (xhr) {
-					xhr.setRequestHeader("Authorization", "Basic " + btoa("10dd48f9-f090-4b06-bf4e-dc4d8817e25d" + ":" +
-						"j418Q~d2kIVPnOZ.dkhq0ENlrzbBFHuWk~oxqb_1"));
-				},
+				// beforeSend: function (xhr) {
+				// 	xhr.setRequestHeader("Authorization", "Basic " + btoa("10dd48f9-f090-4b06-bf4e-dc4d8817e25d" + ":" +
+				// 		"j418Q~d2kIVPnOZ.dkhq0ENlrzbBFHuWk~oxqb_1"));
+				// },
 
 				headers: {
 					// "X-CSRF-Token": this._fetchToken(),
