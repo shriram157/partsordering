@@ -181,6 +181,17 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			// this.getView().getModel("orderModel").getData().typeCPOR = false;
 			this.getView().byId("remSPQ").setVisible(true);
 			this.getView().byId("remComments").setVisible(true);
+				//				var orderData = { typeB: false, typeD:false };
+			var orderData = this.initLocalModels(orderType, orderNum.trim(), CONTRACT_NUM);
+			var model = new sap.ui.model.json.JSONModel();
+
+			this.setModel(new JSONModel(), "materialSuggestionModel");
+			this._materialSuggestionModel = this.getModel("materialSuggestionModel");
+
+			this._resetValueStateOfRows();
+
+			model.setData(orderData);
+			this.setModel(model, CONT_ORDER_MODEL);
 			//Changes by shriram
 			if (oEvent.getParameter("arguments").CPORCB == "true") {
 				if (orderType == "1" || orderType == "2") {
@@ -192,8 +203,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					this._oDialog.open();
 					this.getView().byId("remSPQ").setVisible(false);
 					this.getView().byId("remComments").setVisible(false);
-					this.getView().getModel("stanrushModel").setProperty("/typeCPOR",true);
-					// this.getView().getModel("orderModel").getData().typeCPOR = false;
+					// this.getView().getModel("stanrushModel").setProperty("/typeCPOR",true);
+					this.getView().getModel("orderModel").getData().typeCPOR = true;
 					// this.getView().getModel("orderModel").getData().typeCPOR1 = true;
 
 				} else {
@@ -211,17 +222,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 			//Changes by shriram
 
-			//				var orderData = { typeB: false, typeD:false };
-			var orderData = this.initLocalModels(orderType, orderNum.trim(), CONTRACT_NUM);
-			var model = new sap.ui.model.json.JSONModel();
-
-			this.setModel(new JSONModel(), "materialSuggestionModel");
-			this._materialSuggestionModel = this.getModel("materialSuggestionModel");
-
-			this._resetValueStateOfRows();
-
-			model.setData(orderData);
-			this.setModel(model, CONT_ORDER_MODEL);
+		
 			this.oOrderModel = this.getModel(CONT_ORDER_MODEL);
 
 			this.bIsSalesOrder = this.oOrderModel.getProperty('/isSalesOrder');
