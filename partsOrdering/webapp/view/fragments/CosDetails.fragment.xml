@@ -80,7 +80,7 @@
 						<VBox width='100px'>
 							<!--<Label text="{i18n>CancelReason}"/>-->
 							<!--<Text text="Success"/>-->
-							<ComboBox showSecondaryValues="true" required="true" fieldGroupIds="requiredField" filterSecondaryValues="true" id="idCancelReason"
+							<ComboBox showSecondaryValues="true" filterSecondaryValues="true" id="idCancelReason"
 								items="{path: 'CancelReasonModel>/results'}" showValueStateMessage="false" textAlign="Begin" width="200%" placeholder="Cancellation Reason">
 								<core:Item text="{CancelReasonModel>DESCRIPTION}"/>
 								<!--<core:ListItem key="{CancelReasonModel>DESCRIPTION}" text="{CancelReasonModel>DESCRIPTION}"></core:ListItem>-->
