@@ -1177,7 +1177,7 @@ sap.ui.define([
 							}
 						});
 					} else {
-						that.getView().byId("idCancelReason").setVisible(false);
+						sap.ui.getCore().byId("idCancelReason").setVisible(false);
 						that.onDialogClose();
 					}
 				}
