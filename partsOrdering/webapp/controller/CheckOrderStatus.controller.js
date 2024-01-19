@@ -1177,9 +1177,6 @@ sap.ui.define([
 						var rejecvalue= sap.ui.getCore().getModel("CancelReasonModel").oData.results[i].VALUE;
 						return rejecvalue;
 					}
-					else {
-						console.log("wrong");
-					}
 				}
 			}
 			var ordnumber = sap.ui.getCore().getModel("aModel").oData.TCI_order_no;
