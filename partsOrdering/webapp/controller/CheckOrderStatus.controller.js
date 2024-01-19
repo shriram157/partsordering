@@ -1171,16 +1171,27 @@ sap.ui.define([
 			var bModel = this.getSalesOrderModel();
 			var Lan =this.getSapLangugaeFromLocal();
 			var CancelReason = sap.ui.getCore().byId("idCancelReason").getValue();
+			if(!!CancelReason) {
+				for(var i=0;i<sap.ui.getCore().getModel("CancelReasonModel").oData.results.length;i++) {
+					if (CancelReason==sap.ui.getCore().getModel("CancelReasonModel").oData.results[i].DESCRIPTION){
+						var rejecvalue= sap.ui.getCore().getModel("CancelReasonModel").oData.results[i].VALUE;
+						return rejecvalue;
+					}
+					else {
+						console.log("wrong");
+					}
+				}
+			}
 			var ordnumber = sap.ui.getCore().getModel("aModel").oData.TCI_order_no;
 			var lineitem = sap.ui.getCore().getModel("aModel").oData.TCI_itemNo;
 			var matnr = sap.ui.getCore().getModel("aModel").oData.matnr;
 			var InputFilter = new sap.ui.model.Filter({
 				filters: [
-					new sap.ui.model.Filter("language", sap.ui.model.FilterOperator.EQ, Lan),
-					new sap.ui.model.Filter("rejection reason", sap.ui.model.FilterOperator.EQ, CancelReason),
-					new sap.ui.model.Filter("order number", sap.ui.model.FilterOperator.EQ, ordnumber),
-					new sap.ui.model.Filter("line item", sap.ui.model.FilterOperator.EQ, lineitem),
-					new sap.ui.model.Filter("matnr", sap.ui.model.FilterOperator.EQ, matnr),
+					new sap.ui.model.Filter("Language", sap.ui.model.FilterOperator.EQ, Lan),
+					new sap.ui.model.Filter("Rejection_Reason", sap.ui.model.FilterOperator.EQ, rejecvalue),
+					new sap.ui.model.Filter("Order_No", sap.ui.model.FilterOperator.EQ, ordnumber),
+					new sap.ui.model.Filter("Item_No", sap.ui.model.FilterOperator.EQ, lineitem),
+					new sap.ui.model.Filter("Matnr", sap.ui.model.FilterOperator.EQ, matnr)
 				]
 			});
 			bModel.create('/ZCancel_SOSet', {
