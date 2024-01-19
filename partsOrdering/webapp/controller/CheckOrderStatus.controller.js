@@ -653,6 +653,7 @@ sap.ui.define([
 			//this._oDetailDialog.bindElement("viewModel>" +sPath);
 			var aModel = new JSONModel();
 			aModel.setData(theData);
+			sap.ui.getCore().setModel(aModel,"aModel");     //changes by Swetha for DMND0003930 on Jan 19th, 2024
 			// call a server to get the desc
 
 			this.getMaterialDesc(theData.matnr, 0, function (index, desc) {
@@ -662,26 +663,7 @@ sap.ui.define([
 				jQuery.sap.syncStyleClass("sapUiSizeCompact", that.getView(), that._oDetailDialog);
 				that._oDetailDialog.open();
 			});
-			// //changes by Swetha for DMND003930 for close button validation
-			//  var bModel = this.getSalesOrderModel();
-			//  bModel.read('/find_soSet', {
-			// 	 success: function (oData, oResponse) {
-			// 		if (!!oData && !!oData.results) {
-			// 			if(oData.Flag!=""){
-			// 				this.getView().byId("idClose").setVisible(true);
-			// 			} else {
-			// 				this.getView().byId("idClose").setVisible(false);
-			// 			}
-			// 		} else {
-			// 			console.log("error");
-			// 		}
-			// 	},
-			// 	error: function (err) {
-			// 		console.log("error");
-			// 	}
-			// });
-			// //changes by Swetha for DMND003930 for close button validation
-
+			
 		},
 
 		cleanUpDialog: function (oEvent) {
@@ -1142,7 +1124,7 @@ sap.ui.define([
 		onCancel: function (oEvent) {
 			var that=this;
 			var bModel = this.getSalesOrderModel();
-			 var Lan =this.getSapLangugaeFromLocal();
+			var Lan =this.getSapLangugaeFromLocal();
 			// var oFilter = new Array();
 			//oFilter[0] = new sap.ui.model.Filter("LANGUAGE", sap.ui.model.FilterOperator.EQ, Lan);
 			var InputFilter = new sap.ui.model.Filter({
@@ -1182,6 +1164,38 @@ sap.ui.define([
 					}
 				}
 			});
+		},
+		//changes by Swetha for DMND0003930 on 19th Jan, 2024
+		onSelectCancelReason: function(oEvent) {
+			var that=this;
+			var bModel = this.getSalesOrderModel();
+			var Lan =this.getSapLangugaeFromLocal();
+			var CancelReason = sap.ui.getCore().byId("idCancelReason").getValue();
+			var ordnumber = this.getView().getModel("aModel").oData.TCI_order_no;
+			var lineitem = this.getView().getModel("aModel").oData.TCI_itemNo;
+			var matnr = this.getView().getModel("aModel").oData.matnr;
+			var InputFilter = new sap.ui.model.Filter({
+				filters: [
+					new sap.ui.model.Filter("language", sap.ui.model.FilterOperator.EQ, Lan),
+					new sap.ui.model.Filter("rejection reason", sap.ui.model.FilterOperator.EQ, CancelReason),
+					new sap.ui.model.Filter("order number", sap.ui.model.FilterOperator.EQ, ordnumber),
+					new sap.ui.model.Filter("line item", sap.ui.model.FilterOperator.EQ, lineitem),
+					new sap.ui.model.Filter("matnr", sap.ui.model.FilterOperator.EQ, matnr),
+				]
+			});
+			bModel.create('/ZCancel_SOSet', {
+				filters:InputFilter.aFilters,
+				success: function (oData, oResponse) {
+					console.log(oData);
+				},
+				error: function (oError) {
+					var err = oError;
+					console.log(err);
+				}
+			});
 		}
+		// onPressSave: function() {
+			
+		// }
 	});
 });

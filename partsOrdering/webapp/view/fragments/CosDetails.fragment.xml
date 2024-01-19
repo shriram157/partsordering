@@ -5,6 +5,7 @@
 		<!--changes by swetha for U42 replication same as QA-->
 		<beginButton>
 			<Button text="{i18n>Label.CheckOrder.Button.Close}" press='onDialogClose'/>
+			<Button text="Save" press='onPressSave'/>     <!--changes by swetha for DMND0003930 on 19th Jan, 2024-->
 		</beginButton>
 		<content>
 			<ObjectHeader id="topPageHeader" responsive="true" fullScreenOptimized="false" iconDensityAware="false" icon="images/car.png"
@@ -77,11 +78,12 @@
 							<Button text="{i18n>Cancel}" id="idCancel" type="Emphasized" width="70px" visible="{=${/Flag} === '' ? false : true}" press="onCancel"/>
 						</VBox>
 						<ToolbarSeparator/>
-						<VBox width='100px'>
+						<VBox width='200px'>
 							<!--<Label text="{i18n>CancelReason}"/>-->
 							<!--<Text text="Success"/>-->
 							<ComboBox showSecondaryValues="true" filterSecondaryValues="true" id="idCancelReason"
-								items="{path: 'CancelReasonModel>/results'}" visible="false" showValueStateMessage="false" textAlign="Begin" width="200%" placeholder="Cancellation Reason">
+								items="{path: 'CancelReasonModel>/results'}" visible="false" showValueStateMessage="false" textAlign="Begin" placeholder="Cancellation Reason"
+								selectionChange="onSelectCancelReason">
 								<core:Item text="{CancelReasonModel>DESCRIPTION}"/>
 								<!--<core:ListItem key="{CancelReasonModel>DESCRIPTION}" text="{CancelReasonModel>DESCRIPTION}"></core:ListItem>-->
 								<!--items="{path: 'CancelReasonModel>/'}"-->
