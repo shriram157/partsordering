@@ -1175,7 +1175,7 @@ sap.ui.define([
 				for(var i=0;i<sap.ui.getCore().getModel("CancelReasonModel").oData.results.length;i++) {
 					if (CancelReason==sap.ui.getCore().getModel("CancelReasonModel").oData.results[i].DESCRIPTION){
 						var rejecvalue= sap.ui.getCore().getModel("CancelReasonModel").oData.results[i].VALUE;
-						return rejecvalue;
+					//	return rejecvalue;
 					}
 				}
 			}
