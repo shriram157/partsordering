@@ -1171,9 +1171,9 @@ sap.ui.define([
 			var bModel = this.getSalesOrderModel();
 			var Lan =this.getSapLangugaeFromLocal();
 			var CancelReason = sap.ui.getCore().byId("idCancelReason").getValue();
-			var ordnumber = this.getView().getModel("aModel").oData.TCI_order_no;
-			var lineitem = this.getView().getModel("aModel").oData.TCI_itemNo;
-			var matnr = this.getView().getModel("aModel").oData.matnr;
+			var ordnumber = sap.ui.getCore().getModel("aModel").oData.TCI_order_no;
+			var lineitem = sap.ui.getCore().getModel("aModel").oData.TCI_itemNo;
+			var matnr = sap.ui.getCore().getModel("aModel").oData.matnr;
 			var InputFilter = new sap.ui.model.Filter({
 				filters: [
 					new sap.ui.model.Filter("language", sap.ui.model.FilterOperator.EQ, Lan),

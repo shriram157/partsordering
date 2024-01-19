@@ -5,7 +5,7 @@
 		<!--changes by swetha for U42 replication same as QA-->
 		<beginButton>
 			<Button text="{i18n>Label.CheckOrder.Button.Close}" press='onDialogClose'/>
-			<Button text="Save" press='onPressSave'/>     <!--changes by swetha for DMND0003930 on 19th Jan, 2024-->
+			<!--<Button text="Save" press='onPressSave'/> -->    <!--changes by swetha for DMND0003930 on 19th Jan, 2024-->
 		</beginButton>
 		<content>
 			<ObjectHeader id="topPageHeader" responsive="true" fullScreenOptimized="false" iconDensityAware="false" icon="images/car.png"
