@@ -1179,20 +1179,26 @@ sap.ui.define([
 					}
 				}
 			}
-			var ordnumber = sap.ui.getCore().getModel("aModel").oData.TCI_order_no;
-			var lineitem = sap.ui.getCore().getModel("aModel").oData.TCI_itemNo;
-			var matnr = sap.ui.getCore().getModel("aModel").oData.matnr;
-			var InputFilter = new sap.ui.model.Filter({
-				filters: [
-					new sap.ui.model.Filter("Language", sap.ui.model.FilterOperator.EQ, Lan),
-					new sap.ui.model.Filter("Rejection_Reason", sap.ui.model.FilterOperator.EQ, rejecvalue),
-					new sap.ui.model.Filter("Order_No", sap.ui.model.FilterOperator.EQ, ordnumber),
-					new sap.ui.model.Filter("Item_No", sap.ui.model.FilterOperator.EQ, lineitem),
-					new sap.ui.model.Filter("Matnr", sap.ui.model.FilterOperator.EQ, matnr)
-				]
-			});
-			bModel.create('/ZCancel_SOSet', {
-				filters:InputFilter.aFilters,
+			// var ordnumber = sap.ui.getCore().getModel("aModel").oData.TCI_order_no;
+			// var lineitem = sap.ui.getCore().getModel("aModel").oData.TCI_itemNo;
+			// var matnr = sap.ui.getCore().getModel("aModel").oData.matnr;
+			// var InputFilter = new sap.ui.model.Filter({
+			// 	filters: [
+			// 		new sap.ui.model.Filter("Language", sap.ui.model.FilterOperator.EQ, Lan),
+			// 		new sap.ui.model.Filter("Rejection_Reason", sap.ui.model.FilterOperator.EQ, rejecvalue),
+			// 		new sap.ui.model.Filter("Order_No", sap.ui.model.FilterOperator.EQ, ordnumber),
+			// 		new sap.ui.model.Filter("Item_No", sap.ui.model.FilterOperator.EQ, lineitem),
+			// 		new sap.ui.model.Filter("Matnr", sap.ui.model.FilterOperator.EQ, matnr)
+			// 	]
+			// });
+			var obj={};
+			obj.Language=Lan;
+			obj.Rejection_Reason=rejecvalue;
+			obj.Order_No= sap.ui.getCore().getModel("aModel").oData.TCI_order_no;
+			obj.Item_No=sap.ui.getCore().getModel("aModel").oData.TCI_itemNo;
+			ob.Matnr=sap.ui.getCore().getModel("aModel").oData.matnr;
+			bModel.create('/ZCancel_SOSet',obj, {
+				//filters:InputFilter.aFilters,
 				success: function (oData, oResponse) {
 					console.log(oData);
 				},
