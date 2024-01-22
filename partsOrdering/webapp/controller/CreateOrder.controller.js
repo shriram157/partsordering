@@ -200,6 +200,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						this.getView().addDependent(this._oDialog);
 					}
 					sap.ui.getCore().byId("standDelButVisible").setEnabled(false);
+					this.getView().byId("btnImpOrd").setVisible(false);                 //changes by Swetha for DMND0004095 on 22nd Jan, 2024
 					this._oDialog.open();
 					// this.getView().byId("remSPQ").setVisible(false);
 					// this.getView().byId("remComments").setVisible(false);
@@ -213,6 +214,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						this.getView().addDependent(this._iDialog);
 					}
 					sap.ui.getCore().byId("camDelButVisible").setEnabled(false);
+					this.getView().byId("btnImpOrd").setVisible(false);              //changes by Swetha for DMND0004095 on 22nd Jan, 2024
 					this._iDialog.open();
 					// this.getView().byId("remSPQ").setVisible(false);
 					// this.getView().byId("remComments").setVisible(false);
