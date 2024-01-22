@@ -1196,7 +1196,7 @@ sap.ui.define([
 			obj.Rejection_Reason=rejecvalue;
 			obj.Order_No= sap.ui.getCore().getModel("aModel").oData.TCI_order_no;
 			obj.Item_No=sap.ui.getCore().getModel("aModel").oData.TCI_itemNo;
-			ob.Matnr=sap.ui.getCore().getModel("aModel").oData.matnr;
+			obj.Matnr=sap.ui.getCore().getModel("aModel").oData.matnr;
 			bModel.create('/ZCancel_SOSet',obj, {
 				//filters:InputFilter.aFilters,
 				success: function (oData, oResponse) {
