@@ -169,7 +169,7 @@
 				<ToolbarSpacer/>
 				<!--	<DraftIndicator id='draftInd'/>-->
 				<ToolbarSpacer/>
-				<Button type="Transparent" text="{i18n>Button.CreateOrder.ImportOrder}" class="size2" press='onImport'/>
+				<Button type="Transparent" text="{i18n>Button.CreateOrder.ImportOrder}" class="size2" press='onImport' visible="{= ${orderModel>/typeCPOR} === false}"/> <!--changes by Swetha for DMND0004095 on 22nd Jan, 2024-->
 				<Button type="Transparent" text="{i18n>Button.CreateOrder.ExportOrder}" class="size2" press='onExport'/>
 				<Button type="Reject" text="{i18n>Button.CreateOrder.DeleteOrder}" class="size2" press='onDelete'/>
 				<Button type="Accept" text="{i18n>Button.CreateOrder.SubmitOrder}" class="size2" press='onActivate' id="btnSubmit" visible="false"/>
