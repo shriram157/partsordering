@@ -221,7 +221,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					//	this.getView().getModel("orderModel").getData().typeCPOR = false;
 				}
 			} else {
-				this.getView().byId("btnImpOrd").setVisible(true);                 //changes by Swetha for DMND0004095 on 22nd Jan, 2024
+				if(orderType != "3"){
+					this.getView().byId("btnImpOrd").setVisible(true);                 //changes by Swetha for DMND0004095 on 23rd Jan, 2024
+				} else {
+					this.getView().byId("btnImpOrd").setVisible(false);                 //changes by Swetha for DMND0004095 on 23rd Jan, 2024
+				}
+				
 			}
 
 			//Changes by shriram
