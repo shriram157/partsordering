@@ -1189,9 +1189,8 @@ sap.ui.define([
 								console.log(err);
 							}
 						});
-						else {
-							that.onDialogClose();
-						}
+					} else {
+						that.onDialogClose();
 					}
 				}
 			});
