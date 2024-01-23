@@ -82,7 +82,7 @@
 							<!--<Label text="{i18n>CancelReason}"/>-->
 							<!--<Text text="Success"/>-->
 							<ComboBox showSecondaryValues="true" filterSecondaryValues="true" id="idCancelReason"
-								items="{path: 'CancelReasonModel>/results'}" visible="false" showValueStateMessage="false" textAlign="Begin" placeholder="Cancellation Reason">
+								items="{path: 'CancelReasonModel>/results'}" visible="false" showValueStateMessage="false" textAlign="Begin" placeholder="Cancellation Reason" selectionChange="onSelectCancelReason">
 								<core:Item text="{CancelReasonModel>DESCRIPTION}"/>
 								<!--<core:ListItem key="{CancelReasonModel>DESCRIPTION}" text="{CancelReasonModel>DESCRIPTION}"></core:ListItem>       	selectionChange="onSelectCancelReason"-->
 								<!--items="{path: 'CancelReasonModel>/'}"-->
@@ -213,9 +213,5 @@
 				</items>
 			</Table>
 		</content>
-		<!--changes by Swetha for DMND0003930 on Jan 22nd, 2024-->
-		<buttons>
-			<Button text="{i18n>Save}" press='onSelectCancelReason'/>
-		</buttons>
 	</Dialog>
 </core:FragmentDefinition>

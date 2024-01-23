@@ -653,7 +653,7 @@ sap.ui.define([
 			//this._oDetailDialog.bindElement("viewModel>" +sPath);
 			var aModel = new JSONModel();
 			aModel.setData(theData);
-			sap.ui.getCore().setModel(aModel,"aModel");     //changes by Swetha for DMND0003930 on Jan 19th, 2024
+			sap.ui.getCore().setModel(aModel, "aModel"); //changes by Swetha for DMND0003930 on Jan 19th, 2024
 			// call a server to get the desc
 
 			this.getMaterialDesc(theData.matnr, 0, function (index, desc) {
@@ -663,7 +663,7 @@ sap.ui.define([
 				jQuery.sap.syncStyleClass("sapUiSizeCompact", that.getView(), that._oDetailDialog);
 				that._oDetailDialog.open();
 			});
-			
+
 		},
 
 		cleanUpDialog: function (oEvent) {
@@ -1122,16 +1122,56 @@ sap.ui.define([
 			}
 		},
 		onCancel: function (oEvent) {
-			var that=this;
+			var that = this;
 			var bModel = this.getSalesOrderModel();
-			var Lan =this.getSapLangugaeFromLocal();
+			var Lan = this.getSapLangugaeFromLocal();
 			// var oFilter = new Array();
 			//oFilter[0] = new sap.ui.model.Filter("LANGUAGE", sap.ui.model.FilterOperator.EQ, Lan);
 			var InputFilter = new sap.ui.model.Filter({
-					filters: [
-						new sap.ui.model.Filter("LANGUAGE", sap.ui.model.FilterOperator.EQ, Lan)
-					]
-				});
+				filters: [
+					new sap.ui.model.Filter("LANGUAGE", sap.ui.model.FilterOperator.EQ, Lan)
+				]
+			});
+			bModel.read('/zc_cancel_reasonSet', {
+				filters: InputFilter.aFilters,
+				success: function (oData, oResponse) {
+					if (!!oData) {
+						console.log(oData);
+						var CancelReasonModel = new JSONModel();
+						CancelReasonModel.setData(oData);
+						that.getView().setModel(CancelReasonModel, "CancelReasonModel");
+						sap.ui.getCore().setModel(CancelReasonModel, "CancelReasonModel");
+						sap.ui.getCore().byId("idCancelReason").setVisible(true);
+					} else {
+						sap.ui.getCore().byId("idCancelReason").setVisible(false);
+						console.log("error");
+					}
+				},
+				error: function (err) {
+					console.log("error");
+				}
+			});
+		},
+		//changes by Swetha for DMND0003930 on 19th Jan, 2024
+		onSelectCancelReason: function (oEvent) {
+			var that = this;
+			var bModel = this.getSalesOrderModel();
+			var Lan = this.getSapLangugaeFromLocal();
+			var CancelReason = sap.ui.getCore().byId("idCancelReason").getValue();
+			if (!!CancelReason) {
+				for (var i = 0; i < sap.ui.getCore().getModel("CancelReasonModel").oData.results.length; i++) {
+					if (CancelReason == sap.ui.getCore().getModel("CancelReasonModel").oData.results[i].DESCRIPTION) {
+						var rejecvalue = sap.ui.getCore().getModel("CancelReasonModel").oData.results[i].VALUE;
+						//	return rejecvalue;
+					}
+				}
+			}
+			var obj = {};
+			obj.Language = Lan;
+			obj.Rejection_Reason = rejecvalue;
+			obj.Order_No = sap.ui.getCore().getModel("aModel").oData.TCI_order_no;
+			obj.Item_No = sap.ui.getCore().getModel("aModel").oData.TCI_itemNo;
+			obj.Matnr = sap.ui.getCore().getModel("aModel").oData.matnr;
 			MessageBox.show("Are you sure you want to cancel?", {
 				// icon: MessageBox.Icon.INFORMATION,
 				// title: "",
@@ -1139,77 +1179,22 @@ sap.ui.define([
 				onClose: function (oAction) {
 					if (oAction == "YES") {
 						console.log("Successful");
-						bModel.read('/zc_cancel_reasonSet', {
-							filters:InputFilter.aFilters,
+						bModel.create('/ZCancel_SO', obj, {
+							//filters:InputFilter.aFilters,
 							success: function (oData, oResponse) {
-								if (!!oData) {
-									console.log(oData);
-									var CancelReasonModel = new JSONModel();
-									CancelReasonModel.setData(oData);
-									that.getView().setModel(CancelReasonModel,"CancelReasonModel");
-									sap.ui.getCore().setModel(CancelReasonModel,"CancelReasonModel");
-								    sap.ui.getCore().byId("idCancelReason").setVisible(true);
-								} else {
-								    sap.ui.getCore().byId("idCancelReason").setVisible(false);
-									console.log("error");
-								}
+								console.log(oData);
 							},
-							error: function (err) {
-								console.log("error");
+							error: function (oError) {
+								var err = oError;
+								console.log(err);
 							}
 						});
-					} else {
-						sap.ui.getCore().byId("idCancelReason").setVisible(false);
-						that.onDialogClose();
+						else {
+							that.onDialogClose();
+						}
 					}
-				}
-			});
-		},
-		//changes by Swetha for DMND0003930 on 19th Jan, 2024
-		onSelectCancelReason: function(oEvent) {
-			var that=this;
-			var bModel = this.getSalesOrderModel();
-			var Lan =this.getSapLangugaeFromLocal();
-			var CancelReason = sap.ui.getCore().byId("idCancelReason").getValue();
-			if(!!CancelReason) {
-				for(var i=0;i<sap.ui.getCore().getModel("CancelReasonModel").oData.results.length;i++) {
-					if (CancelReason==sap.ui.getCore().getModel("CancelReasonModel").oData.results[i].DESCRIPTION){
-						var rejecvalue= sap.ui.getCore().getModel("CancelReasonModel").oData.results[i].VALUE;
-					//	return rejecvalue;
-					}
-				}
-			}
-			// var ordnumber = sap.ui.getCore().getModel("aModel").oData.TCI_order_no;
-			// var lineitem = sap.ui.getCore().getModel("aModel").oData.TCI_itemNo;
-			// var matnr = sap.ui.getCore().getModel("aModel").oData.matnr;
-			// var InputFilter = new sap.ui.model.Filter({
-			// 	filters: [
-			// 		new sap.ui.model.Filter("Language", sap.ui.model.FilterOperator.EQ, Lan),
-			// 		new sap.ui.model.Filter("Rejection_Reason", sap.ui.model.FilterOperator.EQ, rejecvalue),
-			// 		new sap.ui.model.Filter("Order_No", sap.ui.model.FilterOperator.EQ, ordnumber),
-			// 		new sap.ui.model.Filter("Item_No", sap.ui.model.FilterOperator.EQ, lineitem),
-			// 		new sap.ui.model.Filter("Matnr", sap.ui.model.FilterOperator.EQ, matnr)
-			// 	]
-			// });
-			var obj={};
-			obj.Language=Lan;
-			obj.Rejection_Reason=rejecvalue;
-			obj.Order_No= sap.ui.getCore().getModel("aModel").oData.TCI_order_no;
-			obj.Item_No=sap.ui.getCore().getModel("aModel").oData.TCI_itemNo;
-			obj.Matnr=sap.ui.getCore().getModel("aModel").oData.matnr;
-			bModel.create('/ZCancel_SO',obj, {
-				//filters:InputFilter.aFilters,
-				success: function (oData, oResponse) {
-					console.log(oData);
-				},
-				error: function (oError) {
-					var err = oError;
-					console.log(err);
 				}
 			});
 		}
-		// onPressSave: function() {
-			
-		// }
 	});
 });
