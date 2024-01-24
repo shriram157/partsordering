@@ -96,7 +96,7 @@
 							<ui:template>
 								<Input type="Number" valueStateText="{i18n>ValidationMessage.qty}" required='true'
 									value="{ path: 'orderModel>qty', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:7}' }" valueState="None"
-									change='onQtyChange' liveChange="checkQtyZero" enabled="{= ${{orderModel>/typeD} && ${campaignModel>/typeCPOR}===true} || ${orderModel>/typeD}}"/>
+									change='onQtyChange' liveChange="checkQtyZero"/>
 							</ui:template>
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remContractNo}" visible="{orderModel>/typeB}" id="ContractNo" sortProperty="ContractNo">
@@ -112,7 +112,7 @@
 							<ui:template>
 								<Input value="{ path : 'orderModel>campaignNum', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:14}' }" type="Text"
 									valueStateText="{i18n>ValidationMessage.campainNum}" placeholder="{i18n>Placeholder.campainNum}" visible="{= ${orderModel>/typeD} === true || ${orderModel>/typeCPOR} ===true}"
-								 enabled="{= ${{orderModel>/typeD} && ${campaignModel>/typeCPOR}===false} || ${orderModel>/typeD}}" required='true' valueState="None" change='onCampOpVINChange'/>
+								 enabled="{orderModel>/typeD}" required='true' valueState="None" change='onCampOpVINChange'/>
 							</ui:template>
 							<!--	enabled="{orderModel>/typeD}"-->
 						</ui:Column>
