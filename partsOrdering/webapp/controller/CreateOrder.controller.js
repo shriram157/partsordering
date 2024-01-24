@@ -202,11 +202,11 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					sap.ui.getCore().byId("standDelButVisible").setEnabled(false);
 					this.getView().byId("btnImpOrd").setVisible(false);                 //changes by Swetha for DMND0004095 on 22nd Jan, 2024
 					this._oDialog.open();
-					this.getView().byId("Material").setEnabled(true);
-					this.getView().byId("idremQty").setEnabled(true);
-					this.getView().byId("CampaigntNo").setEnabled(true);
-					this.getView().byId("Vin").setEnabled(true);
-					this.getView().getModel("orderModel").getData().typeCPOR = true;
+					// this.getView().byId("Material").setEnabled(true);
+					// this.getView().byId("idremQty").setEnabled(true);
+					// this.getView().byId("CampaigntNo").setEnabled(true);
+					// this.getView().byId("Vin").setEnabled(true);
+					 this.getView().getModel("orderModel").getData().typeCPOR = true;
 					
 
 				} else {
@@ -217,27 +217,27 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					sap.ui.getCore().byId("camDelButVisible").setEnabled(false);
 					this.getView().byId("btnImpOrd").setVisible(false);              //changes by Swetha for DMND0004095 on 22nd Jan, 2024
 					this._iDialog.open();
-					this.getView().byId("Material").setEnabled(false);
-					this.getView().byId("idremQty").setEnabled(true);
-					this.getView().byId("CampaigntNo").setEnabled(false);
-					this.getView().byId("Vin").setEnabled(false);
-					this.getView().byId("OperationCode").setEnabled(false);
+					// this.getView().byId("Material").setEnabled(false);
+					// this.getView().byId("idremQty").setEnabled(true);
+					// this.getView().byId("CampaigntNo").setEnabled(false);
+					// this.getView().byId("Vin").setEnabled(false);
+					// this.getView().byId("OperationCode").setEnabled(false);
 				}
 			} else {
 				if(orderType != "3"){
 					this.getView().byId("btnImpOrd").setVisible(true);                 //changes by Swetha for DMND0004095 on 23rd Jan, 2024
-					this.getView().byId("Material").setEnabled(true);
-					this.getView().byId("idremQty").setEnabled(true);
-					this.getView().byId("CampaigntNo").setEnabled(true);
-					this.getView().byId("Vin").setEnabled(true);
+					// this.getView().byId("Material").setEnabled(true);
+					// this.getView().byId("idremQty").setEnabled(true);
+					// this.getView().byId("CampaigntNo").setEnabled(true);
+					// this.getView().byId("Vin").setEnabled(true);
 					
 				} else {
 					this.getView().byId("btnImpOrd").setVisible(false);                 //changes by Swetha for DMND0004095 on 23rd Jan, 2024
-					this.getView().byId("Material").setEnabled(true);
-					this.getView().byId("idremQty").setEnabled(true);
-					this.getView().byId("CampaigntNo").setEnabled(true);
-					this.getView().byId("Vin").setEnabled(true);
-					this.getView().byId("OperationCode").setEnabled(true);
+					// this.getView().byId("Material").setEnabled(true);
+					// this.getView().byId("idremQty").setEnabled(true);
+					// this.getView().byId("CampaigntNo").setEnabled(true);
+					// this.getView().byId("Vin").setEnabled(true);
+					// this.getView().byId("OperationCode").setEnabled(true);
 				}
 				
 			}
