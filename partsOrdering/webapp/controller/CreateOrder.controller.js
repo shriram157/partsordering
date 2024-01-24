@@ -149,8 +149,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					addButtonVisible: true,
 					delButVisible: false,
 					line: 0
-				}],
-				typeCPOR:oEvent.getParameter("arguments").CPORCB           //changes by Swetha for DMND0004095
+				}]
 			});
 			sap.ui.getCore().setModel(campaignModel, "campaignModel");
 			this.getView().setModel(campaignModel, "campaignModel");
@@ -203,11 +202,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					sap.ui.getCore().byId("standDelButVisible").setEnabled(false);
 					this.getView().byId("btnImpOrd").setVisible(false);                 //changes by Swetha for DMND0004095 on 22nd Jan, 2024
 					this._oDialog.open();
-					// this.getView().byId("remSPQ").setVisible(false);
-					// this.getView().byId("remComments").setVisible(false);
-					// this.getView().getModel("stanrushModel").setProperty("/typeCPOR",true);
+					this.getView().byId("Material").setEnabled(true);
+					this.getView().byId("idremQty").setEnabled(true);
+					this.getView().byId("CampaigntNo").setEnabled(true);
+					this.getView().byId("Vin").setEnabled(true);
 					this.getView().getModel("orderModel").getData().typeCPOR = true;
-					// this.getView().getModel("orderModel").getData().typeCPOR1 = true;
+					
 
 				} else {
 					if (!this._iDialog) {
@@ -217,15 +217,27 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					sap.ui.getCore().byId("camDelButVisible").setEnabled(false);
 					this.getView().byId("btnImpOrd").setVisible(false);              //changes by Swetha for DMND0004095 on 22nd Jan, 2024
 					this._iDialog.open();
-					// this.getView().byId("remSPQ").setVisible(false);
-					// this.getView().byId("remComments").setVisible(false);
-					//	this.getView().getModel("orderModel").getData().typeCPOR = false;
+					this.getView().byId("Material").setEnabled(false);
+					this.getView().byId("idremQty").setEnabled(true);
+					this.getView().byId("CampaigntNo").setEnabled(false);
+					this.getView().byId("Vin").setEnabled(false);
+					this.getView().byId("OperationCode").setEnabled(false);
 				}
 			} else {
 				if(orderType != "3"){
 					this.getView().byId("btnImpOrd").setVisible(true);                 //changes by Swetha for DMND0004095 on 23rd Jan, 2024
+					this.getView().byId("Material").setEnabled(true);
+					this.getView().byId("idremQty").setEnabled(true);
+					this.getView().byId("CampaigntNo").setEnabled(true);
+					this.getView().byId("Vin").setEnabled(true);
+					
 				} else {
 					this.getView().byId("btnImpOrd").setVisible(false);                 //changes by Swetha for DMND0004095 on 23rd Jan, 2024
+					this.getView().byId("Material").setEnabled(true);
+					this.getView().byId("idremQty").setEnabled(true);
+					this.getView().byId("CampaigntNo").setEnabled(true);
+					this.getView().byId("Vin").setEnabled(true);
+					this.getView().byId("OperationCode").setEnabled(true);
 				}
 				
 			}
@@ -2077,7 +2089,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					CampaignCode: "",
 					delButVisible: false,
 					addButtonVisible: true,
-					line: 0,
+					line: 0
 				});
 				sap.ui.getCore().byId("standDelButVisible").setEnabled(false);
 				this.getView().getModel("stanrushModel").setProperty("/data", oOrderData);

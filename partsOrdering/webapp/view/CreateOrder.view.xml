@@ -91,7 +91,7 @@
 								<Text text="{orderModel>spq}"/>
 							</ui:template>
 						</ui:Column>
-						<ui:Column width="{sizeModel>/remQty}">
+						<ui:Column width="{sizeModel>/remQty}" id="idremQty">
 							<Label text="{i18n>Lable.CreateOrder.Order}*"/>
 							<ui:template>
 								<Input type="Number" valueStateText="{i18n>ValidationMessage.qty}" required='true'
@@ -112,9 +112,9 @@
 							<ui:template>
 								<Input value="{ path : 'orderModel>campaignNum', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:14}' }" type="Text"
 									valueStateText="{i18n>ValidationMessage.campainNum}" placeholder="{i18n>Placeholder.campainNum}" visible="{= ${orderModel>/typeD} === true || ${orderModel>/typeCPOR} ===true}"
-									enabled="{= ${orderModel>/typeD}===true && ${campaignModel>/typeCPOR}===false}" required='true' valueState="None" change='onCampOpVINChange'/>
+									 required='true' valueState="None" change='onCampOpVINChange'/>
 							</ui:template>
-							<!--orderModel>/typeD-->
+							<!--enabled="{orderModel>/typeD}"-->
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remOpCode}" visible="{orderModel>/typeD}" id="OperationCode" sortProperty="OperationCode">
 							<!--<ui:Column width="11rem" visible="{orderModel>/typeD}">-->
@@ -123,8 +123,9 @@
 							<ui:template>
 								<Input value="{ path : 'orderModel>opCode', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:10}' }" type="Text"
 									valueStateText="{i18n>ValidationMessage.opCode}" visible="{orderModel>/typeD}" placeholder="{i18n>Placeholder.opCode}"
-									enabled="{orderModel>/typeD}" required="true" valueState="None" change='onCampOpVINChange'/>
+									required="true" valueState="None" change='onCampOpVINChange'/>
 							</ui:template>
+							<!--enabled="{orderModel>/typeD}" -->
 						</ui:Column>
 						<!--<Icon src="{= ${orderModel>/typeD} === 'true' ? 'true' : ${{orderModel>/typeCPOR1} === 'true' ? 'true' : 'false'}"/>-->
 						
@@ -134,8 +135,9 @@
 							<ui:template>
 								<Input type="Text" value="{ path: 'orderModel>vin', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:35}' }"
 									valueStateText="{i18n>ValidationMessage.vinNum}" placeholder="{i18n>Placeholder.vinNum}" visible="{= ${orderModel>/typeD} === true || ${orderModel>/typeCPOR} ===true}"
-									enabled="{orderModel>/typeD}" required='true' valueState="None" change='onCampOpVINChange'/>
+									 required='true' valueState="None" change='onCampOpVINChange'/>
 							</ui:template>
+							<!--enabled="{orderModel>/typeD}"-->
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remComments}" id="remComments">
 							<Label text="{i18n>Lable.CreateOrder.Comment}"/>
