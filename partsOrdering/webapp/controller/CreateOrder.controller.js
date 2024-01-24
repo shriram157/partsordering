@@ -149,7 +149,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					addButtonVisible: true,
 					delButVisible: false,
 					line: 0
-				}]
+				}],
+				typeCPOR:oEvent.getParameter("arguments").CPORCB
 			});
 			sap.ui.getCore().setModel(campaignModel, "campaignModel");
 			this.getView().setModel(campaignModel, "campaignModel");
