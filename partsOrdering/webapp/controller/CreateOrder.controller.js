@@ -149,7 +149,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					addButtonVisible: true,
 					delButVisible: false,
 					line: 0
-				}]
+				}],
+				typeCPOR:oEvent.getParameter("arguments").CPORCB           //changes by Swetha for DMND0004095
 			});
 			sap.ui.getCore().setModel(campaignModel, "campaignModel");
 			this.getView().setModel(campaignModel, "campaignModel");
@@ -2076,8 +2077,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					CampaignCode: "",
 					delButVisible: false,
 					addButtonVisible: true,
-					line: 0
-
+					line: 0,
 				});
 				sap.ui.getCore().byId("standDelButVisible").setEnabled(false);
 				this.getView().getModel("stanrushModel").setProperty("/data", oOrderData);
