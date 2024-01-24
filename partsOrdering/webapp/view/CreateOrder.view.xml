@@ -64,7 +64,7 @@
 										suggestionItemSelected="handleSuggestionItemSelected" change='handleProductChange' startSuggestion="3"
 										suggestionItems="{path: 'materialSuggestionModel>/Matsuggestions', templateShareable:true}" maxSuggestionWidth='500px' width="340px"
 										required="true" tooltip="{orderModel>partNumber}" visible="{= ${orderModel>line} === 0 || ${orderModel>line} ===''}"
-										editable="{orderModel>/PartNumV}">
+										enabled="{orderModel>/PartNumV}" editable="{orderModel>/PartNumV}">
 										<suggestionItems>
 											<core:ListItem key="{materialSuggestionModel>Material}" text="{materialSuggestionModel>Material}"
 												additionalText="{materialSuggestionModel>MaterialName}"/>
