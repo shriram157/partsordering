@@ -1,7 +1,7 @@
 {
 	"dependencies": {
-		"@sap/xsenv": "^2.2.0",
-		"@sap/xssec": "^2.2.4",
+		"@sap/xsenv": "^3.9.0",
+		"@sap/xssec": "^3.6.0",
 		"cf-nodejs-logging-support": "^3.0.13",
 		"body-parser": "^1.18.3",
 		"boom": "^2.10.1",
