@@ -209,6 +209,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					// this.getView().byId("Vin").setEnabled(true);
 					 this.getView().getModel("orderModel").getData().typeCPOR = true;
 					 this.getView().getModel("orderModel").setProperty("/PartNumV", true);
+					 this.getView().getModel("orderModel").setProperty("/QuanV", true);
+					 this.getView().getModel("orderModel").setProperty("/CampV", true);
+					 this.getView().getModel("orderModel").setProperty("/VinV", true);
 					
 
 				} else {
@@ -220,6 +223,10 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					this.getView().byId("btnImpOrd").setVisible(false);              //changes by Swetha for DMND0004095 on 22nd Jan, 2024
 					this._iDialog.open();
 					this.getView().getModel("orderModel").setProperty("/PartNumV", false);
+					this.getView().getModel("orderModel").setProperty("/QuanV", true);
+					this.getView().getModel("orderModel").setProperty("/CampV", false);
+					this.getView().getModel("orderModel").setProperty("/OpCodeV", false);
+					this.getView().getModel("orderModel").setProperty("/VinV", false);
 				//	this.getView().byId("Material").setEditable(false);
 					
 					// this.getView().byId("idremQty").setEnabled(true);
@@ -231,6 +238,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				if(orderType != "3"){
 					this.getView().byId("btnImpOrd").setVisible(true);                 //changes by Swetha for DMND0004095 on 23rd Jan, 2024
 					this.getView().getModel("orderModel").setProperty("/PartNumV", true);
+					this.getView().getModel("orderModel").setProperty("/QuanV", true);
+					this.getView().getModel("orderModel").setProperty("/CampV", true);
+					this.getView().getModel("orderModel").setProperty("/VinV", true);
 				//	 this.getView().byId("Material").setEditable(true);
 					// this.getView().byId("idremQty").setEnabled(true);
 					// this.getView().byId("CampaigntNo").setEnabled(true);
@@ -239,6 +249,10 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				} else {
 					this.getView().byId("btnImpOrd").setVisible(false);                 //changes by Swetha for DMND0004095 on 23rd Jan, 2024
 					this.getView().getModel("orderModel").setProperty("/PartNumV", true);
+					this.getView().getModel("orderModel").setProperty("/QuanV", true);
+					this.getView().getModel("orderModel").setProperty("/CampV", true);
+					this.getView().getModel("orderModel").setProperty("/OpCodeV", true);
+					this.getView().getModel("orderModel").setProperty("/VinV", true);
 					// this.getView().byId("Material").setEditable(true);
 					// this.getView().byId("idremQty").setEnabled(true);
 					// this.getView().byId("CampaigntNo").setEnabled(true);
