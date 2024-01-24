@@ -135,7 +135,7 @@
 							<ui:template>
 								<Input type="Text" value="{ path: 'orderModel>vin', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:35}' }"
 									valueStateText="{i18n>ValidationMessage.vinNum}" placeholder="{i18n>Placeholder.vinNum}" visible="{= ${orderModel>/typeD} === true || ${orderModel>/typeCPOR} ===true}"
-									enabled="{orderModel>/typeD}" required='true' valueState="None" change='onCampOpVINChange' editable="{orderModel>/VinV}"/>
+									enabled="{orderModel>/typeD || orderModel>/VinV}" required='true' valueState="None" change='onCampOpVINChange' editable="{orderModel>/VinV}"/>
 							</ui:template>
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remComments}" id="remComments">
