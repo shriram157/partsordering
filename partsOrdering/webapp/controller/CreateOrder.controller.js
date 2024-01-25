@@ -139,7 +139,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var cporModel=new sap.ui.model.json.JSONModel();
 			cporModel.setData(cporCheckBox);
 			sap.ui.getCore().setModel(cporModel,"cporModel");
-			this.getView().setModel(cporModel,"cporModel");
 			
 
 			//changes by shriram for DMND0004095 on January 5th 2024   start
