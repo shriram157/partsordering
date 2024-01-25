@@ -13,6 +13,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 	var CONT_SIZE_MODEL = 'sizeModel';
 	var CONST_IMPORT_ORDER_MODEL = 'importOrderModel';
 	var CONTRACT_NUM = "";
+	var cporCheckBox;
 
 	return BaseController.extend("tci.wave2.ui.parts.ordering.controller.CreateOrder", {
 
@@ -134,6 +135,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 			var appStateModel = this.getStateModel();
 			appStateModel.setProperty('/tabKey', 'CO');
+			cporCheckBox=oEvent.getParameter("arguments").CPORCB;
 
 			//changes by shriram for DMND0004095 on January 5th 2024   start
 			var campaignModel = new sap.ui.model.json.JSONModel({

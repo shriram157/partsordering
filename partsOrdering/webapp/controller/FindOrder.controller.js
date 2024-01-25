@@ -243,7 +243,8 @@ sap.ui.define([
 			if (obj.isSalesOrder) {
 				this.getRouter().navTo("CreateOrder", {
 					orderNum: obj.uuid,
-					orderType: '-1'
+					orderType: '-1,
+					CPORCB:cporCheckBox                              //changes by Swetha for DMND004095 on 25th Jan, 2024.
 				});
 			} else {
 				this.getRouter().navTo("CreateOrder", {
