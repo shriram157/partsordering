@@ -8,6 +8,7 @@ sap.ui.define([
 ], function (BaseController, MessagePopover, MessageItem, Link, JSONModel, formatter) {
 	"use strict";
 	var CONST_VIEW_MODEL = 'viewModel';
+	var cporCheckBox;
 	return BaseController.extend("tci.wave2.ui.parts.ordering.controller.FindOrder", {
 
 		formatter: formatter,
