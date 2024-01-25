@@ -136,6 +136,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var appStateModel = this.getStateModel();
 			appStateModel.setProperty('/tabKey', 'CO');
 			cporCheckBox=oEvent.getParameter("arguments").CPORCB;
+			sessionStorage.setItem('cporCheckBox', 'cporCheckBox');
 
 			//changes by shriram for DMND0004095 on January 5th 2024   start
 			var campaignModel = new sap.ui.model.json.JSONModel({
