@@ -475,6 +475,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
 				async: false,
 				dataType: 'json',
+				crossDomain: true,
 				data: body,
 				beforeSend: function (xhr) {
 					xhr.setRequestHeader("Authorization", "Basic " + btoa("10dd48f9-f090-4b06-bf4e-dc4d8817e25d" + ":" +
