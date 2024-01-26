@@ -529,7 +529,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					// "X-CSRF-Token": this._fetchToken(),
 					'accept': 'application/json',
 					'content-type': 'application/json',
-					'authorization': "Bearer "+this._fetchToken()
+					// 'authorization': "Bearer "+this._fetchToken()
 				},
 
 				success: function (data) {
