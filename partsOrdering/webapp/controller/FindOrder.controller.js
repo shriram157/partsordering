@@ -8,6 +8,7 @@ sap.ui.define([
 ], function (BaseController, MessagePopover, MessageItem, Link, JSONModel, formatter) {
 	"use strict";
 	var CONST_VIEW_MODEL = 'viewModel';
+	var cporCheckBox;
 	return BaseController.extend("tci.wave2.ui.parts.ordering.controller.FindOrder", {
 
 		formatter: formatter,
@@ -243,12 +244,14 @@ sap.ui.define([
 			if (obj.isSalesOrder) {
 				this.getRouter().navTo("CreateOrder", {
 					orderNum: obj.uuid,
-					orderType: '-1'
+					orderType: '-1',
+					CPORCB:sap.ui.getCore().getModel("cporModel").oData                             //changes by Swetha for DMND004095 on 25th Jan, 2024.
 				});
 			} else {
 				this.getRouter().navTo("CreateOrder", {
 					orderNum: obj.orderNumber,
-					orderType: obj.scOrderType
+					orderType: obj.scOrderType,
+					CPORCB:sap.ui.getCore().getModel("cporModel").oData
 				});
 			}
 		},

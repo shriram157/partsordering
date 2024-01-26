@@ -63,7 +63,8 @@
 									<Input value="{orderModel>partNumber}" type="Text" textFormatMode="Key" showSuggestion='true' suggest="handleSuggest"
 										suggestionItemSelected="handleSuggestionItemSelected" change='handleProductChange' startSuggestion="3"
 										suggestionItems="{path: 'materialSuggestionModel>/Matsuggestions', templateShareable:true}" maxSuggestionWidth='500px' width="340px"
-										required="true" tooltip="{orderModel>partNumber}" visible="{= ${orderModel>line} === 0 || ${orderModel>line} ===''}">
+										required="true" tooltip="{orderModel>partNumber}" visible="{= ${orderModel>line} === 0 || ${orderModel>line} ===''}"
+										 editable="{orderModel>/PartNumV}">
 										<suggestionItems>
 											<core:ListItem key="{materialSuggestionModel>Material}" text="{materialSuggestionModel>Material}"
 												additionalText="{materialSuggestionModel>MaterialName}"/>
@@ -96,7 +97,7 @@
 							<ui:template>
 								<Input type="Number" valueStateText="{i18n>ValidationMessage.qty}" required='true'
 									value="{ path: 'orderModel>qty', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:7}' }" valueState="None"
-									change='onQtyChange' liveChange="checkQtyZero"/>
+									change='onQtyChange' liveChange="checkQtyZero" editable="{orderModel>/QuanV}"/>
 							</ui:template>
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remContractNo}" visible="{orderModel>/typeB}" id="ContractNo" sortProperty="ContractNo">
@@ -112,8 +113,9 @@
 							<ui:template>
 								<Input value="{ path : 'orderModel>campaignNum', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:14}' }" type="Text"
 									valueStateText="{i18n>ValidationMessage.campainNum}" placeholder="{i18n>Placeholder.campainNum}" visible="{= ${orderModel>/typeD} === true || ${orderModel>/typeCPOR} ===true}"
-									enabled="{orderModel>/typeD}" required='true' valueState="None" change='onCampOpVINChange'/>
+								 enabled="{orderModel>/typeD || orderModel>/CampV}" required='true' valueState="None" change='onCampOpVINChange' editable="{orderModel>/CampV}"/>
 							</ui:template>
+							<!--	enabled="{orderModel>/typeD}"-->
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remOpCode}" visible="{orderModel>/typeD}" id="OperationCode" sortProperty="OperationCode">
 							<!--<ui:Column width="11rem" visible="{orderModel>/typeD}">-->
@@ -122,7 +124,7 @@
 							<ui:template>
 								<Input value="{ path : 'orderModel>opCode', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:10}' }" type="Text"
 									valueStateText="{i18n>ValidationMessage.opCode}" visible="{orderModel>/typeD}" placeholder="{i18n>Placeholder.opCode}"
-									enabled="{orderModel>/typeD}" required="true" valueState="None" change='onCampOpVINChange'/>
+									enabled="{orderModel>/typeD}" required="true" valueState="None" change='onCampOpVINChange' editable="{orderModel>/OpCodeV}"/>
 							</ui:template>
 						</ui:Column>
 						<!--<Icon src="{= ${orderModel>/typeD} === 'true' ? 'true' : ${{orderModel>/typeCPOR1} === 'true' ? 'true' : 'false'}"/>-->
@@ -133,7 +135,7 @@
 							<ui:template>
 								<Input type="Text" value="{ path: 'orderModel>vin', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:35}' }"
 									valueStateText="{i18n>ValidationMessage.vinNum}" placeholder="{i18n>Placeholder.vinNum}" visible="{= ${orderModel>/typeD} === true || ${orderModel>/typeCPOR} ===true}"
-									enabled="{orderModel>/typeD}" required='true' valueState="None" change='onCampOpVINChange'/>
+									enabled="{orderModel>/typeD || orderModel>/VinV}" required='true' valueState="None" change='onCampOpVINChange' editable="{orderModel>/VinV}"/>
 							</ui:template>
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remComments}" id="remComments">
