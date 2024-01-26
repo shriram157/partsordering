@@ -486,7 +486,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					'accept': 'application/json',
 					'content-type': 'application/json',
 					// 'authorization': "Bearer "+this._fetchToken()
-				}
+				},
 				// beforeSend: function (xhr) {
 				// 	xhr.setRequestHeader("Authorization", "Basic " + btoa(username + ":" + password));
 				// },
