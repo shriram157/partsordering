@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:form="sap.ui.layout.form"
 	xmlns:layout="sap.ui.layout" displayBlock="true" xmlns:ui="sap.ui.table">
-	<Dialog title=" {i18n>CampaignCPOR}" contentWidth="940px" contentHeight="70%" verticalScrolling='true' resizable="true" draggable="true"
+	<Dialog title=" {i18n>order.type.campaignCPOR}" contentWidth="940px" contentHeight="70%" verticalScrolling='true' resizable="true" draggable="true"
 		horizontalScrolling='true'>
 		<content>
 			<ScrollContainer id='flexContainer1' height="80%" width="100%" horizontal="true" vertical="true" focusable="true">

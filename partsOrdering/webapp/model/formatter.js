@@ -347,6 +347,18 @@ sap.ui.define([], function () {
 				return "Information";
 			}
 		}
+		//changes by Swetha for DMND0004095 on 29th Jan, 2024.
+		StanrushCPOR:function(type){
+			var resourceBundle = this.getResourceBundle();
+			switch (type) {
+			case '1':
+				return resourceBundle.getText('order.type.standardCPOR');
+			case '2':
+				return resourceBundle.getText('order.type.rushCPOR');
+			default:
+				return "";
+			}
+		}
 
 	};
 
