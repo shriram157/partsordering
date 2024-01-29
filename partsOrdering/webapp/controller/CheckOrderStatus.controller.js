@@ -1203,8 +1203,6 @@ sap.ui.define([
 					}
 				}
 			});
-			that.onDialogClose();
-			sap.ui.getCore().getModel("CancelReasonModel").refresh(true);
 			sap.ui.getCore().byId("idCancelReason").setVisible(false);
 		}
 		
