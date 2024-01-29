@@ -1158,6 +1158,7 @@ sap.ui.define([
 			var bModel = this.getSalesOrderModel();
 			var Lan = this.getSapLangugaeFromLocal();
 			var CancelReason = sap.ui.getCore().byId("idCancelReason").getValue();
+			var resourceBundle = this.getResourceBundle();
 			if (!!CancelReason) {
 				for (var i = 0; i < sap.ui.getCore().getModel("CancelReasonModel").oData.results.length; i++) {
 					if (CancelReason == sap.ui.getCore().getModel("CancelReasonModel").oData.results[i].DESCRIPTION) {
@@ -1172,9 +1173,9 @@ sap.ui.define([
 			obj.Order_No = sap.ui.getCore().getModel("aModel").oData.TCI_order_no;
 			obj.Item_No = sap.ui.getCore().getModel("aModel").oData.TCI_itemNo;
 			obj.Matnr = sap.ui.getCore().getModel("aModel").oData.matnr;
-			MessageBox.show("Are you sure you want to cancel?", {
-				// icon: MessageBox.Icon.INFORMATION,
-				// title: "",
+			MessageBox.show(resourceBundle.getText("CancelConfirmation"), {
+				 icon: MessageBox.Icon.CONFIRMATION,
+				 title: "Confirmation",
 				actions: [MessageBox.Action.YES, MessageBox.Action.NO],
 				onClose: function (oAction) {
 					if (oAction == "YES") {
