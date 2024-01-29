@@ -654,7 +654,6 @@ sap.ui.define([
 			var aModel = new JSONModel();
 			aModel.setData(theData);
 			sap.ui.getCore().setModel(aModel, "aModel"); //changes by Swetha for DMND0003930 on Jan 19th, 2024
-			sap.ui.getCore().getModel("CancelReasonModel").refresh(true);
 			// call a server to get the desc
 
 			this.getMaterialDesc(theData.matnr, 0, function (index, desc) {
@@ -1203,8 +1202,9 @@ sap.ui.define([
 					}
 				}
 			});
+			sap.ui.getCore().byId("idCancelReason").setVisible(false);
 		}
-		sap.ui.getCore().byId("idCancelReason").setVisible(false);
+		
 		//changes by Swetha for DMND0003930 on 29th Jan, 2024
 	});
 });
