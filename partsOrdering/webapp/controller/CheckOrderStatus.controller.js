@@ -1197,13 +1197,14 @@ sap.ui.define([
 								console.log(err);
 							}
 						});
-						that.onDialogClose();
-						sap.ui.getCore().getModel("CancelReasonModel").refresh(true);
+					
 					} else {
 						that.onDialogClose();
 					}
 				}
 			});
+			that.onDialogClose();
+			sap.ui.getCore().getModel("CancelReasonModel").refresh(true);
 			sap.ui.getCore().byId("idCancelReason").setVisible(false);
 		}
 		
