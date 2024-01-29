@@ -348,9 +348,9 @@ sap.ui.define([], function () {
 			}
 		},
 		//changes by Swetha for DMND0004095 on 29th Jan, 2024.
-		StanrushCPOR:function(type){
+		StanrushCPOR:function(typeId){
 			var resourceBundle = this.getResourceBundle();
-			switch (type) {
+			switch (typeId) {
 			case '1':
 				return resourceBundle.getText('order.type.standardCPOR');
 			case '2':
