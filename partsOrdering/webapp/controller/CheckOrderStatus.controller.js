@@ -1174,7 +1174,7 @@ sap.ui.define([
 			obj.Item_No = sap.ui.getCore().getModel("aModel").oData.TCI_itemNo;
 			obj.Matnr = sap.ui.getCore().getModel("aModel").oData.matnr;
 			MessageBox.show(resourceBundle.getText("CancelConfirmation"), {
-				 icon: MessageBox.Icon.CONFIRMATION,
+				// icon: MessageBox.Icon.CONFIRMATION,
 				 title: "Confirmation",
 				actions: [MessageBox.Action.YES, MessageBox.Action.NO],
 				onClose: function (oAction) {
@@ -1186,8 +1186,13 @@ sap.ui.define([
 								console.log(oData);
 								if(oData.Msg_flag!=="E" && oData.Msg_flag!==""){
 									sap.m.MessageBox.show(oData.Message, sap.m.MessageBox.Icon.SUCCESS, "Success",
-									sap.m.MessageBox.Action.OK, null, null);
-									that.onDialogClose();
+									actions:MessageBox.Action.OK, 
+									onClose: function(oAction) {
+										if(oAction=="OK"){
+											that.onDialogClose();
+											sap.ui.getCore().getModel("CancelReasonModel").refresh(true);
+								}
+								});
 								} else {
 									sap.m.MessageBox.show(oData.Message, sap.m.MessageBox.Icon.ERROR, "Error",
 									sap.m.MessageBox.Action.OK, null, null);
