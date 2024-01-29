@@ -654,6 +654,7 @@ sap.ui.define([
 			var aModel = new JSONModel();
 			aModel.setData(theData);
 			sap.ui.getCore().setModel(aModel, "aModel"); //changes by Swetha for DMND0003930 on Jan 19th, 2024
+			this.getView().getModel("CancelReasonModel").refresh(true);
 			// call a server to get the desc
 
 			this.getMaterialDesc(theData.matnr, 0, function (index, desc) {
@@ -1184,7 +1185,7 @@ sap.ui.define([
 							//filters:InputFilter.aFilters,
 							success: function (oData, oResponse) {
 								console.log(oData);
-								if(oData.Msg_flag!==""){
+								if(oData.Msg_flag!=="E" && oData.Msg_flag!==""){
 									sap.m.MessageBox.show(oData.Message, sap.m.MessageBox.Icon.SUCCESS, "Success",
 									sap.m.MessageBox.Action.OK, null, null);
 								} else {
@@ -1202,7 +1203,6 @@ sap.ui.define([
 					}
 				}
 			});
-			this.getView().getModel("CancelReasonModel").refresh(true);
 		}
 		//changes by Swetha for DMND0003930 on 29th Jan, 2024
 	});
