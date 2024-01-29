@@ -1201,6 +1201,7 @@ sap.ui.define([
 					}
 				}
 			});
+			this.getView().getModel("CancelReasonModel").refresh(true);
 		}
 		//changes by Swetha for DMND0003930 on 29th Jan, 2024
 	});
