@@ -516,6 +516,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				cache: false,
 				data: JSON.stringify(dataString),
 				dataType: 'json',
+				
 				//	content-type: 'application/json',
 				// beforeSend: function (xhr) {
 				// 	xhr.setRequestHeader("Authorization", "Basic " + btoa("10dd48f9-f090-4b06-bf4e-dc4d8817e25d" + ":" +
@@ -526,7 +527,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					// "X-CSRF-Token": this._fetchToken(),
 					'accept': 'application/json',
 					'content-type': 'application/json',
-					'authorization': "Bearer " + this._fetchToken()
+					// 'authorization': "Bearer " + this._fetchToken()
 				},
 
 				success: function (data) {

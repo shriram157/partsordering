@@ -43,7 +43,7 @@
 		"target": "$1",
 		"destination": "TMNA",
 		"csrfProtection": false,
-		"authenticationType": "none",
+		"authenticationType": "xsuaa",
 		"scope": [
 			"$XSAPPNAME.Manage_Parts_Order",
 			"$XSAPPNAME.View_Parts_Order"
