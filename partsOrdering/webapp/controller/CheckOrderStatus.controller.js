@@ -1185,8 +1185,18 @@ sap.ui.define([
 							success: function (oData, oResponse) {
 								console.log(oData);
 								if(oData.Msg_flag!=="E" && oData.Msg_flag!==""){
-									sap.m.MessageBox.show(oData.Message, sap.m.MessageBox.Icon.SUCCESS, "Success",
-									sap.m.MessageBox.Action.OK, null, null);
+									sap.m.MessageBox.show(oData.Message, {
+										icon: MessageBox.Icon.SUCCESS,
+										title: "Success",
+										actions:[MessageBox.Action.OK],
+										onClose: function(oAction){
+											if(oAction=="OK"){
+												that.onDialogClose();
+											}
+										}
+									});
+									// sap.m.MessageBox.Icon.SUCCESS, "Success",
+									// sap.m.MessageBox.Action.OK, null, null);
 								} else {
 									sap.m.MessageBox.show(oData.Message, sap.m.MessageBox.Icon.ERROR, "Error",
 									sap.m.MessageBox.Action.OK, null, null);
