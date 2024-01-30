@@ -1174,14 +1174,13 @@ sap.ui.define([
 			obj.Item_No = sap.ui.getCore().getModel("aModel").oData.TCI_itemNo;
 			obj.Matnr = sap.ui.getCore().getModel("aModel").oData.matnr;
 			MessageBox.show(resourceBundle.getText("CancelConfirmation"), {
-				// icon: MessageBox.Icon.CONFIRMATION,
+				 icon: MessageBox.Icon.INFORMATION,
 				 title: "Confirmation",
 				actions: [MessageBox.Action.YES, MessageBox.Action.NO],
 				onClose: function (oAction) {
 					if (oAction == "YES") {
 						console.log("Successful");
 						bModel.create('/ZCancel_SO', obj, {
-							//filters:InputFilter.aFilters,
 							success: function (oData, oResponse) {
 								console.log(oData);
 								if(oData.Msg_flag!=="E" && oData.Msg_flag!==""){
@@ -1192,14 +1191,10 @@ sap.ui.define([
 										onClose: function(oAction){
 											if(oAction=="OK"){
 												that.onDialogClose();
-												sap.ui.getCore().getModel("CancelReasonModel").refresh(true);
-												that.getView().getModel("viewModel").refresh(true);
 												that.refresh();
 											}
 										}
 									});
-									// sap.m.MessageBox.Icon.SUCCESS, "Success",
-									// sap.m.MessageBox.Action.OK, null, null);
 								} else {
 									sap.m.MessageBox.show(oData.Message,{
 										icon:MessageBox.Icon.ERROR,
