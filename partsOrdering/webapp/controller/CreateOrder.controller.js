@@ -135,11 +135,10 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var appStateModel = this.getStateModel();
 			appStateModel.setProperty('/tabKey', 'CO');
 			//changes by Swetha for DMND0004095 on 25th Jan, 2024
-			var cporCheckBox=oEvent.getParameter("arguments").CPORCB;
-			var cporModel=new sap.ui.model.json.JSONModel();
+			var cporCheckBox = oEvent.getParameter("arguments").CPORCB;
+			var cporModel = new sap.ui.model.json.JSONModel();
 			cporModel.setData(cporCheckBox);
-			sap.ui.getCore().setModel(cporModel,"cporModel");
-			
+			sap.ui.getCore().setModel(cporModel, "cporModel");
 
 			//changes by shriram for DMND0004095 on January 5th 2024   start
 			var campaignModel = new sap.ui.model.json.JSONModel({
@@ -156,7 +155,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					delButVisible: false,
 					line: 0
 				}],
-				typeCPOR:oEvent.getParameter("arguments").CPORCB
+				typeCPOR: oEvent.getParameter("arguments").CPORCB
 			});
 			sap.ui.getCore().setModel(campaignModel, "campaignModel");
 			this.getView().setModel(campaignModel, "campaignModel");
@@ -173,7 +172,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					addButtonVisible: true,
 					line: 0
 				}],
-				typeCPOR:oEvent.getParameter("arguments").CPORCB
+				typeCPOR: oEvent.getParameter("arguments").CPORCB
 			});
 			sap.ui.getCore().setModel(stanrushModel, "stanrushModel");
 			this.getView().setModel(stanrushModel, "stanrushModel");
@@ -188,7 +187,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			// this.getView().getModel("orderModel").getData().typeCPOR = false;
 			// this.getView().byId("remSPQ").setVisible(true);
 			// this.getView().byId("remComments").setVisible(true);
-				//				var orderData = { typeB: false, typeD:false };
+			//				var orderData = { typeB: false, typeD:false };
 			var orderData = this.initLocalModels(orderType, orderNum.trim(), CONTRACT_NUM);
 			var model = new sap.ui.model.json.JSONModel();
 
@@ -207,18 +206,17 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						this.getView().addDependent(this._oDialog);
 					}
 					sap.ui.getCore().byId("standDelButVisible").setEnabled(false);
-					this.getView().byId("btnImpOrd").setVisible(false);                 //changes by Swetha for DMND0004095 on 22nd Jan, 2024
+					this.getView().byId("btnImpOrd").setVisible(false); //changes by Swetha for DMND0004095 on 22nd Jan, 2024
 					this._oDialog.open();
-				//	 this.getView().byId("Material").setEditable(true);
+					//	 this.getView().byId("Material").setEditable(true);
 					// this.getView().byId("idremQty").setEnabled(true);
 					// this.getView().byId("CampaigntNo").setEnabled(true);
 					// this.getView().byId("Vin").setEnabled(true);
-					 this.getView().getModel("orderModel").getData().typeCPOR = true;
-					 this.getView().getModel("orderModel").setProperty("/PartNumV", true);
-					 this.getView().getModel("orderModel").setProperty("/QuanV", true);
-					 this.getView().getModel("orderModel").setProperty("/CampV", true);
-					 this.getView().getModel("orderModel").setProperty("/VinV", true);
-					
+					this.getView().getModel("orderModel").getData().typeCPOR = true;
+					this.getView().getModel("orderModel").setProperty("/PartNumV", true);
+					this.getView().getModel("orderModel").setProperty("/QuanV", true);
+					this.getView().getModel("orderModel").setProperty("/CampV", true);
+					this.getView().getModel("orderModel").setProperty("/VinV", true);
 
 				} else {
 					if (!this._iDialog) {
@@ -226,34 +224,34 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						this.getView().addDependent(this._iDialog);
 					}
 					sap.ui.getCore().byId("camDelButVisible").setEnabled(false);
-					this.getView().byId("btnImpOrd").setVisible(false);              //changes by Swetha for DMND0004095 on 22nd Jan, 2024
+					this.getView().byId("btnImpOrd").setVisible(false); //changes by Swetha for DMND0004095 on 22nd Jan, 2024
 					this._iDialog.open();
 					this.getView().getModel("orderModel").setProperty("/PartNumV", false);
 					this.getView().getModel("orderModel").setProperty("/QuanV", true);
 					this.getView().getModel("orderModel").setProperty("/CampV", false);
 					this.getView().getModel("orderModel").setProperty("/OpCodeV", false);
 					this.getView().getModel("orderModel").setProperty("/VinV", false);
-				//	this.getView().byId("Material").setEditable(false);
-					
+					//	this.getView().byId("Material").setEditable(false);
+
 					// this.getView().byId("idremQty").setEnabled(true);
 					// this.getView().byId("CampaigntNo").setEnabled(false);
 					// this.getView().byId("Vin").setEnabled(false);
 					// this.getView().byId("OperationCode").setEnabled(false);
 				}
 			} else {
-				if(orderType != "3"){
-					this.getView().byId("btnImpOrd").setVisible(true);                 //changes by Swetha for DMND0004095 on 23rd Jan, 2024
+				if (orderType != "3") {
+					this.getView().byId("btnImpOrd").setVisible(true); //changes by Swetha for DMND0004095 on 23rd Jan, 2024
 					this.getView().getModel("orderModel").setProperty("/PartNumV", true);
 					this.getView().getModel("orderModel").setProperty("/QuanV", true);
 					this.getView().getModel("orderModel").setProperty("/CampV", true);
 					this.getView().getModel("orderModel").setProperty("/VinV", true);
-				//	 this.getView().byId("Material").setEditable(true);
+					//	 this.getView().byId("Material").setEditable(true);
 					// this.getView().byId("idremQty").setEnabled(true);
 					// this.getView().byId("CampaigntNo").setEnabled(true);
 					// this.getView().byId("Vin").setEnabled(true);
-					
+
 				} else {
-					this.getView().byId("btnImpOrd").setVisible(false);                 //changes by Swetha for DMND0004095 on 23rd Jan, 2024
+					this.getView().byId("btnImpOrd").setVisible(false); //changes by Swetha for DMND0004095 on 23rd Jan, 2024
 					this.getView().getModel("orderModel").setProperty("/PartNumV", true);
 					this.getView().getModel("orderModel").setProperty("/QuanV", true);
 					this.getView().getModel("orderModel").setProperty("/CampV", true);
@@ -265,12 +263,11 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					// this.getView().byId("Vin").setEnabled(true);
 					// this.getView().byId("OperationCode").setEnabled(true);
 				}
-				
+
 			}
 
 			//Changes by shriram
 
-		
 			this.oOrderModel = this.getModel(CONT_ORDER_MODEL);
 
 			this.bIsSalesOrder = this.oOrderModel.getProperty('/isSalesOrder');
@@ -464,11 +461,11 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			// 	client_id: '10dd48f9-f090-4b06-bf4e-dc4d8817e25d',
 			// 	client_secret: 'j418Q~d2kIVPnOZ.dkhq0ENlrzbBFHuWk~oxqb_1'
 			// };
-				var body = {
+			var body = {
 				grant_type: 'client_credentials',
 				client_id: '10dd48f9-f090-4b06-bf4e-dc4d8817e25d',
 				client_secret: 'j418Q~d2kIVPnOZ.dkhq0ENlrzbBFHuWk~oxqb_1',
-				resource:'api://37abb169-433a-42c9-91b0-360cea2db0c6'
+				resource: 'api://37abb169-433a-42c9-91b0-360cea2db0c6'
 			};
 			$.ajax(url, {
 				type: "POST",
@@ -477,16 +474,16 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				dataType: 'json',
 				crossDomain: true,
 				data: body,
-				beforeSend: function (xhr) {
-					xhr.setRequestHeader("Authorization", "Basic " + btoa("10dd48f9-f090-4b06-bf4e-dc4d8817e25d" + ":" +
-						"j418Q~d2kIVPnOZ.dkhq0ENlrzbBFHuWk~oxqb_1"));
-				},
+				// beforeSend: function (xhr) {
+				// 	xhr.setRequestHeader("Authorization", "Basic " + btoa("10dd48f9-f090-4b06-bf4e-dc4d8817e25d" + ":" +
+				// 		"j418Q~d2kIVPnOZ.dkhq0ENlrzbBFHuWk~oxqb_1"));
+				// },
 
 				headers: {
 					// "X-CSRF-Token": this._fetchToken(),
 					'accept': 'application/json',
 					'content-type': 'application/json',
-				 'authorization': "Bearer "+this._fetchToken()
+					'authorization': "Bearer " + this._fetchToken()
 				},
 				// beforeSend: function (xhr) {
 				// 	xhr.setRequestHeader("Authorization", "Basic " + btoa(username + ":" + password));
@@ -504,7 +501,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 			var dataString = {
 				"campaignCode": "20TA02",
-				"vins": ["5TFUU4EN0DX068703","5TFJU4GN1CX0", "JTMBD31V075106213", "5TFUU4EN0DX068703", "4T1B11HK4KU759632", "JTMP1RFV7KJ001307"]
+				"vins": ["5TFUU4EN0DX068703", "5TFJU4GN1CX0", "JTMBD31V075106213", "5TFUU4EN0DX068703", "4T1B11HK4KU759632", "JTMP1RFV7KJ001307"]
 			};
 			// var oURL = "https://dev.api-int.naqp.toyota.com/naqp/campaign/parts-details/v1";
 			// 'Authorization': 'Basic',
@@ -529,7 +526,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					// "X-CSRF-Token": this._fetchToken(),
 					'accept': 'application/json',
 					'content-type': 'application/json',
-					'authorization': "Bearer "+this._fetchToken()
+					'authorization': "Bearer " + this._fetchToken()
 				},
 
 				success: function (data) {
