@@ -1192,14 +1192,24 @@ sap.ui.define([
 										onClose: function(oAction){
 											if(oAction=="OK"){
 												that.onDialogClose();
+												sap.ui.getCore().getModel("CancelReasonModel").refresh(true);
+												that.getView().getModel("viewModel").refresh(true);
 											}
 										}
 									});
 									// sap.m.MessageBox.Icon.SUCCESS, "Success",
 									// sap.m.MessageBox.Action.OK, null, null);
 								} else {
-									sap.m.MessageBox.show(oData.Message, sap.m.MessageBox.Icon.ERROR, "Error",
-									sap.m.MessageBox.Action.OK, null, null);
+									sap.m.MessageBox.show(oData.Message,{
+										icon:MessageBox.Icon.ERROR,
+										title:"Error",
+										actions:[MessageBox.Action.OK],
+										onClose: function(oAction){
+											if(oAction=="OK"){
+												that.onDialogClose();
+											}
+										}
+									}); 
 								}
 							},
 							error: function (oError) {
