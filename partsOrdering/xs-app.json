@@ -48,5 +48,16 @@
 			"$XSAPPNAME.Manage_Parts_Order",
 			"$XSAPPNAME.View_Parts_Order"
 		]
+	},
+	{
+		"source": "^/TMNAToken/(.*)$",
+		"target": "$1",
+		"destination": "TMNAToken",
+		"csrfProtection": false,
+		"authenticationType": "none",
+		"scope": [
+			"$XSAPPNAME.Manage_Parts_Order",
+			"$XSAPPNAME.View_Parts_Order"
+		]
 	}]
 }
