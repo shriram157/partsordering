@@ -455,7 +455,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		},
 		_fetchToken: function () {
 			// var this._uploadToken;
-			var url = "/TMNAToken/oauth2/token";
+			var url = "/CodeTMNA/oauth2/token";
 			// var body = {
 			// 	grant_type: 'authorization_code',
 			// 	client_id: '10dd48f9-f090-4b06-bf4e-dc4d8817e25d',

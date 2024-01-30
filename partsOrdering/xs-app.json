@@ -50,9 +50,9 @@
 		]
 	},
 	{
-		"source": "^/TMNAToken/(.*)$",
+		"source": "^/CodeTMNA/(.*)$",
 		"target": "$1",
-		"destination": "TMNAToken",
+		"destination": "CodeTMNA",
 		"csrfProtection": false,
 		"authenticationType": "none",
 		"scope": [
