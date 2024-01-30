@@ -1194,6 +1194,7 @@ sap.ui.define([
 												that.onDialogClose();
 												sap.ui.getCore().getModel("CancelReasonModel").refresh(true);
 												that.getView().getModel("viewModel").refresh(true);
+												that.refresh();
 											}
 										}
 									});
