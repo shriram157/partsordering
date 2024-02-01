@@ -501,6 +501,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var dataString = {};
 			// this.getView().getModel("campaignModel").getData();
 			dataString.campaignCode = this.getView().getModel("campaignModel").getData().data[0].CampaignCode;
+			dataString.vins=[];
 			dataString.vins.push(this.getView().getModel("campaignModel").getData().data[0].vinNum);
 
 			// var dataString = {
