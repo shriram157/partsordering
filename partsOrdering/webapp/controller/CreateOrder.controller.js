@@ -545,11 +545,17 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					// 		Soreq: data.d.ZzsoReqNo
 					// 	}, true);
 					//	} //page 3
+						MessageBox.success(data, {
+												onClose: function (sAction) {
+													sap.m.MessageToast.show("Success");
+												}
+											});
 				},
 				error: function (data) {
 					console.log("I am inside error function");
 					// sap.m.MessageBox.show("Error occurred while sending data. Please try again later.", sap.m.MessageBox.Icon.ERROR, "Error", sap.m
 					// 	.MessageBox.Action.OK, null, null);
+						sap.m.MessageToast.show("Error,Please try again");
 				}
 
 			});
