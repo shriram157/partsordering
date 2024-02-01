@@ -74,15 +74,15 @@
 						</VBox>
 						<ToolbarSeparator/>
 						<!--changes by Swetha for DMND0003930 added Cancel button-->
-						<VBox width='70px'>
-							<Button text="{i18n>Cancel}" id="idCancel" type="Emphasized" width="70px" visible="{=${/Flag} === '' ? false : true}" press="onCancel"/>
+						<VBox width='80px'>
+							<Button text="{i18n>Cancel}" id="idCancel" type="Emphasized" width="80px" visible="{=${/Flag} === '' ? false : true}" press="onCancel"/>
 						</VBox>
 						<ToolbarSeparator/>
-						<VBox width='200px'>
+						<VBox width='250px'>
 							<!--<Label text="{i18n>CancelReason}"/>-->
 							<!--<Text text="Success"/>-->
 							<ComboBox showSecondaryValues="true" filterSecondaryValues="true" id="idCancelReason"
-								items="{path: 'CancelReasonModel>/results'}" visible="false" showValueStateMessage="false" textAlign="Begin" placeholder="Cancellation Reason" selectionChange="onSelectCancelReason">
+								items="{path: 'CancelReasonModel>/results'}" visible="false" showValueStateMessage="false" textAlign="Begin" placeholder="{i18n>CancellationReason}" selectionChange="onSelectCancelReason">
 								<core:Item text="{CancelReasonModel>DESCRIPTION}"/>
 								<!--<core:ListItem key="{CancelReasonModel>DESCRIPTION}" text="{CancelReasonModel>DESCRIPTION}"></core:ListItem>       	selectionChange="onSelectCancelReason"-->
 								<!--items="{path: 'CancelReasonModel>/'}"-->
