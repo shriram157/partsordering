@@ -498,11 +498,15 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			});
 		},
 		cporFunction: function (oEvent) {
+			var dataString = {};
+			// this.getView().getModel("campaignModel").getData();
+			dataString.campaignCode = this.getView().getModel("campaignModel").getData().data[0].CampaignCode;
+			dataString.vins.push(this.getView().getModel("campaignModel").getData().data[0].vinNum);
 
-			var dataString = {
-				"campaignCode": "20TA02",
-				"vins": ["5TFUU4EN0DX068703", "5TFJU4GN1CX0", "JTMBD31V075106213", "5TFUU4EN0DX068703", "4T1B11HK4KU759632", "JTMP1RFV7KJ001307"]
-			};
+			// var dataString = {
+			// 	"campaignCode": "20TA02",
+			// 	"vins": ["5TFUU4EN0DX068703", "5TFJU4GN1CX0", "JTMBD31V075106213", "5TFUU4EN0DX068703", "4T1B11HK4KU759632", "JTMP1RFV7KJ001307"]
+			// };
 			// var oURL = "https://dev.api-int.naqp.toyota.com/naqp/campaign/parts-details/v1";
 			// 'Authorization': 'Basic',
 			// 	'x-ibm-client-secret': '10dd48f9-f090-4b06-bf4e-dc4d8817e25d',
@@ -516,7 +520,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				cache: false,
 				data: JSON.stringify(dataString),
 				dataType: 'json',
-				
+
 				//	content-type: 'application/json',
 				// beforeSend: function (xhr) {
 				// 	xhr.setRequestHeader("Authorization", "Basic " + btoa("10dd48f9-f090-4b06-bf4e-dc4d8817e25d" + ":" +
