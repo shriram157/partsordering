@@ -550,8 +550,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 										// data1[0].vin=data[0].vin;
 										// data1[0].qty=data[0].parts[0].maxQty;                        
 										tmnaData.setData(data1);
-										that.setModel(tmnaData, CONT_ORDER_MODEL);
-
+										var oModel=that.getModel(CONT_ORDER_MODEL);
+										oModel.setProperty("/items",data1);
 										//sap.ui.getCore().setModel(TMNAdata, "TMNAdata");
 										//that.getView().getModel("orderModel").setProperty("/campaignNum",TMNAdata.oData[0].campaignCode);
 										// that.getView().getModel("orderModel").setProperty("/QuanV",true);

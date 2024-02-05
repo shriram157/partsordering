@@ -1203,6 +1203,7 @@ sap.ui.define([
 										onClose: function(oAction){
 											if(oAction=="OK"){
 												that.onDialogClose();
+												that.refresh();
 											}
 										}
 									}); 
