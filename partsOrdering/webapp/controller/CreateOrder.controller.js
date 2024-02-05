@@ -539,10 +539,15 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				success: function (data) {
 					console.log("I am inside success function");
 					var TMNAdata = new JSONModel();
-					var data1;
-					data1[0].campaignNum=data[0].campaignCode;
-					data1[0].vin=data[0].vin;
-					data1[0].qty=data[0].parts[0].maxQty;                        
+					var data1=[];
+					data1.push({
+								"campaignNum": data[0].campaignCode,
+								"vin": data[0].vin,
+								"qty": data[0].parts[0].maxQty
+							});
+					// data1[0].campaignNum=data[0].campaignCode;
+					// data1[0].vin=data[0].vin;
+					// data1[0].qty=data[0].parts[0].maxQty;                        
 					TMNAdata.setData(data1);
 					that.setModel(TMNAdata,CONT_ORDER_MODEL);
 					
