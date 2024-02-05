@@ -541,11 +541,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								var tmnaData = new JSONModel();
 								var data1 = [];
 								$.each(data, function (i, item) {
-										data1[1].push({
+										data1.push({
 											"campaignNum": item.campaignCode,
 											"vin": item.vin,
 											"qty": item.parts[0].maxQty,
-											"partNumber": item.parts[0].partNumber
+											"partNumber": item.parts[0].partNumber,
+											"partDesc":item.parts[0].partDescription
 											
 										});
 										// data1[0].campaignNum=data[0].campaignCode;
