@@ -539,10 +539,15 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				success: function (data) {
 					console.log("I am inside success function");
 					var TMNAdata = new JSONModel();
-					TMNAdata.setData(data);
+					var data1;
+					data1[0].campaignNum=data[0].campaignCode;
+					data1[0].vin=data[0].vin;
+					data1[0].qty=data[0].parts[0].maxQty;                        
+					TMNAdata.setData(data1);
 					that.setModel(TMNAdata,CONT_ORDER_MODEL);
-				//	sap.ui.getCore().setModel(TMNAdata, "TMNAdata");
-				//	that.getView().getModel("orderModel").setProperty("/campaignNum",TMNAdata.oData[0].campaignCode);
+					
+				 //sap.ui.getCore().setModel(TMNAdata, "TMNAdata");
+				//that.getView().getModel("orderModel").setProperty("/campaignNum",TMNAdata.oData[0].campaignCode);
 					// that.getView().getModel("orderModel").setProperty("/QuanV",true);
 					// that.getView().getModel("orderModel").setProperty("/QuanV",TMNAdata.oData[0].parts[0].maxQty);
 					MessageBox.success(data, {
