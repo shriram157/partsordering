@@ -498,6 +498,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			});
 		},
 		cporFunction: function (oEvent) {
+			var that = this;
 			var dataString = {};
 			// this.getView().getModel("campaignModel").getData();
 			dataString.campaignCode = "CAN"+ this.getView().getModel("campaignModel").getData().data[0].CampaignCode;
@@ -531,7 +532,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				headers: {
 					// "X-CSRF-Token": this._fetchToken(),
 					'accept': 'application/json',
-					'content-type': 'application/json',
+					'content-type': 'application/json'
 					// 'authorization': "Bearer " + this._fetchToken()
 				},
 
@@ -541,11 +542,15 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					TMNAdata.setData(data);
 					that.getView().setModel(TMNAdata, "TMNAdata");
 					sap.ui.getCore().setModel(TMNAdata, "TMNAdata");
+					that.getView().getModel("orderModel").setProperty("/CampV",TMNAdata.oData[0].campaignCode);
+					that.getView().getModel("orderModel").setProperty("/QuanV",TMNAdata.oData[0].parts[0].maxQty);
 					MessageBox.success(data, {
 						onClose: function (sAction) {
 							sap.m.MessageToast.show("Success");
 						}
 					});
+					that.CDialogClose();
+					
 				},
 				error: function (data) {
 					console.log("I am inside error function");
