@@ -543,7 +543,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					that.getView().setModel(TMNAdata, "TMNAdata");
 					sap.ui.getCore().setModel(TMNAdata, "TMNAdata");
 					that.getView().getModel("orderModel").setProperty("/CampV",true);
-					that.getView().getModel("orderModel").setProperty("/CampV",TMNAdata.oData[0].campaignCode);
+					that.getView().getModel("orderModel").setProperty("/campaignNum",TMNAdata.oData[0].campaignCode);
 					// that.getView().getModel("orderModel").setProperty("/QuanV",true);
 					// that.getView().getModel("orderModel").setProperty("/QuanV",TMNAdata.oData[0].parts[0].maxQty);
 					MessageBox.success(data, {
