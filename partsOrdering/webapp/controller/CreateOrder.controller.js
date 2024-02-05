@@ -500,8 +500,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		cporFunction: function (oEvent) {
 			var dataString = {};
 			// this.getView().getModel("campaignModel").getData();
-			dataString.campaignCode = this.getView().getModel("campaignModel").getData().data[0].CampaignCode;
-			dataString.vins=[];
+			dataString.campaignCode = "CAN"+ this.getView().getModel("campaignModel").getData().data[0].CampaignCode;
+			dataString.vins = [];
 			dataString.vins.push(this.getView().getModel("campaignModel").getData().data[0].vinNum);
 
 			// var dataString = {
@@ -536,26 +536,22 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				},
 
 				success: function (data) {
-					// console.log(data);
-					// sap.m.MessageBox.show("Successfully Request Created", sap.m.MessageBox.Icon.SUCCESS, "Success", sap.m.MessageBox.Action.OK,
-					// 	null, null);
 					console.log("I am inside success function");
-					// if (data.d.ZzsoReqNo) {
-					// 	RSOA_controller.getOwnerComponent().getRouter().navTo("RSOView_ManageSoldOrder", {
-					// 		Soreq: data.d.ZzsoReqNo
-					// 	}, true);
-					//	} //page 3
-						MessageBox.success(data, {
-												onClose: function (sAction) {
-													sap.m.MessageToast.show("Success");
-												}
-											});
+					var TMNAdata = new JSONModel();
+					TMNAdata.setData(data);
+					that.getView().setModel(TMNAdata, "TMNAdata");
+					sap.ui.getCore().setModel(TMNAdata, "TMNAdata");
+					MessageBox.success(data, {
+						onClose: function (sAction) {
+							sap.m.MessageToast.show("Success");
+						}
+					});
 				},
 				error: function (data) {
 					console.log("I am inside error function");
 					// sap.m.MessageBox.show("Error occurred while sending data. Please try again later.", sap.m.MessageBox.Icon.ERROR, "Error", sap.m
 					// 	.MessageBox.Action.OK, null, null);
-						sap.m.MessageToast.show("Error,Please try again");
+					sap.m.MessageToast.show("Error,Please try again");
 				}
 
 			});
