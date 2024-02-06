@@ -553,15 +553,14 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					// that.oOrderModel.setData(oOrderData);
 					var item1 = {};
 					data1.push(item1);
-					var i = 1;
 					$.each(data, function (i, item) {
 						data1.push({
-							"campaignNum": item.campaignCode,
+							"campaignNum": item.campaignCode.slice(3, 6),
 							"vin": item.vin,
 							"qty": item.parts[0].maxQty,
 							"partNumber": item.parts[0].partNumber,
 							"partDesc": item.parts[0].partDescription,
-							"line": i+1
+							"line": i + 1
 
 						});
 						// data1[0].campaignNum=data[0].campaignCode;
@@ -598,9 +597,11 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var that = this;
 			var dataString = {};
 			// this.getView().getModel("campaignModel").getData();
-			dataString.campaignCode = "CAN" + this.getView().getModel("stanrushModel").getData().data[0].CampaignCode;
-			dataString.vins = [];
-			dataString.vins.push(this.getView().getModel("stanrushModel").getData().data[0].vinNum);
+			for (var i = 1; i <= this.getView().getModel("stanrushModel").oData.data.length; i++) {
+				dataString.campaignCode = "CAN" + this.getView().getModel("stanrushModel").getData().data[i].CampaignCode;
+				dataString.vins = [];
+				dataString.vins.push(this.getView().getModel("stanrushModel").getData().data[i].vinNum);
+			}
 			var oURL = "/TMNA/naqp/campaign/parts-details/v1/";
 			$.ajax({
 				type: 'POST',
@@ -629,7 +630,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					for (var i = 0; i < data.length; i++) {
 						oOrderData.items[i].qty = data[i].parts[i].maxQty;
 						oOrderData.items[i].contractNum = "";
-						oOrderData.items[i].campaignNum = data[i].campaignCode;
+						oOrderData.items[i].campaignNum = data[i].campaignCode.slice(3, 6);
 						oOrderData.items[i].comment = "";
 						oOrderData.items[i].partNumber = data[i].parts[i].partNumber;
 						oOrderData.items[i].opCode = "";
