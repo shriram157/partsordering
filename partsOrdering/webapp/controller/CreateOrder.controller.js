@@ -648,15 +648,17 @@ return BaseController.extend("tci.wave2.ui.parts.ordering.controller.CreateOrder
 								oOrderData.items[0].spq = "";
 								oOrderData.items[0].partDesc = "";
 								for (var i = 1; i <= data.length; i++) {
-									oOrderData.items[i].qty = data[i].parts[i].maxQty;
+									for (var j=0;j<data.length;j++) {
+									oOrderData.items[i].qty = data[j].parts[j].maxQty;
 									oOrderData.items[i].contractNum = "";
-									oOrderData.items[i].campaignNum = data[i].campaignCode;
+									oOrderData.items[i].campaignNum = data[j].campaignCode;
 									oOrderData.items[i].comment = "";
-									oOrderData.items[i].partNumber = data[i].parts[i].partNumber;
+									oOrderData.items[i].partNumber = data[j].parts[j].partNumber;
 									oOrderData.items[i].opCode = "";
-									oOrderData.items[i].vin = data[i].vin;
+									oOrderData.items[i].vin = data[j].vin;
 									oOrderData.items[i].spq = "";
-									oOrderData.items[i].partDesc = data[i].parts[i].partDescription;
+									oOrderData.items[i].partDesc = data[j].parts[j].parttDescription;
+								}
 								}
 								that.oOrderModel.setData(oOrderData);
 								MessageBox.success(data, {
