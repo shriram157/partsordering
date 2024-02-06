@@ -665,7 +665,6 @@ return BaseController.extend("tci.wave2.ui.parts.ordering.controller.CreateOrder
 									}
 								});
 								that.onDialogClose();
-							});
 
 					},
 					error: function (data) {
