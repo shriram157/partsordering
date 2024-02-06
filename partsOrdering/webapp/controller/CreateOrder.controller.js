@@ -561,7 +561,8 @@ return BaseController.extend("tci.wave2.ui.parts.ordering.controller.CreateOrder
 								"vin": item.vin,
 								"qty": item.parts[0].maxQty,
 								"partNumber": item.parts[0].partNumber,
-								"partDesc": item.parts[0].partDescription
+								"partDesc": item.parts[0].partDescription,
+								"line":i
 
 							});
 							// data1[0].campaignNum=data[0].campaignCode;
@@ -569,7 +570,6 @@ return BaseController.extend("tci.wave2.ui.parts.ordering.controller.CreateOrder
 							// data1[0].qty=data[0].parts[0].maxQty;                        
 							tmnaData.setData(data1);
 							var oModel = that.getModel(CONT_ORDER_MODEL);
-
 							oModel.setProperty("/items", data1);
 							//sap.ui.getCore().setModel(TMNAdata, "TMNAdata");
 							//that.getView().getModel("orderModel").setProperty("/campaignNum",TMNAdata.oData[0].campaignCode);
@@ -662,8 +662,8 @@ return BaseController.extend("tci.wave2.ui.parts.ordering.controller.CreateOrder
 
 									});
 									that.oOrderModel.setData(data1);
-									var oModel = that.getModel(CONT_ORDER_MODEL);
-									oModel.setProperty("/items", data1);
+									// var oModel = that.getModel(CONT_ORDER_MODEL);
+									// oModel.setProperty("/items", data1);
 								MessageBox.success(data, {
 									onClose: function (sAction) {
 										sap.m.MessageToast.show("Success");
