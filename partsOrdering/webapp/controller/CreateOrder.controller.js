@@ -553,7 +553,6 @@ return BaseController.extend("tci.wave2.ui.parts.ordering.controller.CreateOrder
 						// that.oOrderModel.setData(oOrderData);
 						var item1 = {};
 						data1.push(item1);
-
 						var i = 1;
 						$.each(data, function (i, item) {
 							data1.push({
@@ -562,7 +561,7 @@ return BaseController.extend("tci.wave2.ui.parts.ordering.controller.CreateOrder
 								"qty": item.parts[0].maxQty,
 								"partNumber": item.parts[0].partNumber,
 								"partDesc": item.parts[0].partDescription,
-								"line":i
+								"line": i
 
 							});
 							// data1[0].campaignNum=data[0].campaignCode;
@@ -648,28 +647,24 @@ return BaseController.extend("tci.wave2.ui.parts.ordering.controller.CreateOrder
 								oOrderData.items[0].vin = "";
 								oOrderData.items[0].spq = "";
 								oOrderData.items[0].partDesc = "";
-								// var item1 = {};
-								// data1.push(item1);
-
-								var i = 1;
-								$.each(data, function (i, item) {
-									data1.push({
-										"campaignNum": item.campaignCode,
-										"vin": item.vin,
-										"qty": item.parts[0].maxQty,
-										"partNumber": item.parts[0].partNumber,
-										"partDesc": item.parts[0].partDescription
-
-									});
-									that.oOrderModel.setData(data1);
-									// var oModel = that.getModel(CONT_ORDER_MODEL);
-									// oModel.setProperty("/items", data1);
+								for (var i = 1; i <= data.length; i++) {
+									oOrderData.items[i].qty = data[i].parts[i].maxQty;
+									oOrderData.items[i].contractNum = "";
+									oOrderData.items[i].campaignNum = data[i].campaignCode;
+									oOrderData.items[i].comment = "";
+									oOrderData.items[i].partNumber = data[i].parts[i].partNumber;
+									oOrderData.items[i].opCode = "";
+									oOrderData.items[i].vin = data[i].vin;
+									oOrderData.items[i].spq = "";
+									oOrderData.items[i].partDesc = data[i].parts[i].partDescription;
+								}
+								that.oOrderModel.setData(oOrderData);
 								MessageBox.success(data, {
 									onClose: function (sAction) {
 										sap.m.MessageToast.show("Success");
 									}
 								});
-								that.CDialogClose();
+								that.onDialogClose();
 							});
 
 					},
