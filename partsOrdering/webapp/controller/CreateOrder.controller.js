@@ -601,7 +601,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			dataString.vins = this.getView().getModel("stanrushModel").oData.data[0].vinNum;
 			dataString.campaignCode = [];
 			for (var i = 0; i < this.getView().getModel("stanrushModel").oData.data.length; i++) {
-				dataString.campaignCode.push("CAN" + this.getView().getModel("stanrushModel").oData().data[i].CampaignCode);
+				dataString.campaignCode.push("CAN" + this.getView().getModel("stanrushModel").oData.data[i].CampaignCode);
 			}
 			var oURL = "/TMNA/naqp/campaign/parts-details/v1/";
 			$.ajax({
