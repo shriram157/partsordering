@@ -661,7 +661,7 @@ return BaseController.extend("tci.wave2.ui.parts.ordering.controller.CreateOrder
 										"partDesc": item.parts[0].partDescription
 
 									});
-									oOrderData.setData(data1);
+									that.oOrderModel.setData(data1);
 									var oModel = that.getModel(CONT_ORDER_MODEL);
 									oModel.setProperty("/items", data1);
 								MessageBox.success(data, {
