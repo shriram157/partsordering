@@ -561,7 +561,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							"qty": item.parts[0].maxQty,
 							"partNumber": item.parts[0].partNumber,
 							"partDesc": item.parts[0].partDescription,
-							"line": i+1;
+							"line": i+1
 
 						});
 						// data1[0].campaignNum=data[0].campaignCode;
