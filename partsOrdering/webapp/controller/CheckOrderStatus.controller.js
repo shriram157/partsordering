@@ -1186,7 +1186,7 @@ sap.ui.define([
 								if(oData.Msg_flag!=="E" && oData.Msg_flag!==""){
 									sap.m.MessageBox.show(oData.Message, {
 										icon: MessageBox.Icon.SUCCESS,
-										title: "Success",
+										title: "{i18n>SUCCESS}",
 										actions:[MessageBox.Action.OK],
 										onClose: function(oAction){
 											if(oAction=="OK"){
@@ -1198,7 +1198,7 @@ sap.ui.define([
 								} else {
 									sap.m.MessageBox.show(oData.Message,{
 										icon:MessageBox.Icon.ERROR,
-										title:"Error",
+										title:"{i18n>ERROR}",
 										actions:[MessageBox.Action.OK],
 										onClose: function(oAction){
 											if(oAction=="OK"){
