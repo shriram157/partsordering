@@ -657,6 +657,7 @@ return BaseController.extend("tci.wave2.ui.parts.ordering.controller.CreateOrder
 									oOrderData.items[i].vin = data[i].vin;
 									oOrderData.items[i].spq = "";
 									oOrderData.items[i].partDesc = data[i].parts[i].partDescription;
+									oOrderData.items[i].line = oOrderData.totalLines + 1;
 								}
 								that.oOrderModel.setData(oOrderData);
 								MessageBox.success(data, {

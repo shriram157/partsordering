@@ -1168,6 +1168,8 @@ sap.ui.define([
 				}
 			}
 			var obj = {};
+			var success=resourceBundle.getText("SUCCESS");
+			var error=resourceBundle.getText("ERROR");
 			obj.Language = Lan;
 			obj.Rejection_Reason = rejecvalue;
 			obj.Order_No = sap.ui.getCore().getModel("aModel").oData.TCI_order_no;
@@ -1186,7 +1188,7 @@ sap.ui.define([
 								if(oData.Msg_flag!=="E" && oData.Msg_flag!==""){
 									sap.m.MessageBox.show(oData.Message, {
 										icon: MessageBox.Icon.SUCCESS,
-										title: "{i18n>SUCCESS}",
+										title: success,
 										actions:[MessageBox.Action.OK],
 										onClose: function(oAction){
 											if(oAction=="OK"){
@@ -1198,7 +1200,7 @@ sap.ui.define([
 								} else {
 									sap.m.MessageBox.show(oData.Message,{
 										icon:MessageBox.Icon.ERROR,
-										title:"{i18n>ERROR}",
+										title:error,
 										actions:[MessageBox.Action.OK],
 										onClose: function(oAction){
 											if(oAction=="OK"){
