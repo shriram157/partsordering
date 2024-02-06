@@ -638,27 +638,25 @@ return BaseController.extend("tci.wave2.ui.parts.ordering.controller.CreateOrder
 								var tmnaData = new JSONModel();
 								var data1 = [];
 								var oOrderData = that.oOrderModel.getData();
-								oOrderData.items[0].qty = "";
-								oOrderData.items[0].contractNum = "";
-								oOrderData.items[0].campaignNum = "";
-								oOrderData.items[0].comment = "";
-								oOrderData.items[0].partNumber = "";
-								oOrderData.items[0].opCode = "";
-								oOrderData.items[0].vin = "";
-								oOrderData.items[0].spq = "";
-								oOrderData.items[0].partDesc = "";
-								for (var i = 1; i <= data.length; i++) {
-									for (var j=0;j<data.length;j++) {
-									oOrderData.items[i].qty = data[j].parts[j].maxQty;
+								// oOrderData.items[0].qty = "";
+								// oOrderData.items[0].contractNum = "";
+								// oOrderData.items[0].campaignNum = "";
+								// oOrderData.items[0].comment = "";
+								// oOrderData.items[0].partNumber = "";
+								// oOrderData.items[0].opCode = "";
+								// oOrderData.items[0].vin = "";
+								// oOrderData.items[0].spq = "";
+								// oOrderData.items[0].partDesc = "";
+								for (var i = 0; i < data.length; i++) {
+									oOrderData.items[i].qty = data[i].parts[i].maxQty;
 									oOrderData.items[i].contractNum = "";
-									oOrderData.items[i].campaignNum = data[j].campaignCode;
+									oOrderData.items[i].campaignNum = data[i].campaignCode;
 									oOrderData.items[i].comment = "";
-									oOrderData.items[i].partNumber = data[j].parts[j].partNumber;
+									oOrderData.items[i].partNumber = data[i].parts[i].partNumber;
 									oOrderData.items[i].opCode = "";
-									oOrderData.items[i].vin = data[j].vin;
+									oOrderData.items[i].vin = data[i].vin;
 									oOrderData.items[i].spq = "";
-									oOrderData.items[i].partDesc = data[j].parts[j].parttDescription;
-								}
+									oOrderData.items[i].partDesc = data[i].parts[i].partDescription;
 								}
 								that.oOrderModel.setData(oOrderData);
 								MessageBox.success(data, {
