@@ -598,7 +598,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var dataString = {};
 			// this.getView().getModel("campaignModel").getData();
 
-			dataString.vins = this.getView().getModel("stanrushModel").oData.data[i].vinNum;
+			dataString.vins = this.getView().getModel("stanrushModel").oData.data[0].vinNum;
 			dataString.campaignCode = [];
 			for (var i = 0; i < this.getView().getModel("stanrushModel").oData.data.length; i++) {
 				dataString.campaignCode.push("CAN" + this.getView().getModel("stanrushModel").oData().data[i].CampaignCode);
