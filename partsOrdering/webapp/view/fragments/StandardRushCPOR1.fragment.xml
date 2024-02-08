@@ -83,7 +83,7 @@
 		<buttons>
 			<Button text="{i18n>Button.Back}" press='onPressBack'/>
 			<!--<Button text="{i18n>Button.CreateOrder.Cancel}" press='onDialogClose'/>-->
-			<Button text="{i18n>CPOR}" press='cporFunction1'/>
+			<Button text="{i18n>CPOR}" press='cporFunction2'/>
 			<!--<Button text="{i18n>CPOR}" press='onDialogClose'/>-->
 		</buttons>
 	</Dialog>

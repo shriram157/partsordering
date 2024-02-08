@@ -502,11 +502,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var dataString = {};
 			// this.getView().getModel("campaignModel").getData();
 			dataString.vins = [];
-			dataString.campaignCode=[];
+			dataString.campaignCode = [];
 			for (var i = 1; i < this.getView().getModel("campaignModel").oData.data.length; i++) {
 				dataString.campaignCode.push("CAN" + this.getView().getModel("campaignModel").oData.data[i].CampaignCode);
 			}
 			dataString.vins.push(this.getView().getModel("campaignModel").oData.data[0].vinNum);
+			//	var failCampaigns=[];
 			// var dataString = {
 			// 	"campaignCode": "20TA02",
 			// 	"vins": ["5TFUU4EN0DX068703", "5TFJU4GN1CX0", "JTMBD31V075106213", "5TFUU4EN0DX068703", "4T1B11HK4KU759632", "JTMP1RFV7KJ001307"]
@@ -542,47 +543,29 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					console.log("I am inside success function");
 					var tmnaData = new JSONModel();
 					var data1 = [];
-					// var oOrderData=that.oOrderModel.getData();                        
-					// oOrderData.items[0].qty = "";
-					// oOrderData.items[0].contractNum = "";
-					// oOrderData.items[0].campaignNum = "";
-					// oOrderData.items[0].comment = "";
-					// oOrderData.items[0].partNumber = "";
-					// oOrderData.items[0].opCode = "";
-					// oOrderData.items[0].vin = "";
-					// oOrderData.items[0].spq = "";
-					// oOrderData.items[0].partDesc = "";
-					// that.oOrderModel.setData(oOrderData);
 					var item1 = {};
 					data1.push(item1);
-					
+
 					$.each(data, function (i, item) {
-						if(data[i].status=="Success"){
-						data1.push({
-							"campaignNum": item.campaignCode.slice(3, 6),
-							"vin": item.vin,
-							"qty": item.parts[0].maxQty,
-							"partNumber": item.parts[0].partNumber,
-							"partDesc": item.parts[0].partDescription,
-							"line": i + 1,
-							"OperationCode":that.getView().getModel("campaignModel").oData.data[i].OperationCode
-						
-						});
+						if (data[i].status == "Success") {
+							data1.push({
+								"campaignNum": item.campaignCode.slice(3, 6),
+								"vin": item.vin,
+								"qty": item.parts[0].maxQty,
+								"partNumber": item.parts[0].partNumber,
+								"partDesc": item.parts[0].partDescription,
+								"line": i + 1,
+								"OperationCode": that.getView().getModel("campaignModel").oData.data[i].OperationCode
+
+							});
 						} else {
-							MessageBox.error(data[i].failureReasons[0].value+"for"+item.campaignCode.slice(3, 6), {
+							MessageBox.error(data[i].failureReasons[0].value + "" + "for" + "" + "Campaign Code" + "" + item.campaignCode.slice(3, 6), {
 								onClose: function (sAction) {}
 							});
 						}
-						// data1[0].campaignNum=data[0].campaignCode;
-						// data1[0].vin=data[0].vin;
-						// data1[0].qty=data[0].parts[0].maxQty;                        
 						tmnaData.setData(data1);
 						var oModel = that.getModel(CONT_ORDER_MODEL);
 						oModel.setProperty("/items", data1);
-						//sap.ui.getCore().setModel(TMNAdata, "TMNAdata");
-						//that.getView().getModel("orderModel").setProperty("/campaignNum",TMNAdata.oData[0].campaignCode);
-						// that.getView().getModel("orderModel").setProperty("/QuanV",true);
-						// that.getView().getModel("orderModel").setProperty("/QuanV",TMNAdata.oData[0].parts[0].maxQty);
 						MessageBox.success(data, {
 							onClose: function (sAction) {
 								sap.m.MessageToast.show("Success");
@@ -594,8 +577,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				},
 				error: function (data) {
 					console.log("I am inside error function");
-					// sap.m.MessageBox.show("Error occurred while sending data. Please try again later.", sap.m.MessageBox.Icon.ERROR, "Error", sap.m
-					// 	.MessageBox.Action.OK, null, null);
 					sap.m.MessageToast.show("Error,Please try again");
 				}
 
@@ -603,14 +584,95 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 		},
 		//changes by Shriram on 5th January, 2024 for DMND0004095   Start
-		cporFunction1: function (oEvent) {
+		cporFunction2:function(oEvent){
 			var that = this;
 			var dataString = {};
 			// this.getView().getModel("campaignModel").getData();
-			// dataString.campaignCode = [];
-			// for (var i = 1; i <= this.getView().getModel("stanrushModel").oData.data.length-1; i++) {
-			// 	dataString.campaignCode.push("CAN" + this.getView().getModel("stanrushModel").oData.data[i].CampaignCode);
-			// }
+			dataString.vins = [];
+			dataString.campaignCode = [];
+			for (var i = 1; i < this.getView().getModel("stanrushModel").oData.data.length; i++) {
+				dataString.campaignCode.push("CAN" + this.getView().getModel("stanrushModel").oData.data[i].CampaignCode);
+			}
+			dataString.vins.push(this.getView().getModel("stanrushModel").oData.data[0].vinNum);
+			//	var failCampaigns=[];
+			// var dataString = {
+			// 	"campaignCode": "20TA02",
+			// 	"vins": ["5TFUU4EN0DX068703", "5TFJU4GN1CX0", "JTMBD31V075106213", "5TFUU4EN0DX068703", "4T1B11HK4KU759632", "JTMP1RFV7KJ001307"]
+			// };
+			// var oURL = "https://dev.api-int.naqp.toyota.com/naqp/campaign/parts-details/v1";
+			// 'Authorization': 'Basic',
+			// 	'x-ibm-client-secret': '10dd48f9-f090-4b06-bf4e-dc4d8817e25d',
+			// 	'x-ibm-client-id': 'j418Q~d2kIVPnOZ.dkhq0ENlrzbBFHuWk~oxqb_1',
+			// var oURL = "/naqp/campaign/parts-details/v1/";
+			var oURL = "/TMNA/naqp/campaign/parts-details/v2/";
+			// var oURL="https://dev.api-int.naqp.toyota.com/naqp/campaign/parts-details/v1";
+			$.ajax({
+				type: 'POST',
+				url: oURL,
+				cache: false,
+				data: JSON.stringify(dataString),
+				dataType: 'json',
+
+				//	content-type: 'application/json',
+				// beforeSend: function (xhr) {
+				// 	xhr.setRequestHeader("Authorization", "Basic " + btoa("10dd48f9-f090-4b06-bf4e-dc4d8817e25d" + ":" +
+				// 		"j418Q~d2kIVPnOZ.dkhq0ENlrzbBFHuWk~oxqb_1"));
+				// },
+
+				headers: {
+					// "X-CSRF-Token": this._fetchToken(),
+					'accept': 'application/json',
+					'content-type': 'application/json'
+						// 'authorization': "Bearer " + this._fetchToken()
+				},
+
+				success: function (data) {
+					console.log("I am inside success function");
+					var tmnaData = new JSONModel();
+					var data1 = [];
+					var item1 = {};
+					data1.push(item1);
+
+					$.each(data, function (i, item) {
+						if (data[i].status == "Success") {
+							data1.push({
+								"campaignNum": item.campaignCode.slice(3, 6),
+								"vin": item.vin,
+								"qty": item.parts[0].maxQty,
+								"partNumber": item.parts[0].partNumber,
+								"partDesc": item.parts[0].partDescription,
+								"line": i + 1
+							//	"OperationCode": that.getView().getModel("campaignModel").oData.data[i].OperationCode
+
+							});
+						} else {
+							MessageBox.error(data[i].failureReasons[0].value + "" + "for" + "" + "Campaign Code" + "" + item.campaignCode.slice(3, 6), {
+								onClose: function (sAction) {}
+							});
+						}
+						tmnaData.setData(data1);
+						var oModel = that.getModel(CONT_ORDER_MODEL);
+						oModel.setProperty("/items", data1);
+						MessageBox.success(data, {
+							onClose: function (sAction) {
+								sap.m.MessageToast.show("Success");
+							}
+						});
+						that.CDialogClose();
+					});
+
+				},
+				error: function (data) {
+					console.log("I am inside error function");
+					sap.m.MessageToast.show("Error,Please try again");
+				}
+
+			});
+
+		}
+		cporFunction1: function (oEvent) {
+			var that = this;
+			var dataString = {};
 			dataString.campaignCode = [];
 			dataString.vins = [];
 			for (var i = 1; i < this.getView().getModel("stanrushModel").oData.data.length; i++) {
@@ -633,15 +695,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					var tmnaData = new JSONModel();
 					var data1 = [];
 					var oOrderData = that.oOrderModel.getData();
-					// oOrderData.items[0].qty = "";
-					// oOrderData.items[0].contractNum = "";
-					// oOrderData.items[0].campaignNum = "";
-					// oOrderData.items[0].comment = "";
-					// oOrderData.items[0].partNumber = "";
-					// oOrderData.items[0].opCode = "";
-					// oOrderData.items[0].vin = "";
-					// oOrderData.items[0].spq = "";
-					// oOrderData.items[0].partDesc = "";
 					for (var i = 0; i < data.length; i++) {
 						if (data[i].status == "Success") {
 							oOrderData.items[i].qty = data[i].parts[0].maxQty;
@@ -654,8 +707,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							oOrderData.items[i].spq = "";
 							oOrderData.items[i].partDesc = data[i].parts[0].partDescription;
 							oOrderData.items[i].line = oOrderData.totalLines + 1;
+
 						} else {
-							MessageBox.error(data[i].failureReasons[0].value, {
+							MessageBox.error(data[i].failureReasons[0].value + "" + "for" + "" + "Campaign Code" + "" + data[i].campaignCode.slice(3, 6), {
 								onClose: function (sAction) {}
 							});
 
@@ -675,8 +729,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				},
 				error: function (data) {
 					console.log("I am inside error function");
-					// sap.m.MessageBox.show("Error occurred while sending data. Please try again later.", sap.m.MessageBox.Icon.ERROR, "Error", sap.m
-					// 	.MessageBox.Action.OK, null, null);
 					sap.m.MessageToast.show("Error,Please try again");
 				}
 
