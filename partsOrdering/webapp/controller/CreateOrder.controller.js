@@ -501,9 +501,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var that = this;
 			var dataString = {};
 			// this.getView().getModel("campaignModel").getData();
-			dataString.campaignCode = "CAN" + this.getView().getModel("campaignModel").getData().data[0].CampaignCode;
 			dataString.vins = [];
-			dataString.vins.push(this.getView().getModel("campaignModel").getData().data[0].vinNum);
+			dataString.campaignCode=[];
+			for (var i = 1; i < this.getView().getModel("campaignModel").oData.data.length; i++) {
+				dataString.campaignCode.push("CAN" + this.getView().getModel("campaignModel").oData.data[i].CampaignCode);
+			}
+			dataString.vins.push(this.getView().getModel("campaignModel").oData.data[0].vinNum);
 			// var dataString = {
 			// 	"campaignCode": "20TA02",
 			// 	"vins": ["5TFUU4EN0DX068703", "5TFJU4GN1CX0", "JTMBD31V075106213", "5TFUU4EN0DX068703", "4T1B11HK4KU759632", "JTMP1RFV7KJ001307"]
@@ -643,7 +646,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							oOrderData.items[i].vin = data[i].vin;
 							oOrderData.items[i].spq = "";
 							oOrderData.items[i].partDesc = data[i].parts[0].partDescription;
-							//oOrderData.items[i].line = oOrderData.totalLines + 1;
+							oOrderData.items[i].line = oOrderData.totalLines + 1;
 						} else {
 							MessageBox.error(data[i].failureReasons[0].value, {
 								onClose: function (sAction) {}
