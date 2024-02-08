@@ -669,7 +669,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 			});
 
-		}
+		},
 		cporFunction1: function (oEvent) {
 			var that = this;
 			var dataString = {};
