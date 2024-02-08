@@ -650,6 +650,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								onClose: function (sAction) {}
 							});
 						}
+					});
 						tmnaData.setData(data1);
 						var oModel = that.getModel(CONT_ORDER_MODEL);
 						oModel.setProperty("/items", data1);
@@ -658,8 +659,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								sap.m.MessageToast.show("Success");
 							}
 						});
-						that.CDialogClose();
-					});
+						that.onDialogClose();
+					
 
 				},
 				error: function (data) {
