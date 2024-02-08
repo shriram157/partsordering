@@ -634,15 +634,15 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					// oOrderData.items[0].partDesc = "";
 					for (var i = 0; i < data.length; i++) {
 						if (data[i].status == "Success") {
-							oOrderData.items[i].qty = data[i].parts[i].maxQty;
+							oOrderData.items[i].qty = data[i].parts[0].maxQty;
 							oOrderData.items[i].contractNum = "";
 							oOrderData.items[i].campaignNum = data[i].campaignCode.slice(3, 6);
 							oOrderData.items[i].comment = "";
-							oOrderData.items[i].partNumber = data[i].parts[i].partNumber;
+							oOrderData.items[i].partNumber = data[i].parts[0].partNumber;
 							oOrderData.items[i].opCode = "";
 							oOrderData.items[i].vin = data[i].vin;
 							oOrderData.items[i].spq = "";
-							oOrderData.items[i].partDesc = data[i].parts[i].partDescription;
+							oOrderData.items[i].partDesc = data[i].parts[0].partDescription;
 							//oOrderData.items[i].line = oOrderData.totalLines + 1;
 						} else {
 							MessageBox.error(data[i].failureReasons[0].value, {
