@@ -633,6 +633,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					// oOrderData.items[0].spq = "";
 					// oOrderData.items[0].partDesc = "";
 					for (var i = 0; i < data.length; i++) {
+						if(data[i].status=="Success"){
 						oOrderData.items[i].qty = data[i].parts[i].maxQty;
 						oOrderData.items[i].contractNum = "";
 						oOrderData.items[i].campaignNum = data[i].campaignCode.slice(3, 6);
@@ -643,6 +644,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						oOrderData.items[i].spq = "";
 						oOrderData.items[i].partDesc = data[i].parts[i].partDescription;
 						//oOrderData.items[i].line = oOrderData.totalLines + 1;
+						}
 					}
 					that.oOrderModel.setData(oOrderData);
 					MessageBox.success(data, {
