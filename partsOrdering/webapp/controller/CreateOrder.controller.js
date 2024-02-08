@@ -601,12 +601,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			// for (var i = 1; i <= this.getView().getModel("stanrushModel").oData.data.length-1; i++) {
 			// 	dataString.campaignCode.push("CAN" + this.getView().getModel("stanrushModel").oData.data[i].CampaignCode);
 			// }
-			dataString.campaignCode=[];
-			dataString.vins=[];
-			for (var i=1;i<=this.getView().getModel("stanrushModel").oData.data.length;i++){
-			dataString.campaignCode.push("CAN" + this.getView().getModel("stanrushModel").oData.data[i].CampaignCode);
-			dataString.vins.push(this.getView().getModel("stanrushModel").oData.data[i].vinNum);
+			dataString.campaignCode = [];
+			dataString.vins = [];
+			for (var i = 1; i < this.getView().getModel("stanrushModel").oData.data.length; i++) {
+				dataString.campaignCode.push("CAN" + this.getView().getModel("stanrushModel").oData.data[i].CampaignCode);
 			}
+			dataString.vins.push(this.getView().getModel("stanrushModel").oData.data[0].vinNum);
 			var oURL = "/TMNA/naqp/campaign/parts-details/v2/";
 			$.ajax({
 				type: 'POST',
@@ -633,17 +633,22 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					// oOrderData.items[0].spq = "";
 					// oOrderData.items[0].partDesc = "";
 					for (var i = 0; i < data.length; i++) {
-						if(data[i].status=="Success"){
-						oOrderData.items[i].qty = data[i].parts[i].maxQty;
-						oOrderData.items[i].contractNum = "";
-						oOrderData.items[i].campaignNum = data[i].campaignCode.slice(3, 6);
-						oOrderData.items[i].comment = "";
-						oOrderData.items[i].partNumber = data[i].parts[i].partNumber;
-						oOrderData.items[i].opCode = "";
-						oOrderData.items[i].vin = data[i].vin;
-						oOrderData.items[i].spq = "";
-						oOrderData.items[i].partDesc = data[i].parts[i].partDescription;
-						//oOrderData.items[i].line = oOrderData.totalLines + 1;
+						if (data[i].status == "Success") {
+							oOrderData.items[i].qty = data[i].parts[i].maxQty;
+							oOrderData.items[i].contractNum = "";
+							oOrderData.items[i].campaignNum = data[i].campaignCode.slice(3, 6);
+							oOrderData.items[i].comment = "";
+							oOrderData.items[i].partNumber = data[i].parts[i].partNumber;
+							oOrderData.items[i].opCode = "";
+							oOrderData.items[i].vin = data[i].vin;
+							oOrderData.items[i].spq = "";
+							oOrderData.items[i].partDesc = data[i].parts[i].partDescription;
+							//oOrderData.items[i].line = oOrderData.totalLines + 1;
+						} else {
+							MessageBox.error(data[i].failureReasons[i].value, {
+								onClose: function (sAction) {}
+							});
+
 						}
 					}
 					that.oOrderModel.setData(oOrderData);
