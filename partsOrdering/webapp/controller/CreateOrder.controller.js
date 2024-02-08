@@ -555,7 +555,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					// that.oOrderModel.setData(oOrderData);
 					var item1 = {};
 					data1.push(item1);
+					
 					$.each(data, function (i, item) {
+						if(data[i].status=="Success"){
 						data1.push({
 							"campaignNum": item.campaignCode.slice(3, 6),
 							"vin": item.vin,
@@ -564,8 +566,13 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							"partDesc": item.parts[0].partDescription,
 							"line": i + 1,
 							"OperationCode":that.getView().getModel("campaignModel").oData.data[i].OperationCode
-
+						
 						});
+						} else {
+							MessageBox.error(data[i].failureReasons[0].value+"for"+item.campaignCode.slice(3, 6), {
+								onClose: function (sAction) {}
+							});
+						}
 						// data1[0].campaignNum=data[0].campaignCode;
 						// data1[0].vin=data[0].vin;
 						// data1[0].qty=data[0].parts[0].maxQty;                        
