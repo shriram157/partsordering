@@ -601,10 +601,13 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			// for (var i = 1; i <= this.getView().getModel("stanrushModel").oData.data.length-1; i++) {
 			// 	dataString.campaignCode.push("CAN" + this.getView().getModel("stanrushModel").oData.data[i].CampaignCode);
 			// }
-			dataString.campaignCode="CAN" + this.getView().getModel("stanrushModel").oData.data[0].CampaignCode;
+			dataString.campaignCode=[];
 			dataString.vins=[];
+			for (var i=0;i<this.getView().getModel("stanrushModel").oData.data.length;i++){
+			dataString.campaignCode.push("CAN" + this.getView().getModel("stanrushModel").oData.data[0].CampaignCode);
 			dataString.vins.push(this.getView().getModel("stanrushModel").oData.data[0].vinNum);
-			var oURL = "/TMNA/naqp/campaign/parts-details/v1/";
+			}
+			var oURL = "/TMNA/naqp/campaign/parts-details/v2/";
 			$.ajax({
 				type: 'POST',
 				url: oURL,
