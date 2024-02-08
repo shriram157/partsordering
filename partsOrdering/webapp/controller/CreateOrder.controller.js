@@ -645,7 +645,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							oOrderData.items[i].partDesc = data[i].parts[i].partDescription;
 							//oOrderData.items[i].line = oOrderData.totalLines + 1;
 						} else {
-							MessageBox.error(data[i].failureReasons[i].value, {
+							MessageBox.error(data[i].failureReasons[0].value, {
 								onClose: function (sAction) {}
 							});
 
