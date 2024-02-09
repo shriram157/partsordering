@@ -641,12 +641,13 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								"qty": item.parts[0].maxQty,
 								"partNumber": item.parts[0].partNumber,
 								"partDesc": item.parts[0].partDescription,
-								"line": i + 1
+								"line": i++
+
 							//	"OperationCode": that.getView().getModel("campaignModel").oData.data[i].OperationCode
 
 							});
 						} else {
-							MessageBox.error(data[i].failureReasons[0].value + "" + "for" + "" + "Campaign Code" + "" + item.campaignCode.slice(3, 6), {
+							MessageBox.error(data[i].failureReasons[0].value + ' ' + "for" + ' ' + "Campaign Code" + ' ' + item.campaignCode.slice(3, 6), {
 								onClose: function (sAction) {}
 							});
 						}
@@ -660,8 +661,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							}
 						});
 						that.onDialogClose();
-					
-
 				},
 				error: function (data) {
 					console.log("I am inside error function");
