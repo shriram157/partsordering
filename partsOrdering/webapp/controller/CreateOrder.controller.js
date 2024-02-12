@@ -666,7 +666,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					});
 					//	oOrderData.totalLines = oOrderData.items.length - 1;
 					tmnaData.setData(data1);
-					that.getView().getModel("orderModel").oData.totalLines = that.getView().getModel("orderModel").oData.items.length - 1;
+			//		that.getView().getModel("orderModel").oData.totalLines = that.getView().getModel("orderModel").oData.items.length - 1;
 					var oModel = that.getModel(CONT_ORDER_MODEL);
 					oModel.setProperty("/items", data1);
 					MessageBox.success(data, {
