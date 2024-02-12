@@ -1971,6 +1971,10 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			if (iQty === 0 || isNaN(iQty)) {
 				return "";
 			}
+			if (iQty>5){
+			//	return ("Quantity should not be greater than 5");
+				MessageToast.show("Quantity should not be greater than 5");
+			}
 
 		},
 
