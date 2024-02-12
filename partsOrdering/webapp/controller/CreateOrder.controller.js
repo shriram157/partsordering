@@ -650,7 +650,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								"qty": item.parts[0].maxQty,
 								"partNumber": item.parts[0].partNumber,
 								"partDesc": item.parts[0].partDescription,
-								"line": that.getView().getModel("orderModel").oData.totalLines + 1
+								"line": that.getView().getModel("orderModel").oData.totalLines + 1,
+								"hasError":false
 
 								//	"OperationCode": that.getView().getModel("campaignModel").oData.data[i].OperationCode
 
