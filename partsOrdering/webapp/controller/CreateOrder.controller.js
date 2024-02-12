@@ -641,11 +641,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								"qty": item.parts[0].maxQty,
 								"partNumber": item.parts[0].partNumber,
 								"partDesc": item.parts[0].partDescription,
-								"line":that.getView().getModel("orderModel").oData.totalLines + 1
+								"line":that.getView().getModel("orderModel").oData.totalLines+1
 
 								//	"OperationCode": that.getView().getModel("campaignModel").oData.data[i].OperationCode
 
 							});
+							
 						} else {
 							MessageBox.error(data[i].failureReasons[0].value + ' ' + "for" + ' ' + "Campaign Code" + ' ' + item.campaignCode.slice(3,
 								6), {
@@ -654,6 +655,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						}
 					});
 				//	oOrderData.totalLines = oOrderData.items.length - 1;
+					that.getView().getModel("orderModel").oData.totalLines=that.getView().getModel("orderModel").oData.items.length-1;
 					tmnaData.setData(data1);
 					var oModel = that.getModel(CONT_ORDER_MODEL);
 					oModel.setProperty("/items", data1);
