@@ -630,17 +630,16 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					console.log("I am inside success function");
 					var tmnaData = new JSONModel();
 					var data1 = [];
-					var item1 ={};
-						// qty = "",
-						// contractNum = "",
-						// campaignNum = "",
-						// comment = "",
-						// partNumber = "",
-						// opCode = "",
-						// vin = "",
-						// spq = "",
-						// partDesc = "",
-						// line = 0
+					var item1 = {};
+					item1.line = 0;
+					item1.contractNum = "";
+					item1.campaignNum = "";
+					item1.comment = "";
+					item1.partNumber = "";
+					item1.opCode = "";
+					item1.vin = "";
+					item1.spq = "";
+					item1.partDesc = "";
 					data1.push(item1);
 
 					$.each(data, function (i, item) {
@@ -656,8 +655,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								//	"OperationCode": that.getView().getModel("campaignModel").oData.data[i].OperationCode
 
 							});
-							tmnaData.setData(data1);
-							that.getView().getModel("orderModel").oData.totalLines = that.getView().getModel("orderModel").oData.items.length - 1;
+							that.getView().getModel("orderModel").oData.totalLines + 1;
 
 						} else {
 							MessageBox.error(data[i].failureReasons[0].value + ' ' + "for" + ' ' + "Campaign Code" + ' ' + item.campaignCode.slice(3,
@@ -667,7 +665,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						}
 					});
 					//	oOrderData.totalLines = oOrderData.items.length - 1;
-
+					tmnaData.setData(data1);
+					that.getView().getModel("orderModel").oData.totalLines = that.getView().getModel("orderModel").oData.items.length - 1;
 					var oModel = that.getModel(CONT_ORDER_MODEL);
 					oModel.setProperty("/items", data1);
 					MessageBox.success(data, {
