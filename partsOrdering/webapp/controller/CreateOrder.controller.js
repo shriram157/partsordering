@@ -630,18 +630,17 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					console.log("I am inside success function");
 					var tmnaData = new JSONModel();
 					var data1 = [];
-					var item1 = {
-						qty = "",
-						contractNum = "",
-						campaignNum = "",
-						comment = "",
-						partNumber = "",
-						opCode = "",
-						vin = "",
-						spq = "",
-						partDesc = "",
-						line = 0
-					};
+					var item1 ={};
+						// qty = "",
+						// contractNum = "",
+						// campaignNum = "",
+						// comment = "",
+						// partNumber = "",
+						// opCode = "",
+						// vin = "",
+						// spq = "",
+						// partDesc = "",
+						// line = 0
 					data1.push(item1);
 
 					$.each(data, function (i, item) {
