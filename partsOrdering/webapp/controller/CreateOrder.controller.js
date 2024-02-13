@@ -594,6 +594,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				dataString.campaignCode.push("CAN" + this.getView().getModel("stanrushModel").oData.data[i].CampaignCode);
 			}
 			dataString.vins.push(this.getView().getModel("stanrushModel").oData.data[0].vinNum);
+			var orderTypeId = this.oOrderModel.getProperty("/orderTypeId");
+			if (orderTypeId == 1) {
+				var orderType = "ZOR";
+			} else {
+				var orderType = "ZRO";
+			}
 			//	var failCampaigns=[];
 			// var dataString = {
 			// 	"campaignCode": "20TA02",
@@ -628,6 +634,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 				success: function (data) {
 					console.log("I am inside success function");
+					that.handleProductChange();
 					var tmnaData = new JSONModel();
 					var data1 = [];
 					var item1 = {};
@@ -640,7 +647,16 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					item1.vin = "";
 					item1.spq = "";
 					item1.partDesc = "";
-					item1.addIcon=true;
+					item1.addIcon = true;
+					// item1.hasError = false;
+					// item1.division = that.getView().getModel("orderModel").oData.Division;
+					// item1.partDesc = that.getView().getModel("orderModel").oData.items[1].partDesc;
+					// oitem.itemCategoryGroup = item1Data[0].categoryGroup;
+					// oitem.OrderType = orderType;
+					// oitem.spq = item1Data[0].SPQ;
+					// item1.companyCode = that.getView().getModel("orderModel").oData.companyCode;
+					// item1.ItemStatus = "Unsaved";
+					// that.itemTable.getBinding("rows").getModel().refresh(true);
 					data1.push(item1);
 
 					$.each(data, function (i, item) {
@@ -1968,21 +1984,25 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		},
 
 		checkQtyZero: function (oEvent) {
-			var that=this;
+			var that = this;
 			var iQty = parseInt(oEvent.getParameter("newValue"), 10);
 			if (iQty === 0 || isNaN(iQty)) {
 				return "";
 			}
-			if (iQty > 5) {
-				//	MessageToast.show("Quantity should not be greater than 5");
-				var qtyMsg = that.oResourceBundle.getText("QtyCheck");
-				sap.m.MessageBox.show(qtyMsg, {
-					icon: MessageBox.Icon.ERROR,
-					title: that.oResourceBundle.getText("ERROR"),
-					actions: [MessageBox.Action.OK],
-					onClose: function (sAction) {}
-				});
-				return "";
+			for (var i = 0; i < this.getView().getModel("orderModel").oData.items.length; i++) {
+				if (iQty > this.getView().getModel("orderModel").oData.items[i].qty) {
+					//	MessageToast.show("Quantity should not be greater than 5");
+					var qtyMsg = that.oResourceBundle.getText("QtyCheck");
+					sap.m.MessageBox.show(qtyMsg, {
+						icon: MessageBox.Icon.ERROR,
+						title: that.oResourceBundle.getText("ERROR"),
+						actions: [MessageBox.Action.OK],
+						onClose: function (sAction) {
+							return this.getView().getModel("orderModel").oData.items[i].qty;
+						}
+					});
+					
+				}
 			}
 
 		},
