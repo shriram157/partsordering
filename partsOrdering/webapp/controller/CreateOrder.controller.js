@@ -640,6 +640,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					item1.vin = "";
 					item1.spq = "";
 					item1.partDesc = "";
+					item1.addIcon=true;
 					data1.push(item1);
 
 					$.each(data, function (i, item) {
@@ -1972,12 +1973,11 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				return "";
 			}
 			if (iQty > 5) {
-				//	return ("Quantity should not be greater than 5");
 				//	MessageToast.show("Quantity should not be greater than 5");
-				var qtyMsg = this.getResourceBundle.getText("QtyCheck");
+				var qtyMsg = that.oResourceBundle.getText("QtyCheck");
 				sap.m.MessageBox.show(qtyMsg, {
 					icon: MessageBox.Icon.ERROR,
-					title: this.getResourceBundle.getText("ERROR"),
+					title: that.oResourceBundle.getText("ERROR"),
 					actions: [MessageBox.Action.OK],
 					onClose: function (sAction) {}
 				});
