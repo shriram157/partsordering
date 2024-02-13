@@ -634,7 +634,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 				success: function (data) {
 					console.log("I am inside success function");
-					that.handleProductChange();
 					var tmnaData = new JSONModel();
 					var data1 = [];
 					var item1 = {};
