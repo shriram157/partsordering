@@ -651,12 +651,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								"partNumber": item.parts[0].partNumber,
 								"partDesc": item.parts[0].partDescription,
 								"line": that.getView().getModel("orderModel").oData.totalLines + 1,
-								"hasError":false
+								"hasError": false
 
 								//	"OperationCode": that.getView().getModel("campaignModel").oData.data[i].OperationCode
 
 							});
-							that.getView().getModel("orderModel").oData.totalLines=that.getView().getModel("orderModel").oData.totalLines + 1;
+							that.getView().getModel("orderModel").oData.totalLines = that.getView().getModel("orderModel").oData.totalLines + 1;
 
 						} else {
 							MessageBox.error(data[i].failureReasons[0].value + ' ' + "for" + ' ' + "Campaign Code" + ' ' + item.campaignCode.slice(3,
@@ -667,7 +667,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					});
 					//	oOrderData.totalLines = oOrderData.items.length - 1;
 					tmnaData.setData(data1);
-			//		that.getView().getModel("orderModel").oData.totalLines = that.getView().getModel("orderModel").oData.items.length - 1;
+					//		that.getView().getModel("orderModel").oData.totalLines = that.getView().getModel("orderModel").oData.items.length - 1;
 					var oModel = that.getModel(CONT_ORDER_MODEL);
 					oModel.setProperty("/items", data1);
 					MessageBox.success(data, {
@@ -1971,9 +1971,17 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			if (iQty === 0 || isNaN(iQty)) {
 				return "";
 			}
-			if (iQty>5){
-			//	return ("Quantity should not be greater than 5");
-				MessageToast.show("Quantity should not be greater than 5");
+			if (iQty > 5) {
+				//	return ("Quantity should not be greater than 5");
+				//	MessageToast.show("Quantity should not be greater than 5");
+				var qtyMsg = this.oResourceBundle.getText(QtyCheck);
+				sap.m.MessageBox.show(qtyMsg, {
+					icon: MessageBox.Icon.ERROR,
+					title: this.oResourceBundle.getText(ERROR),
+					actions: [MessageBox.Action.OK],
+					onClose: function (sAction) {}
+				});
+				return "";
 			}
 
 		},
