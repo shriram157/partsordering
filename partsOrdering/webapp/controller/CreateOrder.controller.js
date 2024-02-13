@@ -1968,6 +1968,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		},
 
 		checkQtyZero: function (oEvent) {
+			var that=this;
 			var iQty = parseInt(oEvent.getParameter("newValue"), 10);
 			if (iQty === 0 || isNaN(iQty)) {
 				return "";
