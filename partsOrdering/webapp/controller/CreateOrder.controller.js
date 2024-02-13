@@ -1974,10 +1974,10 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			if (iQty > 5) {
 				//	return ("Quantity should not be greater than 5");
 				//	MessageToast.show("Quantity should not be greater than 5");
-				var qtyMsg = this.oResourceBundle.getText(QtyCheck);
+				var qtyMsg = this.getResourceBundle.getText("QtyCheck");
 				sap.m.MessageBox.show(qtyMsg, {
 					icon: MessageBox.Icon.ERROR,
-					title: this.oResourceBundle.getText(ERROR),
+					title: this.getResourceBundle.getText("ERROR"),
 					actions: [MessageBox.Action.OK],
 					onClose: function (sAction) {}
 				});
