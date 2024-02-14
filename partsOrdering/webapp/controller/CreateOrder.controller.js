@@ -1997,14 +1997,15 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						var maxqty = this.getView().getModel("orderModel").oData.items[iRowIndex].qty;
 						var sqty = this.getView().getModel("orderModel").oData.items[iRowIndex].maxqty;
 						var qtyMsg = that.oResourceBundle.getText("QtyCheck") + ' ' + sqty;
-						if (iQty > maxqty) {
+						if (iQty > sqty) {
 							sap.m.MessageBox.show(qtyMsg, {
 								icon: MessageBox.Icon.ERROR,
 								title: that.oResourceBundle.getText("ERROR"),
 								actions: [MessageBox.Action.OK],
 								onClose: function (sAction) {
 									if (sAction == "OK") {
-										that.getView().getModel("orderModel").setProperty(qty,sqty);
+									//	that.getView().getModel("orderModel").oData.items[iRowIndex].qty.setValue(sqty);
+										that.getView().getModel("orderModel").setProperty("/items/"+iRowIndex+"/qty",sqty);
 									}
 								}
 							});
@@ -2044,14 +2045,15 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						var maxqty = this.getView().getModel("orderModel").oData.items[iRowIndex].qty;
 						var sqty = this.getView().getModel("orderModel").oData.items[iRowIndex].maxqty;
 						var qtyMsg = that.oResourceBundle.getText("QtyCheck") + ' ' + sqty;
-						if (newValue > maxqty) {
+						if (newValue > sqty) {
 							sap.m.MessageBox.show(qtyMsg, {
 								icon: MessageBox.Icon.ERROR,
 								title: that.oResourceBundle.getText("ERROR"),
 								actions: [MessageBox.Action.OK],
 								onClose: function (sAction) {
 									if (sAction == "OK") {
-										that.getView().getModel("orderModel").setProperty(qty,sqty);	
+									//	that.getView().getModel("orderModel").oData.items[iRowIndex].qty.setValue(sqty);
+										that.getView().getModel("orderModel").setProperty("/items/"+iRowIndex+"/qty",sqty);
 									}
 								}
 							});
