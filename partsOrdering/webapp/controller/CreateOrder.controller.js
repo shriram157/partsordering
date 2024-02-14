@@ -647,6 +647,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					item1.spq = "";
 					item1.partDesc = "";
 					item1.addIcon = true;
+					item1.qty="";
 					// item1.hasError = false;
 					// item1.division = that.getView().getModel("orderModel").oData.Division;
 					// item1.partDesc = that.getView().getModel("orderModel").oData.items[1].partDesc;
@@ -690,7 +691,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					var oModel = that.getModel(CONT_ORDER_MODEL);
 					oModel.setProperty("/items", data1);
 					var oOrderData=that.getView().getModel("orderModel").getData();
-					that.aCreateItems.push(oOrderData.items);
+					for(var i=0;i<that.getView().getModel("orderModel").items.length;i++){            //changes by swetha for DMND0004095
+						that.aCreateItems.push(oOrderData.items[i]);
+					}
 					MessageBox.success(data, {
 						onClose: function (sAction) {
 							sap.m.MessageToast.show("Success");
