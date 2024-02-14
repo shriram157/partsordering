@@ -1995,7 +1995,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						var oTable = oRow.getParent(); // Get Table
 						var iRowIndex = oTable.indexOfRow(oRow); //Get Row index
 						var maxqty = this.getView().getModel("orderModel").oData.items[iRowIndex].qty;
-						var qtyMsg = that.oResourceBundle.getText("QtyCheck") + ' ' + maxqty;
+						var sqty = this.getView().getModel("orderModel").oData.items[iRowIndex].maxqty;
+						var qtyMsg = that.oResourceBundle.getText("QtyCheck") + ' ' + sqty;
 						if (iQty > maxqty) {
 							sap.m.MessageBox.show(qtyMsg, {
 								icon: MessageBox.Icon.ERROR,
@@ -2003,7 +2004,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								actions: [MessageBox.Action.OK],
 								onClose: function (sAction) {
 									if (sAction == "OK") {
-										oEvent.getSource().setValue(maxqty);
+										this.getView().getModel("orderModel").setProperty(qty,sqty);
 									}
 								}
 							});
@@ -2036,25 +2037,26 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			if (obj.addIcon !== true) {
 				var newValue = oEvent.getParameter("newValue");
 				if (newValue > 0) {
-					// if (this.getView().getModel("orderModel").oData.typeCPOR == true) { //changes by swetha for DMND0004095
-					// 	var oRow = oEvent.getSource().getParent(); //Get Row
-					// 	var oTable = oRow.getParent(); // Get Table
-					// 	var iRowIndex = oTable.indexOfRow(oRow); //Get Row index
-					// 	var maxqty = this.getView().getModel("orderModel").oData.items[iRowIndex].qty;
-					// 	var qtyMsg = that.oResourceBundle.getText("QtyCheck") + ' ' + maxqty;
-					// 	if (newValue > maxqty) {
-					// 		sap.m.MessageBox.show(qtyMsg, {
-					// 			icon: MessageBox.Icon.ERROR,
-					// 			title: that.oResourceBundle.getText("ERROR"),
-					// 			actions: [MessageBox.Action.OK],
-					// 			onClose: function (sAction) {
-					// 				if (sAction == "OK") {
-					// 					this.getView().getModel("orderModel").oData.items[iRowIndex].qty;	
-					// 				}
-					// 			}
-					// 		});
-					// 	}
-					// }
+					if (this.getView().getModel("orderModel").oData.typeCPOR == true) { //changes by swetha for DMND0004095
+						var oRow = oEvent.getSource().getParent(); //Get Row
+						var oTable = oRow.getParent(); // Get Table
+						var iRowIndex = oTable.indexOfRow(oRow); //Get Row index
+						var maxqty = this.getView().getModel("orderModel").oData.items[iRowIndex].qty;
+						var sqty = this.getView().getModel("orderModel").oData.items[iRowIndex].maxqty;
+						var qtyMsg = that.oResourceBundle.getText("QtyCheck") + ' ' + sqty;
+						if (newValue > maxqty) {
+							sap.m.MessageBox.show(qtyMsg, {
+								icon: MessageBox.Icon.ERROR,
+								title: that.oResourceBundle.getText("ERROR"),
+								actions: [MessageBox.Action.OK],
+								onClose: function (sAction) {
+									if (sAction == "OK") {
+										this.getView().getModel("orderModel").setProperty(qty,sqty);	
+									}
+								}
+							});
+						}
+					}
 					obj.ItemStatus = "Unsaved";
 
 					oSource.setValueStateText("");
