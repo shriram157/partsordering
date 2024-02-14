@@ -2001,7 +2001,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								onClose: function (sAction) {
 									// if (sAction == "OK") {
 									// 	iQty = this.getView().getModel("orderModel").oData.items[i].qty;
-									}
+									//}
 									
 								}
 							});
