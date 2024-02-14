@@ -1999,10 +1999,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								title: that.oResourceBundle.getText("ERROR"),
 								actions: [MessageBox.Action.OK],
 								onClose: function (sAction) {
-									if (sAction == "OK") {
-										return this.getView().getModel("orderModel").oData.items[i].qty;
-										break;
-									}
+									// if (sAction == "OK") {
+									// 	return "";
+									// }
 									
 								}
 							});
@@ -2010,6 +2009,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					}
 					
 				}
+				return "";
 				
 			}
 		},
