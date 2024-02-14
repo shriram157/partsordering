@@ -587,7 +587,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 		cporFunction2: function (oEvent) {
 			var that = this;
 			var dataString = {};
-			// this.getView().getModel("campaignModel").getData();
+			// var oOrderData=this.getView().getModel("orderModel").getData();
 			dataString.vins = [];
 			dataString.campaignCode = [];
 			for (var i = 1; i < this.getView().getModel("stanrushModel").oData.data.length; i++) {
@@ -674,7 +674,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 							});
 							that.getView().getModel("orderModel").oData.totalLines = that.getView().getModel("orderModel").oData.totalLines + 1;
-
+							// var oOrderData=this.getView().getModel("orderModel").getData();
+							// that.aCreateItems.push(oOrderData.items[i]);
 						} else {
 							MessageBox.error(data[i].failureReasons[0].value + ' ' + "for" + ' ' + "Campaign Code" + ' ' + item.campaignCode.slice(3,
 								6), {
@@ -682,11 +683,14 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							});
 						}
 					});
+					
 					//	oOrderData.totalLines = oOrderData.items.length - 1;
 					tmnaData.setData(data1);
 					//		that.getView().getModel("orderModel").oData.totalLines = that.getView().getModel("orderModel").oData.items.length - 1;
 					var oModel = that.getModel(CONT_ORDER_MODEL);
 					oModel.setProperty("/items", data1);
+					var oOrderData=that.getView().getModel("orderModel").getData();
+					that.aCreateItems.push(oOrderData.items);
 					MessageBox.success(data, {
 						onClose: function (sAction) {
 							sap.m.MessageToast.show("Success");
@@ -1206,11 +1210,11 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oOrderData.data[0].addButtonVisible = false;
 				oOrderData.data[0].delButVisible = true;
 				oOrderData.data[0].line = oOrderData.data.length;
-				oOrderData.data[0].Division=this.getView().getModel("orderModel").oData.Division;
-				oOrderData.data[0].SalesOrganization=this.getView().getModel("orderModel").oData.SalesOrganization;
-				oOrderData.data[0].DistributionChannel=this.getView().getModel("orderModel").oData.DistributionChannel;
-				oOrderData.data[0].tciOrderNumber=this.getView().getModel("orderModel").oData.tciOrderNumber;
-				oOrderData.data[0].OrderType=orderType;
+				// oOrderData.data[0].Division=this.getView().getModel("orderModel").oData.Division;
+				// oOrderData.data[0].SalesOrganization=this.getView().getModel("orderModel").oData.SalesOrganization;
+				// oOrderData.data[0].DistributionChannel=this.getView().getModel("orderModel").oData.DistributionChannel;
+				// oOrderData.data[0].tciOrderNumber=this.getView().getModel("orderModel").oData.tciOrderNumber;
+				// oOrderData.data[0].OrderType=orderType;
 
 				oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
 				this.aCreateItems.push(oOrderData.data[0]);
@@ -1227,12 +1231,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					CampaignCode: "",
 					delButVisible: true,
 					addButtonVisible: true,
-					line: 0,
-					Division:this.getView().getModel("orderModel").oData.Division,
-					SalesOrganization:this.getView().getModel("orderModel").oData.SalesOrganization,
-					DistributionChannel:this.getView().getModel("orderModel").oData.DistributionChannel,
-					tciOrderNumber:this.getView().getModel("orderModel").oData.tciOrderNumber,
-					OrderType:orderType
+					line: 0
+					// Division:this.getView().getModel("orderModel").oData.Division,
+					// SalesOrganization:this.getView().getModel("orderModel").oData.SalesOrganization,
+					// DistributionChannel:this.getView().getModel("orderModel").oData.DistributionChannel,
+					// tciOrderNumber:this.getView().getModel("orderModel").oData.tciOrderNumber,
+					// OrderType:orderType
 					});
 				sap.ui.getCore().byId("standDelButVisible").setEnabled(true);
 				this.getView().getModel("stanrushModel").setData(oOrderData);
