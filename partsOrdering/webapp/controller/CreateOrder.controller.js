@@ -2004,7 +2004,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								actions: [MessageBox.Action.OK],
 								onClose: function (sAction) {
 									if (sAction == "OK") {
-										this.getView().getModel("orderModel").setProperty(qty,sqty);
+										that.getView().getModel("orderModel").setProperty(qty,sqty);
 									}
 								}
 							});
@@ -2051,7 +2051,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								actions: [MessageBox.Action.OK],
 								onClose: function (sAction) {
 									if (sAction == "OK") {
-										this.getView().getModel("orderModel").setProperty(qty,sqty);	
+										that.getView().getModel("orderModel").setProperty(qty,sqty);	
 									}
 								}
 							});
