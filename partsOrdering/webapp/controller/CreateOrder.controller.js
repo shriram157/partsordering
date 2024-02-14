@@ -405,9 +405,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				model.setData(rData);
 
 				that.setModel(model, CONT_ORDER_MODEL);
-				//changes by Swetha for DMND0004095 Start
-				that.setModel(stanrushModel, CONT_ORDER_MODEL);
-				//changes by Swetha for DMND0004095 End
 				sap.ui.core.BusyIndicator.hide();
 			});
 
@@ -2002,13 +1999,15 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								title: that.oResourceBundle.getText("ERROR"),
 								actions: [MessageBox.Action.OK],
 								onClose: function (sAction) {
-									if (sAction == "OK") {
-										iQty = this.getView().getModel("orderModel").oData.items[i].qty;
+									// if (sAction == "OK") {
+									// 	iQty = this.getView().getModel("orderModel").oData.items[i].qty;
 									}
+									
 								}
 							});
 						}
 					}
+					return this.getView().getModel("orderModel").oData.items[i].qty;
 				}
 			}
 		},
