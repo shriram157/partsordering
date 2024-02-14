@@ -1989,19 +1989,19 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				return "";
 			} else {
 				for (var i = 0; i < this.getView().getModel("orderModel").oData.items.length; i++) {
-					if(this.getView().getModel("orderModel").oData.items[i].qty!=0){
+					if(this.getView().getModel("orderModel").oData.items[i].qty!=0 && this.getView().getModel("orderModel").oData.items[i].qty!=undefined){
 						if (iQty > this.getView().getModel("orderModel").oData.items[i].qty) {
 					//	MessageToast.show("Quantity should not be greater than 5");
-							var qtyMsg = that.oResourceBundle.getText("QtyCheck");
+							var qtyMsg = that.oResourceBundle.getText("QtyCheck")+ ' ' +this.getView().getModel("orderModel").oData.items[i].qty;
 							sap.m.MessageBox.show(qtyMsg, {
 							icon: MessageBox.Icon.ERROR,
 							title: that.oResourceBundle.getText("ERROR"),
 							actions: [MessageBox.Action.OK],
 							onClose: function (sAction) {
-								return this.getView().getModel("orderModel").oData.items[i].qty;
+								
 						}
 					});
-					
+					return this.getView().getModel("orderModel").oData.items[i].qty;
 				}
 			}
 				}
