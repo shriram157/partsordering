@@ -697,6 +697,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						}
 					});
 					that.onDialogClose();
+					DataManager.setOrderData(oOrderData);      //changes by swetha for DMND0004095
 				},
 				error: function (data) {
 					console.log("I am inside error function");
@@ -1217,7 +1218,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				// oOrderData.data[0].OrderType=orderType;
 
 				oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
-				this.aCreateItems.push(oOrderData.data[0]);
+			//	this.aCreateItems.push(oOrderData.data[0]);                                //changes by swetha for DMND0004095
 				// this.toggleSubmitDraftButton();
 				oOrderData.data.splice(0, 1);
 				var that = this;
@@ -1239,8 +1240,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					// OrderType:orderType
 					});
 				sap.ui.getCore().byId("standDelButVisible").setEnabled(true);
-				this.getView().getModel("stanrushModel").setData(oOrderData);
-				DataManager.setOrderData(oOrderData);
+				this.getView().getModel("stanrushModel").setData(oOrderData);   
+				//DataManager.setOrderData(oOrderData);                         //changes by swetha for DMND0004095
 				if (oSource) {
 					oSource.setEnabled(true);
 					oSource.setBusy(false);
