@@ -405,6 +405,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				model.setData(rData);
 
 				that.setModel(model, CONT_ORDER_MODEL);
+				//changes by Swetha for DMND0004095 Start
+				that.setModel(stanrushModel, CONT_ORDER_MODEL);
+				//changes by Swetha for DMND0004095 End
 				sap.ui.core.BusyIndicator.hide();
 			});
 
@@ -1989,21 +1992,23 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				return "";
 			} else {
 				for (var i = 0; i < this.getView().getModel("orderModel").oData.items.length; i++) {
-					if(this.getView().getModel("orderModel").oData.items[i].qty!=0 && this.getView().getModel("orderModel").oData.items[i].qty!=undefined){
+					if (this.getView().getModel("orderModel").oData.items[i].qty != 0 && this.getView().getModel("orderModel").oData.items[i].qty !=
+						undefined) {
 						if (iQty > this.getView().getModel("orderModel").oData.items[i].qty) {
-					//	MessageToast.show("Quantity should not be greater than 5");
-							var qtyMsg = that.oResourceBundle.getText("QtyCheck")+ ' ' +this.getView().getModel("orderModel").oData.items[i].qty;
+							//	MessageToast.show("Quantity should not be greater than 5");
+							var qtyMsg = that.oResourceBundle.getText("QtyCheck") + ' ' + this.getView().getModel("orderModel").oData.items[i].qty;
 							sap.m.MessageBox.show(qtyMsg, {
-							icon: MessageBox.Icon.ERROR,
-							title: that.oResourceBundle.getText("ERROR"),
-							actions: [MessageBox.Action.OK],
-							onClose: function (sAction) {
-								
+								icon: MessageBox.Icon.ERROR,
+								title: that.oResourceBundle.getText("ERROR"),
+								actions: [MessageBox.Action.OK],
+								onClose: function (sAction) {
+									if (sAction == "OK") {
+										iQty = this.getView().getModel("orderModel").oData.items[i].qty;
+									}
+								}
+							});
 						}
-					});
-					return this.getView().getModel("orderModel").oData.items[i].qty;
-				}
-			}
+					}
 				}
 			}
 		},
