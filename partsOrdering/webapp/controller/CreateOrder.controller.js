@@ -171,7 +171,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					delButVisible: false,
 					addButtonVisible: true,
 					line: 0
-					
 				}],
 				typeCPOR: oEvent.getParameter("arguments").CPORCB
 			});
@@ -2000,16 +1999,17 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								title: that.oResourceBundle.getText("ERROR"),
 								actions: [MessageBox.Action.OK],
 								onClose: function (sAction) {
-									// if (sAction == "OK") {
-									// 	iQty = this.getView().getModel("orderModel").oData.items[i].qty;
-									//}
+									if (sAction == "OK") {
+										return this.getView().getModel("orderModel").oData.items[i].qty;
+									}
 									
 								}
 							});
 						}
 					}
-					return this.getView().getModel("orderModel").oData.items[i].qty;
+					
 				}
+				
 			}
 		},
 
