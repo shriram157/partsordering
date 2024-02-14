@@ -691,7 +691,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					var oModel = that.getModel(CONT_ORDER_MODEL);
 					oModel.setProperty("/items", data1);
 					var oOrderData=that.getView().getModel("orderModel").getData();
-					for(var i=0;i<that.getView().getModel("orderModel").items.length;i++){            //changes by swetha for DMND0004095
+					for(var i=0;i<oOrderData.items.length;i++){            //changes by swetha for DMND0004095
 						that.aCreateItems.push(oOrderData.items[i]);
 					}
 					MessageBox.success(data, {
