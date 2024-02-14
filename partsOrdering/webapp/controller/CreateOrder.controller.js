@@ -1206,11 +1206,11 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				oOrderData.data[0].addButtonVisible = false;
 				oOrderData.data[0].delButVisible = true;
 				oOrderData.data[0].line = oOrderData.data.length;
-				oOrderData.data[0].Division=this.getView().getModel("orderModel").oData.Division,
-				oOrderData.data[0].SalesOrganization=this.getView().getModel("orderModel").oData.SalesOrganization,
-				oOrderData.data[0].DistributionChannel=this.getView().getModel("orderModel").oData.DistributionChannel,
-				oOrderData.data[0].tciOrderNumber=this.getView().getModel("orderModel").oData.tciOrderNumber,
-				oOrderData.data[0].OrderType=orderType
+				oOrderData.data[0].Division=this.getView().getModel("orderModel").oData.Division;
+				oOrderData.data[0].SalesOrganization=this.getView().getModel("orderModel").oData.SalesOrganization;
+				oOrderData.data[0].DistributionChannel=this.getView().getModel("orderModel").oData.DistributionChannel;
+				oOrderData.data[0].tciOrderNumber=this.getView().getModel("orderModel").oData.tciOrderNumber;
+				oOrderData.data[0].OrderType=orderType;
 
 				oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
 				this.aCreateItems.push(oOrderData.data[0]);
