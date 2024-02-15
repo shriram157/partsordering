@@ -665,7 +665,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					// item1.companyCode = that.getView().getModel("orderModel").oData.companyCode;
 					// item1.ItemStatus = "Unsaved";
 					// that.itemTable.getBinding("rows").getModel().refresh(true);
-					//data1.push(item1);
+					data1.push(item1);
 
 					$.each(data, function (i, item) {
 						if (data[i].status == "Success") {
@@ -699,12 +699,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					var oModel = that.getModel(CONT_ORDER_MODEL);
 					oModel.setProperty("/items", data1);
 					var oOrderData = that.getView().getModel("orderModel").getData();
-					oOrderData.items.splice(oOrderData.items.length, 0, oOrderData.items[0]);
+				//	oOrderData.items.splice(oOrderData.items.length, 0, oOrderData.items[0]);
 					for (var i = 0; i < oOrderData.items.length; i++) { //changes by swetha for DMND0004095
 						that.aCreateItems.push(oOrderData.items[i]);
 					}
-					//oOrderData.items.splice(0, 1);
-					//oOrderData.items.splice(0, 0, that._getNewItem());
+					oOrderData.items.splice(0, 1);
+					oOrderData.items.splice(0, 0, that._getNewItem());
 					MessageBox.success(data, {
 						onClose: function (sAction) {
 							sap.m.MessageToast.show("Success");
