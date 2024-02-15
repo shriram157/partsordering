@@ -665,7 +665,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					// item1.companyCode = that.getView().getModel("orderModel").oData.companyCode;
 					// item1.ItemStatus = "Unsaved";
 					// that.itemTable.getBinding("rows").getModel().refresh(true);
-					//data1.push(item1);
+					data1.push(item1);
 
 					$.each(data, function (i, item) {
 						if (data[i].status == "Success") {
