@@ -217,6 +217,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					this.getView().getModel("orderModel").setProperty("/QuanV", true);
 					this.getView().getModel("orderModel").setProperty("/CampV", true);
 					this.getView().getModel("orderModel").setProperty("/VinV", true);
+					this.getView().getModel("orderModel").setProperty("/typeB",true);
 
 				} else {
 					if (!this._iDialog) {
@@ -231,6 +232,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					this.getView().getModel("orderModel").setProperty("/CampV", false);
 					this.getView().getModel("orderModel").setProperty("/OpCodeV", false);
 					this.getView().getModel("orderModel").setProperty("/VinV", false);
+					this.getView().getModel("orderModel").setProperty("/typeB",true);
+
 					//	this.getView().byId("Material").setEditable(false);
 
 					// this.getView().byId("idremQty").setEnabled(true);
@@ -245,6 +248,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					this.getView().getModel("orderModel").setProperty("/QuanV", true);
 					this.getView().getModel("orderModel").setProperty("/CampV", true);
 					this.getView().getModel("orderModel").setProperty("/VinV", true);
+					this.getView().getModel("orderModel").setProperty("/typeD",true);
+
 					//	 this.getView().byId("Material").setEditable(true);
 					// this.getView().byId("idremQty").setEnabled(true);
 					// this.getView().byId("CampaigntNo").setEnabled(true);
@@ -257,6 +262,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					this.getView().getModel("orderModel").setProperty("/CampV", true);
 					this.getView().getModel("orderModel").setProperty("/OpCodeV", true);
 					this.getView().getModel("orderModel").setProperty("/VinV", true);
+					this.getView().getModel("orderModel").setProperty("/typeD",true);
+
 					// this.getView().byId("Material").setEditable(true);
 					// this.getView().byId("idremQty").setEnabled(true);
 					// this.getView().byId("CampaigntNo").setEnabled(true);
