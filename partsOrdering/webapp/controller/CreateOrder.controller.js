@@ -217,8 +217,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					this.getView().getModel("orderModel").setProperty("/QuanV", true);
 					this.getView().getModel("orderModel").setProperty("/CampV", true);
 					this.getView().getModel("orderModel").setProperty("/VinV", true);
-				//	this.getView().getModel("orderModel").setProperty("/typeB",true);
-				//	this.getView().getModel("orderModel").setProperty("/typeD",false);
+					//	this.getView().getModel("orderModel").setProperty("/typeB",true);
+					//	this.getView().getModel("orderModel").setProperty("/typeD",false);
 				} else {
 					if (!this._iDialog) {
 						this._iDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.CampaignCPOR1", this);
@@ -232,8 +232,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					this.getView().getModel("orderModel").setProperty("/CampV", false);
 					this.getView().getModel("orderModel").setProperty("/OpCodeV", false);
 					this.getView().getModel("orderModel").setProperty("/VinV", false);
-				//	this.getView().getModel("orderModel").setProperty("/typeD",true);
-				//	this.getView().getModel("orderModel").setProperty("/typeB",false);
+					//	this.getView().getModel("orderModel").setProperty("/typeD",true);
+					//	this.getView().getModel("orderModel").setProperty("/typeB",false);
 
 					//	this.getView().byId("Material").setEditable(false);
 
@@ -249,8 +249,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					this.getView().getModel("orderModel").setProperty("/QuanV", true);
 					this.getView().getModel("orderModel").setProperty("/CampV", true);
 					this.getView().getModel("orderModel").setProperty("/VinV", true);
-				//	this.getView().getModel("orderModel").setProperty("/typeB",true);
-				//	this.getView().getModel("orderModel").setProperty("/typeD",false);
+					//	this.getView().getModel("orderModel").setProperty("/typeB",true);
+					//	this.getView().getModel("orderModel").setProperty("/typeD",false);
 					//	 this.getView().byId("Material").setEditable(true);
 					// this.getView().byId("idremQty").setEnabled(true);
 					// this.getView().byId("CampaigntNo").setEnabled(true);
@@ -263,8 +263,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					this.getView().getModel("orderModel").setProperty("/CampV", true);
 					this.getView().getModel("orderModel").setProperty("/OpCodeV", true);
 					this.getView().getModel("orderModel").setProperty("/VinV", true);
-				//	this.getView().getModel("orderModel").setProperty("/typeB",false);
-				//	this.getView().getModel("orderModel").setProperty("/typeD",true);
+					//	this.getView().getModel("orderModel").setProperty("/typeB",false);
+					//	this.getView().getModel("orderModel").setProperty("/typeD",true);
 					// this.getView().byId("Material").setEditable(true);
 					// this.getView().byId("idremQty").setEnabled(true);
 					// this.getView().byId("CampaigntNo").setEnabled(true);
@@ -655,7 +655,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					item1.spq = "";
 					item1.partDesc = "";
 					item1.addIcon = true;
-					item1.qty="";
+					item1.qty = "";
 					// item1.hasError = false;
 					// item1.division = that.getView().getModel("orderModel").oData.Division;
 					// item1.partDesc = that.getView().getModel("orderModel").oData.items[1].partDesc;
@@ -692,15 +692,15 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							});
 						}
 					});
-					
+
 					//	oOrderData.totalLines = oOrderData.items.length - 1;
 					tmnaData.setData(data1);
 					//		that.getView().getModel("orderModel").oData.totalLines = that.getView().getModel("orderModel").oData.items.length - 1;
 					var oModel = that.getModel(CONT_ORDER_MODEL);
 					oModel.setProperty("/items", data1);
-					var oOrderData=that.getView().getModel("orderModel").getData();
+					var oOrderData = that.getView().getModel("orderModel").getData();
 					oOrderData.items.splice(oOrderData.items.length, 0, oOrderData.items[0]);
-					for(var i=0;i<oOrderData.items.length;i++){            //changes by swetha for DMND0004095
+					for (var i = 0; i < oOrderData.items.length; i++) { //changes by swetha for DMND0004095
 						that.aCreateItems.push(oOrderData.items[i]);
 					}
 					oOrderData.items.splice(0, 1);
@@ -711,8 +711,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						}
 					});
 					that.onDialogClose();
+					if (oOrderData.totalLines >= 16) {
+						this.itemTable.setVisibleRowCount(oOrderData.items.length + 2);
+					}
+					oOrderData.modifiedOn = new Date();
 					that.oOrderModel.setData(oOrderData);
-					DataManager.setOrderData(oOrderData);      //changes by swetha for DMND0004095
+					DataManager.setOrderData(oOrderData); //changes by swetha for DMND0004095
 				},
 				error: function (data) {
 					console.log("I am inside error function");
@@ -1233,7 +1237,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				// oOrderData.data[0].OrderType=orderType;
 
 				oOrderData.data.splice(oOrderData.data.length, 0, oOrderData.data[0]);
-			//	this.aCreateItems.push(oOrderData.data[0]);                                //changes by swetha for DMND0004095
+				//	this.aCreateItems.push(oOrderData.data[0]);                                //changes by swetha for DMND0004095
 				// this.toggleSubmitDraftButton();
 				oOrderData.data.splice(0, 1);
 				var that = this;
@@ -1248,14 +1252,14 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					delButVisible: true,
 					addButtonVisible: true,
 					line: 0
-					// Division:this.getView().getModel("orderModel").oData.Division,
-					// SalesOrganization:this.getView().getModel("orderModel").oData.SalesOrganization,
-					// DistributionChannel:this.getView().getModel("orderModel").oData.DistributionChannel,
-					// tciOrderNumber:this.getView().getModel("orderModel").oData.tciOrderNumber,
-					// OrderType:orderType
-					});
+						// Division:this.getView().getModel("orderModel").oData.Division,
+						// SalesOrganization:this.getView().getModel("orderModel").oData.SalesOrganization,
+						// DistributionChannel:this.getView().getModel("orderModel").oData.DistributionChannel,
+						// tciOrderNumber:this.getView().getModel("orderModel").oData.tciOrderNumber,
+						// OrderType:orderType
+				});
 				sap.ui.getCore().byId("standDelButVisible").setEnabled(true);
-				this.getView().getModel("stanrushModel").setData(oOrderData);   
+				this.getView().getModel("stanrushModel").setData(oOrderData);
 				//DataManager.setOrderData(oOrderData);                         //changes by swetha for DMND0004095
 				if (oSource) {
 					oSource.setEnabled(true);
