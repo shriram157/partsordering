@@ -739,8 +739,7 @@ sap.ui.define([
 			var key = bModel.createKey('/C_Product', {
 				'Product': material,
 				"DraftUUID": DraftId,
-				"IsActiveEntity":true,
-				"Language":lan                                    //changes by Swetha for DMND0003930 on 15th Feb, 2024 added Language
+				"IsActiveEntity":true
 			});
 			bModel.read(key, {
 				urlParameters: {},
