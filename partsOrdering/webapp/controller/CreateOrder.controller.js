@@ -704,7 +704,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						that.aCreateItems.push(oOrderData.items[i]);
 					}
 					//oOrderData.items.splice(0, 1);
-					oOrderData.items.splice(0, 0, that._getNewItem());
+					//oOrderData.items.splice(0, 0, that._getNewItem());
 					MessageBox.success(data, {
 						onClose: function (sAction) {
 							sap.m.MessageToast.show("Success");
