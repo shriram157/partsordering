@@ -703,7 +703,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					for (var i = 0; i < oOrderData.items.length; i++) { //changes by swetha for DMND0004095
 						that.aCreateItems.push(oOrderData.items[i]);
 					}
-				//	oOrderData.items.splice(0, 1);
+					oOrderData.items.splice(0, 1);
 					oOrderData.items.splice(0, 0, that._getNewItem());
 					MessageBox.success(data, {
 						onClose: function (sAction) {
