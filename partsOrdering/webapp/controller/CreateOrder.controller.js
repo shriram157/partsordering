@@ -217,7 +217,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					this.getView().getModel("orderModel").setProperty("/QuanV", true);
 					this.getView().getModel("orderModel").setProperty("/CampV", true);
 					this.getView().getModel("orderModel").setProperty("/VinV", true);
-					this.getView().getModel("orderModel").setProperty("/typeB",true);
+				//	this.getView().getModel("orderModel").setProperty("/typeB",true);
 					this.getView().getModel("orderModel").setProperty("/typeD",false);
 				} else {
 					if (!this._iDialog) {
@@ -249,7 +249,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					this.getView().getModel("orderModel").setProperty("/QuanV", true);
 					this.getView().getModel("orderModel").setProperty("/CampV", true);
 					this.getView().getModel("orderModel").setProperty("/VinV", true);
-					this.getView().getModel("orderModel").setProperty("/typeB",true);
+				//	this.getView().getModel("orderModel").setProperty("/typeB",true);
 					this.getView().getModel("orderModel").setProperty("/typeD",false);
 					//	 this.getView().byId("Material").setEditable(true);
 					// this.getView().byId("idremQty").setEnabled(true);
