@@ -703,7 +703,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					for (var i = 0; i < oOrderData.items.length; i++) { //changes by swetha for DMND0004095
 						that.aCreateItems.push(oOrderData.items[i]);
 					}
-					oOrderData.items.splice(0, 1);
+					//oOrderData.items.splice(0, 1);
 					oOrderData.items.splice(0, 0, that._getNewItem());
 					MessageBox.success(data, {
 						onClose: function (sAction) {
@@ -711,9 +711,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						}
 					});
 					that.onDialogClose();
-					if (oOrderData.totalLines >= 16) {
-						this.itemTable.setVisibleRowCount(oOrderData.items.length + 2);
-					}
+					// if (oOrderData.totalLines >= 16) {
+					// 	this.itemTable.setVisibleRowCount(oOrderData.items.length + 2);
+					// }
 					oOrderData.modifiedOn = new Date();
 					that.oOrderModel.setData(oOrderData);
 					DataManager.setOrderData(oOrderData); //changes by swetha for DMND0004095
