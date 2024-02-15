@@ -644,18 +644,18 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					console.log("I am inside success function");
 					var tmnaData = new JSONModel();
 					var data1 = [];
-					// var item1 = {};
-					// item1.line = 0;
-					// item1.contractNum = "";
-					// item1.campaignNum = "";
-					// item1.comment = "";
-					// item1.partNumber = "";
-					// item1.opCode = "";
-					// item1.vin = "";
-					// item1.spq = "";
-					// item1.partDesc = "";
-					// item1.addIcon = true;
-					// item1.qty="";
+					var item1 = {};
+					item1.line = 0;
+					item1.contractNum = "";
+					item1.campaignNum = "";
+					item1.comment = "";
+					item1.partNumber = "";
+					item1.opCode = "";
+					item1.vin = "";
+					item1.spq = "";
+					item1.partDesc = "";
+					item1.addIcon = true;
+					item1.qty="";
 					// item1.hasError = false;
 					// item1.division = that.getView().getModel("orderModel").oData.Division;
 					// item1.partDesc = that.getView().getModel("orderModel").oData.items[1].partDesc;
@@ -699,9 +699,11 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					var oModel = that.getModel(CONT_ORDER_MODEL);
 					oModel.setProperty("/items", data1);
 					var oOrderData=that.getView().getModel("orderModel").getData();
+					oOrderData.items.splice(oOrderData.items.length, 0, oOrderData.items[0]);
 					for(var i=0;i<oOrderData.items.length;i++){            //changes by swetha for DMND0004095
 						that.aCreateItems.push(oOrderData.items[i]);
 					}
+					
 					MessageBox.success(data, {
 						onClose: function (sAction) {
 							sap.m.MessageToast.show("Success");
