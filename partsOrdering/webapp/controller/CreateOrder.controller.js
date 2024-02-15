@@ -644,18 +644,18 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					console.log("I am inside success function");
 					var tmnaData = new JSONModel();
 					var data1 = [];
-					var item1 = {};
-					item1.line = 0;
-					item1.contractNum = "";
-					item1.campaignNum = "";
-					item1.comment = "";
-					item1.partNumber = "";
-					item1.opCode = "";
-					item1.vin = "";
-					item1.spq = "";
-					item1.partDesc = "";
-					item1.addIcon = true;
-					item1.qty="";
+					// var item1 = {};
+					// item1.line = 0;
+					// item1.contractNum = "";
+					// item1.campaignNum = "";
+					// item1.comment = "";
+					// item1.partNumber = "";
+					// item1.opCode = "";
+					// item1.vin = "";
+					// item1.spq = "";
+					// item1.partDesc = "";
+					// item1.addIcon = true;
+					// item1.qty="";
 					// item1.hasError = false;
 					// item1.division = that.getView().getModel("orderModel").oData.Division;
 					// item1.partDesc = that.getView().getModel("orderModel").oData.items[1].partDesc;
@@ -665,7 +665,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					// item1.companyCode = that.getView().getModel("orderModel").oData.companyCode;
 					// item1.ItemStatus = "Unsaved";
 					// that.itemTable.getBinding("rows").getModel().refresh(true);
-					data1.push(item1);
+					//data1.push(item1);
 
 					$.each(data, function (i, item) {
 						if (data[i].status == "Success") {
