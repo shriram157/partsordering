@@ -700,7 +700,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					oModel.setProperty("/items", data1);
 					var oOrderData=that.getView().getModel("orderModel").getData();
 					oOrderData.items.splice(oOrderData.items.length, 0, oOrderData.items[0]);
-					that.toggleSubmitDraftButton();
+					//that.toggleSubmitDraftButton();
 					for(var i=0;i<oOrderData.items.length;i++){            //changes by swetha for DMND0004095
 						that.aCreateItems.push(oOrderData.items[i]);
 					}
