@@ -665,6 +665,7 @@ sap.ui.define([
 					if (sap.ui.getCore().getModel("partDescModel").oData[i].matnr == theData.matnr){
 						theData.partdesc.setData(sap.ui.getCore().getModel("partDescModel").oData[i].zparts_desc);
 				}
+				}
 				// toggle compact style
 				jQuery.sap.syncStyleClass("sapUiSizeCompact", that.getView(), that._oDetailDialog);
 				that._oDetailDialog.open();
