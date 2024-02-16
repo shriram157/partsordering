@@ -619,6 +619,7 @@ sap.ui.define([
 		onMasterSelected: function (oEvent) {
 			var that = this;
 			var sPath = null;
+			//changes by swetha for DMND0003930 on 16th Feb, 2024
 			if (!this._oDetailDialog) {
 				this._oDetailDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.CosDetails", this);
 				this.getView().addDependent(this._oDetailDialog);
@@ -659,6 +660,11 @@ sap.ui.define([
 			this.getMaterialDesc(theData.matnr, 0, function (index, desc) {
 				theData.partdesc = desc;
 				that._oDetailDialog.setModel(aModel);
+				//changes by Swetha for DMND0003930 on 16th Feb, 2024
+				for(var i=0; i<sap.ui.getCore().getModel("partDescModel").oData.length;i++){
+					if (sap.ui.getCore().getModel("partDescModel").oData[i].matnr == theData.matnr){
+						theData.partdesc.setData(sap.ui.getCore().getModel("partDescModel").oData[i].zparts_desc);
+				}
 				// toggle compact style
 				jQuery.sap.syncStyleClass("sapUiSizeCompact", that.getView(), that._oDetailDialog);
 				that._oDetailDialog.open();
