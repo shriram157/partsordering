@@ -658,12 +658,12 @@ sap.ui.define([
 			// call a server to get the desc
 
 			this.getMaterialDesc(theData.matnr, 0, function (index, desc) {
-				theData.partdesc = desc;
+			//	theData.partdesc = desc;
 				that._oDetailDialog.setModel(aModel);
 				//changes by Swetha for DMND0003930 on 16th Feb, 2024
 				for(var i=0; i<sap.ui.getCore().getModel("partDescModel").oData.length;i++){
 					if (sap.ui.getCore().getModel("partDescModel").oData[i].matnr == theData.matnr){
-						theData.partdesc=sap.ui.getCore().getModel("partDescModel").oData[i].zparts_desc;
+						theData.partdesc=sap.ui.getCore().getModel("partDescModel").oData[i].Zparts_desc;
 				}
 				}
 				// toggle compact style
