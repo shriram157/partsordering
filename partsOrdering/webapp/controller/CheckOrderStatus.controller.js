@@ -663,7 +663,7 @@ sap.ui.define([
 				//changes by Swetha for DMND0003930 on 16th Feb, 2024
 				for(var i=0; i<sap.ui.getCore().getModel("partDescModel").oData.length;i++){
 					if (sap.ui.getCore().getModel("partDescModel").oData[i].matnr == theData.matnr){
-						theData.partdesc.setData(sap.ui.getCore().getModel("partDescModel").oData[i].zparts_desc);
+						theData.partdesc=sap.ui.getCore().getModel("partDescModel").oData[i].zparts_desc;
 				}
 				}
 				// toggle compact style
