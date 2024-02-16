@@ -1584,10 +1584,10 @@ sap.ui.define([
 					if (!!oData && !!oData.results) {
 						callback(oData.results);
 						//changes by Swetha for DMND0003930
-						var partDescModel = new JSONModel();
-						partDescModel.setData(oData.results);
-						that.getView().setModel(partDescModel, "partDescModel");
-						sap.ui.getCore().setModel(partDescModel, "partDescModel");
+						// var partDescModel = new JSONModel();
+						// partDescModel.setData(oData.results);
+						// that.getView().setModel(partDescModel, "partDescModel");
+						// sap.ui.getCore().setModel(partDescModel, "partDescModel");
 					} else {
 						callback(null);
 					}

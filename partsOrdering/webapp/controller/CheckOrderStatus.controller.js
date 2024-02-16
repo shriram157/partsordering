@@ -658,14 +658,18 @@ sap.ui.define([
 			// call a server to get the desc
 
 			this.getMaterialDesc(theData.matnr, 0, function (index, desc) {
-			//	theData.partdesc = desc;
+				theData.partdesc = Zparts_desc;
 				that._oDetailDialog.setModel(aModel);
 				//changes by Swetha for DMND0003930 on 16th Feb, 2024
-				for(var i=0; i<sap.ui.getCore().getModel("partDescModel").oData.length;i++){
-					if (sap.ui.getCore().getModel("partDescModel").oData[i].matnr == theData.matnr){
-						theData.partdesc=sap.ui.getCore().getModel("partDescModel").oData[i].Zparts_desc;
-				}
-				}
+				// for(var i=0; i<sap.ui.getCore().getModel("partDescModel").oData.length;i++){
+				// 	if (sap.ui.getCore().getModel("partDescModel").oData[i].matnr == theData.matnr){
+				// 		theData.partdesc=sap.ui.getCore().getModel("partDescModel").oData[i].Zparts_desc;
+				// 		var CancelReasonModel = new JSONModel();
+				// 		PartDescModel.setData(oData);
+				// 		that.getView().setModel(CancelReasonModel, "CancelReasonModel");
+				// 		sap.ui.getCore().setModel(CancelReasonModel, "CancelReasonModel");
+				// }
+				// }
 				// toggle compact style
 				jQuery.sap.syncStyleClass("sapUiSizeCompact", that.getView(), that._oDetailDialog);
 				that._oDetailDialog.open();
