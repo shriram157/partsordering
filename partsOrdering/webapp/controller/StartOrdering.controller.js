@@ -235,7 +235,7 @@ sap.ui.define([
 			//				if (!!!orderNumber || orderNumber.length < 5 || orderNumber.length >40){
 			var CPORCBModel = new JSONModel();           //changes  by Swetha for DMND0004095
 			CPORCBModel.setData(CPORCB);
-			that.getView().setModel(CPORCBModel, "CPORCBModel");
+			this.getView().setModel(CPORCBModel, "CPORCBModel");
 			sap.ui.getCore().setModel(CPORCBModel, "CPORCBModel");
 			if (!!!orderNumber) {
 				this.orderNumberField.setValue(" ");
