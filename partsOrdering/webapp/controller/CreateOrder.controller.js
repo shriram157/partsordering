@@ -136,6 +136,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			appStateModel.setProperty('/tabKey', 'CO');
 			//changes by Swetha for DMND0004095 on 25th Jan, 2024
 			var cporCheckBox = oEvent.getParameter("arguments").CPORCB;
+			var testCPOR = sap.ui.getCore().getModel("CPORCBModel").getData();
 			var cporModel = new sap.ui.model.json.JSONModel();
 			cporModel.setData(cporCheckBox);
 			sap.ui.getCore().setModel(cporModel, "cporModel");
@@ -704,14 +705,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					for (var i = 0; i < oOrderData.items.length; i++) { //changes by swetha for DMND0004095
 						that.aCreateItems.push(oOrderData.items[i]);
 					}
-					
-					
 					oOrderData.items.splice(0, 0, that._getNewItem());
-					MessageBox.success(data, {
-						onClose: function (sAction) {
-							sap.m.MessageToast.show("Success");
-						}
-					});
 					that.onDialogClose();
 					// if (oOrderData.totalLines >= 16) {
 					// 	this.itemTable.setVisibleRowCount(oOrderData.items.length + 2);
