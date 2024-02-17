@@ -201,7 +201,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			this.setModel(model, CONT_ORDER_MODEL);
 			//Changes by shriram
 			//if (oEvent.getParameter("arguments").CPORCB == "true") {
-			if (testCPOR == "true") {
+			if (!!testCPOR) {
 				if (orderType == "1" || orderType == "2") {
 					if (!this._oDialog) {
 						this._oDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.StandardRushCPOR1", this);

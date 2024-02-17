@@ -661,8 +661,8 @@ sap.ui.define([
 				//theData.partdesc = theData.Zparts_desc;
 				that._oDetailDialog.setModel(aModel);
 				//changes by Swetha for DMND0003930 on 16th Feb, 2024
-				for(var i=0;i<sap.ui.getCore().getModel("partDescModel").oData.results.length;i++){
-					if (sap.ui.getCore().getModel("partDescModel").oData.results[i].matnr==theData.matnr){
+				for(var i=0;i<sap.ui.getCore().getModel("partDescModel").oData.length;i++){
+					if (sap.ui.getCore().getModel("partDescModel").oData[i].matnr==theData.matnr){
 						theData.partdesc=sap.ui.getCore().getModel("partDescModel").oData[i].Zparts_desc;
 					}
 			}
