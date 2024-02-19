@@ -122,7 +122,7 @@
 							<Label text="{i18n>Lable.CreateOrder.OpCode}*" visible="{orderModel>/typeD}"/>
 							<!--		<Label text="{i18n>Lable.CreateOrder.OpCode}*" visible="{orderModel>/typeD}"/>-->
 							<ui:template>
-								<Input value="{ path : 'orderModel>opCode', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:10}' }" type="Text"
+								<Input value="{ path : 'orderModel>/items/opCode', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:10}' }" type="Text"
 									valueStateText="{i18n>ValidationMessage.opCode}" visible="{= ${orderModel>/typeD} === true || ${orderModel>/typeCPOR} ===true}" placeholder="{i18n>Placeholder.opCode}"
 									enabled="{orderModel>/typeD}" required="true" valueState="None" change='onCampOpVINChange' editable="{orderModel>/OpCodeV}"/>
 							</ui:template>
