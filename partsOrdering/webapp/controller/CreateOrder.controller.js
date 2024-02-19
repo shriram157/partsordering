@@ -2001,7 +2001,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				return "";
 			}
 			if (iQty > 0) {
-				if (this.getView().getModel("orderModel").oData.typeCPOR == true) { //changes by swetha for DMND0004095
+				if (this.getView().getModel("orderModel").oData.typeCPOR == true && this.getView().getModel("orderModel").getData().typeD==true) { //changes by swetha for DMND0004095
 					var oRow = oEvent.getSource().getParent(); //Get Row
 					var oTable = oRow.getParent(); // Get Table
 					var iRowIndex = oTable.indexOfRow(oRow); //Get Row index

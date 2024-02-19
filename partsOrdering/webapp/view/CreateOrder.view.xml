@@ -123,11 +123,11 @@
 							<!--		<Label text="{i18n>Lable.CreateOrder.OpCode}*" visible="{orderModel>/typeD}"/>-->
 							<ui:template>
 								<Input value="{ path : 'orderModel>opCode', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:10}' }" type="Text"
-									valueStateText="{i18n>ValidationMessage.opCode}" visible="{orderModel>/typeD}" placeholder="{i18n>Placeholder.opCode}"
+									valueStateText="{i18n>ValidationMessage.opCode}" visible="{= ${orderModel>/typeD} === true || ${orderModel>/typeCPOR} ===true}" placeholder="{i18n>Placeholder.opCode}"
 									enabled="{orderModel>/typeD}" required="true" valueState="None" change='onCampOpVINChange' editable="{orderModel>/OpCodeV}"/>
 							</ui:template>
 						</ui:Column>
-						<!--<Icon src="{= ${orderModel>/typeD} === 'true' ? 'true' : ${{orderModel>/typeCPOR1} === 'true' ? 'true' : 'false'}"/>-->
+						<!--<Icon src="{= ${orderModel>/typeD} === 'true' ? 'true' : ${{orderModel>/typeCPOR1} === 'true' ? 'true' : 'false'}"   visible="{orderModel>/typeD}" />-->
 						
 						<ui:Column width="{sizeModel>/remVin}" visible="{= ${orderModel>/typeD} === true || ${orderModel>/typeCPOR} ===true}" id="Vin" sortProperty="Vin">
 							<!--<ui:Column width="11rem" visible="{orderModel>/typeD}">-->
