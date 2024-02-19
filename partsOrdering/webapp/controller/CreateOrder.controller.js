@@ -135,7 +135,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var appStateModel = this.getStateModel();
 			appStateModel.setProperty('/tabKey', 'CO');
 			//changes by Swetha for DMND0004095 on 25th Jan, 2024
-		//	var cporCheckBox = oEvent.getParameter("arguments").CPORCB;
+			var cporCheckBox = oEvent.getParameter("arguments").CPORCB;
 			var testCPOR = sap.ui.getCore().getModel("CPORCBModel").getData();
 			var cporModel = new sap.ui.model.json.JSONModel();
 			cporModel.setData(cporCheckBox);
@@ -156,8 +156,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					delButVisible: false,
 					line: 0
 				}],
-				//typeCPOR: oEvent.getParameter("arguments").CPORCB
-				typeCPOR: testCPOR
+				typeCPOR: oEvent.getParameter("arguments").CPORCB
+				//typeCPOR: testCPOR
 			});
 			sap.ui.getCore().setModel(campaignModel, "campaignModel");
 			this.getView().setModel(campaignModel, "campaignModel");
@@ -174,8 +174,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					addButtonVisible: true,
 					line: 0
 				}],
-				//typeCPOR: oEvent.getParameter("arguments").CPORCB
-				typeCPOR: testCPOR
+				typeCPOR: oEvent.getParameter("arguments").CPORCB
+				//typeCPOR: testCPOR
 			});
 			sap.ui.getCore().setModel(stanrushModel, "stanrushModel");
 			this.getView().setModel(stanrushModel, "stanrushModel");

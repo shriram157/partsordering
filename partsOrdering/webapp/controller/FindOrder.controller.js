@@ -244,8 +244,8 @@ sap.ui.define([
 			if (obj.isSalesOrder) {
 				this.getRouter().navTo("CreateOrder", {
 					orderNum: obj.uuid,
-					orderType: '-1'
-				//	CPORCB:sap.ui.getCore().getModel("cporModel").oData                             //changes by Swetha for DMND004095 on 25th Jan, 2024.
+					orderType: '-1',
+					CPORCB:sap.ui.getCore().getModel("cporModel").oData                             //changes by Swetha for DMND004095 on 25th Jan, 2024.
 				});
 			} else {
 				this.getRouter().navTo("CreateOrder", {
