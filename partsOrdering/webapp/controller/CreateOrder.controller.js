@@ -657,6 +657,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					item1.partDesc = "";
 					item1.addIcon = true;
 					item1.qty = "";
+					item1.OrderType=orderType;
 					data1.push(item1);
 					$.each(data, function (i, item) {
 						if (data[i].status == "Success") {
@@ -668,7 +669,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								"partNumber": item.parts[0].partNumber,
 								"partDesc": item.parts[0].partDescription,
 								"line": that.getView().getModel("orderModel").oData.totalLines + 1,
-								"hasError": false
+								"hasError": false,
+								"OrderType":orderType
+								
 							});
 							that.getView().getModel("orderModel").oData.totalLines = that.getView().getModel("orderModel").oData.totalLines + 1;
 						} else {
