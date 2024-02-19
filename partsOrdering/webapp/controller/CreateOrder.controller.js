@@ -578,7 +578,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								"partNumber": item.parts[0].partNumber,
 								"partDesc": item.parts[0].partDescription,
 								"line": that.getView().getModel("orderModel").oData.totalLines + 1,
-								"OperationCode": that.getView().getModel("campaignModel").oData.data[i+1].OperationCode,
+								"opCode": that.getView().getModel("campaignModel").oData.data[i+1].OperationCode,
 								"hasError": false
 							});
 							that.getView().getModel("orderModel").oData.totalLines = that.getView().getModel("orderModel").oData.totalLines + 1;
