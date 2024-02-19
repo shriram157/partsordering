@@ -234,7 +234,6 @@ sap.ui.define([
 			var CPORCB = this.getView().byId("CPORCB").getSelected();
 			//				if (!!!orderNumber || orderNumber.length < 5 || orderNumber.length >40){
 			var CPORCBModel = new JSONModel();           //changes  by Swetha for DMND0004095
-			CPORCBModel.setData("checkBox",CPORCB);
 			this.getView().setModel(CPORCBModel, "CPORCBModel");
 			sap.ui.getCore().setModel(CPORCBModel, "CPORCBModel");
 			if (!!!orderNumber) {
