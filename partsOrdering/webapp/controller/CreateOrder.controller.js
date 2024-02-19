@@ -3278,7 +3278,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					"H7": "Comments"
 				};
 				aItems = ["partNumber", "qty", "spq", "partDesc", "campaignNum", "opCode", "vin", "comment"];
-			} else if(oModel.getProperty("/typeB") && !!sap.ui.getCore().getModel("CPORCBModel").getData()){ //changes by Swetha for DMND0004095 on 19th February, 2024
+			} else if(!!sap.ui.getCore().getModel("CPORCBModel").getData()){ //changes by Swetha for DMND0004095 on 19th February, 2024
 				oHeader = {
 					"A7": "Part Number",
 					"B7": "Part Description",
