@@ -157,7 +157,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					line: 0
 				}],
 				typeCPOR: oEvent.getParameter("arguments").CPORCB
-				//typeCPOR: testCPOR
+					//typeCPOR: testCPOR
 			});
 			sap.ui.getCore().setModel(campaignModel, "campaignModel");
 			this.getView().setModel(campaignModel, "campaignModel");
@@ -175,7 +175,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					line: 0
 				}],
 				typeCPOR: oEvent.getParameter("arguments").CPORCB
-				//typeCPOR: testCPOR
+					//typeCPOR: testCPOR
 			});
 			sap.ui.getCore().setModel(stanrushModel, "stanrushModel");
 			this.getView().setModel(stanrushModel, "stanrushModel");
@@ -556,8 +556,18 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					var tmnaData = new JSONModel();
 					var data1 = [];
 					var item1 = {};
+					item1.line = 0;
+					item1.contractNum = "";
+					item1.campaignNum = "";
+					item1.comment = "";
+					item1.partNumber = "";
+					item1.opCode = "";
+					item1.vin = "";
+					item1.spq = "";
+					item1.partDesc = "";
+					item1.addIcon = true;
+					item1.qty = "";
 					data1.push(item1);
-
 					$.each(data, function (i, item) {
 						if (data[i].status == "Success") {
 							data1.push({
@@ -566,10 +576,11 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								"qty": item.parts[0].maxQty,
 								"partNumber": item.parts[0].partNumber,
 								"partDesc": item.parts[0].partDescription,
-								"line": i + 1,
-								"OperationCode": that.getView().getModel("campaignModel").oData.data[i].OperationCode
-
+								"line": that.getView().getModel("orderModel").oData.totalLines + 1,
+								"OperationCode": that.getView().getModel("campaignModel").oData.data[i].OperationCode,
+								"hasError": false
 							});
+							that.getView().getModel("orderModel").oData.totalLines = that.getView().getModel("orderModel").oData.totalLines + 1;
 						} else {
 							MessageBox.error(data[i].failureReasons[0].value + "" + "for" + "" + "Campaign Code" + "" + item.campaignCode.slice(3, 6), {
 								onClose: function (sAction) {}
@@ -578,11 +589,16 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						tmnaData.setData(data1);
 						var oModel = that.getModel(CONT_ORDER_MODEL);
 						oModel.setProperty("/items", data1);
-						MessageBox.success(data, {
-							onClose: function (sAction) {
-								sap.m.MessageToast.show("Success");
-							}
-						});
+						var oOrderData = that.getView().getModel("orderModel").getData();
+						oOrderData.items.splice(0, 1);
+						for (var i = 0; i < oOrderData.items.length; i++) { //changes by swetha for DMND0004095
+							that.aCreateItems.push(oOrderData.items[i]);
+						}
+						oOrderData.items.splice(0, 0, that._getNewItem());
+						that.onDialogClose();
+						oOrderData.modifiedOn = new Date();
+						that.oOrderModel.setData(oOrderData);
+						DataManager.setOrderData(oOrderData); //changes by swetha for DMND0004095
 						that.CDialogClose();
 					});
 
@@ -612,38 +628,17 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			} else {
 				var orderType = "ZRO";
 			}
-			//	var failCampaigns=[];
-			// var dataString = {
-			// 	"campaignCode": "20TA02",
-			// 	"vins": ["5TFUU4EN0DX068703", "5TFJU4GN1CX0", "JTMBD31V075106213", "5TFUU4EN0DX068703", "4T1B11HK4KU759632", "JTMP1RFV7KJ001307"]
-			// };
-			// var oURL = "https://dev.api-int.naqp.toyota.com/naqp/campaign/parts-details/v1";
-			// 'Authorization': 'Basic',
-			// 	'x-ibm-client-secret': '10dd48f9-f090-4b06-bf4e-dc4d8817e25d',
-			// 	'x-ibm-client-id': 'j418Q~d2kIVPnOZ.dkhq0ENlrzbBFHuWk~oxqb_1',
-			// var oURL = "/naqp/campaign/parts-details/v1/";
 			var oURL = "/TMNA/naqp/campaign/parts-details/v2/";
-			// var oURL="https://dev.api-int.naqp.toyota.com/naqp/campaign/parts-details/v1";
 			$.ajax({
 				type: 'POST',
 				url: oURL,
 				cache: false,
 				data: JSON.stringify(dataString),
 				dataType: 'json',
-
-				//	content-type: 'application/json',
-				// beforeSend: function (xhr) {
-				// 	xhr.setRequestHeader("Authorization", "Basic " + btoa("10dd48f9-f090-4b06-bf4e-dc4d8817e25d" + ":" +
-				// 		"j418Q~d2kIVPnOZ.dkhq0ENlrzbBFHuWk~oxqb_1"));
-				// },
-
 				headers: {
-					// "X-CSRF-Token": this._fetchToken(),
 					'accept': 'application/json',
 					'content-type': 'application/json'
-						// 'authorization': "Bearer " + this._fetchToken()
 				},
-
 				success: function (data) {
 					console.log("I am inside success function");
 					var tmnaData = new JSONModel();
@@ -660,17 +655,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					item1.partDesc = "";
 					item1.addIcon = true;
 					item1.qty = "";
-					// item1.hasError = false;
-					// item1.division = that.getView().getModel("orderModel").oData.Division;
-					// item1.partDesc = that.getView().getModel("orderModel").oData.items[1].partDesc;
-					// oitem.itemCategoryGroup = item1Data[0].categoryGroup;
-					// oitem.OrderType = orderType;
-					// oitem.spq = item1Data[0].SPQ;
-					// item1.companyCode = that.getView().getModel("orderModel").oData.companyCode;
-					// item1.ItemStatus = "Unsaved";
-					// that.itemTable.getBinding("rows").getModel().refresh(true);
 					data1.push(item1);
-
 					$.each(data, function (i, item) {
 						if (data[i].status == "Success") {
 							data1.push({
@@ -682,13 +667,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								"partDesc": item.parts[0].partDescription,
 								"line": that.getView().getModel("orderModel").oData.totalLines + 1,
 								"hasError": false
-
-								//	"OperationCode": that.getView().getModel("campaignModel").oData.data[i].OperationCode
-
 							});
 							that.getView().getModel("orderModel").oData.totalLines = that.getView().getModel("orderModel").oData.totalLines + 1;
-							// var oOrderData=this.getView().getModel("orderModel").getData();
-							// that.aCreateItems.push(oOrderData.items[i]);
 						} else {
 							MessageBox.error(data[i].failureReasons[0].value + ' ' + "for" + ' ' + "Campaign Code" + ' ' + item.campaignCode.slice(3,
 								6), {
@@ -696,23 +676,16 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							});
 						}
 					});
-
-					//	oOrderData.totalLines = oOrderData.items.length - 1;
 					tmnaData.setData(data1);
-					//		that.getView().getModel("orderModel").oData.totalLines = that.getView().getModel("orderModel").oData.items.length - 1;
 					var oModel = that.getModel(CONT_ORDER_MODEL);
 					oModel.setProperty("/items", data1);
 					var oOrderData = that.getView().getModel("orderModel").getData();
-					//	oOrderData.items.splice(oOrderData.items.length, 0, oOrderData.items[0]);
 					oOrderData.items.splice(0, 1);
 					for (var i = 0; i < oOrderData.items.length; i++) { //changes by swetha for DMND0004095
 						that.aCreateItems.push(oOrderData.items[i]);
 					}
 					oOrderData.items.splice(0, 0, that._getNewItem());
 					that.onDialogClose();
-					// if (oOrderData.totalLines >= 16) {
-					// 	this.itemTable.setVisibleRowCount(oOrderData.items.length + 2);
-					// }
 					oOrderData.modifiedOn = new Date();
 					that.oOrderModel.setData(oOrderData);
 					DataManager.setOrderData(oOrderData); //changes by swetha for DMND0004095
