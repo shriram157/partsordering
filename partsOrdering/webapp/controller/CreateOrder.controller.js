@@ -521,6 +521,10 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				dataString.campaignCode.push("CAN" + this.getView().getModel("campaignModel").oData.data[i].CampaignCode);
 			}
 			dataString.vins.push(this.getView().getModel("campaignModel").oData.data[0].vinNum);
+			var orderTypeId= this.oOrderModel.getProperty("/orderTypeId");
+			if(orderTypeId =="3"){
+				var orderType = "ZOR";
+			}
 			//	var failCampaigns=[];
 			// var dataString = {
 			// 	"campaignCode": "20TA02",
@@ -569,6 +573,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					item1.partDesc = "";
 					item1.addIcon = true;
 					item1.qty = "";
+					item1.OrderType=orderType;
 					data1.push(item1);
 					$.each(data, function (i, item) {
 						if (data[i].status == "Success") {
@@ -581,7 +586,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								"partDesc": item.parts[0].partDescription,
 								"line": that.getView().getModel("orderModel").oData.totalLines + 1,
 								"opCode": that.getView().getModel("campaignModel").oData.data[i+1].OperationCode,
-								"hasError": false
+								"hasError": false,
+								"OrderType":orderType
 							});
 							that.getView().getModel("orderModel").oData.totalLines = that.getView().getModel("orderModel").oData.totalLines + 1;
 						} else {
