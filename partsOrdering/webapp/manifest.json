@@ -329,7 +329,7 @@
 				"name": "StartOrdering",
 				"target": ["StartOrdering"]
 			}, {
-				"pattern": "CreateOrder/{orderNum},{orderType},{CPORCB}",
+				"pattern": "CreateOrder/{orderNum},{orderType},{navFrom}",
 				"name": "CreateOrder",
 				"target": ["CreateOrder"]
 			}, {
