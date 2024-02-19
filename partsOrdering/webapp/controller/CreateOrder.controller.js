@@ -3288,7 +3288,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					"F7": "VIN",
 					"G7": "Comments"
 				};
-				aItems = ["partNumber", "qty", "spq", "partDesc", "campaignNum", "vin", "comment"];
+				aItems = ["partNumber", "partDesc", "spq", "qty", "campaignNum", "vin", "comment"];
 			} else {                                                                                             
 
 				oHeader = {
