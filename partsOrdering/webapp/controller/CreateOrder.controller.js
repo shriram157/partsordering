@@ -523,7 +523,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			dataString.vins.push(this.getView().getModel("campaignModel").oData.data[0].vinNum);
 			var orderTypeId= this.oOrderModel.getProperty("/orderTypeId");
 			if(orderTypeId =="3"){
-				var orderType = "ZOR";
+				var orderType = "ZCO";
 			}
 			//	var failCampaigns=[];
 			// var dataString = {
