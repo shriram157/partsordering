@@ -137,9 +137,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			//changes by Swetha for DMND0004095 on 25th Jan, 2024
 		//	var cporCheckBox = oEvent.getParameter("arguments").CPORCB;
 			var testCPOR = sap.ui.getCore().getModel("CPORCBModel").getData();
-			var cporModel = new sap.ui.model.json.JSONModel();
-			cporModel.setData(cporCheckBox);
-			sap.ui.getCore().setModel(cporModel, "cporModel");
+			// var cporModel = new sap.ui.model.json.JSONModel();
+			// cporModel.setData(testCPOR);
+			// sap.ui.getCore().setModel(cporModel, "cporModel");
 
 			//changes by shriram for DMND0004095 on January 5th 2024   start
 			var campaignModel = new sap.ui.model.json.JSONModel({
@@ -2004,7 +2004,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				return "";
 			}
 			if (iQty > 0) {
-				if (!!sap.ui.getCore().getModel("cporModel").getData() && this.getView().getModel("orderModel").getData().typeD==true) { //changes by swetha for DMND0004095
+				if (!!sap.ui.getCore().getModel("CPORCBModel").getData() && this.getView().getModel("orderModel").getData().typeD==true) { //changes by swetha for DMND0004095
 					var oRow = oEvent.getSource().getParent(); //Get Row
 					var oTable = oRow.getParent(); // Get Table
 					var iRowIndex = oTable.indexOfRow(oRow); //Get Row index
