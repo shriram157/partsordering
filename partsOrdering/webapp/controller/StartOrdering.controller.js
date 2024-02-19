@@ -255,8 +255,8 @@ sap.ui.define([
 
 			this.getRouter().navTo("CreateOrder", {
 				orderNum: orderNumber,
-				orderType: orderType,
-				CPORCB: CPORCB
+				orderType: orderType
+				//CPORCB: CPORCB
 			});
 		},
 		onDialogClose: function (oEvent) {
