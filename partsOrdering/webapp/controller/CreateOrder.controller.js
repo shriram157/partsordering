@@ -135,12 +135,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var appStateModel = this.getStateModel();
 			appStateModel.setProperty('/tabKey', 'CO');
 			//changes by Swetha for DMND0004095 on 25th Jan, 2024
-		//	var cporCheckBox = oEvent.getParameter("arguments").CPORCB;
-			var testCPOR = sap.ui.getCore().getModel("CPORCBModel").getData();
-			// var cporModel = new sap.ui.model.json.JSONModel();
-			// cporModel.setData(testCPOR);
-			// sap.ui.getCore().setModel(cporModel, "cporModel");
-
+			if (oEvent.getParameter("arguments").navFrom!=7){
+				var testCPOR = sap.ui.getCore().getModel("CPORCBModel").getData();
+			}
 			//changes by shriram for DMND0004095 on January 5th 2024   start
 			var campaignModel = new sap.ui.model.json.JSONModel({
 				"data": [{
@@ -156,7 +153,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					delButVisible: false,
 					line: 0
 				}],
-				//typeCPOR: oEvent.getParameter("arguments").CPORCB
 					typeCPOR: testCPOR
 			});
 			sap.ui.getCore().setModel(campaignModel, "campaignModel");
@@ -174,7 +170,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					addButtonVisible: true,
 					line: 0
 				}],
-				//typeCPOR: oEvent.getParameter("arguments").CPORCB
 					typeCPOR: testCPOR
 			});
 			sap.ui.getCore().setModel(stanrushModel, "stanrushModel");
@@ -186,11 +181,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			var orderType = oEvent.getParameter("arguments").orderType;
 			var orderNum = oEvent.getParameter("arguments").orderNum;
 			var CONTRACT_NUM = sap.ui.getCore().getModel("APP_STATE_MODEL").getProperty("/selectedOrderMeta/contract_num");
-			// this.getView().getModel("orderModel").getData().typeCPOR = true;
-			// this.getView().getModel("orderModel").getData().typeCPOR = false;
-			// this.getView().byId("remSPQ").setVisible(true);
-			// this.getView().byId("remComments").setVisible(true);
-			//				var orderData = { typeB: false, typeD:false };
 			var orderData = this.initLocalModels(orderType, orderNum.trim(), CONTRACT_NUM);
 			var model = new sap.ui.model.json.JSONModel();
 
@@ -213,17 +203,12 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					sap.ui.getCore().byId("standDelButVisible").setEnabled(false);
 					this.getView().byId("btnImpOrd").setVisible(false); //changes by Swetha for DMND0004095 on 22nd Jan, 2024
 					this._oDialog.open();
-					//	 this.getView().byId("Material").setEditable(true);
-					// this.getView().byId("idremQty").setEnabled(true);
-					// this.getView().byId("CampaigntNo").setEnabled(true);
-					// this.getView().byId("Vin").setEnabled(true);
 					this.getView().getModel("orderModel").getData().typeCPOR = true;
 					this.getView().getModel("orderModel").setProperty("/PartNumV", true);
 					this.getView().getModel("orderModel").setProperty("/QuanV", true);
 					this.getView().getModel("orderModel").setProperty("/CampV", true);
 					this.getView().getModel("orderModel").setProperty("/VinV", true);
-					//	this.getView().getModel("orderModel").setProperty("/typeB",true);
-					//	this.getView().getModel("orderModel").setProperty("/typeD",false);
+					
 				} else {
 					if (!this._iDialog) {
 						this._iDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.CampaignCPOR1", this);
@@ -237,15 +222,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					this.getView().getModel("orderModel").setProperty("/CampV", false);
 					this.getView().getModel("orderModel").setProperty("/OpCodeV", false);
 					this.getView().getModel("orderModel").setProperty("/VinV", false);
-					//	this.getView().getModel("orderModel").setProperty("/typeD",true);
-					//	this.getView().getModel("orderModel").setProperty("/typeB",false);
-
-					//	this.getView().byId("Material").setEditable(false);
-
-					// this.getView().byId("idremQty").setEnabled(true);
-					// this.getView().byId("CampaigntNo").setEnabled(false);
-					// this.getView().byId("Vin").setEnabled(false);
-					// this.getView().byId("OperationCode").setEnabled(false);
+					
 				}
 			} else {
 				if (orderType != "3") {
@@ -254,12 +231,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					this.getView().getModel("orderModel").setProperty("/QuanV", true);
 					this.getView().getModel("orderModel").setProperty("/CampV", true);
 					this.getView().getModel("orderModel").setProperty("/VinV", true);
-					//	this.getView().getModel("orderModel").setProperty("/typeB",true);
-					//	this.getView().getModel("orderModel").setProperty("/typeD",false);
-					//	 this.getView().byId("Material").setEditable(true);
-					// this.getView().byId("idremQty").setEnabled(true);
-					// this.getView().byId("CampaigntNo").setEnabled(true);
-					// this.getView().byId("Vin").setEnabled(true);
+					
 
 				} else {
 					this.getView().byId("btnImpOrd").setVisible(false); //changes by Swetha for DMND0004095 on 23rd Jan, 2024
@@ -268,13 +240,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					this.getView().getModel("orderModel").setProperty("/CampV", true);
 					this.getView().getModel("orderModel").setProperty("/OpCodeV", true);
 					this.getView().getModel("orderModel").setProperty("/VinV", true);
-					//	this.getView().getModel("orderModel").setProperty("/typeB",false);
-					//	this.getView().getModel("orderModel").setProperty("/typeD",true);
-					// this.getView().byId("Material").setEditable(true);
-					// this.getView().byId("idremQty").setEnabled(true);
-					// this.getView().byId("CampaigntNo").setEnabled(true);
-					// this.getView().byId("Vin").setEnabled(true);
-					// this.getView().byId("OperationCode").setEnabled(true);
+					
 				}
 
 			}
