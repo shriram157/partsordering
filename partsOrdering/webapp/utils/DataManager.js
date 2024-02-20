@@ -263,7 +263,7 @@ sap.ui.define([], function () {
 						obj.Zzcampaign = salesItem.campaignNum || "";
 						obj.Zzopcode = salesItem.opCode || "";
 						obj.VIN_no = salesItem.vin || "";
-					} else if (!!_orderData.typeB && !sap.ui.getCore().getModel("CPORCBModel").getData()) {
+					} else if (!!_orderData.typeB) {
 						if (salesItem.contractNum) {
 							obj.RefDoc = salesItem.contractNum.toString() || "";
 							obj.RefDocItemNo = salesItem.contractLine || "";
@@ -271,9 +271,13 @@ sap.ui.define([], function () {
 							obj.RefDoc = "";
 							obj.RefDocItemNo = "";
 						}
-					} else if(!!_orderData.typeB && !!sap.ui.getCore().getModel("CPORCBModel").getData()){
+					} else if(_orderData.orderTypeId !="3"  && !!sap.ui.getCore().getModel("CPORCBModel").getData()){
 						obj.Zzcampaign = salesItem.campaignNum || "";
 					//	obj.Zzopcode = salesItem.opCode || "";
+						obj.VIN_no = salesItem.vin || "";
+					} else {
+						obj.Zzcampaign = salesItem.campaignNum || "";
+						obj.Zzopcode = salesItem.opCode || "";
 						obj.VIN_no = salesItem.vin || "";
 					}
 
