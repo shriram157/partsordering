@@ -1420,12 +1420,7 @@ sap.ui.define([
 								lv_draft.scOrderStatus = 'DF'; // always standard as in front view
 								lv_draft.Status = lv_aResult.Status;
 								lv_draft.Message = lv_aResult.Message;
-								lv_orderData.zzcpor = oData.zzcpor; //changes by swetha for DMND0004095 on 20th Feb, 2024
-								if (lv_orderData.zzcpor == "X") {
-									sap.ui.getCore().getModel("CPORModel").setData("true");
-								} else {
-									sap.ui.getCore().getModel("CPORModel").setData("false");
-								}
+							
 								// new
 								aDraftItem = {};
 
