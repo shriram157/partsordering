@@ -587,7 +587,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								"line": that.getView().getModel("orderModel").oData.totalLines + 1,
 								"opCode": that.getView().getModel("campaignModel").oData.data[i+1].OperationCode,
 								"hasError": false,
-								"OrderType":orderType
+								"OrderType":orderType,
+								"ItemStatus":"Unsaved"
 							});
 							that.getView().getModel("orderModel").oData.totalLines = that.getView().getModel("orderModel").oData.totalLines + 1;
 						} else {
@@ -676,7 +677,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								"partDesc": item.parts[0].partDescription,
 								"line": that.getView().getModel("orderModel").oData.totalLines + 1,
 								"hasError": false,
-								"OrderType":orderType
+								"OrderType":orderType,
+								"ItemStatus":"Unsaved"
 								
 							});
 							that.getView().getModel("orderModel").oData.totalLines = that.getView().getModel("orderModel").oData.totalLines + 1;
