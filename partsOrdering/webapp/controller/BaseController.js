@@ -1734,7 +1734,12 @@ sap.ui.define([
 						lv_orderData.orderTypeId = that.getInnerOrderTypeByZOrderType(lv_orderData.zOrderType);
 						lv_orderData.orderTypeName = that.getOrderTypeName(orderData.orderTypeId);
 						lv_orderData.tciOrderNumber = oData.PurchNoC;
-						lv_orderData.zzcpor = oData.zzcpor;                                    //changes by swetha for DMND0004095
+						var ZZCPOR = oData.zzcpor;                                    //changes by swetha for DMND0004095
+						if(ZZCPOR=="X"){
+							lv_orderData.zzcpor = "true";
+						} else {
+							lv_orderData.zzcpor = "false";
+						}
 						
 						//lv_draft.dealerCode = lv_aResult.ZZ1_DealerCode_PDH;
 						lv_orderData.bpCode = oData.SoldtoParty;

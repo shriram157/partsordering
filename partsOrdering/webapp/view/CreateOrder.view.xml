@@ -134,7 +134,7 @@
 							<Label text="{i18n>Lable.CreateOrder.vin}*" visible="{= ${orderModel>/typeD} === true || ${orderModel>/typeCPOR} ===true}"/>
 							<ui:template>
 								<Input type="Text" value="{ path: 'orderModel>vin', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:35}' }"
-									valueStateText="{i18n>ValidationMessage.vinNum}" placeholder="{i18n>Placeholder.vinNum}" visible="{= ${orderModel>/typeD} === true || ${orderModel>/typeCPOR} ===true || ${orderModel>/zzcpor}==="X"}"
+									valueStateText="{i18n>ValidationMessage.vinNum}" placeholder="{i18n>Placeholder.vinNum}" visible="{= ${orderModel>/typeD} === true || ${orderModel>/typeCPOR} ===true || ${orderModel>/zzcpor}===true }"
 									enabled="{orderModel>/typeD || orderModel>/VinV}" required='true' valueState="None" change='onCampOpVINChange' editable="{orderModel>/VinV}"/>
 							</ui:template>
 						</ui:Column>
