@@ -1733,7 +1733,11 @@ sap.ui.define([
 						lv_orderData.orderTypeName = that.getOrderTypeName(orderData.orderTypeId);
 						lv_orderData.tciOrderNumber = oData.PurchNoC;
 						lv_orderData.zzcpor = oData.zzcpor;                                                //changes by swetha for DMND0004095 on 20th Feb, 2024
-
+						if(lv_orderData.zzcpor=="X"){
+							sap.ui.getCore().getModel("CPORModel").setData("true");
+						} else {
+							sap.ui.getCore().getModel("CPORModel").setData("false");	
+						}
 						//lv_draft.dealerCode = lv_aResult.ZZ1_DealerCode_PDH;
 						lv_orderData.bpCode = oData.SoldtoParty;
 
