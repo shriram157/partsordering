@@ -1880,17 +1880,14 @@ sap.ui.define([
 			obj.Material = data.items[len].partNumber; //*  
 			obj.Comments = data.items[len].comment;
 			obj.MatDesc = data.items[len].partDesc;
-			if (!!data.typeD && !sap.ui.getCore().getModel("CPORCBModel").getData()) { // Campiagn             //changes by Swetha for DMND0004095
+			if (!!data.typeD) { // Campiagn           
 				obj.Zzcampaign = data.items[len].campaignNum;
 				obj.Zzopcode = data.items[len].opCode;
 				obj.VIN_no = data.items[len].vin;
-			} else if (!!data.typeB && !sap.ui.getCore().getModel("CPORCBModel").getData()) {
+			} else if (!!data.typeB) {
 				obj.RefDoc = data.items[len].contractNum;
 				obj.RefDocItemNo = data.items[len].contractLine;
-			} else if(!!sap.ui.getCore().getModel("CPORCBModel").getData()){
-				obj.Zzcampaign = data.items[len].campaignNum;
-				obj.VIN_no = data.items[len].vin;
-			}
+			} 
 
 			bModel.create('/draft_soItemSet', obj, {
 				success: function (oData, oResponse) {
