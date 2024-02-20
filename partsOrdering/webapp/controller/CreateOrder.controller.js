@@ -227,7 +227,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				}
 			} else {
 				if (orderType != "3") {
-					this.getView().byId("btnImpOrd").setVisible(true); //changes by Swetha for DMND0004095 on 23rd Jan, 2024
 					this.getView().getModel("orderModel").setProperty("/PartNumV", true);
 					this.getView().getModel("orderModel").setProperty("/QuanV", true);
 					this.getView().getModel("orderModel").setProperty("/CampV", true);
