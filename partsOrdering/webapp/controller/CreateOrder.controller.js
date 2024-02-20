@@ -214,6 +214,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						this._iDialog = sap.ui.xmlfragment("tci.wave2.ui.parts.ordering.view.fragments.CampaignCPOR1", this);
 						this.getView().addDependent(this._iDialog);
 					}
+					this.getView().getModel("orderModel").getData().typeCPOR = true;
 					sap.ui.getCore().byId("camDelButVisible").setEnabled(false);
 					this.getView().byId("btnImpOrd").setVisible(false); //changes by Swetha for DMND0004095 on 22nd Jan, 2024
 					this._iDialog.open();
