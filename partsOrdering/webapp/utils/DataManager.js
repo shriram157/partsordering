@@ -191,12 +191,19 @@ sap.ui.define([], function () {
 				}
 				var entry = _salesorderModel.createEntry('/draft_soHeaderSet', {});
 				var obj = entry.getObject();
-
+				//changes by Swetha for DMND0004095 on 20th February, 2024 Start
+				if(_orderData.typeCPOR==true) {         
+				   var ZZCPOR = "X";
+				} else {
+					var	ZZCPOR ="";
+				}
+				//changes by Swetha for DMND0004095 on 20th February, 2024 End
 				// populate the values
 				//var division = jQuery.sap.getUriParameters().get('Division');
 				obj.Division = _orderData.Division;
 				obj.SalesOrg = _orderData.SalesOrganization;
 				obj.DistrChan = _orderData.DistributionChannel;
+				obj.zzcpor = ZZCPOR;                                                           //changes by Swetha for DMND0004095 on 20th February, 2024  
 				var dealerCode = t.getStateModel().getProperty('/userProfile').dealerCode;
 
 				t.getBusinessPartnersByDealerCode(dealerCode, function (sData) {
