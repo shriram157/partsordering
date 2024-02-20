@@ -1736,9 +1736,9 @@ sap.ui.define([
 						lv_orderData.tciOrderNumber = oData.PurchNoC;
 						var ZZCPOR = oData.zzcpor;                                    //changes by swetha for DMND0004095
 						if(ZZCPOR=="X"){
-							lv_orderData.zzcpor = "true";
+							lv_orderData.zzcpor = true;
 						} else {
-							lv_orderData.zzcpor = "false";
+							lv_orderData.zzcpor = false;
 						}
 						
 						//lv_draft.dealerCode = lv_aResult.ZZ1_DealerCode_PDH;
