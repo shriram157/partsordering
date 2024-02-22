@@ -1742,7 +1742,7 @@ sap.ui.define([
 						} else {
 						//	lv_orderData.zzcpor = false;
 						//	that.getView().getModel("ordelModel").setProperty("/zzcpor",false);
-						that.getView().getModel("orderModel").getData().typeCPOR = true;
+						that.getView().getModel("orderModel").getData().typeCPOR = false;
 						}
 						
 						//lv_draft.dealerCode = lv_aResult.ZZ1_DealerCode_PDH;
