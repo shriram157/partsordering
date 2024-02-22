@@ -97,7 +97,7 @@
 							<ui:template>
 								<Input type="Number" valueStateText="{i18n>ValidationMessage.qty}" required='true'
 									value="{ path: 'orderModel>qty', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:7}' }" valueState="None"
-									change='onQtyChange' liveChange="checkQtyZero" editable="{orderModel>/QuanV}"/>
+									change='onQtyChange' liveChange="checkQtyZero" editable="{=${orderModel>/QuanV}===true || ${orderModel>/typeCPOR} ===false || ${orderModel>/zzcpor} ===true}"/>
 							</ui:template>
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remContractNo}" visible="{orderModel>/typeB}" id="ContractNo" sortProperty="ContractNo">
@@ -113,7 +113,7 @@
 							<ui:template>
 								<Input value="{ path : 'orderModel>campaignNum', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:14}' }" type="Text"
 									valueStateText="{i18n>ValidationMessage.campainNum}" placeholder="{i18n>Placeholder.campainNum}" visible="{= ${orderModel>/typeD} === true || ${orderModel>/typeCPOR} ===true}"
-								 enabled="{orderModel>/typeD || orderModel>/CampV}" required='true' valueState="None" change='onCampOpVINChange' editable="{orderModel>/CampV}"/>
+								 enabled="{orderModel>/typeD || orderModel>/CampV}" required='true' valueState="None" change='onCampOpVINChange' editable="{=${orderModel>/CampV}===true || ${orderModel>/typeCPOR} ===false}"/>
 							</ui:template>
 							<!--	enabled="{orderModel>/typeD}"-->
 						</ui:Column>
@@ -124,7 +124,7 @@
 							<ui:template>
 								<Input value="{ path : 'orderModel>opCode', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:10}' }" type="Text"
 									valueStateText="{i18n>ValidationMessage.opCode}" visible="{= ${orderModel>/typeD} === true || ${orderModel>/typeCPOR} ===true}" placeholder="{i18n>Placeholder.opCode}"
-									enabled="{orderModel>/typeD}" required="true" valueState="None" change='onCampOpVINChange' editable="{orderModel>/OpCodeV}"/>
+									enabled="{orderModel>/typeD}" required="true" valueState="None" change='onCampOpVINChange' editable="{=${orderModel>/OpCodeV}===true || ${orderModel>/typeCPOR} ===false}"/>
 							</ui:template>
 						</ui:Column>
 						<!--<Icon src="{= ${orderModel>/typeD} === 'true' ? 'true' : ${{orderModel>/typeCPOR1} === 'true' ? 'true' : 'false'}"   visible="{orderModel>/typeD}" />-->
