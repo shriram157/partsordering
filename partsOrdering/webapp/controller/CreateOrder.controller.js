@@ -649,6 +649,14 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 							});
 							that.getView().getModel("orderModel").oData.totalLines = that.getView().getModel("orderModel").oData.totalLines + 1;
 						} else {
+							 if(data.length=="1") {
+							 	MessageBox.error(data[i].failureReasons[0].value + ' ' + "for" + ' ' + "Campaign Code" + ' ' + item.campaignCode.slice(3,
+							 	6), {
+									onClose: function (sAction) {
+										that.getRouter().navTo("StartOrdering", null, false);
+									}
+								});
+							}
 							MessageBox.error(data[i].failureReasons[0].value + ' ' + "for" + ' ' + "Campaign Code" + ' ' + item.campaignCode.slice(3,
 								6), {
 								onClose: function (sAction) {}
