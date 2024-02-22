@@ -1737,8 +1737,10 @@ sap.ui.define([
 						var ZZCPOR = oData.zzcpor;                                    //changes by swetha for DMND0004095
 						if(ZZCPOR=="X"){
 							lv_orderData.zzcpor = true;
+							sap.ui.getCore().getModel("ordelModel").setProperty("/zzcpor",true);
 						} else {
 							lv_orderData.zzcpor = false;
+							sap.ui.getCore().getModel("ordelModel").setProperty("/zzcpor",false);
 						}
 						
 						//lv_draft.dealerCode = lv_aResult.ZZ1_DealerCode_PDH;
