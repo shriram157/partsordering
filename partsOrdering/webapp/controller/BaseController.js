@@ -1738,12 +1738,12 @@ sap.ui.define([
 						if(ZZCPOR=="X"){
 						//	lv_orderData.zzcpor = true;
 						that.getView().getModel("orderModel").getData().typeCPOR = true;
-						that.getView().getModel("ordelModel").getData().zzcpor = true;
+					//	that.getView().getModel("ordelModel").getData().zzcpor = true;
 						} else {
 						//	lv_orderData.zzcpor = false;
 						//	that.getView().getModel("ordelModel").setProperty("/zzcpor",false);
 						that.getView().getModel("orderModel").getData().typeCPOR = false;
-						that.getView().getModel("ordelModel").getData().zzcpor = false;
+					//	that.getView().getModel("ordelModel").getData().zzcpor = false;
 						}
 						
 						//lv_draft.dealerCode = lv_aResult.ZZ1_DealerCode_PDH;
