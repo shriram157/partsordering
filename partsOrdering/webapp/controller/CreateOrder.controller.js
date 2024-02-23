@@ -536,7 +536,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					item1.vin = "";
 					item1.spq = "";
 					item1.partDesc = "";
-					item1.addIcon = false;
+				//	item1.addIcon = false;
 					item1.qty = "";
 					item1.OrderType = orderType;
 					data1.push(item1);
