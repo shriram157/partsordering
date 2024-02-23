@@ -149,7 +149,8 @@
 							<ui:template>
 								<VBox width="3.5rem">
 									<Button type="Accept" tooltip="Add" class="size1" icon="sap-icon://add" press='handleAddPart'
-										visible="{= ${orderModel>line} === 0 &amp;&amp; ${orderModel>addIcon} === true}"></Button>
+										visible="{= ${orderModel>line} === 0 && ${orderModel>addIcon} === true}"></Button>
+										<!--visible="{= ${orderModel>line} === 0 &amp;&amp; ${orderModel>addIcon} === true}-->
 									<!--	<Button type='Reject' tooltip="Minus" class="size2" icon="sap-icon://less" press='handleDeletePart' visible="{orderModel>minusIcon}"></Button>-->
 									<core:Icon src="sap-icon://error" class="size1" color="#ff0000" visible='{= ${orderModel>line} === 0 ? false : ${orderModel>hasError}}'
 										activeColor="Negative" alt="Error" press="onError"/>
