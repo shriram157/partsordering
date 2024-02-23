@@ -1420,7 +1420,7 @@ sap.ui.define([
 								lv_draft.scOrderStatus = 'DF'; // always standard as in front view
 								lv_draft.Status = lv_aResult.Status;
 								lv_draft.Message = lv_aResult.Message;
-							
+
 								// new
 								aDraftItem = {};
 
@@ -1639,7 +1639,6 @@ sap.ui.define([
 						lv_orderData.orderTypeId = that.getInnerOrderTypeByZOrderType(lv_orderData.zOrderType);
 						lv_orderData.orderTypeName = that.getOrderTypeName(orderData.orderTypeId);
 						lv_orderData.tciOrderNumber = oData.results[0].PurchNoC;
-						
 
 						//lv_draft.dealerCode = lv_aResult.ZZ1_DealerCode_PDH;
 						lv_orderData.bpCode = oData.results[0].SoldtoParty;
@@ -1734,18 +1733,18 @@ sap.ui.define([
 						lv_orderData.orderTypeId = that.getInnerOrderTypeByZOrderType(lv_orderData.zOrderType);
 						lv_orderData.orderTypeName = that.getOrderTypeName(orderData.orderTypeId);
 						lv_orderData.tciOrderNumber = oData.PurchNoC;
-						var ZZCPOR = oData.zzcpor;                                    //changes by swetha for DMND0004095
-						if(ZZCPOR=="X"){
-						//	lv_orderData.zzcpor = true;
-						that.getView().getModel("orderModel").getData().typeCPOR = true;
-					//	that.getView().getModel("ordelModel").getData().zzcpor = true;
+						var ZZCPOR = oData.zzcpor; //changes by swetha for DMND0004095
+						if (ZZCPOR == "X") {
+							lv_orderData.zzcpor = true;
+							that.getView().getModel("orderModel").getData().typeCPOR = true;
+							//	that.getView().getModel("ordelModel").getData().zzcpor = true;
 						} else {
-						//	lv_orderData.zzcpor = false;
-						//	that.getView().getModel("ordelModel").setProperty("/zzcpor",false);
-						that.getView().getModel("orderModel").getData().typeCPOR = false;
-					//	that.getView().getModel("ordelModel").getData().zzcpor = false;
+							lv_orderData.zzcpor = false;
+							//	that.getView().getModel("ordelModel").setProperty("/zzcpor",false);
+							that.getView().getModel("orderModel").getData().typeCPOR = false;
+							//	that.getView().getModel("ordelModel").getData().zzcpor = false;
 						}
-						
+
 						//lv_draft.dealerCode = lv_aResult.ZZ1_DealerCode_PDH;
 						lv_orderData.bpCode = oData.SoldtoParty;
 

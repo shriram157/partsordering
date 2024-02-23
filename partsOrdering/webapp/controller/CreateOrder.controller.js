@@ -536,7 +536,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					item1.vin = "";
 					item1.spq = "";
 					item1.partDesc = "";
-					item1.addIcon = true;
+					item1.addIcon = false;
 					item1.qty = "";
 					item1.OrderType = orderType;
 					data1.push(item1);
@@ -647,17 +647,14 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 							});
 							that.getView().getModel("orderModel").oData.totalLines = that.getView().getModel("orderModel").oData.totalLines + 1;
-						// } else if {
-						// 	if (data.length == "1") {
-						// 		MessageBox.error(data[i].failureReasons[0].value + ' ' + "for" + ' ' + "Campaign Code" + ' ' + item.campaignCode.slice(3,
-						// 			6), {
-						// 			onClose: function (sAction) {
-						// 				that.getRouter().navTo("StartOrdering", null, false);
-						// 			}
-						// 		});
-						// 	}
-					//	} 
-					}else {
+						} else if (data.length == "1") {
+							MessageBox.error(data[i].failureReasons[0].value + ' ' + "for" + ' ' + "Campaign Code" + ' ' + item.campaignCode.slice(3,
+								6), {
+								onClose: function (sAction) {
+									that.getRouter().navTo("StartOrdering", null, false);
+								}
+							});
+						} else {
 							MessageBox.error(data[i].failureReasons[0].value + ' ' + "for" + ' ' + "Campaign Code" + ' ' + item.campaignCode.slice(3,
 								6), {
 								onClose: function (sAction) {}
