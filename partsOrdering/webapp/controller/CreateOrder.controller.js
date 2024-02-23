@@ -382,7 +382,11 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				}
 				orderData.items.splice(0, 0, that._getNewItem());
 				model.setData(rData);
-
+				//changs by Swetha for DMND0004095 on 23rd February, 2024 Start
+				if(model.getData().typeCPOR==true && model.getData().zOrderType=="ZCO"){
+					model.getData().items[0].addIcon=false;
+				}
+				//changs by Swetha for DMND0004095 on 23rd February, 2024 End
 				that.setModel(model, CONT_ORDER_MODEL);
 				sap.ui.core.BusyIndicator.hide();
 			});
