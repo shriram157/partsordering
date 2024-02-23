@@ -572,6 +572,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						oOrderData.items.splice(0, 0, that._getNewItem());
 						that.CDialogClose();
 						oOrderData.modifiedOn = new Date();
+						oOrderData.items[0].addIcon=false;
 						that.oOrderModel.setData(oOrderData);
 						DataManager.setOrderData(oOrderData); //changes by swetha for DMND0004095
 					});
