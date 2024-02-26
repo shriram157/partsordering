@@ -1747,7 +1747,7 @@ sap.ui.define([
 						if(oData.DocType=="ZCO"){
 							that.getView().getModel("orderModel").getData().zzcpor=false;
 						} else {
-							that.gtView().getModel("orderModel").getData().zzcpor=true;
+							that.getView().getModel("orderModel").getData().zzcpor=true;
 						}
 
 						//lv_draft.dealerCode = lv_aResult.ZZ1_DealerCode_PDH;
