@@ -1744,10 +1744,10 @@ sap.ui.define([
 							that.getView().getModel("orderModel").getData().typeCPOR = false;
 							//	that.getView().getModel("ordelModel").getData().zzcpor = false;
 						}
-						if(oData.DocType=="ZCO"){
-							that.getView().getModel("orderModel").getData().zzcpor=false;
+						if (oData.DocType == "ZCO") {
+							that.getView().getModel("orderModel").getData().zzcpor = false;
 						} else {
-							that.getView().getModel("orderModel").getData().zzcpor=true;
+							that.getView().getModel("orderModel").getData().zzcpor = true;
 						}
 
 						//lv_draft.dealerCode = lv_aResult.ZZ1_DealerCode_PDH;
@@ -1848,18 +1848,27 @@ sap.ui.define([
 				'VIN_no': vinNo,
 				'part_no': partNum
 			});
-			bModel.read(key, {
-				success: function (oData, oResponse) {
-					var messageList = that._extractSapItemMessages(oResponse);
-					callbackFn(oData, true, messageList);
-				},
-				error: function (oError) {
-					var errorResponse = JSON.parse(oError.responseText);
-					var errMessage = errorResponse.error.message.value;
-					callbackFn(errMessage, false);
-					//callback(null, false, []);
+			for (var i = 0; i < this.getView().getModel("orderModel").getData().items.length; i++) {
+				bModel.read(key, {
+						success: function (oData, oResponse) {
+							var messageList = that._extractSapItemMessages(oResponse);
+							callbackFn(oData, true, messageList);
+						},
+						error: function (oError) {
+							//changes by Swetha for DMND0004095 Start on 26th Feb, 2024
+							if (oError.severity == "error") {
+								that.getView().getModel("orderModel").getData().items[i].hasError = true;
+								that.getView().getModel("orderModel").getData().items[i].errmsg=oError.message;
+								
+							}
+							//changes by Swetha for DMND0004095 End on 26th Feb, 2024
+							var errorResponse = JSON.parse(oError.responseText);
+							var errMessage = errorResponse.error.message.value;
+							callbackFn(errMessage, false);
+							//callback(null, false, []);
+						}
+					});
 				}
-			});
 		},
 
 		/*	// only for sale order 		// Moved To DataManager	
