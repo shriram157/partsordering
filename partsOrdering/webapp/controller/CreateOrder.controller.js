@@ -2575,7 +2575,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 									var I = getItemIndex();
 
 									items[i].hasError = true;
-									if (!!that.submitError[items[i].partNumber)] {
+									if (!!that.submitError[items[i].partNumber]) {
 									that.submitError[items[i].partNumber] = null;
 								}
 								that._oBusyfragment.close();
