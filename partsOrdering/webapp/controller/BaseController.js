@@ -1838,7 +1838,7 @@ sap.ui.define([
 			});
 		},
 
-		validateDataSet: function (campCode, opCode, vinNo, partNum, callbackFn) {
+		validateDataSet: function (campCode, opCode, vinNo, partNum,c1, callbackFn) {
 			var that = this;
 			var bModel = this.getProductModel();
 
@@ -1848,7 +1848,6 @@ sap.ui.define([
 				'VIN_no': vinNo,
 				'part_no': partNum
 			});
-			for (var i = 0; i < this.getView().getModel("orderModel").getData().items.length; i++) {
 				bModel.read(key, {
 						success: function (oData, oResponse) {
 							var messageList = that._extractSapItemMessages(oResponse);
@@ -1865,13 +1864,12 @@ sap.ui.define([
 							var errorResponse = JSON.parse(oError.responseText);
 							var errMessage = errorResponse.error.message.value;
 							var orderData = that.getView().getModel("orderModel").getData();
-							orderData.items[i].errMessage = errMessage;
+							orderData.items[c1].errMessage = errMessage;
 							orderModel.setData(orderData);
 							callbackFn(errMessage, false);
 							//callback(null, false, []);
 						}
-					});
-				}
+				});
 		},
 
 		/*	// only for sale order 		// Moved To DataManager	

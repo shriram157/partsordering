@@ -2109,7 +2109,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 				if (obj.campaignNum && obj.campaignNum.trim() !== "" && obj.opCode && obj.opCode.trim() !== "" && obj.vin && obj.vin.trim() !==
 					"") {
-					this.validateDataSet(obj.campaignNum, obj.opCode, obj.vin, obj.partNumber, function (oData, isOk, messageList) {
+					this.validateDataSet(obj.campaignNum, obj.opCode, obj.vin, obj.partNumber,"", function (oData, isOk, messageList) {
 						if (isOk) {
 							//bSubmit = true;
 							//Do Nothing
@@ -2568,7 +2568,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			for (var c1 = 1; c1 < items.length; c1++) {
 
 				//if (items[c1].contractNum && items[c1].contractNum.toString().trim() !== "") {
-				this.validateDataSet(items[c1].campaignNum, items[c1].opCode, items[c1].vin, items[c1].partNumber, function (data, isOK,
+				this.validateDataSet(items[c1].campaignNum, items[c1].opCode, items[c1].vin, items[c1].partNumber,c1, function (data, isOK,
 					messageList) {
 					if (!!isOK && !!data) {
 						var I = getItemIndex();
