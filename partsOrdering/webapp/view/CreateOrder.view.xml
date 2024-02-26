@@ -113,7 +113,7 @@
 							<ui:template>
 								<Input value="{ path : 'orderModel>campaignNum', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:14}' }" type="Text"
 									valueStateText="{i18n>ValidationMessage.campainNum}" placeholder="{i18n>Placeholder.campainNum}" visible="{= ${orderModel>/typeD} === true || ${orderModel>/typeCPOR} ===true}"
-								 enabled="{orderModel>/typeD || orderModel>/CampV}" required='true' valueState="None" change='onCampOpVINChange' editable="{=${orderModel>/CampV}===true || ${orderModel>/typeCPOR} ===false}"/>
+								 enabled="{orderModel>/typeD || orderModel>/CampV}" required='true' valueState="None" change='onCampOpVINChange' editable="{=${orderModel>/CampV}===true || ${orderModel>/typeCPOR} ===false || ${orderModel>/zzcpor} ===true}"/>
 							</ui:template>
 							<!--	enabled="{orderModel>/typeD}"-->
 						</ui:Column>
@@ -124,7 +124,7 @@
 							<ui:template>
 								<Input value="{ path : 'orderModel>opCode', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:10}' }" type="Text"
 									valueStateText="{i18n>ValidationMessage.opCode}" visible="{= ${orderModel>/typeD} === true || ${orderModel>/typeCPOR} ===true}" placeholder="{i18n>Placeholder.opCode}"
-									enabled="{orderModel>/typeD}" required="true" valueState="None" change='onCampOpVINChange' editable="{=${orderModel>/OpCodeV}===true || ${orderModel>/typeCPOR} ===false}"/>
+									enabled="{orderModel>/typeD}" required="true" valueState="None" change='onCampOpVINChange' editable="{=${orderModel>/OpCodeV}===true || ${orderModel>/typeCPOR} ===false || ${orderModel>/zzcpor} ===true}"/>
 							</ui:template>
 						</ui:Column>
 						<!--<Icon src="{= ${orderModel>/typeD} === 'true' ? 'true' : ${{orderModel>/typeCPOR1} === 'true' ? 'true' : 'false'}"   visible="{orderModel>/typeD}" />-->
@@ -135,7 +135,7 @@
 							<ui:template>
 								<Input type="Text" value="{ path: 'orderModel>vin', type: 'sap.ui.model.type.String', contraints:'{minLength:1 , maxLength:35}' }"
 									valueStateText="{i18n>ValidationMessage.vinNum}" placeholder="{i18n>Placeholder.vinNum}" visible="{= ${orderModel>/typeD} === true || ${orderModel>/typeCPOR} ===true}"
-									enabled="{orderModel>/typeD || orderModel>/VinV}" required='true' valueState="None" change='onCampOpVINChange' editable="{=${orderModel>/VinV}===true || ${orderModel>/typeCPOR} ===false}"/>
+									enabled="{orderModel>/typeD || orderModel>/VinV}" required='true' valueState="None" change='onCampOpVINChange' editable="{=${orderModel>/VinV}===true || ${orderModel>/typeCPOR} ===false || ${orderModel>/zzcpor} ===true}"/>
 							</ui:template>
 						</ui:Column>
 						<ui:Column width="{sizeModel>/remComments}" id="remComments">

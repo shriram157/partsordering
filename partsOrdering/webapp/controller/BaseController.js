@@ -1744,6 +1744,11 @@ sap.ui.define([
 							that.getView().getModel("orderModel").getData().typeCPOR = false;
 							//	that.getView().getModel("ordelModel").getData().zzcpor = false;
 						}
+						if(oData.DocType=="ZCO"){
+							that.getView().getModel("orderModel").getData().zzcpor=false;
+						} else {
+							that.gtView().getModel("orderModel").getData().zzcpor=true;
+						}
 
 						//lv_draft.dealerCode = lv_aResult.ZZ1_DealerCode_PDH;
 						lv_orderData.bpCode = oData.SoldtoParty;
