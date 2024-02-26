@@ -1856,7 +1856,7 @@ sap.ui.define([
 						},
 						error: function (oError) {
 							//changes by Swetha for DMND0004095 Start on 26th Feb, 2024
-							if (oError.severity == "error") {
+							if (oError.status == "error") {
 								that.getView().getModel("orderModel").getData().items.hasError = true;
 								that.getView().getModel("orderModel").getData().items.errmsg = oError.message;
 								
