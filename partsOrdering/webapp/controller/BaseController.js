@@ -1856,6 +1856,7 @@ sap.ui.define([
 						},
 						error: function (oError) {
 							//changes by Swetha for DMND0004095 Start on 26th Feb, 2024
+							var orderModel = new sap.ui.model.json.JSONModel();
 							if (oError.statusCode == "400") {
 								that.getView().getModel("orderModel").getData().items.hasError = true;
 								//that.getView().getModel("orderModel").getData().items.errmsg = oError.message;
@@ -1863,7 +1864,9 @@ sap.ui.define([
 							//changes by Swetha for DMND0004095 End on 26th Feb, 2024
 							var errorResponse = JSON.parse(oError.responseText);
 							var errMessage = errorResponse.error.message.value;
-							that.getView().getModel("orderModel").getData().items.errMessage = errMessage;
+							var orderData = that.getView().getModel("orderModel").getData();
+							orderData.items.errMessage = errMessage;
+							orderModel.setData(orderData);
 							callbackFn(errMessage, false);
 							//callback(null, false, []);
 						}
