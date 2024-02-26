@@ -1848,7 +1848,7 @@ sap.ui.define([
 				'VIN_no': vinNo,
 				'part_no': partNum
 			});
-			for (var i = 0; i < this.getView().getModel("orderModel").getData().items.length; i++) {
+		//	for (var i = 0; i < this.getView().getModel("orderModel").getData().items.length; i++) {
 				bModel.read(key, {
 						success: function (oData, oResponse) {
 							var messageList = that._extractSapItemMessages(oResponse);
@@ -1857,8 +1857,8 @@ sap.ui.define([
 						error: function (oError) {
 							//changes by Swetha for DMND0004095 Start on 26th Feb, 2024
 							if (oError.severity == "error") {
-								that.getView().getModel("orderModel").getData().items[i].hasError = true;
-								that.getView().getModel("orderModel").getData().items[i].errmsg=oError.message;
+								that.getView().getModel("orderModel").getData().items.hasError = true;
+								that.getView().getModel("orderModel").getData().items.errmsg = oError.message;
 								
 							}
 							//changes by Swetha for DMND0004095 End on 26th Feb, 2024
@@ -1868,7 +1868,7 @@ sap.ui.define([
 							//callback(null, false, []);
 						}
 					});
-				}
+			//	}
 		},
 
 		/*	// only for sale order 		// Moved To DataManager	

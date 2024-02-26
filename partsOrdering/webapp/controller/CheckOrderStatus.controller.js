@@ -441,6 +441,7 @@ sap.ui.define([
 		onDialogClose: function (oEvent) {
 			if (!!this._oDetailDialog) {
 				this._oDetailDialog.close();
+				sap.ui.getCore().byId("idCancelReason").setVisible(false);
 			}
 		},
 
