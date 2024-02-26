@@ -2573,20 +2573,20 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					if (!!isOK && !!data) {
 						var I = getItemIndex();
 
-						items[c1].hasError = false;
-						if (!!that.submitError[items[c1].partNumber]) {
-							that.submitError[items[c1].partNumber] = null;
+						items[c1-1].hasError = false;
+						if (!!that.submitError[items[c1-1].partNumber]) {
+							that.submitError[items[c1-1].partNumber] = null;
 						}
 						that._oBusyfragment.close();
 						that.itemTable.setBusy(false);
 						//model.setProperty('/newline', newline);
 					} else {
 						var I = getItemIndex();
-						items[c1].hasError = true;
-						if (!that.submitError[items[c1].partNumber]) {
-							that.submitError[items[c1].partNumber] = {};
+						items[c1-1].hasError = true;
+						if (!that.submitError[items[c1-1].partNumber]) {
+							that.submitError[items[c1-1].partNumber] = {};
 						}
-						that.submitError[items[c1].partNumber].error = data;
+						that.submitError[items[c1-1].partNumber].error = data;
 						that.itemTable.getBinding("rows").getModel().refresh(true);
 						that._oBusyfragment.close();
 						that.itemTable.setBusy(false);
