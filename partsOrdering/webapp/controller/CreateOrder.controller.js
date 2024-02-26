@@ -383,8 +383,8 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 				orderData.items.splice(0, 0, that._getNewItem());
 				model.setData(rData);
 				//changs by Swetha for DMND0004095 on 23rd February, 2024 Start
-				if(model.getData().typeCPOR==true && model.getData().zOrderType=="ZCO"){
-					model.getData().items[0].addIcon=false;
+				if (model.getData().typeCPOR == true && model.getData().zOrderType == "ZCO") {
+					model.getData().items[0].addIcon = false;
 				}
 				//changs by Swetha for DMND0004095 on 23rd February, 2024 End
 				that.setModel(model, CONT_ORDER_MODEL);
@@ -487,7 +487,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			dataString.vins = [];
 			dataString.campaignCode = [];
 			for (var i = 1; i < this.getView().getModel("campaignModel").oData.data.length; i++) {
-				dataString.campaignCode.push("CAN" + this.getView().getModel("campaignModel").oData.data[i].CampaignCode);
+				dataString.campaignCode.push("CAN" + this.getView().getModel("campaignModel").oData.data[i].CampaignCode.toUpperCase());
 			}
 			dataString.vins.push(this.getView().getModel("campaignModel").oData.data[0].vinNum);
 			var orderTypeId = this.oOrderModel.getProperty("/orderTypeId");
@@ -540,7 +540,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					item1.vin = "";
 					item1.spq = "";
 					item1.partDesc = "";
-				//	item1.addIcon = false;
+					//	item1.addIcon = false;
 					item1.qty = "";
 					item1.OrderType = orderType;
 					data1.push(item1);
@@ -565,21 +565,21 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								onClose: function (sAction) {}
 							});
 						}
-						tmnaData.setData(data1);
-						var oModel = that.getModel(CONT_ORDER_MODEL);
-						oModel.setProperty("/items", data1);
-						var oOrderData = that.getView().getModel("orderModel").getData();
-						oOrderData.items.splice(0, 1);
-						for (var i = 0; i < oOrderData.items.length; i++) { //changes by swetha for DMND0004095
-							that.aCreateItems.push(oOrderData.items[i]);
-						}
-						oOrderData.items.splice(0, 0, that._getNewItem());
-						that.CDialogClose();
-						oOrderData.modifiedOn = new Date();
-						oOrderData.items[0].addIcon=false;
-						that.oOrderModel.setData(oOrderData);
-						DataManager.setOrderData(oOrderData); //changes by swetha for DMND0004095
 					});
+					tmnaData.setData(data1);
+					var oModel = that.getModel(CONT_ORDER_MODEL);
+					oModel.setProperty("/items", data1);
+					var oOrderData = that.getView().getModel("orderModel").getData();
+					oOrderData.items.splice(0, 1);
+					for (var i = 0; i < oOrderData.items.length; i++) { //changes by swetha for DMND0004095
+						that.aCreateItems.push(oOrderData.items[i]);
+					}
+					oOrderData.items.splice(0, 0, that._getNewItem());
+					that.CDialogClose();
+					oOrderData.modifiedOn = new Date();
+					oOrderData.items[0].addIcon = false;
+					that.oOrderModel.setData(oOrderData);
+					DataManager.setOrderData(oOrderData); //changes by swetha for DMND0004095
 
 				},
 				error: function (data) {
