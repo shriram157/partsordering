@@ -278,7 +278,7 @@ sap.ui.define([], function () {
 							obj.RefDoc = "";
 							obj.RefDocItemNo = "";
 						}
-					} else if(_orderData.orderTypeId !="3"  && !!sap.ui.getCore().getModel("CPORCBModel").getData()){
+					} else if(_orderData.orderTypeId !="3"  && !!sap.ui.getCore().getModel("CPORCBModel"){
 						obj.Zzcampaign = salesItem.campaignNum || "";
 					//	obj.Zzopcode = salesItem.opCode || "";
 						obj.VIN_no = salesItem.vin || "";
