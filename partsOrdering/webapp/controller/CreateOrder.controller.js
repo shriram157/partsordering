@@ -605,7 +605,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			dataString.vins = [];
 			dataString.campaignCode = [];
 			for (var i = 1; i < this.getView().getModel("stanrushModel").oData.data.length; i++) {
-				dataString.campaignCode.push("CAN" + this.getView().getModel("stanrushModel").oData.data[i].CampaignCode);
+				dataString.campaignCode.push("CAN" + this.getView().getModel("stanrushModel").oData.data[i].CampaignCode.toUpperCase());
 			}
 			dataString.vins.push(this.getView().getModel("stanrushModel").oData.data[0].vinNum);
 			var orderTypeId = this.oOrderModel.getProperty("/orderTypeId");
