@@ -1863,9 +1863,9 @@ sap.ui.define([
 							//changes by Swetha for DMND0004095 End on 26th Feb, 2024
 							var errorResponse = JSON.parse(oError.responseText);
 							var errMessage = errorResponse.error.message.value;
-							var orderData = that.getView().getModel("orderModel").getData();
-							orderData.items.errMessage = errMessage;
-							orderModel.setData(orderData);
+							// var orderData = that.getView().getModel("orderModel").getData();
+							// orderData.items.errMessage = errMessage;
+							// orderModel.setData(orderData);
 							callbackFn(errMessage, false);
 							//callback(null, false, []);
 						}
