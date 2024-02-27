@@ -1864,7 +1864,7 @@ sap.ui.define([
 							var errorResponse = JSON.parse(oError.responseText);
 							var errMessage = errorResponse.error.message.value;
 							var orderData = that.getView().getModel("orderModel").getData();
-							orderData.items[c1].errMessage = errMessage;
+							orderData.items.errMessage = errMessage;
 							orderModel.setData(orderData);
 							callbackFn(errMessage, false);
 							//callback(null, false, []);
