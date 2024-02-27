@@ -2522,6 +2522,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 										that.lineError[iline] = [];
 									}
 									oCItem.hasError = true;
+									oCItem.errMessage=data;                                       //changes for DMND0004095
 									that.lineError[iline]["error"] = data;
 									bSubmitError = true;
 
