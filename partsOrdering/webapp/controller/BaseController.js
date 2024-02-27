@@ -1838,7 +1838,7 @@ sap.ui.define([
 			});
 		},
 
-		validateDataSet: function (campCode, opCode, vinNo, partNum,c1, callbackFn) {
+		validateDataSet: function (campCode, opCode, vinNo, partNum, callbackFn) {
 			var that = this;
 			var bModel = this.getProductModel();
 

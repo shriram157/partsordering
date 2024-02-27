@@ -2109,7 +2109,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 
 					if (obj.campaignNum && obj.campaignNum.trim() !== "" && obj.opCode && obj.opCode.trim() !== "" && obj.vin && obj.vin.trim() !==
 						"") {
-						this.validateDataSet(obj.campaignNum, obj.opCode, obj.vin, obj.partNumber, "", function (oData, isOk, messageList) {
+						this.validateDataSet(obj.campaignNum, obj.opCode, obj.vin, obj.partNumber, function (oData, isOk, messageList) {
 							if (isOk) {
 								//bSubmit = true;
 								//Do Nothing
@@ -2565,29 +2565,27 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					return IIndex++;
 				};
 
-				for (var c1 = 1; c1 < items.length; c1++) {
-
 					//if (items[c1].contractNum && items[c1].contractNum.toString().trim() !== "") {
-					this.validateDataSet(items[c1].campaignNum, items[c1].opCode, items[c1].vin, items[c1].partNumber, c1, function (data, isOK,
+					this.validateDataSet(items[c1].campaignNum, items[c1].opCode, items[c1].vin, items[c1].partNumber, function (data, isOK,
 							messageList) {
 							for (var i = 0; i < items.length; i++) {
 								if (!!isOK && !!data) {
 									var I = getItemIndex();
 
-									items[i].hasError = true;
-									if (!!that.submitError[items[i].partNumber]) {
-									that.submitError[items[i].partNumber] = null;
+									items[I].hasError = false;
+									if (!!that.submitError[items[I].partNumber]) {
+									that.submitError[items[I].partNumber] = null;
 								}
 								that._oBusyfragment.close();
 								that.itemTable.setBusy(false);
 								//model.setProperty('/newline', newline);
 							} else {
 								var I = getItemIndex();
-								items[i].hasError = true;
-								if (!that.submitError[items[i].partNumber]) {
-									that.submitError[items[i].partNumber] = {};
+								items[I].hasError = true;
+								if (!that.submitError[items[I].partNumber]) {
+									that.submitError[items[I].partNumber] = {};
 								}
-								that.submitError[items[i].partNumber].error = data;
+								that.submitError[items[I].partNumber].error = data;
 								that.itemTable.getBinding("rows").getModel().refresh(true);
 								that._oBusyfragment.close();
 								that.itemTable.setBusy(false);
@@ -2603,8 +2601,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						}
 
 					});
-
-			}
 
 		},
 
