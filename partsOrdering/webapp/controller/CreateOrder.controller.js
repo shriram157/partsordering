@@ -2568,7 +2568,6 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					//if (items[c1].contractNum && items[c1].contractNum.toString().trim() !== "") {
 					this.validateDataSet(items[c1].campaignNum, items[c1].opCode, items[c1].vin, items[c1].partNumber, function (data, isOK,
 							messageList) {
-							for (var i = 0; i < items.length; i++) {
 								if (!!isOK && !!data) {
 									var I = getItemIndex();
 
@@ -2598,7 +2597,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 								that._oBusyfragment.open();
 								that.itemTable.setBusy(false);
 							}
-						}
+						
 
 					});
 				}
