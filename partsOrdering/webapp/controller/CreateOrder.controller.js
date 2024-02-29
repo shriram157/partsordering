@@ -547,7 +547,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						$.each(data, function (i, item) {
 							if (data[i].status == "Success") {
 								data1.push({
-									"campaignNum": item.campaignCode.slice(3, 6),
+									"campaignNum": item.campaignCode.slice(3, 6).toUpperCase(),
 									"vin": item.vin,
 									"qty": item.parts[0].maxQty,
 									"maxqty": item.parts[0].maxQty,
@@ -646,7 +646,7 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 						$.each(data, function (i, item) {
 							if (data[i].status == "Success") {
 								data1.push({
-									"campaignNum": item.campaignCode.slice(3, 6),
+									"campaignNum": item.campaignCode.slice(3, 6).toUpperCase(),
 									"vin": item.vin,
 									"qty": item.parts[0].maxQty,
 									"maxqty": item.parts[0].maxQty,
