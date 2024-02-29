@@ -85,7 +85,6 @@
 					</ui:columns>
 				</ui:Table>
 			</ScrollContainer>
-			<!--</HBox>-->
 		</content>
 		<buttons>
 			<Button text="{i18n>Button.Back}" press='onPressBack'/>
