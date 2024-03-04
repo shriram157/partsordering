@@ -367,7 +367,7 @@ sap.ui.define([], function () {
 		activateSalesDraftOrder: function (oOrderData, callBack) {
 			var that = this;
 			var lv_hasError = false;
-
+			var language = sap.ui.getCore().getConfiguration().getLanguage();  //changes by Swetha for DMND0004095 on 4th March, 2024
 			var drafts = null;
 			var IIndex = 0;
 			var getItemIndex = function () {
@@ -389,7 +389,8 @@ sap.ui.define([], function () {
 				urlParameters: {
 					TestRun: false,
 					HeaderDraftUUID: drafts.DraftUUID,
-					IsActiveEntity: true
+					IsActiveEntity: true,
+					Language: language                                             //changes by Swetha for DMND0004095 on 4th March, 2024
 				},
 				success: function (oData, oResponse) {
 					console.table(oData);
