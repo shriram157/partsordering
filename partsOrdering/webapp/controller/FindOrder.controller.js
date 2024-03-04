@@ -20,7 +20,7 @@ sap.ui.define([
 			// default mode
 			var appStateModel = this.getStateModel();
 			this.setModel(appStateModel);
-
+			
 			//message
 			var oMessageManager = sap.ui.getCore().getMessageManager();
 			this.setModel(oMessageManager.getMessageModel(), "message");
@@ -45,7 +45,6 @@ sap.ui.define([
 			var viewModel = new JSONModel();
 			viewModel.setData(viewState);
 			this.setModel(viewModel, CONST_VIEW_MODEL);
-			sap.ui.getCore().setModel("viewModel",viewModel);                                    //changes by Swetha for DMND0004095 on 4th March, 2024
 			this._oList = this.byId('idProductsTable');
 			this.checkDealerInfo();
 
@@ -237,6 +236,7 @@ sap.ui.define([
 
 		onEdit: function (oEvent) {
 			var model = this.getModel(CONST_VIEW_MODEL);
+			sap.ui.getCore().setModel("viewModel",model);                                      //changes by Swetha for DMND004095 on 25th Jan, 2024.
 			var path = oEvent.getSource().getBindingContext(CONST_VIEW_MODEL).getPath();
 			var obj = model.getProperty(path);
 
