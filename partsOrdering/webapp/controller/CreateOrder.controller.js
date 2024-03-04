@@ -1940,9 +1940,9 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 					}
 				}
 				// MessageBox.error(failedtext, {
-				MessageBox.error(messageArrary,{                                      //changes by Swetha for DMND0004095 on 4th March, 2024
+				MessageBox.error(messageArrary.join("<br/>"),{                                      //changes by Swetha for DMND0004095 on 4th March, 2024
 				//	details: messageArrary.join("<br/>"),
-					styleClass: this.getOwnerComponent().getContentDensityClass(),
+				//	styleClass: this.getOwnerComponent().getContentDensityClass(),
 					onClose: function (sAction) {}
 				});
 			},
