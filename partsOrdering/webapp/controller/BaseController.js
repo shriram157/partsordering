@@ -1846,7 +1846,8 @@ sap.ui.define([
 				'camp_code': campCode,
 				'op_code': opCode,
 				'VIN_no': vinNo,
-				'part_no': partNum
+				'part_no': partNum,
+				'Language':sap.ui.getCore().getConfiguration().getLanguage()
 			});
 				bModel.read(key, {
 						success: function (oData, oResponse) {
