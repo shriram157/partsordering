@@ -442,6 +442,7 @@ sap.ui.define([], function () {
 								oData.results[i].message=tempVar;
 							}
 						}
+						sap.ui.getCore().getModel("viewModel").getData().orders[i].setProperty("Message",oDataresults[i]);
 
 					} else {
 						// even for english need to push marerial #

@@ -45,7 +45,7 @@ sap.ui.define([
 			var viewModel = new JSONModel();
 			viewModel.setData(viewState);
 			this.setModel(viewModel, CONST_VIEW_MODEL);
-
+			sap.ui.getCore().setModel("viewModel",viewModel);                                    //changes by Swetha for DMND0004095 on 4th March, 2024
 			this._oList = this.byId('idProductsTable');
 			this.checkDealerInfo();
 
