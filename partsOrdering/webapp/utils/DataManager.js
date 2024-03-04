@@ -367,7 +367,6 @@ sap.ui.define([], function () {
 		activateSalesDraftOrder: function (oOrderData, callBack) {
 			var that = this;
 			var lv_hasError = false;
-			var language = sap.ui.getCore().getConfiguration().getLanguage();  //changes by Swetha for DMND0004095 on 4th March, 2024
 			var drafts = null;
 			var IIndex = 0;
 			var getItemIndex = function () {
@@ -389,8 +388,7 @@ sap.ui.define([], function () {
 				urlParameters: {
 					TestRun: false,
 					HeaderDraftUUID: drafts.DraftUUID,
-					IsActiveEntity: true,
-					Language: language                                             //changes by Swetha for DMND0004095 on 4th March, 2024
+					IsActiveEntity: true
 				},
 				success: function (oData, oResponse) {
 					console.table(oData);
@@ -439,6 +437,9 @@ sap.ui.define([], function () {
 								var tempVar = "a été exclu"
 								var newFrString2 = newFrstring1.replace(/has been excluded/, tempVar);
 								oData.results[i].message = newFrString2;
+							} else if(messageTemp=="Duplicate Campaign Request"){
+								var tempVar = "Demande de campagne en double";
+								oData.results[i].message=tempVar;
 							}
 						}
 

@@ -2689,7 +2689,7 @@ sap.ui.define([
 		activateDraft: function (uuid, index, isSalesOrder, callBack) {
 			var that = this;
 			var bModel = null;
-			var language = sap.ui.getCore().getConfiguration().getLanguage();                 //changes by Swetha for DMND0004095 on 4th March, 2024
+			
 			if (!!uuid) {
 				if (!!isSalesOrder) {
 
@@ -2699,8 +2699,7 @@ sap.ui.define([
 						urlParameters: {
 							TestRun: false,
 							HeaderDraftUUID: uuid,
-							IsActiveEntity: true,
-							Language:language                                    //changes by Swetha for DMND0004095 on 4th March, 2024
+							IsActiveEntity: true
 						},
 						success: function (oData, oResponse) {
 							var messageList = that._extractSapItemMessages(oResponse);
