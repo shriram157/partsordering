@@ -236,6 +236,7 @@ sap.ui.define([
 
 		onEdit: function (oEvent) {
 			var model = this.getModel(CONST_VIEW_MODEL);
+			var viewModel = new sap.ui.model.json.JSONModel();
 			sap.ui.getCore().setModel(viewModel,"model");                                      //changes by Swetha for DMND004095 on 25th Jan, 2024.
 			var path = oEvent.getSource().getBindingContext(CONST_VIEW_MODEL).getPath();
 			var obj = model.getProperty(path);
