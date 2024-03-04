@@ -1710,10 +1710,15 @@ sap.ui.define(["tci/wave2/ui/parts/ordering/controller/BaseController", 'sap/m/M
 			},
 
 			onActivate: function (oEvent) {
-
+				var language = this.sLang;
 				this.itemTable.setBusy(true);
-				this._oBusyDialog.setTitle("Submit Order");
-				this._oBusyDialog.setText("Order Activation In Progress...");
+				if(language=="EN"){                                                   //changes by Swetha for DMND0004095 on 4th March, 2024  Start
+					this._oBusyDialog.setTitle("Submit Order");
+					this._oBusyDialog.setText("Order Activation In Progress...");           
+				} else {
+					this._oBusyDialog.setTitle("Soumettre la commande");
+					this._oBusyDialog.setText("Activation de la commande en cours...");
+				}                                                                     //changes by Swetha for DMND0004095 on 4th March, 2024  End
 				this._oBusyfragment.open();
 				this._validateTableInput();
 			},
